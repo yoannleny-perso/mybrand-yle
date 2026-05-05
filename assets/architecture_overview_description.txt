@@ -1,0 +1,1 @@
+A three-layer platform that keeps delivery fast while data access stays controlled and analytics stay reusable.
