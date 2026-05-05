@@ -12,6 +12,9 @@
   --color-paper-0: var(--paper-0);
   
   --color-signal: var(--signal);
+  --color-signal-glow: var(--signal-glow);
+  --color-signal-success: var(--signal-success);
+  
   --color-focus: var(--focus);
   --color-focus-on-dark: var(--focus-on-dark);
 
@@ -20,6 +23,8 @@
   --font-mono: var(--font-mono);
 
   --shadow-card: var(--shadow-card);
+  --shadow-hover: var(--shadow-hover);
+  --shadow-nav: var(--shadow-nav);
 }
 
 @layer base {
@@ -33,6 +38,7 @@
     font-weight: var(--t-body-weight);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 
   *:focus-visible {
@@ -59,9 +65,53 @@
   .hairline--dark { 
     background-color: var(--ink-700); 
   }
+
+  .ambient-blur {
+    position: absolute;
+    width: 60vw;
+    height: 60vw;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--signal-glow) 0%, transparent 70%);
+    filter: blur(80px);
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+  
+  .pill-nav {
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: var(--shadow-nav);
+    border-radius: var(--radius-pill);
+  }
 }
 
+/* Scroll reveal animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.scroll-reveal {
+  opacity: 0;
+}
+
+.scroll-reveal.is-visible {
+  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.scroll-reveal.is-visible > *:nth-child(1) { animation-delay: 0ms; }
+.scroll-reveal.is-visible > *:nth-child(2) { animation-delay: 100ms; }
+.scroll-reveal.is-visible > *:nth-child(3) { animation-delay: 200ms; }
+.scroll-reveal.is-visible > *:nth-child(4) { animation-delay: 300ms; }
+
 @media (prefers-reduced-motion: reduce) {
+  .scroll-reveal {
+    opacity: 1 !important;
+    animation: none !important;
+  }
   *, *::before, *::after { 
     animation: none !important; 
     transition: none !important; 

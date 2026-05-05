@@ -56,20 +56,20 @@ export default function TestimonialCrossfade({ testimonials, intervalMs = 6000 }
       onFocus={() => setIsPaused(true)}
       onBlur={() => setIsPaused(false)}
     >
-      <div className="w-full max-w-4xl relative pl-8 md:pl-16 border-l border-ink-100">
+      <div className="w-full max-w-4xl relative">
         <AnimatePresence mode="wait">
           <motion.figure
             key={currentIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="absolute top-1/2 -translate-y-1/2 w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            className="absolute top-1/2 -translate-y-1/2 w-full bg-paper-0 p-8 md:p-12 rounded-[var(--radius-card)] shadow-card border border-ink-100"
           >
-            <blockquote className="font-display italic text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] tracking-[var(--t-display-m-letter)] text-ink-1000 mb-6">
+            <blockquote className="font-display italic font-semibold text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] tracking-[var(--t-display-m-letter)] text-ink-900 mb-8">
               <span style={{ hangingPunctuation: 'first last' as any }}>{testimonials[currentIndex].quote}</span>
             </blockquote>
-            <figcaption className="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500">
+            <figcaption className="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-signal font-bold">
               — {testimonials[currentIndex].attribution}
             </figcaption>
           </motion.figure>

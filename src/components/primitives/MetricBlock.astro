@@ -13,11 +13,11 @@ const valueSize = size === 'large'
   : 'text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] tracking-[var(--t-display-m-letter)]';
 ---
 
-<div class="metric flex flex-col gap-2">
-  <div class={`metric__value font-display font-light font-variant-numeric-tabular-nums ${valueSize}`}>
+<div class="metric flex flex-col gap-2 p-6 rounded-[var(--radius-card)] bg-paper-0 shadow-sm border border-ink-100 hover:shadow-hover hover:-translate-y-1 transition-all duration-300">
+  <div class={`metric__value font-display font-bold text-ink-900 font-variant-numeric-tabular-nums ${valueSize}`}>
     {value}
   </div>
-  <div class="metric__label font-mono text-[length:var(--t-meta-size)] leading-[var(--t-meta-line)] tracking-[var(--t-meta-letter)] uppercase text-ink-500">
+  <div class="metric__label font-mono text-[length:var(--t-meta-size)] leading-[var(--t-meta-line)] tracking-[var(--t-meta-letter)] uppercase text-signal">
     {label}
   </div>
   {description && (

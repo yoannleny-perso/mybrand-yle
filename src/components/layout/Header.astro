@@ -1,19 +1,17 @@
 ---
 ---
 
-<header id="global-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-240 text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] font-mono font-medium">
-  <div class="mx-auto w-full px-6 sm:px-12 lg:px-[max(96px,8vw)] max-w-[1440px] flex justify-between items-center h-20">
-    <a href="/" class="text-ink-1000 hover:text-ink-700 transition-colors" aria-label="Yoann Leny Home">
-      <span class="wordmark-full block md:hidden lg:block">Yoann Leny</span>
-      <span class="wordmark-compact hidden md:block lg:hidden">YL</span>
+<header id="global-header" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[90%] max-w-2xl">
+  <div class="pill-nav px-6 py-4 flex justify-between items-center text-[length:var(--t-body-s-size)] font-medium">
+    <a href="/" class="text-ink-1000 hover:text-signal transition-colors font-semibold" aria-label="Yoann Leny Home">
+      Yoann Leny
     </a>
     
-    <nav class="hidden md:flex gap-8 lg:gap-12 text-ink-700">
+    <nav class="hidden md:flex gap-6 text-ink-700">
       <a href="/work" class="hover:text-ink-1000 transition-colors">Work</a>
       <a href="/capabilities" class="hover:text-ink-1000 transition-colors">Capabilities</a>
       <a href="/concepts" class="hover:text-ink-1000 transition-colors">Concepts</a>
       <a href="/insights" class="hover:text-ink-1000 transition-colors">Insights</a>
-      <a href="/lab" class="hover:text-ink-1000 transition-colors">Lab</a>
       <a href="/contact" class="hover:text-ink-1000 transition-colors">Contact</a>
     </nav>
     
@@ -26,25 +24,3 @@
     </button>
   </div>
 </header>
-
-<script>
-  const header = document.getElementById('global-header');
-  
-  if (header) {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const vh80 = window.innerHeight * 0.8;
-      
-      if (scrollPosition > vh80) {
-        header.classList.add('bg-paper-50', 'border-b', 'border-ink-100');
-        header.classList.remove('bg-transparent', 'border-transparent');
-      } else {
-        header.classList.add('bg-transparent', 'border-transparent');
-        header.classList.remove('bg-paper-50', 'border-b', 'border-ink-100');
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-  }
-</script>
