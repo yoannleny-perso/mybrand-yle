@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/layout/Container.astro';
+import Section from '../components/layout/Section.astro';
+import Grid from '../components/layout/Grid.astro';
+import Eyebrow from '../components/primitives/Eyebrow.astro';
+import Heading from '../components/primitives/Heading.astro';
+import MetricBlock from '../components/primitives/MetricBlock.astro';
+---
+
+<Layout title="About — Yoann Leny" description="Operator-architect with VP-level experience leading data operations and agentic AI at scale. Background, principles, and how I work.">
+  
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-16">
+        <Eyebrow text="ABOUT" />
+        <Heading level={2} as="h1" class="mb-6">
+          <span class="block">Yoann Leny.</span>
+          <span class="block">Operator, architect, builder.</span>
+        </Heading>
+        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-500 max-w-3xl">
+          Building data and AI operating systems for organizations that want margin, not magic.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <section class="w-full relative scroll-reveal">
+    <!-- 16:9 on desktop, 4:5 on mobile -->
+    <div class="w-full aspect-[4/5] md:aspect-[16/9] bg-ink-100 relative">
+      <div class="absolute inset-0 bg-ink-900 opacity-10 mix-blend-multiply"></div>
+    </div>
+    <Container>
+      <div class="py-4">
+        <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500">
+          BORDEAUX, FRANCE — PORTRAIT BY [PHOTOGRAPHER NAME], 2026
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <Section id="bio">
+    <Container>
+      <div class="max-w-[60ch] mx-auto">
+        <Eyebrow text="01 — BIOGRAPHY" />
+        
+        <div class="font-body text-ink-1000 space-y-8 text-[length:var(--t-body-size)] leading-[var(--t-body-line)]">
+          <p class="text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] font-light">
+            I have spent the last decade learning the same lesson over and over again: organizations don't underperform because they lack tools — they underperform because the tools never compose into a working system. The dashboards exist. The data exists. The models exist. What is missing is the operating logic that turns them into decisions.
+          </p>
+          <p>
+            My career has been the practice of installing that operating logic. Early on, I built data warehouses for performance teams who needed answers in minutes, not weeks. I learned the difference between a query that runs and a query that survives. Then I built the platforms underneath those warehouses — medallion lakehouses, semantic layers, contract-driven pipelines — because the brittleness of the old stack made fast answers slow again every six months.
+          </p>
+          <p>
+            Around the time large language models stopped being a research curiosity and started being a deployable component, I had already been thinking about agents — about workflows that needed to act, not just retrieve. The work shifted toward designing multi-agent systems with deterministic guardrails: hierarchical agent graphs, audit trails, human-in-the-loop checkpoints. The pattern became clear: agentic AI works in production only when it sits on top of the same disciplined data foundation that traditional analytics needs. There is no shortcut.
+          </p>
+          <p>
+            Most recently, as VP of Data Operations, I have been responsible for the full triangle: the platforms (data and AI), the operating model (40+ experts across three regions), and the executive surface (the visibility layer that turns the system into governable decisions). The triangle is the work. Removing one corner makes the other two collapse within twelve months.
+          </p>
+          <p>
+            I write what I learn. The concept library on this site is not content marketing — it is a working notebook of how I think about each problem, with vendor comparisons grounded in what I have actually deployed. If something on the site feels useful to you, that is the goal. If you think I am wrong about something, I would prefer to hear it.
+          </p>
+          <p>
+            I live in Bordeaux. I work with executive teams in France, the UK, and selectively across Europe and North America. I take on a small number of engagements each year — usually one large rebuild and one or two advisory relationships — because the depth that produces real outcomes is incompatible with portfolio thinking.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <Section id="principles">
+    <Container>
+      <Eyebrow text="02 — PRINCIPLES" />
+      <Heading level={2} as="h2" class="mb-16">How I work.</Heading>
+      
+      <div class="flex flex-col border-t border-ink-100">
+        {[
+          { num: "01", title: "Make the system legible.", desc: "If a CEO cannot see how decisions are made, the system isn't finished yet." },
+          { num: "02", title: "Treat data as a product.", desc: "Owners, contracts, SLAs, deprecation. The discipline of shipping software, applied to information." },
+          { num: "03", title: "Constrain agents before you scale them.", desc: "Probabilistic systems need deterministic borders. Guardrails are architecture, not afterthought." },
+          { num: "04", title: "Hire for system-thinking, not stack experience.", desc: "Tools change every two years. Operating instincts compound." },
+          { num: "05", title: "Remove more than you add.", desc: "Most organizations are already drowning. The senior move is restraint." }
+        ].map(item => (
+          <div class="py-8 border-b border-ink-100 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            <div class="md:col-span-1 font-mono text-[length:var(--t-meta-size)] uppercase text-ink-500 pt-2">{item.num}</div>
+            <div class="md:col-span-6 font-display text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)]">{item.title}</div>
+            <div class="md:col-span-5 font-body text-[length:var(--t-body-size)] text-ink-700 pt-2">{item.desc}</div>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="track-record">
+    <Container>
+      <div class="max-w-[60ch] mx-auto mb-16">
+        <Eyebrow text="03 — TRACK RECORD" />
+      </div>
+      
+      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16">
+        <MetricBlock size="large" label="" value="$13M+" description="Cumulative revenue impact across data and AI engagements, measured at the P&L level — not modeled, not estimated." />
+        <MetricBlock size="large" label="" value="40+" description="Experts directly orchestrated across data engineering, analytics, AI, and adjacent functions." />
+        <MetricBlock size="large" label="" value="3" description="Regions where I have led data and AI delivery in parallel — Europe, UK, and a third regional hub." />
+        <MetricBlock size="large" label="" value="15%" description="Sustained utilization uplift on a 40-person consulting team after deploying the agentic skill-tracker system." />
+        <MetricBlock size="large" label="" value="9" description="Months from kickoff to payback on the most recent enterprise medallion stack rebuild." />
+        <MetricBlock size="large" label="" value="0" description="KPI drift incidents in production after introducing the AI-ready semantic layer." />
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="stack">
+    <Container>
+      <div class="max-w-[60ch] mx-auto">
+        <Eyebrow text="04 — STACK" />
+        <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-500">
+          Daily working tools include the major lakehouse and warehouse platforms (Databricks, Snowflake, BigQuery), orchestration through Airflow and Dagster, transformation in dbt, semantic layers via Cube and Looker's LookML, observability through Monte Carlo and Lightdash, and agentic frameworks including LangGraph, CrewAI, and increasingly bespoke deterministic-graph implementations. Cloud is multi — AWS, GCP, Azure — with no religious preference. Everything else is a means to an end.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <Section id="writing">
+    <Container>
+      <div class="max-w-[60ch] mx-auto">
+        <Eyebrow text="05 — WRITING" />
+        <ul class="space-y-4 font-body text-[length:var(--t-body-size)]">
+          <li><a href="/insights/why-most-agent-demos-collapse-in-production" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">Why most agent demos collapse in production</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(essay)</span></li>
+          <li><a href="/concepts/data-architecture/medallion-architecture" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">The medallion architecture, decoded</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(concept)</span></li>
+          <li><a href="/concepts/data-engineering/snowflake-vs-databricks-vs-bigquery-for-ai-workloads" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">Snowflake vs Databricks vs BigQuery for AI workloads</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(concept)</span></li>
+          <li><a href="/insights/the-semantic-layer-is-the-new-data-api" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">The semantic layer is the new data API</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(essay)</span></li>
+          <li><a href="/insights/designing-teams-for-agentic-operations" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">Designing teams for agentic operations</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(essay)</span></li>
+          <li><a href="/concepts/data-architecture/lakehouse-warehouse-mesh" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">Lakehouse, warehouse, mesh — what actually changes</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(concept)</span></li>
+        </ul>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="closing" background="ink">
+    <Container>
+      <div class="py-24 text-center max-w-4xl mx-auto">
+        <Heading level={2} as="h2" class="font-light text-paper-50 mb-16 italic">
+          <span class="block">If your data and AI feel busy but not productive — that is the operating system problem.</span>
+          <span class="block mt-4">Let's talk.</span>
+        </Heading>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)]">
+          <a href="/contact" class="bg-paper-50 text-ink-1000 px-6 py-4 hover:bg-ink-300 transition-colors">Book a 30-minute introduction &rarr;</a>
+          <a href="mailto:hello@yoannleny.com" class="text-paper-50 hover:text-ink-300 transition-colors border-b border-transparent hover:border-ink-300 pb-1">Or send a direct email</a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>

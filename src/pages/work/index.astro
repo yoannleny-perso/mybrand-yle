@@ -1,0 +1,158 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import Grid from '../../components/layout/Grid.astro';
+import Eyebrow from '../../components/primitives/Eyebrow.astro';
+import Heading from '../../components/primitives/Heading.astro';
+import AsymmetricCard from '../../components/sections/AsymmetricCard.astro';
+
+const filters = [
+  "ALL",
+  "DATA PLATFORMS",
+  "AGENTIC AI",
+  "OPERATING MODEL",
+  "EXECUTIVE"
+];
+---
+
+<Layout title="Case Studies — Yoann Leny" description="Selected work: multi-agent skill tracker, enterprise medallion stack, AI-ready semantic layer, global data ops scaling model. Outcomes, decisions, and what I would do differently.">
+  
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-8">
+        <Eyebrow text="WORK" />
+        <Heading level={2} as="h1" class="mb-6">
+          <span class="block">Selected production work.</span>
+          <span class="block">Each entry is a system in service.</span>
+        </Heading>
+        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 max-w-[60ch]">
+          A small selection of engagements where the architectural decisions, operating model, and outcomes can be written about openly. Anonymized examples are available on request for engagements under NDA.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="gallery">
+    <Container>
+      <!-- Filter Row -->
+      <div class="mb-16 border-b border-ink-100 pb-4 overflow-x-auto">
+        <div class="flex gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] min-w-max" id="work-filters">
+          {filters.map((filter, i) => (
+            <button 
+              class={`filter-btn transition-colors ${i === 0 ? 'text-ink-1000 border-b border-ink-1000' : 'text-ink-500 hover:text-ink-1000'}`}
+              data-filter={filter === "ALL" ? "all" : filter.toLowerCase()}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Case Studies Gallery -->
+      <div id="projects-grid">
+        <Grid columns={12} gap="loose">
+          <div class="project-wrapper col-span-12 md:col-span-5" data-categories="agentic ai, operating model">
+            <AsymmetricCard 
+              size="tall"
+              tag="2025 · ENTERPRISE · 18 MONTHS"
+              title="Multi-Agent Skill Tracker"
+              description="A hierarchical agent system maintaining a live skills graph for 40+ consultants — recommending staffing, surfacing gaps, and giving leadership a weekly read on bench health."
+              metric="+15% utilization · -22% bench time"
+              href="/work/multi-agent-skill-tracker"
+              categories="agentic ai, operating model"
+            />
+          </div>
+          
+          <div class="col-span-12 md:col-span-2 hidden md:block"></div> {/* Spacer */}
+          
+          <div class="project-wrapper col-span-12 md:col-span-8" data-categories="data platforms, operating model">
+            <AsymmetricCard 
+              size="wide"
+              tag="2024 · GLOBAL · 12 MONTHS"
+              title="Enterprise Medallion Stack"
+              description="A bronze–silver–gold lakehouse deployed across three regions with a governed semantic layer on top. Analytics, ML, and agent workflows now read from one source of truth."
+              metric="$13M+ revenue impact · 9-month payback"
+              href="/work/enterprise-medallion-stack"
+              categories="data platforms, operating model"
+            />
+          </div>
+
+          <div class="project-wrapper col-span-12 md:col-span-4" data-categories="data platforms, agentic ai">
+            <AsymmetricCard 
+              size="square"
+              tag="2024 · MID-MARKET · 6 MONTHS"
+              title="AI-Ready Semantic Layer"
+              description="A metric layer redesigned specifically for LLM and agent consumption — eliminating hallucinated KPIs and standardizing how AI reads the business."
+              metric="0 KPI drift incidents in production"
+              href="/work/ai-ready-semantic-layer"
+              categories="data platforms, agentic ai"
+            />
+          </div>
+          
+          <div class="col-span-12 md:col-span-2 hidden md:block"></div> {/* Spacer */}
+          
+          <div class="project-wrapper col-span-12 md:col-span-5" data-categories="operating model, executive">
+            <AsymmetricCard 
+              size="tall"
+              tag="2023 · GLOBAL · 24 MONTHS"
+              title="Global Data Ops Scaling Model"
+              description="An operating model for a 40-person data function across three regions: pod design, role split, ritual cadence, and an internal observability layer for delivery health."
+              metric="40+ experts · 3 regions · 4 qtrs to steady-state"
+              href="/work/global-data-ops-scaling-model"
+              categories="operating model, executive"
+            />
+          </div>
+        </Grid>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="closing" background="ink">
+    <Container>
+      <div class="py-24 text-center max-w-4xl mx-auto">
+        <Heading level={2} as="h2" class="font-light text-paper-50 mb-16 italic">
+          <span class="block">Production work is the only proof that matters.</span>
+        </Heading>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)]">
+          <a href="/contact" class="bg-paper-50 text-ink-1000 px-6 py-4 hover:bg-ink-300 transition-colors">Start a conversation &rarr;</a>
+          <a href="/about" class="text-paper-50 hover:text-ink-300 transition-colors border-b border-transparent hover:border-ink-300 pb-1">See my approach</a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>
+
+<script>
+  // Simple client-side filtering
+  const buttons = document.querySelectorAll('.filter-btn');
+  const projects = document.querySelectorAll('.project-wrapper');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active button state
+      buttons.forEach(b => {
+        b.classList.remove('text-ink-1000', 'border-b', 'border-ink-1000');
+        b.classList.add('text-ink-500');
+      });
+      btn.classList.add('text-ink-1000', 'border-b', 'border-ink-1000');
+      btn.classList.remove('text-ink-500');
+
+      const filterValue = btn.getAttribute('data-filter');
+
+      // Filter projects
+      projects.forEach((project: any) => {
+        if (filterValue === 'all') {
+          project.style.display = 'block';
+        } else {
+          const categories = project.getAttribute('data-categories') || '';
+          if (categories.includes(filterValue)) {
+            project.style.display = 'block';
+          } else {
+            project.style.display = 'none';
+          }
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,28 @@
+---
+interface Props {
+  label: string;
+  value: string;
+  description?: string;
+  size?: 'default' | 'large';
+}
+
+const { label, value, description, size = 'default' } = Astro.props;
+
+const valueSize = size === 'large' 
+  ? 'text-[length:var(--t-display-l-size)] leading-[var(--t-display-l-line)] tracking-[var(--t-display-l-letter)]' 
+  : 'text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] tracking-[var(--t-display-m-letter)]';
+---
+
+<div class="metric flex flex-col gap-2">
+  <div class={`metric__value font-display font-light font-variant-numeric-tabular-nums ${valueSize}`}>
+    {value}
+  </div>
+  <div class="metric__label font-mono text-[length:var(--t-meta-size)] leading-[var(--t-meta-line)] tracking-[var(--t-meta-letter)] uppercase text-ink-500">
+    {label}
+  </div>
+  {description && (
+    <div class="metric__desc text-[length:var(--t-body-s-size)] text-ink-500 mt-1">
+      {description}
+    </div>
+  )}
+</div>

@@ -1,0 +1,69 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme {
+  --color-ink-1000: var(--ink-1000);
+  --color-ink-900: var(--ink-900);
+  --color-ink-700: var(--ink-700);
+  --color-ink-500: var(--ink-500);
+  --color-ink-300: var(--ink-300);
+  --color-ink-100: var(--ink-100);
+  --color-paper-50: var(--paper-50);
+  --color-paper-0: var(--paper-0);
+  
+  --color-signal: var(--signal);
+  --color-focus: var(--focus);
+  --color-focus-on-dark: var(--focus-on-dark);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+
+  --shadow-card: var(--shadow-card);
+}
+
+@layer base {
+  body {
+    background-color: var(--paper-50);
+    color: var(--ink-1000);
+    font-family: var(--font-body);
+    font-size: var(--t-body-size);
+    line-height: var(--t-body-line);
+    letter-spacing: var(--t-body-letter);
+    font-weight: var(--t-body-weight);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  *:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .dark-surface {
+    background-color: var(--ink-1000);
+    color: var(--paper-50);
+  }
+
+  .dark-surface *:focus-visible {
+    outline-color: var(--focus-on-dark);
+  }
+
+  .hairline { 
+    height: 1px; 
+    background-color: var(--ink-100); 
+  }
+  
+  .hairline--dark { 
+    background-color: var(--ink-700); 
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { 
+    animation: none !important; 
+    transition: none !important; 
+  }
+}

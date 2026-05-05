@@ -1,0 +1,223 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import Grid from '../../components/layout/Grid.astro';
+import Eyebrow from '../../components/primitives/Eyebrow.astro';
+import Heading from '../../components/primitives/Heading.astro';
+
+const filters = [
+  "ALL",
+  "AGENTIC AI",
+  "DATA ARCHITECTURE",
+  "DATA ENGINEERING",
+  "BI & ANALYTICS",
+  "OPERATING MODEL",
+  "EXECUTIVE"
+];
+
+const essays = [
+  {
+    cluster: "AGENTIC AI",
+    title: "The case for deterministic guardrails",
+    dek: "The boring half of agent design that decides whether the magical half ever ships.",
+    meta: "9 MIN · MARCH 2026",
+    href: "/insights/the-case-for-deterministic-guardrails"
+  },
+  {
+    cluster: "DATA ARCHITECTURE",
+    title: "Lakehouse, warehouse, mesh — what actually changes for the business",
+    dek: "A short decision tree, not a religious debate.",
+    meta: "11 MIN · FEBRUARY 2026",
+    href: "/insights/lakehouse-warehouse-mesh"
+  },
+  {
+    cluster: "OPERATING MODEL",
+    title: "Designing teams for agentic operations",
+    dek: "When agents handle execution, your org chart is wrong by default.",
+    meta: "13 MIN · FEBRUARY 2026",
+    href: "/insights/designing-teams-for-agentic-operations"
+  },
+  {
+    cluster: "BI & ANALYTICS",
+    title: "The semantic layer is the new data API",
+    dek: "Why your KPIs need a contract before your agents read them.",
+    meta: "8 MIN · JANUARY 2026",
+    href: "/insights/the-semantic-layer-is-the-new-data-api"
+  },
+  {
+    cluster: "EXECUTIVE",
+    title: "Ten numbers that should be on every CEO's data dashboard",
+    dek: "And the forty that should not.",
+    meta: "7 MIN · JANUARY 2026",
+    href: "/insights/ten-numbers-ceo-dashboard"
+  },
+  {
+    cluster: "DATA ENGINEERING",
+    title: "The half-life of a data stack is shorter than you think",
+    dek: "Architecture decisions made today have a four-year horizon, not ten.",
+    meta: "10 MIN · DECEMBER 2025",
+    href: "/insights/half-life-of-data-stack"
+  },
+  {
+    cluster: "AGENTIC AI",
+    title: "Tool calls are not features. Tools are products.",
+    dek: "Treating tools as products is the difference between a clever demo and a governable system.",
+    meta: "9 MIN · DECEMBER 2025",
+    href: "/insights/tools-are-products"
+  },
+  {
+    cluster: "OPERATING MODEL",
+    title: "Data as a product, three years on",
+    dek: "What worked, what didn't, what the literature still gets wrong.",
+    meta: "12 MIN · NOVEMBER 2025",
+    href: "/insights/data-as-a-product-three-years-on"
+  }
+];
+---
+
+<Layout title="Insights — Yoann Leny" description="Essays on data architecture, agentic AI, and the operating model behind both. Updated regularly.">
+  
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-16">
+        <Eyebrow text="INSIGHTS" />
+        <Heading level={2} as="h1" class="mb-6 italic">
+          Writing is how I think.
+        </Heading>
+        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 max-w-[60ch]">
+          Essays on the questions that decide whether data and AI deliver — operating models, architectural choices, and the soft systems that hold both together. For reference material on specific concepts, see the <a href="/concepts" class="text-ink-1000 underline decoration-ink-100 underline-offset-4">concept library</a>.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- FEATURED ESSAY -->
+  <Section id="featured">
+    <Container>
+      <a href="/insights/why-most-agent-demos-collapse-in-production" class="group block relative overflow-hidden bg-paper-0 border border-ink-100 mb-16 p-8 md:p-16 hover:bg-ink-1000 hover:text-paper-50 transition-colors duration-400 ease-out">
+        <div class="relative z-10">
+          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 group-hover:text-ink-300 mb-8">
+            FEATURED · AGENTIC AI
+          </div>
+          <h2 class="font-display text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] font-[var(--t-display-m-weight)] mb-6 max-w-3xl">
+            Why most agent demos collapse in production.
+          </h2>
+          <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 group-hover:text-ink-300 max-w-2xl mb-12">
+            Probabilistic systems can be built in a weekend. Governable ones take a year. The gap between the two is where most AI initiatives quietly fail.
+          </p>
+          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 group-hover:text-ink-300 border-t border-ink-100 group-hover:border-ink-700 pt-6 flex justify-between items-center">
+            <span>14 MIN READ · LAST REVIEWED MARCH 2026</span>
+            <span class="text-ink-1000 group-hover:text-paper-50">&rarr; Read the essay</span>
+          </div>
+        </div>
+      </a>
+    </Container>
+  </Section>
+
+  <!-- ESSAY GRID -->
+  <Section id="essays">
+    <Container>
+      <!-- Filter Row -->
+      <div class="mb-16 border-b border-ink-100 pb-4 overflow-x-auto">
+        <div class="flex gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] min-w-max" id="insight-filters">
+          {filters.map((filter, i) => (
+            <button 
+              class={`filter-btn transition-colors ${i === 0 ? 'text-ink-1000 border-b border-ink-1000' : 'text-ink-500 hover:text-ink-1000'}`}
+              data-filter={filter === "ALL" ? "all" : filter}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <Grid columns={12} gap="loose">
+        {essays.map(essay => (
+          <a href={essay.href} data-cluster={essay.cluster} class="insight-card col-span-12 md:col-span-6 lg:col-span-4 flex flex-col justify-between p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] hover:-translate-y-1 transition-transform duration-240 min-h-[320px]">
+            <div>
+              <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">
+                {essay.cluster}
+              </div>
+              <h3 class="font-display text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] font-[var(--t-display-m-weight)] mb-4">
+                {essay.title}
+              </h3>
+              <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700">
+                {essay.dek}
+              </p>
+            </div>
+            <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mt-8 pt-4 border-t border-ink-100">
+              {essay.meta}
+            </div>
+          </a>
+        ))}
+      </Grid>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto my-16"></div>
+
+  <!-- CONCEPT LIBRARY CROSS-LINK -->
+  <Section id="reference">
+    <Container>
+      <div class="max-w-2xl mx-auto text-center py-8">
+        <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-8">REFERENCE</div>
+        <Heading level={2} as="h2" class="mb-6 italic">Need a definition, not an opinion?</Heading>
+        <p class="font-body text-[length:var(--t-body-size)] leading-[var(--t-body-line)] text-ink-700 mb-8">
+          The <a href="/concepts" class="text-ink-1000 underline decoration-ink-100 underline-offset-4">concept library</a> is where I put the reference material — definitions, vendor comparisons, and architectural patterns. Currently 50+ entries across data architecture, data engineering, BI and analytics, and agentic AI.
+        </p>
+        <a href="/concepts" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+          &rarr; Browse the concept library
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="closing" background="ink">
+    <Container>
+      <div class="py-24 text-center max-w-4xl mx-auto">
+        <Heading level={2} as="h2" class="font-light text-paper-50 mb-16 italic">
+          <span class="block">If something here is useful — say so.</span>
+          <span class="block mt-4">If something here is wrong — say that too.</span>
+        </Heading>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)]">
+          <a href="mailto:hello@yoannleny.com" class="bg-paper-50 text-ink-1000 px-6 py-4 hover:bg-ink-300 transition-colors">Send a direct email &rarr;</a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>
+
+<script>
+  // Simple client-side filtering
+  const buttons = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.insight-card');
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active button state
+      buttons.forEach(b => {
+        b.classList.remove('text-ink-1000', 'border-b', 'border-ink-1000');
+        b.classList.add('text-ink-500');
+      });
+      btn.classList.add('text-ink-1000', 'border-b', 'border-ink-1000');
+      btn.classList.remove('text-ink-500');
+
+      const filterValue = btn.getAttribute('data-filter');
+
+      // Filter cards
+      cards.forEach((card: any) => {
+        if (filterValue === 'all') {
+          card.style.display = 'flex';
+        } else {
+          const cluster = card.getAttribute('data-cluster');
+          if (cluster === filterValue) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        }
+      });
+    });
+  });
+</script>

@@ -1,0 +1,121 @@
+---
+interface Props {
+  size?: 'small' | 'default' | 'large';
+}
+
+const { size = 'default' } = Astro.props;
+
+const styles = {
+  small: 'text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] tracking-[var(--t-body-s-letter)] font-[var(--t-body-s-weight)]',
+  default: 'text-[length:var(--t-body-size)] leading-[var(--t-body-line)] tracking-[var(--t-body-letter)] font-[var(--t-body-weight)]',
+  large: 'text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] tracking-[var(--t-body-l-letter)] font-[var(--t-body-l-weight)]'
+};
+---
+
+<div class={`prose-content ${styles[size]} max-w-3xl mx-auto`}>
+  <slot />
+</div>
+
+<style is:global>
+  .prose-content {
+    color: var(--color-ink-800);
+  }
+  .prose-content p {
+    margin-bottom: var(--space-paragraph);
+  }
+  .prose-content h2 {
+    font-family: var(--font-display);
+    font-size: var(--t-headline-size);
+    margin-top: calc(var(--space-paragraph-heading) * 1.5);
+    margin-bottom: var(--space-paragraph);
+    color: var(--color-ink-1000);
+  }
+  .prose-content h3 {
+    font-family: var(--font-display);
+    font-size: var(--t-headline-size); /* Or slightly smaller if defined */
+    margin-top: calc(var(--space-paragraph-heading) * 1.2);
+    margin-bottom: var(--space-paragraph);
+    color: var(--color-ink-1000);
+  }
+  .prose-content ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-bottom: var(--space-paragraph);
+  }
+  .prose-content ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin-bottom: var(--space-paragraph);
+  }
+  .prose-content li {
+    margin-bottom: 0.5rem;
+  }
+  .prose-content a {
+    color: var(--color-ink-1000);
+    text-decoration: underline;
+    text-decoration-color: var(--color-ink-200);
+    text-underline-offset: 4px;
+    transition: color 0.2s;
+  }
+  .prose-content a:hover {
+    color: var(--color-ink-500);
+  }
+  /* Table styling */
+  .prose-content .table-container {
+    overflow-x: auto;
+    margin-top: var(--space-paragraph-heading);
+    margin-bottom: var(--space-paragraph);
+  }
+  .prose-content table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    font-family: var(--font-body);
+    font-size: var(--t-body-s-size);
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .prose-content th {
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    text-transform: uppercase;
+    letter-spacing: var(--t-meta-letter);
+    color: var(--color-ink-500);
+    border-bottom: 1px solid var(--color-ink-100);
+    padding: 1rem 1rem 1rem 0;
+    font-weight: normal;
+  }
+  .prose-content td {
+    padding: 1.5rem 1rem 1.5rem 0;
+    border-bottom: 1px solid var(--color-ink-100);
+    vertical-align: top;
+  }
+  .prose-content tr:hover td {
+    background-color: var(--color-paper-0);
+  }
+  
+  /* Yoann's Take (Blockquote) */
+  .prose-content blockquote {
+    margin-top: var(--space-paragraph-heading);
+    margin-bottom: var(--space-paragraph);
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-ink-100);
+    font-style: italic;
+    color: var(--color-ink-700);
+    font-size: var(--t-body-l-size);
+    line-height: var(--t-body-l-line);
+  }
+  .prose-content blockquote p {
+    margin-bottom: 1rem;
+  }
+  .prose-content blockquote p:last-child {
+    margin-bottom: 0;
+  }
+  .prose-content code {
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    background-color: var(--color-ink-100);
+    padding: 0.2rem 0.4rem;
+  }
+</style>

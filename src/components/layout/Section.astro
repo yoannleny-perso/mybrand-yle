@@ -1,0 +1,53 @@
+---
+interface Props {
+  id?: string;
+  background?: 'paper' | 'ink';
+}
+
+const { id, background = 'paper' } = Astro.props;
+
+const bgClasses = background === 'ink' ? 'dark-surface' : '';
+---
+
+<section id={id} class={`py-[var(--space-section)] ${bgClasses} scroll-reveal`}>
+  <slot />
+</section>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.scroll-reveal').forEach((el) => {
+    // Only apply if prefers-reduced-motion is no-preference
+    if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      observer.observe(el);
+    } else {
+      el.classList.add('is-revealed');
+    }
+  });
+</script>
+
+<style>
+  .scroll-reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out);
+  }
+  .scroll-reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-reveal {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+      transition: none !important;
+    }
+  }
+</style>

@@ -1,17 +1,304 @@
 ---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/layout/Container.astro';
+import Section from '../components/layout/Section.astro';
+import Grid from '../components/layout/Grid.astro';
+import Eyebrow from '../components/primitives/Eyebrow.astro';
+import Heading from '../components/primitives/Heading.astro';
+import MetricBlock from '../components/primitives/MetricBlock.astro';
+import Hero from '../components/sections/Hero.tsx';
+import CapabilityList from '../components/sections/CapabilityList.tsx';
+import AsymmetricCard from '../components/sections/AsymmetricCard.astro';
+import TestimonialCrossfade from '../components/sections/TestimonialCrossfade.tsx';
 
+const heroHeadline = [
+  "Building",
+  "AI-Enabled Operating Systems",
+  "for Modern Organizations."
+];
+
+const capabilities = [
+  {
+    number: "01",
+    title: "Agentic AI Architecture",
+    summary: "Multi-agent systems with deterministic guardrails and audit trails.",
+    slug: "agentic-ai-architecture"
+  },
+  {
+    number: "02",
+    title: "Data & Semantic Platforms",
+    summary: "Medallion lakehouses with a governed semantic layer on top.",
+    slug: "data-platforms"
+  },
+  {
+    number: "03",
+    title: "Strategic Data Operations",
+    summary: "Treating data as a product with contracts, SLAs, and lineage.",
+    slug: "strategic-data-ops"
+  },
+  {
+    number: "04",
+    title: "Team Orchestration",
+    summary: "Designing pods, roles, and rituals that scale beyond 40 experts.",
+    slug: "team-orchestration"
+  },
+  {
+    number: "05",
+    title: "Executive Enablement",
+    summary: "Turning leadership questions into observable operating decisions.",
+    slug: "executive-enablement"
+  }
+];
+
+const testimonials = [
+  {
+    quote: "\"Yoann is the rare leader who can stand at the whiteboard with engineers in the morning and at the executive committee in the afternoon — and move both rooms forward.\"",
+    attribution: "CEO, Global Consulting Firm"
+  },
+  {
+    quote: "\"He didn't just modernize our data stack. He gave us an operating model that the next CTO will inherit and not have to redesign.\"",
+    attribution: "Chief Data Officer, Industrial Group"
+  },
+  {
+    quote: "\"What he calls 'restraint' the rest of us call 'finally seeing the signal'. Yoann removes more than he adds, and that is exactly what senior teams need.\"",
+    attribution: "Partner, Strategy Practice"
+  }
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <!-- SECTION 1 — HERO -->
+  <Hero 
+    client:load
+    headlineLines={heroHeadline} 
+    subheadline="I help companies turn data, AI, and people into measurable operating advantage." 
+  />
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 2 — ABOUT + METRICS -->
+  <Section id="about">
+    <Container>
+      <Grid columns={12}>
+        <div class="col-span-12 md:col-span-6 lg:col-span-7 mb-16 md:mb-0">
+          <Eyebrow text="02 / 08 — APPROACH" />
+          <Heading level={2} as="h2" class="mb-8 italic font-light">I build the systems that scale teams.</Heading>
+          
+          <div class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 max-w-2xl mt-12 space-y-6">
+            <p>
+              I have spent the last decade at the intersection of data engineering, AI architecture, and executive operations — building the platforms, agentic workflows, and team structures that turn capability into compounding margin.
+            </p>
+            <p>
+              My work is shaped by one belief: most organizations don't have a tooling problem. They have an <em>operating system</em> problem. Tools are easy. Operating systems — the way decisions, data, models, and people compose into a working whole — are where leverage actually lives.
+            </p>
+          </div>
+        </div>
+        
+        <div class="col-span-12 md:col-span-6 lg:col-span-4 lg:col-start-9 flex items-center">
+          <div class="grid grid-cols-2 gap-x-8 gap-y-12 w-full">
+            <MetricBlock label="Revenue impact delivered" value="$13M+" size="large" />
+            <MetricBlock label="Experts orchestrated" value="40+" size="large" />
+            <MetricBlock label="Regions led" value="3" size="large" />
+            <MetricBlock label="Utilization uplift" value="15%" size="large" />
+          </div>
+        </div>
+      </Grid>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 3 — CAPABILITIES -->
+  <Section id="capabilities">
+    <Container>
+      <div class="mb-24 max-w-3xl">
+        <Eyebrow text="03 / 08 — WHAT I DO" />
+        <Heading level={2} as="h2" class="mb-8">This is how I scale organizations.</Heading>
+        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700">
+          Five practices, one operating logic. Each row is a system I have built and run in production — not a methodology I read about.
+        </p>
+      </div>
+    </Container>
+    
+    <div class="max-w-[1440px] mx-auto">
+      <CapabilityList client:visible capabilities={capabilities} />
+    </div>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 4 — SELECTED WORK -->
+  <Section id="work">
+    <Container>
+      <div class="mb-24">
+        <Eyebrow text="04 / 08 — SELECTED WORK" />
+        <Heading level={2} as="h2" class="max-w-2xl">
+          <span class="block">Production work.</span>
+          <span class="block">Measured outcomes.</span>
+        </Heading>
+      </div>
+
+      <Grid columns={12} gap="loose">
+        <AsymmetricCard 
+          size="tall"
+          tag="2025 · ENTERPRISE · 18 MONTHS"
+          title="Multi-Agent Skill Tracker"
+          description="A hierarchical agentic system that maintains a live skills graph for 40+ consultants, recommends staffing, and surfaces hiring gaps to leadership weekly."
+          metric="+15% utilization · -22% bench time"
+          href="/work/multi-agent-skill-tracker"
+        />
+        <div class="col-span-12 md:col-span-2 hidden md:block"></div> {/* Spacer */}
+        
+        <AsymmetricCard 
+          size="wide"
+          tag="2024 · GLOBAL · 12 MONTHS"
+          title="Enterprise Medallion Stack"
+          description="A bronze–silver–gold lakehouse architecture deployed across three regions, with a governed semantic layer feeding analytics, ML, and agent workflows from a single source of truth."
+          metric="$13M+ revenue impact · 9-month payback"
+          href="/work/enterprise-medallion-stack"
+        />
+
+        <AsymmetricCard 
+          size="square"
+          tag="2024 · MID-MARKET · 6 MONTHS"
+          title="AI-Ready Semantic Layer"
+          description="A metric definition layer designed specifically for LLM and agent consumption, eliminating hallucinated KPIs and standardizing how AI tools query the business."
+          metric="0 KPI drift incidents in production"
+          href="/work/ai-ready-semantic-layer"
+        />
+        
+        <div class="col-span-12 md:col-span-2 hidden md:block"></div> {/* Spacer */}
+        
+        <AsymmetricCard 
+          size="tall"
+          tag="2023 · GLOBAL · 24 MONTHS"
+          title="Global Data Ops Scaling Model"
+          description="An operating model for a 40-person data team across three regions: pod design, role split, ritual cadence, and a custom internal observability layer for delivery health."
+          metric="40+ experts · 3 regions · 4 qtrs to steady-state"
+          href="/work/global-data-ops-scaling-model"
+        />
+      </Grid>
+      
+      <div class="mt-16 text-right">
+        <a href="/work" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+          &rarr; See all work
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 5 — LEADERSHIP PHILOSOPHY -->
+  <Section id="philosophy">
+    <Container>
+      <Eyebrow text="05 / 08 — PHILOSOPHY" />
+      
+      <Grid columns={12}>
+        <div class="col-span-12 md:col-span-10 md:col-start-2 mb-32">
+          <Heading level={2} as="h2" class="text-center italic">
+            Modern organizations don't fail because they lack tools. They fail because they lack an operating system that turns those tools into decisions.
+          </Heading>
+        </div>
+      </Grid>
+      
+      <Grid columns={4} gap="loose">
+        <div class="col-span-2 border-t border-ink-100 pt-8">
+          <Heading level={4} as="h3" serif={false} class="mb-4">Data is a product, not a service.</Heading>
+          <p class="font-body text-ink-700">Owners, contracts, SLAs, deprecation policies — like any product worth running.</p>
+        </div>
+        <div class="col-span-2 border-t border-ink-100 pt-8">
+          <Heading level={4} as="h3" serif={false} class="mb-4">AI should upgrade teams into architects.</Heading>
+          <p class="font-body text-ink-700">Agents handle execution. Humans set the rules execution must respect.</p>
+        </div>
+        <div class="col-span-2 border-t border-ink-100 pt-8 mt-8 md:mt-0">
+          <Heading level={4} as="h3" serif={false} class="mb-4">Operational visibility is a strategic asset.</Heading>
+          <p class="font-body text-ink-700">If a leader cannot see the system, they cannot govern it.</p>
+        </div>
+        <div class="col-span-2 border-t border-ink-100 pt-8 mt-8 md:mt-0">
+          <Heading level={4} as="h3" serif={false} class="mb-4">Systems scale what talent alone cannot.</Heading>
+          <p class="font-body text-ink-700">Hiring fixes throughput for a quarter. Systems fix it forever.</p>
+        </div>
+      </Grid>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 6 — INSIGHTS / WRITING -->
+  <Section id="insights">
+    <Container>
+      <div class="max-w-2xl mb-24">
+        <Eyebrow text="06 / 08 — INSIGHTS" />
+        <Heading level={2} as="h2" class="mb-8">Writing is how I think.</Heading>
+        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700">
+          A growing library of essays and concept entries on data architecture, agentic AI, and the operating model questions that decide whether either of them works.
+        </p>
+      </div>
+
+      <Grid columns={6}>
+        <div class="col-span-2 flex flex-col justify-between p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] min-h-[320px]">
+          <div>
+            <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">AGENTIC AI</div>
+            <Heading level={3} as="h3" class="mb-4">Why most agent demos collapse in production</Heading>
+            <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700">The gap between a working prototype and a system you can govern.</p>
+          </div>
+          <div class="font-mono text-[length:var(--t-meta-size)] uppercase text-ink-500 mt-8 pt-4 border-t border-ink-100 flex justify-between">
+            <span>5 MIN READ</span>
+            <span>2026-Q1</span>
+          </div>
+        </div>
+
+        <div class="col-span-2 flex flex-col justify-between p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] min-h-[320px]">
+          <div>
+            <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">DATA ARCHITECTURE</div>
+            <Heading level={3} as="h3" class="mb-4">The medallion architecture, decoded</Heading>
+            <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700">Why bronze, silver, gold is not just a naming convention.</p>
+          </div>
+          <div class="font-mono text-[length:var(--t-meta-size)] uppercase text-ink-500 mt-8 pt-4 border-t border-ink-100 flex justify-between">
+            <span>8 MIN READ</span>
+            <span>2026-Q1</span>
+          </div>
+        </div>
+
+        <div class="col-span-2 flex flex-col justify-between p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] min-h-[320px]">
+          <div>
+            <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">BI & ANALYTICS</div>
+            <Heading level={3} as="h3" class="mb-4">The semantic layer is the new data API</Heading>
+            <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700">Why your KPIs need a contract before your agents read them.</p>
+          </div>
+          <div class="font-mono text-[length:var(--t-meta-size)] uppercase text-ink-500 mt-8 pt-4 border-t border-ink-100 flex justify-between">
+            <span>6 MIN READ</span>
+            <span>2026-Q1</span>
+          </div>
+        </div>
+      </Grid>
+      
+      <div class="mt-16 text-right">
+        <a href="/concepts" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+          &rarr; Browse the full concept library (50+)
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 7 — TESTIMONIALS / PROOF -->
+  <Section id="testimonials">
+    <Container>
+      <div class="mb-16">
+        <Eyebrow text="07 / 08 — IN THEIR WORDS" />
+      </div>
+      
+      <TestimonialCrossfade client:visible testimonials={testimonials} />
+      
+      <div class="mt-24 text-center">
+        <a href="/contact" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+          &rarr; References available on request
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+</Layout>

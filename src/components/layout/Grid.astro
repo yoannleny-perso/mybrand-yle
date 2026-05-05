@@ -1,0 +1,25 @@
+---
+interface Props {
+  columns?: 12 | 8 | 6 | 4;
+  gap?: 'tight' | 'default' | 'loose';
+}
+
+const { columns = 12, gap = 'default' } = Astro.props;
+
+const gapClasses = {
+  tight: 'gap-4',
+  default: 'gap-4 sm:gap-6 lg:gap-8', // 16px mobile, 24px tablet, 32px desktop
+  loose: 'gap-8 lg:gap-12'
+};
+
+const colClasses = {
+  12: 'grid-cols-4 sm:grid-cols-8 lg:grid-cols-12',
+  8: 'grid-cols-4 sm:grid-cols-8',
+  6: 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-6',
+  4: 'grid-cols-2 sm:grid-cols-4'
+};
+---
+
+<div class={`grid ${colClasses[columns]} ${gapClasses[gap]}`}>
+  <slot />
+</div>

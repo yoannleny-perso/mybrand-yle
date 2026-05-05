@@ -1,0 +1,11 @@
+---
+interface Props {
+  text?: string;
+}
+
+const { text } = Astro.props;
+---
+
+<div class="font-mono text-[var(--t-meta-size)] leading-[var(--t-meta-line)] tracking-[var(--t-meta-letter)] uppercase font-medium text-ink-500 mb-8">
+  {text ? text : <slot />}
+</div>

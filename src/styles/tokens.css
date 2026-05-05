@@ -1,0 +1,82 @@
+:root {
+  /* Core monochrome */
+  --ink-1000:  #0A0A0A;
+  --ink-900:   #141414;
+  --ink-700:   #2E2E2E;
+  --ink-500:   #6B6B6B;
+  --ink-300:   #B5B5B5;
+  --ink-100:   #E5E5E5;
+  --paper-50:  #F7F6F3;
+  --paper-0:   #FFFFFF;
+
+  /* Single restrained accent */
+  --signal:    #9DA5A1;
+
+  /* Functional */
+  --focus:     #0A0A0A;
+  --focus-on-dark: #F7F6F3;
+
+  /* Elevation */
+  --shadow-card: 0 1px 0 rgba(10, 10, 10, 0.04), 0 12px 32px -16px rgba(10, 10, 10, 0.12);
+
+  /* Typography */
+  --font-display: 'Fraunces Variable', 'Times New Roman', serif;
+  --font-body:    'Inter Tight Variable', 'Inter', system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', 'IBM Plex Mono', monospace;
+
+  /* Type Scale */
+  --t-display-xl-size: clamp(80px, 12vw, 220px);
+  --t-display-xl-line: 0.92;
+  --t-display-xl-letter: -0.04em;
+  --t-display-xl-weight: 300;
+
+  --t-display-l-size: clamp(56px, 7vw, 120px);
+  --t-display-l-line: 0.96;
+  --t-display-l-letter: -0.03em;
+  --t-display-l-weight: 300;
+
+  --t-display-m-size: clamp(40px, 4.5vw, 72px);
+  --t-display-m-line: 1.04;
+  --t-display-m-letter: -0.02em;
+  --t-display-m-weight: 400;
+
+  --t-headline-size: 32px;
+  --t-headline-line: 1.15;
+  --t-headline-letter: -0.01em;
+  --t-headline-weight: 500;
+
+  --t-body-l-size: 22px;
+  --t-body-l-line: 1.5;
+  --t-body-l-letter: -0.005em;
+  --t-body-l-weight: 400;
+
+  --t-body-size: 17px;
+  --t-body-line: 1.6;
+  --t-body-letter: 0;
+  --t-body-weight: 400;
+
+  --t-body-s-size: 14px;
+  --t-body-s-line: 1.55;
+  --t-body-s-letter: 0;
+  --t-body-s-weight: 400;
+
+  --t-meta-size: 11px;
+  --t-meta-line: 1.2;
+  --t-meta-letter: 0.12em;
+  --t-meta-weight: 500;
+
+  /* Rhythm */
+  --space-section: clamp(96px, 14vh, 200px);
+  --space-subsection-desktop: 64px;
+  --space-subsection-mobile: 40px;
+  --space-paragraph-heading: 32px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-io:  cubic-bezier(0.65, 0, 0.35, 1);
+
+  --dur-micro:  120ms;
+  --dur-hover:  240ms;
+  --dur-reveal: 640ms;
+  --dur-hero:   800ms;
+}

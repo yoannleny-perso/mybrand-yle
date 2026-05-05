@@ -1,0 +1,57 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/layout/Container.astro';
+import Section from '../components/layout/Section.astro';
+import Eyebrow from '../components/primitives/Eyebrow.astro';
+import Heading from '../components/primitives/Heading.astro';
+import Prose from '../components/primitives/Prose.astro';
+
+const lastUpdated = "May 2026";
+---
+
+<Layout title="Now — Yoann Leny" description="What I am working on this month, what engagements have capacity, and what is fully booked. Updated regularly.">
+  
+  <Section id="header">
+    <Container size="narrow">
+      <div class="pt-24 pb-16">
+        <Eyebrow text={`UPDATED ${lastUpdated}`} />
+        <Heading level={2} as="h1" class="mb-8">
+          What I'm doing now.
+        </Heading>
+        
+        <Prose>
+          <p class="text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] font-light text-ink-700">
+            This is my <a href="https://nownownow.com/about" target="_blank" rel="noopener noreferrer" class="text-ink-1000 underline decoration-ink-100 underline-offset-4 hover:text-ink-500">now page</a>. It shows my current priorities and availability.
+          </p>
+
+          <h2 class="font-display text-[length:var(--t-headline-size)] mt-12 mb-6">Current Focus</h2>
+          <p>
+            I am currently wrapping up a 12-month engagement architecting a medallion lakehouse and deterministic agentic layer for a global enterprise client. We are entering the transition phase, moving operations from the build pod to the steady-state platform team.
+          </p>
+          <p>
+            Outside of client work, my main focus is expanding the <a href="/concepts" class="text-ink-1000 underline decoration-ink-100 underline-offset-4 hover:text-ink-500">Concept Library</a> on this site, specifically building out the Agentic AI patterns that hold up in production.
+          </p>
+
+          <h2 class="font-display text-[length:var(--t-headline-size)] mt-12 mb-6">Availability</h2>
+          <ul class="list-disc pl-5 space-y-4 text-ink-700 marker:text-ink-300">
+            <li><strong>Architect-in-residence:</strong> Fully booked until Q4 2026. Taking preliminary conversations for late Q4 or Q1 2027.</li>
+            <li><strong>Executive advisory:</strong> One slot open for a CDO or CTO.</li>
+            <li><strong>Diagnostic & rebuild plan:</strong> Available for one 6-week engagement starting in July.</li>
+          </ul>
+
+          <h2 class="font-display text-[length:var(--t-headline-size)] mt-12 mb-6">Reading</h2>
+          <p>
+            Re-reading <em>Thinking in Systems</em> by Donella Meadows, and catching up on the latest papers regarding Model Context Protocol (MCP) implementations in multi-agent frameworks.
+          </p>
+        </Prose>
+        
+        <div class="mt-24 pt-8 border-t border-ink-100">
+          <a href="/contact" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+            &rarr; Start a conversation
+          </a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+</Layout>
