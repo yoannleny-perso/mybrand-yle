@@ -2,125 +2,96 @@ import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 interface HeroProps {
-  headlineLines: string[];
+  headlineLines?: string[];
   subheadline: string;
 }
 
-export default function Hero({ headlineLines, subheadline }: HeroProps) {
+export default function Hero({ subheadline }: HeroProps) {
   const shouldReduceMotion = useReducedMotion();
 
-  const getTransition = (delayMs: number, durationMs: number, spring = false) => ({
+  const getTransition = (delayMs: number, durationMs: number) => ({
     duration: shouldReduceMotion ? 0 : durationMs / 1000,
     delay: shouldReduceMotion ? 0 : delayMs / 1000,
-    ease: spring ? [0.175, 0.885, 0.32, 1.1] : [0.16, 1, 0.3, 1]
+    ease: [0.16, 1, 0.3, 1]
   });
 
   return (
-    <section className="relative min-h-[90vh] flex items-center pt-32 pb-20 overflow-hidden" aria-labelledby="hero-heading">
-      {/* Ambient Blur Backgrounds */}
-      <motion.div 
-        className="ambient-blur top-[-10%] left-[-10%]"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.6, scale: 1 }}
-        transition={getTransition(0, 1500)}
-      />
-      <motion.div 
-        className="ambient-blur bottom-[-20%] right-[-10%]"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.4, scale: 1 }}
-        transition={getTransition(400, 1500)}
-      />
+    <section className="relative min-h-screen flex items-end justify-center pt-32 overflow-hidden bg-paper-50" aria-labelledby="hero-heading">
+      
+      {/* Huge Background Text */}
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none z-0 tracking-tighter mt-12 md:mt-0">
+        <motion.div 
+          className="text-[18vw] leading-[0.8] font-display font-black text-ink-1000"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={getTransition(100, 1000)}
+        >
+          AGENTIC
+        </motion.div>
+        <motion.div 
+          className="text-[18vw] leading-[0.8] font-display font-black text-ink-1000"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={getTransition(300, 1000)}
+        >
+          ARCHITECT
+        </motion.div>
+      </div>
 
-      <div className="mx-auto w-full px-6 sm:px-12 lg:px-[max(96px,8vw)] max-w-[1440px] relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* Main Container */}
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 h-full flex flex-col items-center justify-end">
         
-        {/* Left Content Area */}
-        <div className="lg:col-span-7 flex flex-col justify-center order-2 lg:order-1 relative z-20">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={getTransition(200, 600)}
-            className="mb-8"
-          >
-            <span className="inline-block py-2 px-4 rounded-full bg-paper-0 border border-ink-100 shadow-sm text-[length:var(--t-meta-size)] font-semibold tracking-wide text-signal uppercase">
-              Available Q1 2026
-            </span>
-          </motion.div>
+        {/* Left Side: Circular Badge */}
+        <motion.div 
+          className="absolute left-6 md:left-12 lg:left-24 bottom-24 md:bottom-32 hidden md:flex items-center justify-center w-32 h-32"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={getTransition(800, 800)}
+        >
+          <div className="absolute inset-0 animate-[spin_10s_linear_infinite]">
+            <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
+              <path id="circlePath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="transparent" />
+              <text className="font-mono text-[9.5px] uppercase tracking-[0.25em] fill-ink-900 font-bold">
+                <textPath href="#circlePath" startOffset="0%">
+                  AVAILABLE Q1 2026 • AVAILABLE Q1 2026 •
+                </textPath>
+              </text>
+            </svg>
+          </div>
+          {/* Star Icon in center */}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-signal">
+            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor" />
+          </svg>
+        </motion.div>
 
-          <h1 id="hero-heading" className="font-display text-[length:var(--t-display-l-size)] leading-[var(--t-display-l-line)] tracking-[var(--t-display-l-letter)] font-[var(--t-display-l-weight)] mb-8 text-ink-900">
-            {headlineLines.map((line, i) => (
-              <motion.span 
-                key={i}
-                className="block"
-                initial={{ opacity: 0, y: 30, filter: 'blur(10px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                transition={getTransition(300 + (i * 150), 800, true)}
-              >
-                {line}
-              </motion.span>
-            ))}
-          </h1>
-          
-          <motion.div 
-            className="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-500 max-w-xl mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={getTransition(800, 600)}
-          >
-            {subheadline}
-          </motion.div>
-          
-          <motion.div 
-            className="flex flex-col sm:flex-row items-start sm:items-center gap-6 font-medium text-[length:var(--t-body-s-size)]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={getTransition(1000, 600)}
-          >
-            <a href="/work" className="bg-ink-1000 text-paper-0 px-8 py-4 rounded-full hover:shadow-hover hover:-translate-y-1 transition-all duration-300">
-              See the work
-            </a>
-            <a href="#about" className="text-ink-700 hover:text-ink-1000 transition-colors py-4">
-              Read my approach
-            </a>
-          </motion.div>
-        </div>
+        {/* Right Side: Bio Text */}
+        <motion.div 
+          className="absolute right-6 md:right-12 lg:right-24 bottom-24 md:bottom-32 max-w-[280px] text-ink-900 font-medium text-[length:var(--t-body-s-size)] leading-relaxed bg-paper-50/80 md:bg-transparent backdrop-blur-md md:backdrop-blur-none p-4 md:p-0 rounded-2xl md:rounded-none text-center md:text-left"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={getTransition(800, 800)}
+        >
+          <p>{subheadline}</p>
+          <a href="/work" className="inline-block mt-6 border-b border-ink-1000 pb-1 font-bold hover:text-signal hover:border-signal transition-colors uppercase tracking-widest text-[11px]">
+            Explore Work
+          </a>
+        </motion.div>
 
-        {/* Right Portrait Area */}
-        <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end relative h-[500px] lg:h-[700px] w-full">
-          <motion.div 
-            className="relative w-full max-w-[400px] lg:max-w-none h-full"
-            initial={{ opacity: 0, scale: 0.95, y: 40 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={getTransition(400, 1000, true)}
-          >
-            <div className="absolute inset-0 rounded-[40px] overflow-hidden bg-paper-0 shadow-card border border-ink-100">
-              <motion.img 
-                src="/images/portrait.jpeg" 
-                alt="Yoann Leny Portrait" 
-                className="w-full h-full object-cover object-top"
-                initial={{ scale: 1.1 }}
-                animate={{ scale: 1 }}
-                transition={getTransition(0, 2000)}
-              />
-              {/* Fade out bottom mask */}
-              <div className="absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-paper-0 to-transparent pointer-events-none"></div>
-            </div>
-            
-            {/* Floating badge */}
-            <motion.div 
-              className="absolute -bottom-6 -left-6 lg:-left-12 bg-paper-0 p-6 rounded-[24px] shadow-hover border border-ink-100 backdrop-blur-xl"
-              initial={{ opacity: 0, x: -20, y: 20 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={getTransition(1200, 600, true)}
-            >
-              <div className="text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] font-semibold text-ink-500 mb-1">
-                VP, Data Operations
-              </div>
-              <div className="text-[length:var(--t-body-s-size)] font-semibold text-ink-900">
-                Agentic AI Architect
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
+        {/* Center Headshot */}
+        <motion.div 
+          className="relative w-full max-w-[600px] lg:max-w-[800px] h-[65vh] lg:h-[80vh] flex justify-center items-end"
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={getTransition(400, 1200)}
+        >
+          <img 
+            src="/images/Yoann-headshot.png" 
+            alt="Yoann Leny" 
+            className="w-full h-full object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] relative z-10"
+          />
+          {/* Gradient fade to blend the bottom smoothly into the background */}
+          <div className="absolute bottom-0 left-0 w-full h-32 md:h-48 bg-gradient-to-t from-paper-50 to-transparent pointer-events-none z-20"></div>
+        </motion.div>
 
       </div>
     </section>

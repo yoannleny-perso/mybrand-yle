@@ -1,21 +1,33 @@
 ---
 ---
 
-<header id="global-header" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[90%] max-w-2xl">
-  <div class="pill-nav px-6 py-4 flex justify-between items-center text-[length:var(--t-body-s-size)] font-medium">
-    <a href="/" class="text-ink-1000 hover:text-signal transition-colors font-semibold" aria-label="Yoann Leny Home">
+<header id="global-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-6 px-6 sm:px-12 lg:px-[max(96px,8vw)]">
+  <div class="max-w-[1440px] mx-auto flex justify-between items-center relative">
+    
+    <!-- Left: Brand Name -->
+    <a href="/" class="text-ink-1000 hover:text-signal transition-colors font-display font-bold text-xl md:text-2xl z-10" aria-label="Yoann Leny Home">
       Yoann Leny
     </a>
     
-    <nav class="hidden md:flex gap-6 text-ink-700">
-      <a href="/work" class="hover:text-ink-1000 transition-colors">Work</a>
-      <a href="/capabilities" class="hover:text-ink-1000 transition-colors">Capabilities</a>
-      <a href="/concepts" class="hover:text-ink-1000 transition-colors">Concepts</a>
-      <a href="/insights" class="hover:text-ink-1000 transition-colors">Insights</a>
-      <a href="/contact" class="hover:text-ink-1000 transition-colors">Contact</a>
-    </nav>
+    <!-- Center: Pill Navigation -->
+    <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 z-0">
+      <nav class="pill-nav px-8 py-3 flex gap-8 text-[length:var(--t-body-s-size)] font-medium text-ink-700">
+        <a href="/work" class="hover:text-ink-1000 transition-colors">Work</a>
+        <a href="/capabilities" class="hover:text-ink-1000 transition-colors">Capabilities</a>
+        <a href="/concepts" class="hover:text-ink-1000 transition-colors">Concepts</a>
+        <a href="/insights" class="hover:text-ink-1000 transition-colors">Insights</a>
+      </nav>
+    </div>
     
-    <button class="md:hidden text-ink-1000 focus-visible" aria-label="Open menu" id="mobile-menu-btn">
+    <!-- Right: Contact / Let's Talk Button -->
+    <div class="hidden lg:flex z-10">
+      <a href="/contact" class="bg-ink-1000 text-paper-0 px-6 py-3 rounded-full text-[length:var(--t-body-s-size)] font-medium hover:bg-signal hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300">
+        Let's Talk
+      </a>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button class="lg:hidden text-ink-1000 focus-visible z-10" aria-label="Open menu" id="mobile-menu-btn">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="3" y1="12" x2="21" y2="12"></line>
         <line x1="3" y1="6" x2="21" y2="6"></line>
