@@ -23,6 +23,13 @@
   --shadow-hover: 0 30px 60px -15px rgba(0, 0, 0, 0.1);
   --shadow-nav: 0 4px 20px rgba(0, 0, 0, 0.03);
 
+  /* Surface colors to make tiles look cool */
+  --surface-indigo: #EEF2FF;
+  --surface-green: #ECFDF5;
+  --surface-blue: #EFF6FF;
+  --surface-purple: #FAF5FF;
+  --surface-rose: #FFF1F2;
+
   /* Typography */
   --font-display: 'Inter Variable', sans-serif;
   --font-body:    'Inter Variable', sans-serif;
@@ -70,10 +77,10 @@
   --t-meta-weight: 600;
 
   /* Rhythm */
-  --space-section: clamp(80px, 12vh, 160px);
-  --space-subsection-desktop: 80px;
-  --space-subsection-mobile: 48px;
-  --space-paragraph-heading: 40px;
+  --space-section: clamp(40px, 8vh, 100px);
+  --space-subsection-desktop: 60px;
+  --space-subsection-mobile: 32px;
+  --space-paragraph-heading: 32px;
   
   /* Radii */
   --radius-card: 32px;

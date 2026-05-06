@@ -58,27 +58,72 @@ const clusters = [
     </Container>
   </Section>
 
-  <!-- CLUSTER OVERVIEW -->
+  <!-- CLUSTER OVERVIEW & DIAGRAM -->
   <Section id="clusters">
     <Container>
-      <Grid columns={4} gap="loose">
-        {clusters.map(cluster => (
-          <div class="col-span-12 md:col-span-2 p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] flex flex-col justify-between min-h-[320px]">
-            <div>
-              <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">{cluster.id}</div>
-              <Heading level={3} as="h3" class="mb-2">{cluster.name}</Heading>
-              <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">{cluster.count} entries</div>
-              <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700">
-                {cluster.description}
-              </p>
-            </div>
-            <div class="mt-8">
-              <a href={`#cluster-${cluster.id}`} class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
-                &rarr; Browse cluster
-              </a>
-            </div>
+      {/* Concept Architecture Diagram */}
+      <div class="mb-20 bg-paper-0 p-8 md:p-12 border border-ink-100 rounded-[var(--radius-card)] shadow-card overflow-hidden">
+        <Eyebrow text="THE OPERATING SYSTEM" />
+        <Heading level={3} as="h2" class="mb-12">How the clusters compose.</Heading>
+        
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8 relative">
+          {/* Connecting Line (Desktop) */}
+          <div class="hidden md:block absolute top-1/2 left-0 w-full h-[2px] bg-ink-100 -z-10 -translate-y-1/2"></div>
+          
+          {/* Engineering */}
+          <div class="flex flex-col items-center bg-[var(--surface-blue)] w-full md:w-1/4 p-6 rounded-2xl border border-blue-200 shadow-sm relative">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-600 mb-4 shadow-sm font-bold">1</div>
+            <h4 class="font-display font-bold text-ink-900 mb-2">Data Engineering</h4>
+            <p class="text-center font-body text-[13px] text-ink-700">Pipelines, compute, & orchestration</p>
           </div>
-        ))}
+
+          {/* Architecture */}
+          <div class="flex flex-col items-center bg-[var(--surface-indigo)] w-full md:w-1/4 p-6 rounded-2xl border border-indigo-200 shadow-sm relative">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-indigo-600 mb-4 shadow-sm font-bold">2</div>
+            <h4 class="font-display font-bold text-ink-900 mb-2">Data Architecture</h4>
+            <p class="text-center font-body text-[13px] text-ink-700">Storage, models, & semantics</p>
+          </div>
+
+          {/* BI */}
+          <div class="flex flex-col items-center bg-[var(--surface-green)] w-full md:w-1/4 p-6 rounded-2xl border border-emerald-200 shadow-sm relative">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-emerald-600 mb-4 shadow-sm font-bold">3</div>
+            <h4 class="font-display font-bold text-ink-900 mb-2">BI & Analytics</h4>
+            <p class="text-center font-body text-[13px] text-ink-700">Metrics, dashboards, & decisions</p>
+          </div>
+
+          {/* Agentic AI */}
+          <div class="flex flex-col items-center bg-[var(--surface-purple)] w-full md:w-1/4 p-6 rounded-2xl border border-purple-200 shadow-sm relative">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-600 mb-4 shadow-sm font-bold">4</div>
+            <h4 class="font-display font-bold text-ink-900 mb-2">Agentic AI</h4>
+            <p class="text-center font-body text-[13px] text-ink-700">Workflows, tools, & orchestration</p>
+          </div>
+        </div>
+      </div>
+
+      <Grid columns={4} gap="loose">
+        {clusters.map((cluster, i) => {
+          // Assign subtle surface colors based on index
+          const colors = ['bg-[var(--surface-blue)]', 'bg-[var(--surface-indigo)]', 'bg-[var(--surface-green)]', 'bg-[var(--surface-purple)]'];
+          const borders = ['border-blue-100', 'border-indigo-100', 'border-emerald-100', 'border-purple-100'];
+          
+          return (
+            <div class={`col-span-12 md:col-span-2 p-8 border ${borders[i]} ${colors[i]} shadow-card hover:shadow-hover hover:-translate-y-1 transition-all duration-300 rounded-[var(--radius-card)] flex flex-col justify-between min-h-[320px]`}>
+              <div>
+                <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-700 font-bold mb-6">{cluster.id}</div>
+                <Heading level={3} as="h3" class="mb-2 text-ink-900 font-bold">{cluster.name}</Heading>
+                <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-signal mb-6">{cluster.count} entries</div>
+                <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700">
+                  {cluster.description}
+                </p>
+              </div>
+              <div class="mt-8">
+                <a href={`#cluster-${cluster.id}`} class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 font-bold hover:text-signal transition-colors flex items-center gap-2">
+                  Browse cluster <span class="text-lg">&rarr;</span>
+                </a>
+              </div>
+            </div>
+          );
+        })}
       </Grid>
     </Container>
   </Section>
