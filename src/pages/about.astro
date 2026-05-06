@@ -14,11 +14,12 @@ import MetricBlock from '../components/primitives/MetricBlock.astro';
     <Container>
       <div class="pt-24 pb-16">
         <Eyebrow text="ABOUT" />
-        <Heading level={2} as="h1" class="mb-6">
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);">
           <span class="block">Yoann Leny.</span>
-          <span class="block">Operator, architect, builder.</span>
-        </Heading>
-        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-500 max-w-3xl">
+          <span class="block text-signal">Operator, architect, builder.</span>
+        </h1>
+        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
           Building data and AI operating systems for organizations that want margin, not magic.
         </p>
       </div>
@@ -41,11 +42,11 @@ import MetricBlock from '../components/primitives/MetricBlock.astro';
 
   <Section id="bio">
     <Container>
-      <div class="max-w-[60ch] mx-auto">
+      <div class="max-w-[70ch] mx-auto">
         <Eyebrow text="01 — BIOGRAPHY" />
         
-        <div class="font-body text-ink-1000 space-y-8 text-[length:var(--t-body-size)] leading-[var(--t-body-line)]">
-          <p class="text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] font-light">
+        <div class="font-body text-ink-900 space-y-8 text-[1.0625rem] leading-[1.7] mt-10">
+          <p class="text-[1.25rem] leading-[1.6] font-semibold text-ink-900 mb-10">
             I have spent the last decade learning the same lesson over and over again: organizations don't underperform because they lack tools — they underperform because the tools never compose into a working system. The dashboards exist. The data exists. The models exist. What is missing is the operating logic that turns them into decisions.
           </p>
           <p>
@@ -73,7 +74,10 @@ import MetricBlock from '../components/primitives/MetricBlock.astro';
   <Section id="principles">
     <Container>
       <Eyebrow text="02 — PRINCIPLES" />
-      <Heading level={2} as="h2" class="mb-16">How I work.</Heading>
+      <h2 class="font-display font-black text-ink-900 mt-4 mb-16 leading-[1.08] tracking-[-0.03em]"
+          style="font-size: clamp(2rem, 4vw, 3rem);">
+        How I work.
+      </h2>
       
       <div class="flex flex-col border-t border-ink-100">
         {[
@@ -83,10 +87,10 @@ import MetricBlock from '../components/primitives/MetricBlock.astro';
           { num: "04", title: "Hire for system-thinking, not stack experience.", desc: "Tools change every two years. Operating instincts compound." },
           { num: "05", title: "Remove more than you add.", desc: "Most organizations are already drowning. The senior move is restraint." }
         ].map(item => (
-          <div class="py-8 border-b border-ink-100 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
-            <div class="md:col-span-1 font-mono text-[length:var(--t-meta-size)] uppercase text-ink-500 pt-2">{item.num}</div>
-            <div class="md:col-span-6 font-display text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)]">{item.title}</div>
-            <div class="md:col-span-5 font-body text-[length:var(--t-body-size)] text-ink-700 pt-2">{item.desc}</div>
+          <div class="py-8 border-b border-ink-100 grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-start group hover:bg-paper-0 transition-colors">
+            <div class="md:col-span-1 font-mono text-[0.6875rem] font-bold uppercase text-signal pt-2">{item.num}</div>
+            <div class="md:col-span-5 font-display font-bold text-[1.25rem] leading-snug text-ink-900">{item.title}</div>
+            <div class="md:col-span-6 font-body text-[1rem] leading-[1.7] text-ink-700 md:pt-1">{item.desc}</div>
           </div>
         ))}
       </div>
@@ -95,26 +99,26 @@ import MetricBlock from '../components/primitives/MetricBlock.astro';
 
   <Section id="track-record">
     <Container>
-      <div class="max-w-[60ch] mx-auto mb-16">
+      <div class="max-w-[70ch] mx-auto mb-16">
         <Eyebrow text="03 — TRACK RECORD" />
       </div>
       
-      <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16">
-        <MetricBlock size="large" label="" value="$13M+" description="Cumulative revenue impact across data and AI engagements, measured at the P&L level — not modeled, not estimated." />
-        <MetricBlock size="large" label="" value="40+" description="Experts directly orchestrated across data engineering, analytics, AI, and adjacent functions." />
-        <MetricBlock size="large" label="" value="3" description="Regions where I have led data and AI delivery in parallel — Europe, UK, and a third regional hub." />
-        <MetricBlock size="large" label="" value="15%" description="Sustained utilization uplift on a 40-person consulting team after deploying the agentic skill-tracker system." />
-        <MetricBlock size="large" label="" value="9" description="Months from kickoff to payback on the most recent enterprise medallion stack rebuild." />
-        <MetricBlock size="large" label="" value="0" description="KPI drift incidents in production after introducing the AI-ready semantic layer." />
+      <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+        <MetricBlock size="large" label="REVENUE IMPACT" value="$13M+" description="Cumulative impact across data and AI engagements, measured at the P&L level — not modeled." />
+        <MetricBlock size="large" label="TEAM SIZE" value="40+" description="Experts directly orchestrated across data engineering, analytics, AI, and adjacent functions." />
+        <MetricBlock size="large" label="REGIONS LED" value="3" description="Europe, UK, and a third regional hub, managed in parallel." />
+        <MetricBlock size="large" label="EFFICIENCY" value="+15%" description="Sustained utilization uplift on a 40-person team after deploying agentic skill-tracker." />
+        <MetricBlock size="large" label="SPEED TO VALUE" value="9m" description="From kickoff to payback on the most recent enterprise medallion stack rebuild." />
+        <MetricBlock size="large" label="RELIABILITY" value="0" description="KPI drift incidents in production after introducing the AI-ready semantic layer." />
       </div>
     </Container>
   </Section>
 
   <Section id="stack">
     <Container>
-      <div class="max-w-[60ch] mx-auto">
+      <div class="max-w-[70ch] mx-auto">
         <Eyebrow text="04 — STACK" />
-        <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-500">
+        <p class="font-body text-[0.9375rem] leading-[1.7] text-ink-700 mt-6">
           Daily working tools include the major lakehouse and warehouse platforms (Databricks, Snowflake, BigQuery), orchestration through Airflow and Dagster, transformation in dbt, semantic layers via Cube and Looker's LookML, observability through Monte Carlo and Lightdash, and agentic frameworks including LangGraph, CrewAI, and increasingly bespoke deterministic-graph implementations. Cloud is multi — AWS, GCP, Azure — with no religious preference. Everything else is a means to an end.
         </p>
       </div>
@@ -125,15 +129,15 @@ import MetricBlock from '../components/primitives/MetricBlock.astro';
 
   <Section id="writing">
     <Container>
-      <div class="max-w-[60ch] mx-auto">
+      <div class="max-w-[70ch] mx-auto">
         <Eyebrow text="05 — WRITING" />
-        <ul class="space-y-4 font-body text-[length:var(--t-body-size)]">
-          <li><a href="/insights/why-most-agent-demos-collapse-in-production" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">Why most agent demos collapse in production</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(essay)</span></li>
-          <li><a href="/concepts/data-architecture/medallion-architecture" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">The medallion architecture, decoded</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(concept)</span></li>
-          <li><a href="/concepts/data-engineering/snowflake-vs-databricks-vs-bigquery-for-ai-workloads" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">Snowflake vs Databricks vs BigQuery for AI workloads</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(concept)</span></li>
-          <li><a href="/insights/the-semantic-layer-is-the-new-data-api" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">The semantic layer is the new data API</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(essay)</span></li>
-          <li><a href="/insights/designing-teams-for-agentic-operations" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">Designing teams for agentic operations</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(essay)</span></li>
-          <li><a href="/concepts/data-architecture/lakehouse-warehouse-mesh" class="hover:text-ink-500 underline decoration-ink-100 underline-offset-4">Lakehouse, warehouse, mesh — what actually changes</a> <span class="text-ink-500 text-[length:var(--t-body-s-size)] ml-2">(concept)</span></li>
+        <ul class="space-y-4 font-body text-[1rem] leading-[1.7] mt-8">
+          <li><a href="/insights/why-most-agent-demos-collapse-in-production" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">Why most agent demos collapse in production</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">essay</span></li>
+          <li><a href="/concepts/medallion-architecture" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">The medallion architecture, decoded</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">concept</span></li>
+          <li><a href="/concepts/snowflake-vs-databricks-vs-bigquery-for-ai-workloads" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">Snowflake vs Databricks vs BigQuery for AI workloads</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">concept</span></li>
+          <li><a href="/insights/the-semantic-layer-is-the-new-data-api" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">The semantic layer is the new data API</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">essay</span></li>
+          <li><a href="/insights/designing-teams-for-agentic-operations" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">Designing teams for agentic operations</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">essay</span></li>
+          <li><a href="/concepts/lakehouse-warehouse-mesh" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">Lakehouse, warehouse, mesh — what actually changes</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">concept</span></li>
         </ul>
       </div>
     </Container>
@@ -142,13 +146,14 @@ import MetricBlock from '../components/primitives/MetricBlock.astro';
   <Section id="closing" background="ink">
     <Container>
       <div class="py-24 text-center max-w-4xl mx-auto">
-        <Heading level={2} as="h2" class="font-light text-paper-50 mb-16 italic">
-          <span class="block">If your data and AI feel busy but not productive — that is the operating system problem.</span>
-          <span class="block mt-4">Let's talk.</span>
-        </Heading>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)]">
-          <a href="/contact" class="bg-paper-50 text-ink-1000 px-6 py-4 hover:bg-ink-300 transition-colors">Book a 30-minute introduction &rarr;</a>
-          <a href="mailto:hello@yoannleny.com" class="text-paper-50 hover:text-ink-300 transition-colors border-b border-transparent hover:border-ink-300 pb-1">Or send a direct email</a>
+        <h2 class="font-display font-black text-paper-50 mb-12 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          <span class="block text-ink-300 font-medium text-[0.8em] mb-4">If your data and AI feel busy but not productive — that is the operating system problem.</span>
+          <span class="block">Let's talk.</span>
+        </h2>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em]">
+          <a href="/contact" class="bg-signal text-white px-8 py-4 rounded-xl hover:bg-signal/90 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(99,102,241,0.25)] transition-all duration-300">Book a 30-minute introduction &rarr;</a>
+          <a href="mailto:yoann.leny@gmail.com" class="text-paper-50 hover:text-signal transition-colors pb-1 border-b-2 border-transparent hover:border-signal">Or send a direct email</a>
         </div>
       </div>
     </Container>

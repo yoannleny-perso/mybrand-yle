@@ -48,10 +48,11 @@ const clusters = [
     <Container>
       <div class="pt-24 pb-8">
         <Eyebrow text="CONCEPT LIBRARY" />
-        <Heading level={2} as="h1" class="mb-6 italic">
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);">
           A working notebook of how I think about each problem.
-        </Heading>
-        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 max-w-[60ch]">
+        </h1>
+        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
           50+ entries across data architecture, data engineering, BI and analytics, and agentic AI. Each entry follows the same structure: what it is, why it matters, how it works, vendor comparisons grounded in what I have actually deployed, and a short signed take.
         </p>
       </div>
@@ -62,9 +63,12 @@ const clusters = [
   <Section id="clusters">
     <Container>
       {/* Concept Architecture Diagram */}
-      <div class="mb-20 bg-paper-0 p-8 md:p-12 border border-ink-100 rounded-[var(--radius-card)] shadow-card overflow-hidden">
+      <div class="mb-20 bg-paper-0 p-8 md:p-12 border border-ink-100 rounded-[20px] shadow-sm overflow-hidden">
         <Eyebrow text="THE OPERATING SYSTEM" />
-        <Heading level={3} as="h2" class="mb-12">How the clusters compose.</Heading>
+        <h2 class="font-display font-black text-ink-900 mt-4 mb-12 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          How the clusters compose.
+        </h2>
         
         <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8 relative">
           {/* Connecting Line (Desktop) */}
@@ -107,11 +111,11 @@ const clusters = [
           const borders = ['border-blue-100', 'border-indigo-100', 'border-emerald-100', 'border-purple-100'];
           
           return (
-            <div class={`col-span-12 md:col-span-2 p-8 border ${borders[i]} ${colors[i]} shadow-card hover:shadow-hover hover:-translate-y-1 transition-all duration-300 rounded-[var(--radius-card)] flex flex-col justify-between min-h-[320px]`}>
+              <div class={`col-span-12 md:col-span-2 p-8 border ${borders[i]} ${colors[i]} shadow-sm hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 rounded-[20px] flex flex-col justify-between min-h-[320px]`}>
               <div>
-                <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-700 font-bold mb-6">{cluster.id}</div>
-                <Heading level={3} as="h3" class="mb-2 text-ink-900 font-bold">{cluster.name}</Heading>
-                <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-signal mb-6">{cluster.count} entries</div>
+                <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-700 mb-6">{cluster.id}</div>
+                <h3 class="font-display font-bold text-[1.5rem] leading-snug text-ink-900 mb-2">{cluster.name}</h3>
+                <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-signal mb-6">{cluster.count} entries</div>
                 <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700">
                   {cluster.description}
                 </p>
@@ -168,14 +172,14 @@ const clusters = [
             <div class="columns-1 md:columns-2 gap-16 space-y-8 mt-8">
               {cluster.entries.map(entry => (
                 <div class="concept-item break-inside-avoid" data-cluster={cluster.key} data-depth={entry.data.depth || 'foundational'}>
-                  <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">
+                  <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-500 mb-2">
                     {entry.data.depth || 'FOUNDATIONAL'}
                   </div>
                   <a href={`/concepts/${entry.data.slug || entry.slug}`} class="group block">
-                    <Heading level={4} as="h3" serif={false} class="group-hover:text-ink-500 transition-colors mb-2 concept-title">
+                    <h3 class="font-display font-bold text-[1.25rem] leading-snug group-hover:text-signal transition-colors mb-2 concept-title">
                       {entry.data.title}
-                    </Heading>
-                    <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700 concept-def">
+                    </h3>
+                    <p class="font-body text-[0.9375rem] leading-[1.7] text-ink-700 concept-def">
                       {entry.data.definition}
                     </p>
                   </a>

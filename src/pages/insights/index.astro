@@ -82,11 +82,12 @@ const essays = [
     <Container>
       <div class="pt-24 pb-16">
         <Eyebrow text="INSIGHTS" />
-        <Heading level={2} as="h1" class="mb-6 italic">
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);">
           Writing is how I think.
-        </Heading>
-        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 max-w-[60ch]">
-          Essays on the questions that decide whether data and AI deliver — operating models, architectural choices, and the soft systems that hold both together. For reference material on specific concepts, see the <a href="/concepts" class="text-ink-1000 underline decoration-ink-100 underline-offset-4">concept library</a>.
+        </h1>
+        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
+          Essays on the questions that decide whether data and AI deliver — operating models, architectural choices, and the soft systems that hold both together. For reference material on specific concepts, see the <a href="/concepts" class="text-signal underline decoration-signal/30 underline-offset-4 hover:text-ink-900 transition-colors">concept library</a>.
         </p>
       </div>
     </Container>
@@ -95,20 +96,21 @@ const essays = [
   <!-- FEATURED ESSAY -->
   <Section id="featured">
     <Container>
-      <a href="/insights/why-most-agent-demos-collapse-in-production" class="group block relative overflow-hidden bg-paper-0 border border-ink-100 mb-16 p-8 md:p-16 hover:bg-ink-1000 hover:text-paper-50 transition-colors duration-400 ease-out">
+      <a href="/insights/why-most-agent-demos-collapse-in-production" class="group block relative overflow-hidden bg-ink-900 rounded-[20px] mb-16 p-10 md:p-16 hover:bg-ink-1000 transition-colors duration-400 shadow-sm hover:shadow-[0_16px_40px_rgba(0,0,0,0.2)]">
         <div class="relative z-10">
-          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 group-hover:text-ink-300 mb-8">
+          <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-signal mb-8 flex items-center gap-4">
+            <span class="w-8 h-[2px] bg-signal inline-block"></span>
             FEATURED · AGENTIC AI
           </div>
-          <h2 class="font-display text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] font-[var(--t-display-m-weight)] mb-6 max-w-3xl">
+          <h2 class="font-display font-bold text-white text-[2rem] leading-[1.15] mb-6 max-w-3xl group-hover:text-signal transition-colors">
             Why most agent demos collapse in production.
           </h2>
-          <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 group-hover:text-ink-300 max-w-2xl mb-12">
+          <p class="font-body text-[1.125rem] leading-[1.75] text-ink-300 max-w-2xl mb-12">
             Probabilistic systems can be built in a weekend. Governable ones take a year. The gap between the two is where most AI initiatives quietly fail.
           </p>
-          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 group-hover:text-ink-300 border-t border-ink-100 group-hover:border-ink-700 pt-6 flex justify-between items-center">
+          <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-500 border-t border-ink-800 pt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <span>14 MIN READ · LAST REVIEWED MARCH 2026</span>
-            <span class="text-ink-1000 group-hover:text-paper-50">&rarr; Read the essay</span>
+            <span class="text-signal flex items-center gap-2 group-hover:gap-3 transition-all">Read the essay <span aria-hidden="true">&rarr;</span></span>
           </div>
         </div>
       </a>
@@ -161,13 +163,16 @@ const essays = [
   <Section id="reference">
     <Container>
       <div class="max-w-2xl mx-auto text-center py-8">
-        <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-8">REFERENCE</div>
-        <Heading level={2} as="h2" class="mb-6 italic">Need a definition, not an opinion?</Heading>
-        <p class="font-body text-[length:var(--t-body-size)] leading-[var(--t-body-line)] text-ink-700 mb-8">
-          The <a href="/concepts" class="text-ink-1000 underline decoration-ink-100 underline-offset-4">concept library</a> is where I put the reference material — definitions, vendor comparisons, and architectural patterns. Currently 50+ entries across data architecture, data engineering, BI and analytics, and agentic AI.
+        <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-500 mb-6">REFERENCE</div>
+        <h2 class="font-display font-bold text-ink-900 mt-4 mb-6 leading-[1.15] tracking-[-0.02em]"
+            style="font-size: clamp(1.5rem, 3vw, 2.25rem);">
+          Need a definition, not an opinion?
+        </h2>
+        <p class="font-body text-[1rem] leading-[1.7] text-ink-700 mb-8">
+          The <a href="/concepts" class="text-signal font-semibold hover:text-ink-900 underline decoration-signal/30 underline-offset-4 transition-colors">concept library</a> is where I put the reference material — definitions, vendor comparisons, and architectural patterns. Currently 50+ entries across data architecture, data engineering, BI and analytics, and agentic AI.
         </p>
-        <a href="/concepts" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
-          &rarr; Browse the concept library
+        <a href="/concepts" class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-900 hover:text-signal transition-colors inline-flex items-center gap-2">
+          Browse the concept library <span aria-hidden="true">&rarr;</span>
         </a>
       </div>
     </Container>
@@ -176,12 +181,13 @@ const essays = [
   <Section id="closing" background="ink">
     <Container>
       <div class="py-24 text-center max-w-4xl mx-auto">
-        <Heading level={2} as="h2" class="font-light text-paper-50 mb-16 italic">
-          <span class="block">If something here is useful — say so.</span>
-          <span class="block mt-4">If something here is wrong — say that too.</span>
-        </Heading>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)]">
-          <a href="mailto:hello@yoannleny.com" class="bg-paper-50 text-ink-1000 px-6 py-4 hover:bg-ink-300 transition-colors">Send a direct email &rarr;</a>
+        <h2 class="font-display font-black text-paper-50 mb-12 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          <span class="block text-ink-300 font-medium text-[0.8em] mb-4">If something here is useful — say so.</span>
+          <span class="block">If something here is wrong — say that too.</span>
+        </h2>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em]">
+          <a href="mailto:yoann.leny@gmail.com" class="bg-signal text-white px-8 py-4 rounded-xl hover:bg-signal/90 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(99,102,241,0.25)] transition-all duration-300">Send a direct email &rarr;</a>
         </div>
       </div>
     </Container>

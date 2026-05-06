@@ -14,10 +14,11 @@ import { EnvelopeSimple, LinkedinLogo, CalendarBlank } from '@phosphor-icons/rea
     <Container>
       <div class="pt-24 pb-16">
         <Eyebrow text="CONTACT" />
-        <Heading level={2} as="h1" class="mb-6 italic">
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);">
           The fastest way is direct.
-        </Heading>
-        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 max-w-[60ch]">
+        </h1>
+        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
           Three paths below — pick whichever fits the conversation you want to have. I read every message myself.
         </p>
       </div>
@@ -26,36 +27,42 @@ import { EnvelopeSimple, LinkedinLogo, CalendarBlank } from '@phosphor-icons/rea
 
   <Section id="paths">
     <Container>
-      <Grid columns={12} gap="loose">
-        <div class="col-span-12 md:col-span-4 p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] rounded-[var(--radius-card)] hover:shadow-hover transition-all duration-300 hover:-translate-y-1">
-          <EnvelopeSimple size={24} weight="regular" className="mb-6 text-ink-1000" />
-          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">DIRECT EMAIL</div>
-          <Heading level={4} as="h3" serif={false} class="mb-4">
-            <a href="mailto:yoann.leny@gmail.com" class="hover:text-signal transition-colors text-ink-900 font-semibold break-all">yoann.leny@gmail.com</a>
-          </Heading>
-          <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700">
+      <Grid columns={12}>
+        <div class="col-span-12 md:col-span-4 flex flex-col gap-6 p-8 border border-indigo-100 bg-[var(--surface-indigo)] rounded-[20px] shadow-sm hover:shadow-[0_8px_32px_rgba(99,102,241,0.15)] transition-all duration-300 hover:-translate-y-1">
+          <EnvelopeSimple size={24} weight="regular" className="text-signal" />
+          <div class="flex flex-col gap-2">
+            <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-signal">DIRECT EMAIL</div>
+            <h3 class="font-display font-bold text-[1.25rem] leading-snug">
+              <a href="mailto:yoann.leny@gmail.com" class="hover:text-signal transition-colors text-ink-900 break-all">yoann.leny@gmail.com</a>
+            </h3>
+          </div>
+          <p class="font-body text-[0.9375rem] leading-[1.7] text-ink-700">
             For introductions, project briefs, and longer messages. Best for senior conversations.
           </p>
         </div>
 
-        <div class="col-span-12 md:col-span-4 p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] rounded-[var(--radius-card)] hover:shadow-hover transition-all duration-300 hover:-translate-y-1">
-          <LinkedinLogo size={24} weight="regular" className="mb-6 text-ink-1000" />
-          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">LINKEDIN</div>
-          <Heading level={4} as="h3" serif={false} class="mb-4">
-            <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="hover:text-signal transition-colors text-ink-900 font-semibold break-all">linkedin.com/in/yoann-leny</a>
-          </Heading>
-          <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700">
+        <div class="col-span-12 md:col-span-4 flex flex-col gap-6 p-8 border border-blue-100 bg-[var(--surface-blue)] rounded-[20px] shadow-sm hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)] transition-all duration-300 hover:-translate-y-1 mt-6 md:mt-0">
+          <LinkedinLogo size={24} weight="regular" className="text-blue-600" />
+          <div class="flex flex-col gap-2">
+            <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-blue-600">LINKEDIN</div>
+            <h3 class="font-display font-bold text-[1.25rem] leading-snug">
+              <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 transition-colors text-ink-900 break-all">linkedin.com/in/yoann-leny</a>
+            </h3>
+          </div>
+          <p class="font-body text-[0.9375rem] leading-[1.7] text-ink-700">
             For peers, recruiters, and networking. Lower priority than email.
           </p>
         </div>
 
-        <div class="col-span-12 md:col-span-4 p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] rounded-[var(--radius-card)] hover:shadow-hover transition-all duration-300 hover:-translate-y-1">
-          <CalendarBlank size={24} weight="regular" className="mb-6 text-ink-1000" />
-          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">30-MINUTE CALL</div>
-          <Heading level={4} as="h3" serif={false} class="mb-4">
-            <a href="#" class="hover:text-signal transition-colors text-ink-900 font-semibold">Book directly</a>
-          </Heading>
-          <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700">
+        <div class="col-span-12 md:col-span-4 flex flex-col gap-6 p-8 border border-emerald-100 bg-[var(--surface-green)] rounded-[20px] shadow-sm hover:shadow-[0_8px_32px_rgba(16,185,129,0.15)] transition-all duration-300 hover:-translate-y-1 mt-6 md:mt-0">
+          <CalendarBlank size={24} weight="regular" className="text-emerald-600" />
+          <div class="flex flex-col gap-2">
+            <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-emerald-600">30-MINUTE CALL</div>
+            <h3 class="font-display font-bold text-[1.25rem] leading-snug">
+              <a href="#" class="hover:text-emerald-600 transition-colors text-ink-900">Book directly</a>
+            </h3>
+          </div>
+          <p class="font-body text-[0.9375rem] leading-[1.7] text-ink-700">
             A pre-screened slot for serious project conversations. Use the email path first if it's a longer brief.
           </p>
         </div>
@@ -65,11 +72,11 @@ import { EnvelopeSimple, LinkedinLogo, CalendarBlank } from '@phosphor-icons/rea
 
   <Section id="what-to-include">
     <Container>
-      <div class="max-w-[60ch] mx-auto py-16">
+      <div class="max-w-[70ch] mx-auto py-16">
         <Eyebrow text="IF WE'RE LIKELY TO WORK TOGETHER" />
-        <div class="font-body text-[length:var(--t-body-size)] leading-[var(--t-body-line)] text-ink-1000 space-y-6">
+        <div class="font-body text-[1rem] leading-[1.7] text-ink-900 space-y-6 mt-6">
           <p>A useful first message usually contains four things:</p>
-          <ol class="list-decimal pl-5 space-y-2 text-ink-700">
+          <ol class="list-decimal pl-5 space-y-3 text-ink-700 marker:text-ink-300 marker:font-mono">
             <li>Where the company is today — stage, size, sector.</li>
             <li>What you've already tried.</li>
             <li>The decision you're trying to make, not the symptom.</li>
