@@ -79,27 +79,51 @@ const testimonials = [
   <!-- SECTION 2 — ABOUT + METRICS -->
   <Section id="about">
     <Container>
+      <!-- Eyebrow: fully integrated, subtle, doesn't compete with heading -->
+      <div class="mb-10">
+        <Eyebrow text="02 / 08 — APPROACH" />
+      </div>
+
       <Grid columns={12}>
-        <div class="col-span-12 md:col-span-6 lg:col-span-7 mb-16 md:mb-0">
-          <Eyebrow text="02 / 08 — APPROACH" />
-          <Heading level={2} as="h2" class="mb-8 italic font-light">I build the systems that scale teams.</Heading>
-          
-          <div class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 max-w-2xl mt-12 space-y-6">
-            <p>
+        <!-- LEFT: Copy block — 8pt vertical rhythm throughout -->
+        <div class="col-span-12 lg:col-span-6 flex flex-col gap-8 mb-16 lg:mb-0">
+
+          <!-- Headline: breathable negative space via leading-[1.08] and max-w -->
+          <h2 class="font-display font-black text-ink-900 max-w-[14ch] leading-[1.08] tracking-[-0.03em]"
+              style="font-size: clamp(2.25rem, 4.5vw, 3.75rem);">
+            I build the systems<br />
+            <span class="text-signal">that scale teams.</span>
+          </h2>
+
+          <!-- Body copy: 20px / 1.7 line-height, constrained to 55ch -->
+          <div class="flex flex-col gap-6 max-w-[55ch]">
+            <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700">
               I have spent the last decade at the intersection of data engineering, AI architecture, and executive operations — building the platforms, agentic workflows, and team structures that turn capability into compounding margin.
             </p>
-            <p>
-              My work is shaped by one belief: most organizations don't have a tooling problem. They have an <em>operating system</em> problem. Tools are easy. Operating systems — the way decisions, data, models, and people compose into a working whole — are where leverage actually lives.
+            <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700">
+              Most organizations don't have a tooling problem. They have an <em class="text-ink-900 not-italic font-semibold">operating system</em> problem. Tools are easy. The way decisions, data, models, and people compose into a working whole — that's where leverage lives.
             </p>
           </div>
+
+          <!-- CTA link -->
+          <a href="/work"
+             class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-900 border-b-2 border-signal pb-1 w-fit hover:text-signal transition-colors duration-200">
+            See how it works <span class="text-base">→</span>
+          </a>
         </div>
-        
-        <div class="col-span-12 md:col-span-6 lg:col-span-4 lg:col-start-9 flex items-center">
-          <div class="grid grid-cols-2 gap-x-8 gap-y-12 w-full">
+
+        <!-- RIGHT: Metrics grid — 8pt gaps, cards sized to content not viewport -->
+        <div class="col-span-12 lg:col-span-5 lg:col-start-8 flex items-start lg:items-center">
+          <!--
+            4-card grid:
+            gap-4 (16px) horizontally, gap-6 (24px) vertically — 8pt multiples.
+            Cards are width-bound by the column, not fixed px.
+          -->
+          <div class="grid grid-cols-2 gap-x-4 gap-y-6 w-full">
             <MetricBlock label="Revenue impact delivered" value="$13M+" size="large" />
             <MetricBlock label="Experts orchestrated" value="40+" size="large" />
             <MetricBlock label="Regions led" value="3" size="large" />
-            <MetricBlock label="Utilization uplift" value="15%" size="large" />
+            <MetricBlock label="Utilization uplift" value="+15%" size="large" />
           </div>
         </div>
       </Grid>
@@ -111,10 +135,13 @@ const testimonials = [
   <!-- SECTION 3 — CAPABILITIES -->
   <Section id="capabilities">
     <Container>
-      <div class="mb-24 max-w-3xl">
+      <div class="mb-12 max-w-3xl">
         <Eyebrow text="03 / 08 — WHAT I DO" />
-        <Heading level={2} as="h2" class="mb-8">This is how I scale organizations.</Heading>
-        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700">
+        <h2 class="font-display font-black text-ink-900 mt-4 mb-5 leading-[1.1] tracking-[-0.025em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          This is how I scale organizations.
+        </h2>
+        <p class="font-body text-[1.125rem] leading-[1.7] text-ink-700 max-w-[52ch]">
           Five practices, one operating logic. Each row is a system I have built and run in production — not a methodology I read about.
         </p>
       </div>
@@ -130,12 +157,13 @@ const testimonials = [
   <!-- SECTION 4 — SELECTED WORK -->
   <Section id="work">
     <Container>
-      <div class="mb-24">
+      <div class="mb-12">
         <Eyebrow text="04 / 08 — SELECTED WORK" />
-        <Heading level={2} as="h2" class="max-w-2xl">
+        <h2 class="font-display font-black text-ink-900 mt-4 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
           <span class="block">Production work.</span>
-          <span class="block">Measured outcomes.</span>
-        </Heading>
+          <span class="block text-ink-500 font-medium">Measured outcomes.</span>
+        </h2>
       </div>
 
       <Grid columns={12} gap="loose">
@@ -193,33 +221,39 @@ const testimonials = [
   <Section id="philosophy">
     <Container>
       <Eyebrow text="05 / 08 — PHILOSOPHY" />
-      
-      <Grid columns={12}>
-        <div class="col-span-12 md:col-span-10 md:col-start-2 mb-32">
-          <Heading level={2} as="h2" class="text-center italic">
-            Modern organizations don't fail because they lack tools. They fail because they lack an operating system that turns those tools into decisions.
-          </Heading>
+
+      <!-- Pull-quote: constrained width, large italic, generous vertical space -->
+      <div class="max-w-[42ch] mx-auto text-center my-12 md:my-16">
+        <p class="font-display font-semibold italic text-ink-900 leading-[1.35] tracking-[-0.02em]"
+           style="font-size: clamp(1.25rem, 2.5vw, 1.875rem);">
+          Modern organizations don't fail because they lack tools.<br />
+          They fail because they lack an operating system that turns those tools into decisions.
+        </p>
+      </div>
+
+      <!-- Philosophy cards: 4-col grid, each with a tinted surface for variety -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+        <div class="flex flex-col gap-4 bg-[var(--surface-indigo)] rounded-2xl p-8 border border-indigo-100">
+          <div class="w-8 h-[3px] rounded-full bg-signal"></div>
+          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">Data is a product, not a service.</h3>
+          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Owners, contracts, SLAs, deprecation policies — like any product worth running.</p>
         </div>
-      </Grid>
-      
-      <Grid columns={4} gap="loose">
-        <div class="col-span-2 border-t border-ink-100 pt-8">
-          <Heading level={4} as="h3" serif={false} class="mb-4">Data is a product, not a service.</Heading>
-          <p class="font-body text-ink-700">Owners, contracts, SLAs, deprecation policies — like any product worth running.</p>
+        <div class="flex flex-col gap-4 bg-[var(--surface-blue)] rounded-2xl p-8 border border-blue-100">
+          <div class="w-8 h-[3px] rounded-full bg-blue-500"></div>
+          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">AI should upgrade teams into architects.</h3>
+          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Agents handle execution. Humans set the rules execution must respect.</p>
         </div>
-        <div class="col-span-2 border-t border-ink-100 pt-8">
-          <Heading level={4} as="h3" serif={false} class="mb-4">AI should upgrade teams into architects.</Heading>
-          <p class="font-body text-ink-700">Agents handle execution. Humans set the rules execution must respect.</p>
+        <div class="flex flex-col gap-4 bg-[var(--surface-green)] rounded-2xl p-8 border border-emerald-100">
+          <div class="w-8 h-[3px] rounded-full bg-emerald-500"></div>
+          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">Operational visibility is a strategic asset.</h3>
+          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">If a leader cannot see the system, they cannot govern it.</p>
         </div>
-        <div class="col-span-2 border-t border-ink-100 pt-8 mt-8 md:mt-0">
-          <Heading level={4} as="h3" serif={false} class="mb-4">Operational visibility is a strategic asset.</Heading>
-          <p class="font-body text-ink-700">If a leader cannot see the system, they cannot govern it.</p>
+        <div class="flex flex-col gap-4 bg-[var(--surface-purple)] rounded-2xl p-8 border border-purple-100">
+          <div class="w-8 h-[3px] rounded-full bg-purple-500"></div>
+          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">Systems scale what talent alone cannot.</h3>
+          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Hiring fixes throughput for a quarter. Systems fix it forever.</p>
         </div>
-        <div class="col-span-2 border-t border-ink-100 pt-8 mt-8 md:mt-0">
-          <Heading level={4} as="h3" serif={false} class="mb-4">Systems scale what talent alone cannot.</Heading>
-          <p class="font-body text-ink-700">Hiring fixes throughput for a quarter. Systems fix it forever.</p>
-        </div>
-      </Grid>
+      </div>
     </Container>
   </Section>
 
@@ -228,55 +262,56 @@ const testimonials = [
   <!-- SECTION 6 — INSIGHTS / WRITING -->
   <Section id="insights">
     <Container>
-      <div class="max-w-2xl mb-24">
+      <div class="mb-10">
         <Eyebrow text="06 / 08 — INSIGHTS" />
-        <Heading level={2} as="h2" class="mb-8">Writing is how I think.</Heading>
-        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700">
-          A growing library of essays and concept entries on data architecture, agentic AI, and the operating model questions that decide whether either of them works.
+        <h2 class="font-display font-black text-ink-900 mt-4 mb-4 leading-[1.1] tracking-[-0.025em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">Writing is how I think.</h2>
+        <p class="font-body text-[1.125rem] leading-[1.7] text-ink-700 max-w-[52ch]">
+          Essays and concept entries on data architecture, agentic AI, and the operating model questions that decide whether either of them works.
         </p>
       </div>
 
-      <Grid columns={6}>
-        <div class="col-span-2 flex flex-col justify-between p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] min-h-[320px]">
-          <div>
-            <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">AGENTIC AI</div>
-            <Heading level={3} as="h3" class="mb-4">Why most agent demos collapse in production</Heading>
-            <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700">The gap between a working prototype and a system you can govern.</p>
-          </div>
-          <div class="font-mono text-[length:var(--t-meta-size)] uppercase text-ink-500 mt-8 pt-4 border-t border-ink-100 flex justify-between">
-            <span>5 MIN READ</span>
-            <span>2026-Q1</span>
-          </div>
-        </div>
+      <!-- Insight cards: each gets a distinct surface tint for scannability -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-        <div class="col-span-2 flex flex-col justify-between p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] min-h-[320px]">
-          <div>
-            <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">DATA ARCHITECTURE</div>
-            <Heading level={3} as="h3" class="mb-4">The medallion architecture, decoded</Heading>
-            <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700">Why bronze, silver, gold is not just a naming convention.</p>
+        <a href="/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-indigo)] border border-indigo-100 hover:shadow-[0_8px_32px_rgba(99,102,241,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
+          <div class="flex flex-col gap-4">
+            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-signal">Agentic AI · 5 min read</span>
+            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-signal transition-colors">
+              Why most agent demos collapse in production
+            </h3>
+            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">The gap between a working prototype and a system you can govern.</p>
           </div>
-          <div class="font-mono text-[length:var(--t-meta-size)] uppercase text-ink-500 mt-8 pt-4 border-t border-ink-100 flex justify-between">
-            <span>8 MIN READ</span>
-            <span>2026-Q1</span>
-          </div>
-        </div>
+          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-Q1 →</span>
+        </a>
 
-        <div class="col-span-2 flex flex-col justify-between p-8 border border-ink-100 bg-paper-0 shadow-[var(--shadow-card)] min-h-[320px]">
-          <div>
-            <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6">BI & ANALYTICS</div>
-            <Heading level={3} as="h3" class="mb-4">The semantic layer is the new data API</Heading>
-            <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700">Why your KPIs need a contract before your agents read them.</p>
+        <a href="/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-blue)] border border-blue-100 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
+          <div class="flex flex-col gap-4">
+            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-blue-600">Data Architecture · 8 min read</span>
+            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-blue-600 transition-colors">
+              The medallion architecture, decoded
+            </h3>
+            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">Why bronze, silver, gold is not just a naming convention.</p>
           </div>
-          <div class="font-mono text-[length:var(--t-meta-size)] uppercase text-ink-500 mt-8 pt-4 border-t border-ink-100 flex justify-between">
-            <span>6 MIN READ</span>
-            <span>2026-Q1</span>
+          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-Q1 →</span>
+        </a>
+
+        <a href="/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-green)] border border-emerald-100 hover:shadow-[0_8px_32px_rgba(16,185,129,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
+          <div class="flex flex-col gap-4">
+            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-emerald-600">BI & Analytics · 6 min read</span>
+            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-emerald-600 transition-colors">
+              The semantic layer is the new data API
+            </h3>
+            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">Why your KPIs need a contract before your agents read them.</p>
           </div>
-        </div>
-      </Grid>
+          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-Q1 →</span>
+        </a>
+      </div>
       
-      <div class="mt-16 text-right">
-        <a href="/concepts" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
-          &rarr; Browse the full concept library (50+)
+      <div class="mt-8 flex justify-end">
+        <a href="/concepts"
+           class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-900 hover:text-signal transition-colors">
+          Browse the full concept library (50+) →
         </a>
       </div>
     </Container>
@@ -287,15 +322,16 @@ const testimonials = [
   <!-- SECTION 7 — TESTIMONIALS / PROOF -->
   <Section id="testimonials">
     <Container>
-      <div class="mb-16">
+      <div class="mb-8">
         <Eyebrow text="07 / 08 — IN THEIR WORDS" />
       </div>
       
       <TestimonialCrossfade client:visible testimonials={testimonials} />
       
-      <div class="mt-24 text-center">
-        <a href="/contact" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
-          &rarr; References available on request
+      <div class="mt-12 flex justify-center">
+        <a href="/contact"
+           class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-900 hover:text-signal transition-colors">
+          References available on request →
         </a>
       </div>
     </Container>
