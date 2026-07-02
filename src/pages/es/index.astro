@@ -10,6 +10,7 @@ import Hero from '../../components/sections/Hero.tsx';
 import CapabilityList from '../../components/sections/CapabilityList.tsx';
 import AsymmetricCard from '../../components/sections/AsymmetricCard.astro';
 import TestimonialCrossfade from '../../components/sections/TestimonialCrossfade.tsx';
+import OsBlueprint from '../../components/visuals/OsBlueprint.astro';
 
 const heroHeadline = [
   "Construyendo",
@@ -76,6 +77,19 @@ const testimonials = [
     primaryCta={{ label: "Hablemos", href: "/es/contact" }}
     secondaryCta={{ label: "Ver proyectos", href: "/es/work" }}
   />
+
+  <!-- EL SISTEMA OPERATIVO, DIBUJADO -->
+  <section class="scroll-reveal pb-16 md:pb-24 -mt-4">
+    <Container>
+      <OsBlueprint labels={{
+        data: "FUNDACIÓN DE DATOS",
+        semantic: "CONTRATO SEMÁNTICO",
+        agents: "EJECUCIÓN AGÉNTICA",
+        decisions: "DECISIONES",
+        caption: "UN SISTEMA · CUATRO CAPAS · CADA CAPA GOBERNADA"
+      }} />
+    </Container>
+  </section>
 
   <div class="hairline max-w-[1440px] mx-auto"></div>
 

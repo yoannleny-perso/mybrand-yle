@@ -7,11 +7,12 @@ import Grid from '../../../components/layout/Grid.astro';
 import Eyebrow from '../../../components/primitives/Eyebrow.astro';
 import Heading from '../../../components/primitives/Heading.astro';
 import Prose from '../../../components/primitives/Prose.astro';
+import CaseDiagram from '../../../components/visuals/CaseDiagram.astro';
 
 export async function getStaticPaths() {
   const caseStudies = await getCollection('case-studies');
   const locales = ['fr', 'es'];
-  
+
   const paths = [];
   for (const locale of locales) {
     for (const entry of caseStudies) {
@@ -32,6 +33,14 @@ export async function getStaticPaths() {
 
 const { entry, lang } = Astro.props;
 const { Content } = await render(entry);
+
+const diagrams: Record<string, { variant: 'agents' | 'medallion' | 'semantic' | 'org' }> = {
+  'multi-agent-skill-tracker': { variant: 'agents' },
+  'enterprise-medallion-stack': { variant: 'medallion' },
+  'ai-ready-semantic-layer': { variant: 'semantic' },
+  'global-data-ops-scaling-model': { variant: 'org' },
+};
+const diagram = diagrams[entry.data.slug || entry.id];
 ---
 
 <Layout title={`${entry.data.title} — ${lang === 'fr' ? 'Étude de cas' : 'Caso de Estudio'} — Yoann Leny`} description={`Case study: ${entry.data.title}`}>
@@ -52,10 +61,16 @@ const { Content } = await render(entry);
     </Container>
   </Section>
 
-  {entry.data.heroImage && (
+  {entry.data.heroImage ? (
     <section class="w-full relative scroll-reveal">
       <div class="w-full aspect-[21/9] bg-ink-100 relative">
         <img src={entry.data.heroImage} alt="" class="w-full h-full object-cover grayscale mix-blend-multiply opacity-80" />
+      </div>
+    </section>
+  ) : diagram && (
+    <section class="w-full border-y border-ink-100 bg-paper-0 py-10 md:py-14">
+      <div class="max-w-[900px] mx-auto px-6">
+        <CaseDiagram variant={diagram.variant} />
       </div>
     </section>
   )}

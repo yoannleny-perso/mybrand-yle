@@ -28,13 +28,26 @@ import MetricBlock from '../components/primitives/MetricBlock.astro';
 
   <section class="w-full relative scroll-reveal border-y border-ink-100 bg-paper-0">
     <Container>
-      <div class="py-16 md:py-24 max-w-[46ch] mx-auto text-center">
-        <p class="font-display font-semibold italic text-ink-900 leading-[1.35] tracking-[-0.02em]"
-           style="font-size: clamp(1.375rem, 2.8vw, 2rem);">
-          Tools are easy. The way decisions, data, models, and people compose into a working whole — that's where leverage lives.
-        </p>
-        <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mt-8">
-          BORDEAUX, FRANCE
+      <div class="py-16 md:py-24 grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16 items-center max-w-[1000px] mx-auto">
+        <figure class="md:col-span-5 flex flex-col items-center md:items-end">
+          <div class="w-full max-w-[300px] rounded-[24px] overflow-hidden border border-ink-100 shadow-card bg-ink-100">
+            <img
+              src="/images/portrait.jpeg"
+              alt="Yoann Leny"
+              class="w-full aspect-[4/5] object-cover grayscale contrast-[1.05]"
+              style="object-position: 50% 18%;"
+              loading="lazy"
+            />
+          </div>
+          <figcaption class="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-500 mt-4">
+            YOANN LENY · BORDEAUX, FRANCE
+          </figcaption>
+        </figure>
+        <div class="md:col-span-7 text-center md:text-left">
+          <p class="font-display font-semibold italic text-ink-900 leading-[1.35] tracking-[-0.02em]"
+             style="font-size: clamp(1.375rem, 2.8vw, 2rem);">
+            Tools are easy. The way decisions, data, models, and people compose into a working whole — that's where leverage lives.
+          </p>
         </div>
       </div>
     </Container>

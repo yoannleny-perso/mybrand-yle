@@ -130,6 +130,54 @@ html.js [data-stagger].is-revealed > *:nth-child(4) { transition-delay: 270ms; }
 html.js [data-stagger].is-revealed > *:nth-child(5) { transition-delay: 360ms; }
 html.js [data-stagger].is-revealed > *:nth-child(n+6) { transition-delay: 450ms; }
 
+/* ---- Diagram motion system ----
+   [data-draw] strokes draw themselves in when their section reveals;
+   .flow-line carries a slow directional dash (data-flow);
+   .drift adds a barely-perceptible float to nodes. */
+html.js .diagram-draw [data-draw] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+html.js .is-revealed .diagram-draw [data-draw],
+html.js .diagram-draw.is-revealed [data-draw] {
+  animation: diagram-draw 1.6s var(--ease-out) forwards;
+  animation-delay: calc(var(--draw-index, 0) * 180ms);
+}
+
+@keyframes diagram-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+.flow-line {
+  stroke-dasharray: 3 8;
+  animation: flow-dash 3.2s linear infinite;
+}
+
+@keyframes flow-dash {
+  to { stroke-dashoffset: -22; }
+}
+
+.drift {
+  animation: drift 10s ease-in-out infinite alternate;
+}
+
+.drift-late {
+  animation: drift 12s ease-in-out 2s infinite alternate;
+}
+
+@keyframes drift {
+  from { transform: translateY(0); }
+  to { transform: translateY(-5px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .diagram-draw [data-draw] {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
 /* Reading progress hairline (essay + concept detail pages) */
 .reading-progress {
   position: fixed;

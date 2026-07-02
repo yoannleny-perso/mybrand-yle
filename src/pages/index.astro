@@ -10,6 +10,7 @@ import Hero from '../components/sections/Hero.tsx';
 import CapabilityList from '../components/sections/CapabilityList.tsx';
 import AsymmetricCard from '../components/sections/AsymmetricCard.astro';
 import TestimonialCrossfade from '../components/sections/TestimonialCrossfade.tsx';
+import OsBlueprint from '../components/visuals/OsBlueprint.astro';
 
 const heroHeadline = [
   "Building",
@@ -68,11 +69,18 @@ const testimonials = [
 
 <Layout>
   <!-- SECTION 1 — HERO -->
-  <Hero 
+  <Hero
     client:load
-    headlineLines={heroHeadline} 
-    subheadline="I help companies turn data, AI, and people into measurable operating advantage." 
+    headlineLines={heroHeadline}
+    subheadline="I help companies turn data, AI, and people into measurable operating advantage."
   />
+
+  <!-- THE OPERATING SYSTEM, DRAWN -->
+  <section class="scroll-reveal pb-16 md:pb-24 -mt-4">
+    <Container>
+      <OsBlueprint />
+    </Container>
+  </section>
 
   <div class="hairline max-w-[1440px] mx-auto"></div>
 

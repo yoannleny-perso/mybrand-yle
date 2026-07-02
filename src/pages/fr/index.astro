@@ -10,6 +10,7 @@ import Hero from '../../components/sections/Hero.tsx';
 import CapabilityList from '../../components/sections/CapabilityList.tsx';
 import AsymmetricCard from '../../components/sections/AsymmetricCard.astro';
 import TestimonialCrossfade from '../../components/sections/TestimonialCrossfade.tsx';
+import OsBlueprint from '../../components/visuals/OsBlueprint.astro';
 
 const heroHeadline = [
   "Bâtir",
@@ -76,6 +77,19 @@ const testimonials = [
     primaryCta={{ label: "Discutons", href: "/fr/contact" }}
     secondaryCta={{ label: "Voir les projets", href: "/fr/work" }}
   />
+
+  <!-- LE SYSTÈME D'EXPLOITATION, DESSINÉ -->
+  <section class="scroll-reveal pb-16 md:pb-24 -mt-4">
+    <Container>
+      <OsBlueprint labels={{
+        data: "FONDATION DE DONNÉES",
+        semantic: "CONTRAT SÉMANTIQUE",
+        agents: "EXÉCUTION AGENTIQUE",
+        decisions: "DÉCISIONS",
+        caption: "UN SYSTÈME · QUATRE COUCHES · CHAQUE COUCHE GOUVERNÉE"
+      }} />
+    </Container>
+  </section>
 
   <div class="hairline max-w-[1440px] mx-auto"></div>
 

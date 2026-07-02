@@ -6,6 +6,7 @@ import Eyebrow from '../components/primitives/Eyebrow.astro';
 import Heading from '../components/primitives/Heading.astro';
 import MetricBlock from '../components/primitives/MetricBlock.astro';
 import Grid from '../components/layout/Grid.astro';
+import CaseDiagram from '../components/visuals/CaseDiagram.astro';
 ---
 
 <Layout title="Capabilities — Yoann Leny" description="Five pillars: agentic AI architecture, data and semantic platforms, strategic data operations, team orchestration, executive enablement. Three engagement modes: architect-in-residence, executive advisory, diagnostic and rebuild plan.">
@@ -42,6 +43,8 @@ import Grid from '../components/layout/Grid.astro';
           <p>
             I design agentic systems that survive production. That means hierarchical agent graphs with clear authority, deterministic guardrails around probabilistic components, audit trails on every action, and human-in-the-loop checkpoints at the points where stakes are highest. The frameworks evolve every quarter — the architectural principles do not.
           </p>
+
+          <CaseDiagram variant="agents" />
           
           <div class="bg-[var(--surface-indigo)] rounded-2xl p-8 border border-indigo-100">
             <div class="w-8 h-[3px] rounded-full bg-signal mb-4"></div>
@@ -89,6 +92,8 @@ import Grid from '../components/layout/Grid.astro';
           <p>
             Modern data platforms fail at the same point: between the warehouse and the consumer. I design medallion lakehouses with a governed semantic layer above them — so analytics, ML, and AI agents all consume the same definitions of revenue, churn, and utilization, and no one is debating whether last quarter's number was correct.
           </p>
+
+          <CaseDiagram variant="medallion" />
           
           <div class="bg-[var(--surface-blue)] rounded-2xl p-8 border border-blue-100">
             <div class="w-8 h-[3px] rounded-full bg-blue-500 mb-4"></div>
@@ -136,6 +141,8 @@ import Grid from '../components/layout/Grid.astro';
           <p>
             A data team that operates as a service desk will always be reactive and always be underwater. I install the operating model that turns data into a product line: pods with ownership, SLAs and SLOs on the things that matter, contracts on producer interfaces, deprecation policies, and a roadmap that the rest of the business can read.
           </p>
+
+          <CaseDiagram variant="contracts" />
           
           <div class="bg-[var(--surface-green)] rounded-2xl p-8 border border-emerald-100">
             <div class="w-8 h-[3px] rounded-full bg-emerald-500 mb-4"></div>
@@ -180,6 +187,8 @@ import Grid from '../components/layout/Grid.astro';
           <p>
             Past 25 people, a flat data team breaks. Past 40, a generic engineering org structure breaks too. Data and AI teams need a specific operating model — pods with mixed disciplines, an architectural authority outside the pods, and a delivery rhythm that does not collapse under a multi-region calendar. I have designed and run that model across three regions.
           </p>
+
+          <CaseDiagram variant="org" />
           
           <div>
             <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-4">What I deliver in an engagement:</div>
@@ -220,6 +229,8 @@ import Grid from '../components/layout/Grid.astro';
           <p>
             Data and AI investments fail at the executive surface, not the engineering surface. The dashboards are too many, the metrics conflict, the AI initiatives sound impressive but cannot be governed. I install the executive layer: a small set of decision-grade views, a clear AI governance model, and a quarterly cadence that lets a board or an executive committee actually steer the function.
           </p>
+
+          <CaseDiagram variant="executive" />
           
           <div>
             <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-4">What I deliver in an engagement:</div>

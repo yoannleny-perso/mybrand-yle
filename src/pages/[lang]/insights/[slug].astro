@@ -78,16 +78,21 @@ const tagTranslated = entry.data.tags?.[0]
       </Prose>
       
       <!-- Author Signature Block -->
-      <div class="mt-24 pt-12 border-t border-ink-100">
-        <div class="font-display text-[length:var(--t-headline-size)] mb-2">Yoann Leny</div>
-        <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700 max-w-md mb-4">
-          {lang === 'fr'
-            ? "Concepteur de systèmes d'exploitation de données et d'IA. J'écris sur l'architecture, les opérations et les systèmes invisibles qui font ou défont les deux."
-            : "Diseñador de sistemas operativos de datos e IA. Escribo sobre arquitectura, operaciones y los sistemas invisibles que construyen o destruyen a ambos."}
-        </p>
-        <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
-          {lang === 'fr' ? "→ Me rejoindre sur LinkedIn" : "→ Conectar en LinkedIn"}
-        </a>
+      <div class="mt-24 pt-12 border-t border-ink-100 flex items-start gap-6">
+        <div class="w-16 h-16 rounded-full overflow-hidden border border-ink-100 shadow-card shrink-0">
+          <img src="/images/portrait.jpeg" alt="Yoann Leny" class="w-full h-full object-cover grayscale contrast-[1.05]" style="object-position: 50% 22%;" loading="lazy" />
+        </div>
+        <div>
+          <div class="font-display text-[length:var(--t-headline-size)] mb-2">Yoann Leny</div>
+          <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700 max-w-md mb-4">
+            {lang === 'fr'
+              ? "Concepteur de systèmes d'exploitation de données et d'IA. J'écris sur l'architecture, les opérations et les systèmes invisibles qui font ou défont les deux."
+              : "Diseñador de sistemas operativos de datos e IA. Escribo sobre arquitectura, operaciones y los sistemas invisibles que construyen o destruyen a ambos."}
+          </p>
+          <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+            {lang === 'fr' ? "→ Me rejoindre sur LinkedIn" : "→ Conectar en LinkedIn"}
+          </a>
+        </div>
       </div>
       
       <!-- Comment Policy -->

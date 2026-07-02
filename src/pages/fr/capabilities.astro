@@ -6,6 +6,7 @@ import Eyebrow from '../../components/primitives/Eyebrow.astro';
 import Heading from '../../components/primitives/Heading.astro';
 import MetricBlock from '../../components/primitives/MetricBlock.astro';
 import Grid from '../../components/layout/Grid.astro';
+import CaseDiagram from '../../components/visuals/CaseDiagram.astro';
 ---
 
 <Layout title="Compétences — Yoann Leny" description="Cinq piliers : architecture d'IA agentique, plateformes de données et sémantiques, opérations de données stratégiques, orchestration d'équipe, activation exécutive. Trois modes d'engagement : architecte en résidence, conseil exécutif, diagnostic et plan de reconstruction.">
@@ -42,6 +43,8 @@ import Grid from '../../components/layout/Grid.astro';
           <p>
             Je conçois des systèmes agentiques qui survivent en production. Cela implique des graphes d'agents hiérarchiques avec des lignes d'autorité claires, des garde-fous déterministes autour des composants probabilistes, des pistes d'audit sur chaque action et des points de contrôle avec intervention humaine là où les enjeux sont les plus élevés. Les frameworks évoluent chaque trimestre — les principes d'architecture restent.
           </p>
+
+          <CaseDiagram variant="agents" />
           
           <div class="bg-[var(--surface-indigo)] rounded-2xl p-8 border border-indigo-100">
             <div class="w-8 h-[3px] rounded-full bg-signal mb-4"></div>
@@ -89,6 +92,8 @@ import Grid from '../../components/layout/Grid.astro';
           <p>
             Les plateformes de données modernes échouent souvent au même endroit : entre l'entrepôt et l'utilisateur final. Je conçois des lakehouses Medallion surmontés d'une couche sémantique gouvernée — ainsi, l'analyse, le ML et les agents d'IA consomment tous les mêmes définitions du chiffre d'affaires, du taux d'attrition et de l'utilisation. Plus personne ne débat pour savoir si le chiffre du trimestre dernier était correct.
           </p>
+
+          <CaseDiagram variant="medallion" />
           
           <div class="bg-[var(--surface-blue)] rounded-2xl p-8 border border-blue-100">
             <div class="w-8 h-[3px] rounded-full bg-blue-500 mb-4"></div>
@@ -136,6 +141,8 @@ import Grid from '../../components/layout/Grid.astro';
           <p>
             Une équipe de données qui fonctionne comme un centre d'assistance sera toujours réactive et toujours submergée. J'installe le modèle opérationnel qui transforme la donnée en une ligne de produits : des équipes autonomes responsables, des SLA et SLO sur ce qui compte, des contrats sur les interfaces des producteurs, des politiques de fin de vie (dépréciation) et une feuille de route lisible par l'ensemble de l'entreprise.
           </p>
+
+          <CaseDiagram variant="contracts" />
           
           <div class="bg-[var(--surface-green)] rounded-2xl p-8 border border-emerald-100">
             <div class="w-8 h-[3px] rounded-full bg-emerald-500 mb-4"></div>
@@ -180,6 +187,8 @@ import Grid from '../../components/layout/Grid.astro';
           <p>
             Au-delà de 25 personnes, une équipe de données plate ne fonctionne plus. Au-delà de 40, une structure d'ingénierie générique s'effondre également. Les équipes de données et d'IA ont besoin d'un modèle opérationnel spécifique : des pods pluridisciplinaires, une autorité architecturale en dehors des pods et un rythme de livraison qui ne s'effondre pas sous l'effet d'un calendrier multi-régions. J'ai conçu et dirigé ce modèle sur trois régions.
           </p>
+
+          <CaseDiagram variant="org" />
           
           <div>
             <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-4">Ce que je livre dans le cadre d'un engagement :</div>
@@ -220,6 +229,8 @@ import Grid from '../../components/layout/Grid.astro';
           <p>
             Les investissements dans les données et l'IA échouent au niveau de l'interface exécutive, pas de l'ingénierie. Les tableaux de bord sont trop nombreux, les indicateurs sont contradictoires, les initiatives d'IA semblent impressionnantes mais sont ingouvernables. J'installe la couche exécutive : un ensemble restreint de vues prêtes pour la décision, un modèle clair de gouvernance de l'IA et une cadence trimestrielle permettant à un conseil d'administration ou à un comité exécutif de réellement piloter la fonction.
           </p>
+
+          <CaseDiagram variant="executive" />
           
           <div>
             <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-4">Ce que je livre dans le cadre d'un engagement :</div>
