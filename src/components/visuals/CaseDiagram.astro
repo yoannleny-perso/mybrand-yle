@@ -1,44 +1,108 @@
 ---
 // Animated architecture diagrams, one scene per system pattern.
 // Same blueprint language as OsBlueprint: draw-in strokes, flowing dashes.
+// Labels are localized via the `lang` prop.
 interface Props {
   variant: 'agents' | 'medallion' | 'semantic' | 'org' | 'contracts' | 'executive';
+  lang?: 'en' | 'fr' | 'es';
   caption?: string;
   class?: string;
 }
 
-const { variant, caption, class: className = '' } = Astro.props;
+const { variant, lang = 'en', caption, class: className = '' } = Astro.props;
+
+const dict = {
+  en: {
+    orchestrator: 'ORCHESTRATOR', extract: 'EXTRACT', reconcile: 'RECONCILE', recommend: 'RECOMMEND',
+    guardrails: 'DETERMINISTIC GUARDRAILS · ALLOWED ACTIONS · AUDIT LOG',
+    propose: 'agents propose — the boundary disposes', checkpoint: 'HUMAN CHECKPOINT',
+    bronze: 'BRONZE · RAW', silver: 'SILVER · CONFORMED', gold: 'GOLD · SERVED',
+    semanticBar: 'GOVERNED SEMANTIC LAYER', bi: 'BI', ml: 'ML', agents: 'AGENTS', regions: '3 REGIONS',
+    dashboard: 'DASHBOARD', copilot: 'COPILOT', agent: 'AGENT',
+    contracts47: 'SEMANTIC LAYER · 47 METRIC CONTRACTS', ownedLine: 'owned · versioned · machine-readable',
+    orders: 'ORDERS', customers: 'CUSTOMERS', finance: 'FINANCE',
+    modelChooses: 'THE MODEL CHOOSES THE METRIC — NEVER WHAT IT MEANS',
+    podEu: 'DOMAIN POD · EU', podUk: 'DOMAIN POD · UK', podR3: 'DOMAIN POD · R3',
+    platformPod: 'PLATFORM POD · THE PAVED ROAD', observability: 'DELIVERY-HEALTH OBSERVABILITY',
+    obsLine: 'cycle time · review latency · SLA adherence — per pod, monthly',
+    producing: 'PRODUCING', domain: 'DOMAIN', contract: 'CONTRACT',
+    slaAnalytics: 'ANALYTICS · SLA', slaMl: 'ML · SLA', slaAgents: 'AGENTS · SLA',
+    owner: 'OWNER', version: 'VERSION', lineage: 'LINEAGE', sunset: 'SUNSET',
+    metric: 'METRIC', decision: 'DECISION', action: 'ACTION', newData: 'NEW DATA',
+    latency1: 'DECISION', latency2: 'LATENCY ↓',
+  },
+  fr: {
+    orchestrator: 'ORCHESTRATEUR', extract: 'EXTRAIRE', reconcile: 'RÉCONCILIER', recommend: 'RECOMMANDER',
+    guardrails: "GARDE-FOUS DÉTERMINISTES · ACTIONS AUTORISÉES · JOURNAL D'AUDIT",
+    propose: 'les agents proposent — la frontière dispose', checkpoint: 'POINT DE CONTRÔLE HUMAIN',
+    bronze: 'BRONZE · BRUT', silver: 'SILVER · CONFORMÉ', gold: 'GOLD · SERVI',
+    semanticBar: 'COUCHE SÉMANTIQUE GOUVERNÉE', bi: 'BI', ml: 'ML', agents: 'AGENTS', regions: '3 RÉGIONS',
+    dashboard: 'TABLEAU DE BORD', copilot: 'COPILOTE', agent: 'AGENT',
+    contracts47: 'COUCHE SÉMANTIQUE · 47 CONTRATS DE MÉTRIQUES', ownedLine: 'détenue · versionnée · lisible par machine',
+    orders: 'COMMANDES', customers: 'CLIENTS', finance: 'FINANCE',
+    modelChooses: 'LE MODÈLE CHOISIT LA MÉTRIQUE — JAMAIS SA DÉFINITION',
+    podEu: 'POD DOMAINE · EU', podUk: 'POD DOMAINE · UK', podR3: 'POD DOMAINE · R3',
+    platformPod: 'POD PLATEFORME · LA ROUTE PAVÉE', observability: 'OBSERVABILITÉ DE LA LIVRAISON',
+    obsLine: 'temps de cycle · latence de revue · respect des SLA — par pod, mensuel',
+    producing: 'DOMAINE', domain: 'PRODUCTEUR', contract: 'CONTRAT',
+    slaAnalytics: 'ANALYTIQUE · SLA', slaMl: 'ML · SLA', slaAgents: 'AGENTS · SLA',
+    owner: 'PROPRIÉTAIRE', version: 'VERSION', lineage: 'LIGNAGE', sunset: 'RETRAIT',
+    metric: 'MÉTRIQUE', decision: 'DÉCISION', action: 'ACTION', newData: 'NOUVELLES DONNÉES',
+    latency1: 'LATENCE DE', latency2: 'DÉCISION ↓',
+  },
+  es: {
+    orchestrator: 'ORQUESTADOR', extract: 'EXTRAER', reconcile: 'RECONCILIAR', recommend: 'RECOMENDAR',
+    guardrails: 'LÍMITES DETERMINISTAS · ACCIONES PERMITIDAS · REGISTRO DE AUDITORÍA',
+    propose: 'los agentes proponen — el límite dispone', checkpoint: 'PUNTO DE CONTROL HUMANO',
+    bronze: 'BRONCE · CRUDO', silver: 'PLATA · CONFORMADO', gold: 'ORO · SERVIDO',
+    semanticBar: 'CAPA SEMÁNTICA GOBERNADA', bi: 'BI', ml: 'ML', agents: 'AGENTES', regions: '3 REGIONES',
+    dashboard: 'PANEL', copilot: 'COPILOTO', agent: 'AGENTE',
+    contracts47: 'CAPA SEMÁNTICA · 47 CONTRATOS DE MÉTRICAS', ownedLine: 'propiedad · versionada · legible por máquina',
+    orders: 'PEDIDOS', customers: 'CLIENTES', finance: 'FINANZAS',
+    modelChooses: 'EL MODELO ELIGE LA MÉTRICA — NUNCA SU SIGNIFICADO',
+    podEu: 'POD DE DOMINIO · EU', podUk: 'POD DE DOMINIO · UK', podR3: 'POD DE DOMINIO · R3',
+    platformPod: 'POD DE PLATAFORMA · EL CAMINO PAVIMENTADO', observability: 'OBSERVABILIDAD DE ENTREGAS',
+    obsLine: 'tiempo de ciclo · latencia de revisión · cumplimiento de SLA — por pod, mensual',
+    producing: 'DOMINIO', domain: 'PRODUCTOR', contract: 'CONTRATO',
+    slaAnalytics: 'ANALÍTICA · SLA', slaMl: 'ML · SLA', slaAgents: 'AGENTES · SLA',
+    owner: 'PROPIETARIO', version: 'VERSIÓN', lineage: 'LINAJE', sunset: 'RETIRO',
+    metric: 'MÉTRICA', decision: 'DECISIÓN', action: 'ACCIÓN', newData: 'NUEVOS DATOS',
+    latency1: 'LATENCIA DE', latency2: 'DECISIÓN ↓',
+  },
+} as const;
+
+const L = dict[lang];
 ---
 
-<div class={`diagram-draw scroll-reveal w-full ${className}`} aria-hidden="true">
-  <svg viewBox="0 0 800 340" fill="none" class="w-full h-auto" preserveAspectRatio="xMidYMid meet">
+<div class={`diagram-draw scroll-reveal w-full overflow-x-auto ${className}`} aria-hidden="true">
+  <svg viewBox="0 0 800 340" fill="none" class="w-full h-auto min-w-[560px]" preserveAspectRatio="xMidYMid meet">
 
     {variant === 'agents' && (
       <g>
         <!-- Orchestrator -->
         <rect x="330" y="20" width="140" height="36" rx="10" stroke="var(--ink-900)" stroke-width="1.25" pathLength="1" data-draw style="--draw-index: 0" />
-        <text x="400" y="43" text-anchor="middle" class="dg-label dg-label--ink">ORCHESTRATOR</text>
+        <text x="400" y="43" text-anchor="middle" class="dg-label dg-label--ink">{L.orchestrator}</text>
         <!-- Agents -->
         <g class="drift">
           <circle cx="180" cy="130" r="22" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 1" />
           <circle cx="400" cy="130" r="22" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 1" />
           <circle cx="620" cy="130" r="22" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 1" />
-          <text x="180" y="170" text-anchor="middle" class="dg-label">EXTRACT</text>
-          <text x="400" y="170" text-anchor="middle" class="dg-label">RECONCILE</text>
-          <text x="620" y="170" text-anchor="middle" class="dg-label">RECOMMEND</text>
+          <text x="180" y="170" text-anchor="middle" class="dg-label">{L.extract}</text>
+          <text x="400" y="170" text-anchor="middle" class="dg-label">{L.reconcile}</text>
+          <text x="620" y="170" text-anchor="middle" class="dg-label">{L.recommend}</text>
         </g>
         <path d="M360 56 L196 110" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <path d="M400 56 V108" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <path d="M440 56 L604 110" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <!-- Guardrail boundary -->
         <rect x="90" y="200" width="620" height="70" rx="14" stroke="var(--signal)" stroke-width="1.25" stroke-dasharray="5 6" />
-        <text x="400" y="230" text-anchor="middle" class="dg-label dg-label--signal">DETERMINISTIC GUARDRAILS · ALLOWED ACTIONS · AUDIT LOG</text>
-        <text x="400" y="252" text-anchor="middle" class="dg-label">agents propose — the boundary disposes</text>
+        <text x="400" y="230" text-anchor="middle" class="dg-label dg-label--signal">{L.guardrails}</text>
+        <text x="400" y="252" text-anchor="middle" class="dg-label">{L.propose}</text>
         <path d="M180 152 V200 M400 152 V200 M620 152 V200" stroke="var(--ink-300)" stroke-width="1" class="flow-line" />
         <!-- Human checkpoint -->
         <circle cx="400" cy="308" r="12" stroke="var(--ink-900)" stroke-width="1.25" pathLength="1" data-draw style="--draw-index: 3" />
         <path d="M400 270 V296" stroke="var(--ink-300)" stroke-width="1" class="flow-line" />
-        <text x="424" y="313" class="dg-label">HUMAN CHECKPOINT</text>
+        <text x="424" y="313" class="dg-label">{L.checkpoint}</text>
       </g>
     )}
 
@@ -50,19 +114,19 @@ const { variant, caption, class: className = '' } = Astro.props;
           <path d="M400 82 L640 142 L400 202 L160 142 Z" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 1" />
           <path d="M400 142 L640 202 L400 262 L160 202 Z" stroke="var(--ink-900)" stroke-width="1.25" pathLength="1" data-draw style="--draw-index: 2" />
         </g>
-        <text x="666" y="86" class="dg-label">BRONZE · RAW</text>
-        <text x="666" y="146" class="dg-label">SILVER · CONFORMED</text>
-        <text x="666" y="206" class="dg-label dg-label--ink">GOLD · SERVED</text>
+        <text x="666" y="86" class="dg-label">{L.bronze}</text>
+        <text x="666" y="146" class="dg-label">{L.silver}</text>
+        <text x="666" y="206" class="dg-label dg-label--ink">{L.gold}</text>
         <!-- Semantic bar + consumers -->
         <rect x="200" y="286" width="400" height="24" rx="12" stroke="var(--signal)" stroke-width="1.25" pathLength="1" data-draw style="--draw-index: 3" />
-        <text x="400" y="302" text-anchor="middle" class="dg-label dg-label--signal">GOVERNED SEMANTIC LAYER</text>
+        <text x="400" y="302" text-anchor="middle" class="dg-label dg-label--signal">{L.semanticBar}</text>
         <path d="M400 262 V286" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
-        <text x="120" y="330" class="dg-label">BI</text>
-        <text x="390" y="330" class="dg-label">ML</text>
-        <text x="650" y="330" class="dg-label">AGENTS</text>
+        <text x="120" y="330" class="dg-label">{L.bi}</text>
+        <text x="390" y="330" class="dg-label">{L.ml}</text>
+        <text x="650" y="330" class="dg-label">{L.agents}</text>
         <path d="M240 298 H136 M600 298 H646" stroke="var(--ink-300)" stroke-width="1" class="flow-line" />
         <!-- Region markers -->
-        <text x="70" y="40" class="dg-label">3 REGIONS</text>
+        <text x="70" y="40" class="dg-label">{L.regions}</text>
         <circle cx="80" cy="60" r="5" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 1" />
         <circle cx="100" cy="60" r="5" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 1" />
         <circle cx="120" cy="60" r="5" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 1" />
@@ -76,26 +140,26 @@ const { variant, caption, class: className = '' } = Astro.props;
           <rect x="110" y="24" width="150" height="34" rx="10" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 0" />
           <rect x="325" y="24" width="150" height="34" rx="10" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 0" />
           <rect x="540" y="24" width="150" height="34" rx="10" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 0" />
-          <text x="185" y="46" text-anchor="middle" class="dg-label">DASHBOARD</text>
-          <text x="400" y="46" text-anchor="middle" class="dg-label">COPILOT</text>
-          <text x="615" y="46" text-anchor="middle" class="dg-label">AGENT</text>
+          <text x="185" y="46" text-anchor="middle" class="dg-label">{L.dashboard}</text>
+          <text x="400" y="46" text-anchor="middle" class="dg-label">{L.copilot}</text>
+          <text x="615" y="46" text-anchor="middle" class="dg-label">{L.agent}</text>
         </g>
         <path d="M185 58 V118 M400 58 V118 M615 58 V118" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <!-- The contract layer -->
         <rect x="90" y="118" width="620" height="56" rx="14" stroke="var(--signal)" stroke-width="1.5" pathLength="1" data-draw style="--draw-index: 1" />
-        <text x="400" y="142" text-anchor="middle" class="dg-label dg-label--signal">SEMANTIC LAYER · 47 METRIC CONTRACTS</text>
-        <text x="400" y="162" text-anchor="middle" class="dg-label">owned · versioned · machine-readable</text>
+        <text x="400" y="142" text-anchor="middle" class="dg-label dg-label--signal">{L.contracts47}</text>
+        <text x="400" y="162" text-anchor="middle" class="dg-label">{L.ownedLine}</text>
         <!-- One definition resolving many questions -->
         <path d="M250 174 V222 M400 174 V222 M550 174 V222" stroke="var(--ink-300)" stroke-width="1" class="flow-line" />
         <g class="drift-late">
           <rect x="180" y="222" width="140" height="30" rx="8" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 2" />
           <rect x="330" y="222" width="140" height="30" rx="8" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 2" />
           <rect x="480" y="222" width="140" height="30" rx="8" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 2" />
-          <text x="250" y="242" text-anchor="middle" class="dg-label">ORDERS</text>
-          <text x="400" y="242" text-anchor="middle" class="dg-label">CUSTOMERS</text>
-          <text x="550" y="242" text-anchor="middle" class="dg-label">FINANCE</text>
+          <text x="250" y="242" text-anchor="middle" class="dg-label">{L.orders}</text>
+          <text x="400" y="242" text-anchor="middle" class="dg-label">{L.customers}</text>
+          <text x="550" y="242" text-anchor="middle" class="dg-label">{L.finance}</text>
         </g>
-        <text x="400" y="300" text-anchor="middle" class="dg-label dg-label--ink">THE MODEL CHOOSES THE METRIC — NEVER WHAT IT MEANS</text>
+        <text x="400" y="300" text-anchor="middle" class="dg-label dg-label--ink">{L.modelChooses}</text>
         <path d="M180 312 H620" stroke="var(--ink-100)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 3" />
       </g>
     )}
@@ -113,18 +177,18 @@ const { variant, caption, class: className = '' } = Astro.props;
           <circle cx="360" cy="85" r="8" pathLength="1" data-draw style="--draw-index: 1" /><circle cx="400" cy="85" r="8" pathLength="1" data-draw style="--draw-index: 1" /><circle cx="440" cy="85" r="8" pathLength="1" data-draw style="--draw-index: 1" /><circle cx="380" cy="115" r="8" pathLength="1" data-draw style="--draw-index: 1" /><circle cx="420" cy="115" r="8" pathLength="1" data-draw style="--draw-index: 1" />
           <circle cx="590" cy="85" r="8" pathLength="1" data-draw style="--draw-index: 1" /><circle cx="630" cy="85" r="8" pathLength="1" data-draw style="--draw-index: 1" /><circle cx="670" cy="85" r="8" pathLength="1" data-draw style="--draw-index: 1" /><circle cx="610" cy="115" r="8" pathLength="1" data-draw style="--draw-index: 1" /><circle cx="650" cy="115" r="8" pathLength="1" data-draw style="--draw-index: 1" />
         </g>
-        <text x="170" y="30" text-anchor="middle" class="dg-label">DOMAIN POD · EU</text>
-        <text x="400" y="30" text-anchor="middle" class="dg-label">DOMAIN POD · UK</text>
-        <text x="630" y="30" text-anchor="middle" class="dg-label">DOMAIN POD · R3</text>
+        <text x="170" y="30" text-anchor="middle" class="dg-label">{L.podEu}</text>
+        <text x="400" y="30" text-anchor="middle" class="dg-label">{L.podUk}</text>
+        <text x="630" y="30" text-anchor="middle" class="dg-label">{L.podR3}</text>
         <!-- Paved road / platform pod -->
         <path d="M170 150 V196 M400 150 V196 M630 150 V196" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <rect x="80" y="196" width="640" height="40" rx="14" stroke="var(--signal)" stroke-width="1.25" pathLength="1" data-draw style="--draw-index: 2" />
-        <text x="400" y="221" text-anchor="middle" class="dg-label dg-label--signal">PLATFORM POD · THE PAVED ROAD</text>
+        <text x="400" y="221" text-anchor="middle" class="dg-label dg-label--signal">{L.platformPod}</text>
         <!-- Delivery health instrumentation -->
         <path d="M400 236 V264" stroke="var(--ink-300)" stroke-width="1" class="flow-line" />
         <rect x="240" y="264" width="320" height="36" rx="10" stroke="var(--ink-900)" stroke-width="1.25" pathLength="1" data-draw style="--draw-index: 3" />
-        <text x="400" y="287" text-anchor="middle" class="dg-label dg-label--ink">DELIVERY-HEALTH OBSERVABILITY</text>
-        <text x="400" y="326" text-anchor="middle" class="dg-label">cycle time · review latency · SLA adherence — per pod, monthly</text>
+        <text x="400" y="287" text-anchor="middle" class="dg-label dg-label--ink">{L.observability}</text>
+        <text x="400" y="326" text-anchor="middle" class="dg-label">{L.obsLine}</text>
       </g>
     )}
 
@@ -132,14 +196,14 @@ const { variant, caption, class: className = '' } = Astro.props;
       <g>
         <!-- Producer -->
         <rect x="90" y="130" width="160" height="60" rx="12" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 0" />
-        <text x="170" y="156" text-anchor="middle" class="dg-label">PRODUCING</text>
-        <text x="170" y="172" text-anchor="middle" class="dg-label">DOMAIN</text>
+        <text x="170" y="156" text-anchor="middle" class="dg-label">{L.producing}</text>
+        <text x="170" y="172" text-anchor="middle" class="dg-label">{L.domain}</text>
         <!-- Contract -->
         <path d="M250 160 H330" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <g class="drift">
           <rect x="330" y="106" width="140" height="108" rx="12" stroke="var(--signal)" stroke-width="1.5" pathLength="1" data-draw style="--draw-index: 1" />
           <path d="M350 134 H450 M350 154 H450 M350 174 H430" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 2" />
-          <text x="400" y="200" text-anchor="middle" class="dg-label dg-label--signal">CONTRACT</text>
+          <text x="400" y="200" text-anchor="middle" class="dg-label dg-label--signal">{L.contract}</text>
         </g>
         <!-- Consumers -->
         <path d="M470 138 L560 96 M470 160 H560 M470 182 L560 224" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
@@ -147,16 +211,16 @@ const { variant, caption, class: className = '' } = Astro.props;
           <rect x="560" y="76" width="150" height="38" rx="10" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 2" />
           <rect x="560" y="141" width="150" height="38" rx="10" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 2" />
           <rect x="560" y="206" width="150" height="38" rx="10" stroke="var(--ink-300)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 2" />
-          <text x="635" y="100" text-anchor="middle" class="dg-label">ANALYTICS · SLA</text>
-          <text x="635" y="165" text-anchor="middle" class="dg-label">ML · SLA</text>
-          <text x="635" y="230" text-anchor="middle" class="dg-label">AGENTS · SLA</text>
+          <text x="635" y="100" text-anchor="middle" class="dg-label">{L.slaAnalytics}</text>
+          <text x="635" y="165" text-anchor="middle" class="dg-label">{L.slaMl}</text>
+          <text x="635" y="230" text-anchor="middle" class="dg-label">{L.slaAgents}</text>
         </g>
         <!-- Lifecycle strip -->
         <path d="M120 268 H680" stroke="var(--ink-100)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 3" />
-        <text x="120" y="292" class="dg-label">OWNER</text>
-        <text x="300" y="292" class="dg-label">VERSION</text>
-        <text x="480" y="292" class="dg-label">LINEAGE</text>
-        <text x="640" y="292" class="dg-label">SUNSET</text>
+        <text x="120" y="292" class="dg-label">{L.owner}</text>
+        <text x="300" y="292" class="dg-label">{L.version}</text>
+        <text x="480" y="292" class="dg-label">{L.lineage}</text>
+        <text x="640" y="292" class="dg-label">{L.sunset}</text>
         <circle cx="105" cy="288" r="3" fill="var(--signal)" />
         <circle cx="285" cy="288" r="3" fill="var(--signal)" />
         <circle cx="465" cy="288" r="3" fill="var(--signal)" />
@@ -170,27 +234,27 @@ const { variant, caption, class: className = '' } = Astro.props;
         <circle cx="400" cy="170" r="110" stroke="var(--ink-300)" stroke-width="1" stroke-dasharray="4 7" />
         <g class="drift">
           <rect x="340" y="24" width="120" height="34" rx="10" stroke="var(--ink-900)" stroke-width="1.25" pathLength="1" data-draw style="--draw-index: 1" />
-          <text x="400" y="46" text-anchor="middle" class="dg-label dg-label--ink">METRIC</text>
+          <text x="400" y="46" text-anchor="middle" class="dg-label dg-label--ink">{L.metric}</text>
         </g>
         <g class="drift-late">
           <rect x="540" y="150" width="130" height="34" rx="10" stroke="var(--signal)" stroke-width="1.25" pathLength="1" data-draw style="--draw-index: 2" />
-          <text x="605" y="172" text-anchor="middle" class="dg-label dg-label--signal">DECISION</text>
+          <text x="605" y="172" text-anchor="middle" class="dg-label dg-label--signal">{L.decision}</text>
         </g>
         <g class="drift">
           <rect x="340" y="282" width="120" height="34" rx="10" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 3" />
-          <text x="400" y="304" text-anchor="middle" class="dg-label">ACTION</text>
+          <text x="400" y="304" text-anchor="middle" class="dg-label">{L.action}</text>
         </g>
         <g class="drift-late">
           <rect x="130" y="150" width="130" height="34" rx="10" stroke="var(--ink-500)" stroke-width="1" pathLength="1" data-draw style="--draw-index: 4" />
-          <text x="195" y="172" text-anchor="middle" class="dg-label">NEW DATA</text>
+          <text x="195" y="172" text-anchor="middle" class="dg-label">{L.newData}</text>
         </g>
         <!-- Directional flow around the loop -->
         <path d="M475 66 C520 92 545 118 558 150" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <path d="M590 184 C570 226 520 266 462 288" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <path d="M338 288 C280 266 230 226 210 184" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
         <path d="M212 150 C230 116 280 88 328 64" stroke="var(--signal)" stroke-width="1.25" class="flow-line" />
-        <text x="400" y="166" text-anchor="middle" class="dg-label">DECISION</text>
-        <text x="400" y="182" text-anchor="middle" class="dg-label">LATENCY ↓</text>
+        <text x="400" y="166" text-anchor="middle" class="dg-label">{L.latency1}</text>
+        <text x="400" y="182" text-anchor="middle" class="dg-label">{L.latency2}</text>
       </g>
     )}
   </svg>

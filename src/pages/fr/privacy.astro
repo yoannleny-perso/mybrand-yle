@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import Eyebrow from '../../components/primitives/Eyebrow.astro';
+---
+
+<Layout title="Confidentialité — Yoann Leny" description="Politique de confidentialité de yoannleny.com.">
+  <Section id="privacy">
+    <Container size="narrow">
+      <div class="pt-24 pb-16 max-w-[70ch]">
+        <Eyebrow text="CONFIDENTIALITÉ" />
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-10 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          Court, parce qu'il n'y a pas grand-chose à dire.
+        </h1>
+        <div class="font-body text-[1.0625rem] leading-[1.75] text-ink-700 space-y-6">
+          <p>Ce site est un site statique. Il n'a ni comptes utilisateurs, ni formulaires stockant des données, ni publicité, ni pop-ups de newsletter.</p>
+          <p><strong class="text-ink-900">Aucun cookie de suivi.</strong> Le site ne dépose aucun cookie d'analyse ou de publicité. Votre préférence de langue est stockée localement dans votre navigateur (localStorage) et ne le quitte jamais.</p>
+          <p><strong class="text-ink-900">E-mail.</strong> Si vous m'écrivez, je conserve la correspondance comme toute correspondance professionnelle. Je ne vous ajoute à aucune liste.</p>
+          <p><strong class="text-ink-900">Hébergement.</strong> L'hébergeur peut journaliser les requêtes (adresse IP, user agent) à des fins de sécurité et d'exploitation, comme pratiquement tout hébergement.</p>
+          <p>Questions : <a href="mailto:yoann.leny@gmail.com" class="text-signal underline decoration-signal/30 underline-offset-4 hover:text-ink-900 transition-colors">yoann.leny@gmail.com</a>.</p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>

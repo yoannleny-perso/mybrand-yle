@@ -1,0 +1,239 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import Eyebrow from '../../components/primitives/Eyebrow.astro';
+
+const phases = [
+  {
+    id: "phase-1",
+    label: "Jours 1–30",
+    title: "Écouter, cartographier, trouver la contrainte",
+    items: [
+      "Entretiens individuels avec chaque collaborateur direct, les parties prenantes clés et les critiques internes les plus virulents de la fonction data.",
+      "Cartographier le système réel : flux de données, flux de décision, et là où ils divergent de l'organigramme.",
+      "Auditer l'existant — plateformes, pipelines, définitions de métriques, initiatives IA — sous l'angle de la confiance, du coût et de la propriété.",
+      "Identifier la contrainte opérationnelle unique qui, une fois levée, change la trajectoire. Il y en a toujours exactement une qui compte le plus."
+    ],
+    deliverable: "Un diagnostic écrit que le comité de direction peut contester : ce qui fonctionne, ce qui ne fonctionne pas, ce que cela coûte, et la contrainte que je propose d'attaquer en premier."
+  },
+  {
+    id: "phase-2",
+    label: "Jours 31–60",
+    title: "Livrer une victoire visible, concevoir le système cible",
+    items: [
+      "Livrer une amélioration que les dirigeants peuvent voir — souvent une victoire de confiance : deux tableaux de bord qui concordent enfin, une métrique sous contrat, un flux IA avec garde-fous.",
+      "Concevoir le système d'exploitation cible : architecture de plateforme, gouvernance sémantique, topologie d'équipe et feuille de route agentique — en une seule conception, pas quatre documents.",
+      "Établir la base de référence des métriques : latence de décision, incidents de confiance dans les données, coût par résultat — pour que le progrès se mesure au lieu de se raconter.",
+      "Prendre les premières décisions de propriété : chaque produit de données critique reçoit un nom."
+    ],
+    deliverable: "Une amélioration livrée, plus une architecture cible et un modèle opérationnel que l'équipe a contribué à façonner et que le conseil peut financer."
+  },
+  {
+    id: "phase-3",
+    label: "Jours 61–90",
+    title: "Installer le rythme opérationnel",
+    items: [
+      "Mettre en place la cadence : revue opérationnelle mensuelle sur des données réelles de santé de livraison, revue trimestrielle de topologie, processus de changement des métriques.",
+      "Lancer le premier chantier structurel issu de la conception cible — avec l'équipe existante aux commandes, pas des consultants sous observation.",
+      "Publier la feuille de route à 12 mois avec des paris explicites, des coûts, et les hypothèses qui les modifieraient.",
+      "Rendre compte face au diagnostic du jour 30 : ce que j'ai dit, ce que j'ai fait, ce que je me suis trompé."
+    ],
+    deliverable: "Un système d'exploitation qui tourne — cadence, propriété, feuille de route — et qui ne dépend plus de ma présence à chaque décision."
+  }
+];
+---
+
+<Layout title="Recrutement — Yoann Leny" description="Yoann Leny explore des postes de direction VP Data / Head of Data & AI. Périmètre, localisation, langues, et un plan concret des 90 premiers jours.">
+
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-8 grid grid-cols-1 md:grid-cols-12 gap-10 items-center">
+        <div class="md:col-span-8 max-w-[720px]">
+          <Eyebrow text="POUR LES RECRUTEURS & ÉQUIPES DE RECRUTEMENT" />
+          <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+              style="font-size: clamp(2.5rem, 5vw, 4rem);">
+            La version cinq minutes, <span class="text-signal">pour ceux qui recrutent.</span>
+          </h1>
+          <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
+            J'explore des postes de direction dont le mandat est de construire — ou reconstruire — le système d'exploitation data et IA de l'entreprise. Cette page est la version courte ; le reste du site en est la preuve.
+          </p>
+        </div>
+        <figure class="md:col-span-4 hidden md:flex flex-col items-center">
+          <div class="w-full max-w-[220px] rounded-[24px] overflow-hidden border border-ink-100 shadow-card bg-ink-100">
+            <img src="/images/portrait.jpeg" alt="Yoann Leny" class="w-full aspect-[4/5] object-cover grayscale contrast-[1.05]" style="object-position: 50% 18%;" loading="eager" />
+          </div>
+          <figcaption class="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-500 mt-4">
+            YOANN LENY · BORDEAUX, FR
+          </figcaption>
+        </figure>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="facts">
+    <Container>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6" data-stagger>
+        <div class="flex flex-col gap-2 p-6 bg-paper-0 border border-ink-100 rounded-2xl">
+          <span class="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-500">Postes visés</span>
+          <span class="font-display font-bold text-[1.0625rem] leading-snug text-ink-900">VP Data · Head of Data &amp; AI · Chief Data Officer</span>
+        </div>
+        <div class="flex flex-col gap-2 p-6 bg-paper-0 border border-ink-100 rounded-2xl">
+          <span class="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-500">Base &amp; mobilité</span>
+          <span class="font-display font-bold text-[1.0625rem] leading-snug text-ink-900">Bordeaux, FR · télétravail d'abord · déplacements réguliers en Europe &amp; Amérique du Nord</span>
+        </div>
+        <div class="flex flex-col gap-2 p-6 bg-paper-0 border border-ink-100 rounded-2xl">
+          <span class="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-500">Langues</span>
+          <span class="font-display font-bold text-[1.0625rem] leading-snug text-ink-900">Français · Anglais</span>
+        </div>
+        <div class="flex flex-col gap-2 p-6 bg-paper-0 border border-ink-100 rounded-2xl">
+          <span class="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-500">Disponibilité</span>
+          <span class="font-display font-bold text-[1.0625rem] leading-snug text-ink-900">Temps plein sous préavis normal</span>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="fit">
+    <Container>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-[1000px]">
+        <div class="flex flex-col gap-4 p-8 bg-[var(--surface-green)] border border-emerald-100 rounded-2xl">
+          <div class="w-8 h-[3px] rounded-full bg-emerald-500"></div>
+          <h2 class="font-display font-bold text-[1.25rem] text-ink-900">Un bon fit quand</h2>
+          <ul class="list-disc pl-5 space-y-3 font-body text-[0.9375rem] leading-[1.6] text-ink-700 marker:text-emerald-400">
+            <li>La fonction data existe mais ne capitalise pas — des outils partout, de la confiance nulle part.</li>
+            <li>L'IA agentique est à l'agenda du conseil et quelqu'un doit la rendre réelle, gouvernable et chiffrée.</li>
+            <li>L'équipe compte 10 à 60 personnes et la contrainte est le modèle opérationnel, pas les effectifs.</li>
+            <li>Vous voulez un opérateur qui livre et exploite des systèmes, pas un stratège qui remet un rapport.</li>
+          </ul>
+        </div>
+        <div class="flex flex-col gap-4 p-8 bg-[var(--surface-rose)] border border-rose-100 rounded-2xl">
+          <div class="w-8 h-[3px] rounded-full bg-rose-400"></div>
+          <h2 class="font-display font-bold text-[1.25rem] text-ink-900">Un mauvais fit quand</h2>
+          <ul class="list-disc pl-5 space-y-3 font-body text-[0.9375rem] leading-[1.6] text-ink-700 marker:text-rose-300">
+            <li>Le poste est un rôle de gardien — maintenir les tableaux de bord, ne rien changer.</li>
+            <li>L'IA est voulue comme du théâtre : des démos pour le conseil, aucun appétit pour la gouvernance ou l'évaluation.</li>
+            <li>Le mandat porte la responsabilité des résultats sans autorité sur le modèle opérationnel.</li>
+          </ul>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="ninety-days">
+    <Container>
+      <div class="mb-10 max-w-[720px]">
+        <Eyebrow text="LA PARTIE CONCRÈTE" />
+        <h2 class="font-display font-black text-ink-900 mt-4 mb-4 leading-[1.1] tracking-[-0.025em]"
+            style="font-size: clamp(1.75rem, 3.5vw, 2.5rem);">
+          Mes 90 premiers jours, par écrit.
+        </h2>
+        <p class="font-body text-[1.0625rem] leading-[1.7] text-ink-700 max-w-[55ch]">
+          Tous les candidats disent « d'abord, j'écouterai ». Voici le plan réel que je déroule, phase par phase — celui que j'ai déjà utilisé pour reprendre des fonctions data. Cliquez sur une phase pour la détailler.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-4 max-w-[860px]" id="plan-phases">
+        {phases.map((phase, i) => (
+          <div class="phase-card border border-ink-100 rounded-2xl bg-paper-0 overflow-hidden">
+            <button
+              class="phase-toggle w-full flex items-center justify-between gap-4 p-6 md:p-8 text-left cursor-pointer hover:bg-paper-50 transition-colors"
+              aria-expanded={i === 0 ? "true" : "false"}
+              aria-controls={phase.id}
+            >
+              <div class="flex flex-col md:flex-row md:items-baseline gap-1 md:gap-6">
+                <span class="font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-signal shrink-0">{phase.label}</span>
+                <span class="font-display font-bold text-[1.125rem] md:text-[1.25rem] text-ink-900">{phase.title}</span>
+              </div>
+              <span class="phase-chevron text-ink-500 transition-transform duration-300 shrink-0" aria-hidden="true">↓</span>
+            </button>
+            <div id={phase.id} class="phase-body px-6 md:px-8 pb-0 max-h-0 overflow-hidden transition-[max-height] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]">
+              <ul class="list-disc pl-5 space-y-3 font-body text-[0.9375rem] leading-[1.65] text-ink-700 marker:text-ink-300 pb-6">
+                {phase.items.map((item) => <li>{item}</li>)}
+              </ul>
+              <div class="border-t border-ink-100 py-5 mb-2">
+                <span class="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-ink-500 block mb-2">Livrable</span>
+                <p class="font-body text-[0.9375rem] leading-[1.6] text-ink-900">{phase.deliverable}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="evidence">
+    <Container>
+      <div class="mb-10 max-w-[720px]">
+        <Eyebrow text="DES PREUVES, PAS DES ADJECTIFS" />
+        <h2 class="font-display font-black text-ink-900 mt-4 leading-[1.1] tracking-[-0.025em]"
+            style="font-size: clamp(1.75rem, 3.5vw, 2.5rem);">
+          Où vérifier mes affirmations.
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5" data-stagger>
+        <a href="/fr/work" class="group flex flex-col gap-3 p-8 rounded-2xl bg-paper-0 border border-ink-100 hover:-translate-y-1 hover:shadow-hover transition-all duration-300">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-signal">Études de cas</span>
+          <p class="font-body text-[0.9375rem] leading-[1.6] text-ink-700">Quatre projets en production avec résultats, décisions d'architecture, et ce que je ferais différemment.</p>
+          <span class="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-900 group-hover:text-signal transition-colors mt-auto">Lire les projets →</span>
+        </a>
+        <a href="/decisions" class="group flex flex-col gap-3 p-8 rounded-2xl bg-paper-0 border border-ink-100 hover:-translate-y-1 hover:shadow-hover transition-all duration-300">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-signal">Journal de décisions (EN)</span>
+          <p class="font-body text-[0.9375rem] leading-[1.6] text-ink-700">Des paris techniques datés et leur évolution — y compris ceux qui ont mal vieilli.</p>
+          <span class="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-900 group-hover:text-signal transition-colors mt-auto">Vérifier mon jugement →</span>
+        </a>
+        <a href="/fr/concepts" class="group flex flex-col gap-3 p-8 rounded-2xl bg-paper-0 border border-ink-100 hover:-translate-y-1 hover:shadow-hover transition-all duration-300">
+          <span class="font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-signal">Bibliothèque de concepts</span>
+          <p class="font-body text-[0.9375rem] leading-[1.6] text-ink-700">Plus de 50 entrées maintenues sur l'architecture de données, l'ingénierie, la BI et l'IA agentique — avec des opinions assumées.</p>
+          <span class="font-mono text-[11px] uppercase tracking-[0.1em] text-ink-900 group-hover:text-signal transition-colors mt-auto">Tester ma profondeur →</span>
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="closing" background="ink">
+    <Container>
+      <div class="py-24 text-center max-w-3xl mx-auto">
+        <h2 class="font-display font-black text-paper-50 mb-10 leading-[1.1] tracking-[-0.03em]"
+            style="font-size: clamp(1.75rem, 3.5vw, 2.75rem);">
+          Si le mandat est réel, parlons-en.
+        </h2>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em]">
+          <a href="mailto:yoann.leny@gmail.com?subject=Conversation%20poste" class="bg-signal text-white px-8 py-4 rounded-xl hover:bg-signal/90 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(99,102,241,0.25)] transition-all duration-300">M'écrire au sujet d'un poste &rarr;</a>
+          <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="text-paper-50 hover:text-signal transition-colors pb-1 border-b-2 border-transparent hover:border-signal">Me contacter sur LinkedIn</a>
+        </div>
+        <p class="font-body text-[0.875rem] text-ink-300 mt-10">CV complet disponible sur demande — la version une page arrive sous 24 h.</p>
+      </div>
+    </Container>
+  </Section>
+</Layout>
+
+<script>
+  function initPhases() {
+    const cards = document.querySelectorAll<HTMLElement>('.phase-card');
+    if (cards.length === 0) return;
+
+    const setOpen = (card: HTMLElement, open: boolean) => {
+      const btn = card.querySelector<HTMLButtonElement>('.phase-toggle');
+      const body = card.querySelector<HTMLElement>('.phase-body');
+      const chevron = card.querySelector<HTMLElement>('.phase-chevron');
+      if (!btn || !body) return;
+      btn.setAttribute('aria-expanded', String(open));
+      body.style.maxHeight = open ? body.scrollHeight + 'px' : '0px';
+      if (chevron) chevron.style.transform = open ? 'rotate(180deg)' : 'none';
+    };
+
+    cards.forEach((card, i) => {
+      setOpen(card, i === 0);
+      const btn = card.querySelector<HTMLButtonElement>('.phase-toggle');
+      btn?.addEventListener('click', () => {
+        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+        cards.forEach((c) => setOpen(c, false));
+        setOpen(card, !isOpen);
+      });
+    });
+  }
+
+  initPhases();
+  document.addEventListener('astro:page-load', initPhases);
+</script>

@@ -278,21 +278,23 @@ const getLangPath = (path: string) => {
       localStorage.setItem('preferred-lang', targetLang);
       const supportedLangs = ['en', 'fr', 'es'];
       const defaultLang = 'en';
-      
+      // Pages that only exist in English — never prefix these
+      const enOnlyPages = ['decisions'];
+
       let path = window.location.pathname;
       const pathParts = path.split('/').filter(Boolean);
       const currentPathLang = pathParts[0] && supportedLangs.includes(pathParts[0]) ? pathParts[0] : null;
-      
+
       // Remove current language prefix if it exists
       if (currentPathLang) {
         pathParts.shift();
       }
-      
-      // Add new language prefix if it's not the default language
-      if (targetLang !== defaultLang) {
+
+      // Add new language prefix unless default language or an EN-only page
+      if (targetLang !== defaultLang && !enOnlyPages.includes(pathParts[0])) {
         pathParts.unshift(targetLang);
       }
-      
+
       const newPath = '/' + pathParts.join('/');
       window.location.href = newPath + window.location.search + window.location.hash;
     });

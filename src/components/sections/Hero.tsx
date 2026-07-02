@@ -7,6 +7,7 @@ interface HeroProps {
   eyebrow?: string;
   primaryCta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
+  identity?: { name: string; line: string; href: string };
 }
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -46,6 +47,7 @@ export default function Hero({
   eyebrow = 'Operator. Architect. Builder.',
   primaryCta = { label: "Let's talk", href: '/contact' },
   secondaryCta = { label: 'Explore work', href: '/work' },
+  identity = { name: 'Yoann Leny', line: 'VP Data & AI Operations · Bordeaux, FR', href: '/about' },
 }: HeroProps) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -57,7 +59,7 @@ export default function Hero({
 
   return (
     <section
-      className="relative min-h-[88vh] flex flex-col justify-center overflow-hidden bg-paper-50 pt-32 pb-16"
+      className="relative flex flex-col justify-center overflow-hidden bg-paper-50 pt-32 md:pt-36 pb-12"
       aria-labelledby="hero-heading"
     >
       {/* Ambient light, static and quiet */}
@@ -70,7 +72,7 @@ export default function Hero({
 
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 flex flex-col items-center text-center">
         <motion.p
-          className="font-mono text-[13px] font-semibold uppercase tracking-[0.14em] text-ink-500 mb-8"
+          className="font-mono text-[13px] font-semibold uppercase tracking-[0.14em] text-ink-500 mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={lineTransition(0)}
@@ -80,7 +82,7 @@ export default function Hero({
 
         <h1
           id="hero-heading"
-          className="font-display font-black text-ink-1000 tracking-[-0.03em] leading-[1.05] mb-10"
+          className="font-display font-black text-ink-1000 tracking-[-0.03em] leading-[1.05] mb-8"
           style={{ fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)' }}
         >
           {headlineLines.map((line, i) => (
@@ -98,7 +100,7 @@ export default function Hero({
         </h1>
 
         <motion.p
-          className="font-body text-[1.125rem] md:text-[1.25rem] leading-[1.7] text-ink-700 max-w-[52ch] mb-12"
+          className="font-body text-[1.125rem] md:text-[1.25rem] leading-[1.7] text-ink-700 max-w-[52ch] mb-10"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={lineTransition(headlineLines.length)}
@@ -122,6 +124,28 @@ export default function Hero({
             {secondaryCta.label} <span aria-hidden="true">→</span>
           </a>
         </motion.div>
+
+        {/* Identity card: a face on the first screen */}
+        <motion.a
+          href={identity.href}
+          className="group mt-10 inline-flex items-center gap-4 bg-paper-0 border border-ink-100 rounded-full pl-2 pr-6 py-2 shadow-card hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={lineTransition(headlineLines.length + 2)}
+        >
+          <span className="block w-12 h-12 rounded-full overflow-hidden border border-ink-100 shrink-0">
+            <img
+              src="/images/portrait.jpeg"
+              alt={identity.name}
+              className="w-full h-full object-cover grayscale contrast-[1.05] group-hover:grayscale-0 transition-all duration-500"
+              style={{ objectPosition: '50% 22%' }}
+            />
+          </span>
+          <span className="flex flex-col items-start text-left">
+            <span className="font-display font-bold text-[0.9375rem] leading-tight text-ink-1000">{identity.name}</span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-ink-500 leading-snug">{identity.line}</span>
+          </span>
+        </motion.a>
       </div>
     </section>
   );

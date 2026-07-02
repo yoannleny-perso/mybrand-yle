@@ -134,9 +134,11 @@ html.js [data-stagger].is-revealed > *:nth-child(n+6) { transition-delay: 450ms;
    [data-draw] strokes draw themselves in when their section reveals;
    .flow-line carries a slow directional dash (data-flow);
    .drift adds a barely-perceptible float to nodes. */
+/* Dash slightly longer than the normalized path (1) so rounding on circles
+   never leaves a seam gap once the draw completes. */
 html.js .diagram-draw [data-draw] {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
+  stroke-dasharray: 1.05;
+  stroke-dashoffset: 1.05;
 }
 
 html.js .is-revealed .diagram-draw [data-draw],

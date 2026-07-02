@@ -49,14 +49,15 @@ export default function TestimonialCrossfade({ testimonials, intervalMs = 6000 }
   }
 
   return (
-    <div 
-      className="relative min-h-[480px] sm:min-h-[400px] flex items-center justify-center cursor-default"
+    <div
+      className="relative flex flex-col items-center justify-center cursor-default pb-10"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocus={() => setIsPaused(true)}
       onBlur={() => setIsPaused(false)}
     >
-      <div className="w-full max-w-4xl relative">
+      {/* In-flow card: grows with the quote so it can never overlap surrounding text */}
+      <div className="w-full max-w-4xl min-h-[320px] flex items-center">
         <AnimatePresence mode="wait">
           <motion.figure
             key={currentIndex}
@@ -64,9 +65,9 @@ export default function TestimonialCrossfade({ testimonials, intervalMs = 6000 }
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.6, ease: "easeInOut" }}
-            className="absolute top-1/2 -translate-y-1/2 w-full bg-paper-0 p-8 md:p-12 rounded-[var(--radius-card)] shadow-card border border-ink-100"
+            className="w-full bg-paper-0 p-8 md:p-12 rounded-[var(--radius-card)] shadow-card border border-ink-100"
           >
-            <blockquote className="font-display italic font-semibold text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] tracking-[var(--t-display-m-letter)] text-ink-900 mb-8">
+            <blockquote className="font-display italic font-semibold text-[1.375rem] md:text-[1.75rem] leading-[1.4] tracking-[-0.01em] text-ink-900 mb-8">
               <span style={{ hangingPunctuation: 'first last' as any }}>{testimonials[currentIndex].quote}</span>
             </blockquote>
             <figcaption className="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-signal font-bold">
@@ -76,7 +77,7 @@ export default function TestimonialCrossfade({ testimonials, intervalMs = 6000 }
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-[-24px] left-1/2 -translate-x-1/2 flex gap-2 sm:bottom-0 sm:right-0 sm:left-auto sm:translate-x-0">
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-2 sm:right-4 sm:left-auto sm:translate-x-0">
         {testimonials.map((_, i) => (
           <button
             key={i}

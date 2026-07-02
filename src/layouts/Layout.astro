@@ -38,47 +38,30 @@ const lang = Astro.currentLocale || 'en';
     <!-- Mark JS as available before first paint; reveal styles only apply then -->
     <script is:inline>document.documentElement.classList.add('js');</script>
 
-    <!-- Automatic client-side language detection and redirection -->
+    <!-- Language detection: only ever redirects from the homepage, so deep
+         links, explicit navigation, and EN-only pages are never hijacked. -->
     <script is:inline>
       (function() {
         const supportedLangs = ['en', 'fr', 'es'];
         const defaultLang = 'en';
+        const path = window.location.pathname;
 
-        // 1. Check if user already has a saved preference in localStorage
+        const homeFor = (l) => (l === defaultLang ? '/' : '/' + l + '/');
+        const isHome = path === '/' || supportedLangs.some((l) => path === '/' + l || path === '/' + l + '/');
+        if (!isHome) return;
+
         const savedLang = localStorage.getItem('preferred-lang');
-        
-        // 2. Determine current URL path language prefix (if any)
-        const pathParts = window.location.pathname.split('/').filter(Boolean);
-        const pathLang = pathParts[0] && supportedLangs.includes(pathParts[0]) ? pathParts[0] : null;
-
-        // 3. Determine browser language if no saved preference
         let targetLang = savedLang;
         if (!targetLang) {
-          const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase().slice(0, 2);
+          const browserLang = (navigator.language || '').toLowerCase().slice(0, 2);
           targetLang = supportedLangs.includes(browserLang) ? browserLang : defaultLang;
         }
 
-        // 4. Redirect if necessary
-        const currentPageLang = pathLang || defaultLang;
-        
-        if (targetLang !== currentPageLang) {
-          let newPath = window.location.pathname;
-          
-          if (pathLang) {
-            // Replace current prefix
-            newPath = '/' + targetLang + newPath.slice(pathLang.length + 1);
-          } else {
-            // Add new prefix if target is not the default
-            if (targetLang !== defaultLang) {
-              newPath = '/' + targetLang + newPath;
-            }
-          }
-          
-          // Clean up multiple slashes or trailing slashes
-          newPath = newPath.replace(/\/+/g, '/');
-          if (newPath !== window.location.pathname) {
-            window.location.replace(newPath + window.location.search + window.location.hash);
-          }
+        const parts = path.split('/').filter(Boolean);
+        const currentLang = parts[0] && supportedLangs.includes(parts[0]) ? parts[0] : defaultLang;
+
+        if (targetLang !== currentLang) {
+          window.location.replace(homeFor(targetLang));
         }
       })();
     </script>

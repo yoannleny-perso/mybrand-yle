@@ -29,7 +29,7 @@ const translations = {
     concepts: "Concepts",
     insights: "Réflexions",
     hire: "Me recruter",
-    decisions: "Journal de décisions",
+    decisions: "Journal de décisions (EN)",
     direct: "Direct",
     email: "E-mail",
     linkedin: "LinkedIn",
@@ -48,7 +48,7 @@ const translations = {
     concepts: "Conceptos",
     insights: "Reflexiones",
     hire: "Contrátame",
-    decisions: "Registro de decisiones",
+    decisions: "Registro de decisiones (EN)",
     direct: "Directo",
     email: "Correo",
     linkedin: "LinkedIn",
@@ -102,9 +102,9 @@ const getLangPath = (path: string) => {
       <div class="flex flex-col gap-4">
         <h3 class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">{t.meta}</h3>
         <a href={getLangPath('/now')} class="hover:text-paper-50 transition-colors">{t.now}</a>
-        <a href="/hire" class="hover:text-paper-50 transition-colors">{t.hire}</a>
-        <a href="/privacy" class="hover:text-paper-50 transition-colors">{t.privacy}</a>
-        <a href="/imprint" class="hover:text-paper-50 transition-colors">{t.imprint}</a>
+        <a href={getLangPath('/hire')} class="hover:text-paper-50 transition-colors">{t.hire}</a>
+        <a href={getLangPath('/privacy')} class="hover:text-paper-50 transition-colors">{t.privacy}</a>
+        <a href={getLangPath('/imprint')} class="hover:text-paper-50 transition-colors">{t.imprint}</a>
       </div>
     </div>
     

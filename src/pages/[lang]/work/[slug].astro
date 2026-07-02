@@ -70,13 +70,21 @@ const diagram = diagrams[entry.data.slug || entry.id];
   ) : diagram && (
     <section class="w-full border-y border-ink-100 bg-paper-0 py-10 md:py-14">
       <div class="max-w-[900px] mx-auto px-6">
-        <CaseDiagram variant={diagram.variant} />
+        <CaseDiagram variant={diagram.variant} lang={lang} />
       </div>
     </section>
   )}
 
   <Section id="content">
     <Container>
+      <div class="mb-10 flex items-start gap-3 border border-ink-100 bg-paper-0 rounded-xl px-5 py-4">
+        <span class="font-mono text-[10px] font-bold uppercase tracking-[0.1em] text-signal mt-0.5 shrink-0">EN</span>
+        <p class="font-body text-[0.875rem] leading-[1.6] text-ink-700">
+          {lang === 'fr'
+            ? "Ce contenu est rédigé et maintenu en anglais — la référence technique reste dans sa langue d'origine."
+            : "Este contenido se redacta y mantiene en inglés — la referencia técnica permanece en su idioma original."}
+        </p>
+      </div>
       <Grid columns={12}>
         <!-- Meta sidebar -->
         <div class="col-span-12 md:col-span-3 mb-12 md:mb-0">
