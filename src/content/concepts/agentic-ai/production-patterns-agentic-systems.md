@@ -8,8 +8,6 @@ readingTime: "11 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Production Patterns for Agentic Systems
-
 ## What it is
 
 Production agentic systems require patterns and disciplines that prototypes do not. The work to take an impressive demo to a system that runs reliably for thousands of users, costs predictably, surfaces incidents quickly, and improves continuously is substantial — and it is mostly architectural and operational, not algorithmic.

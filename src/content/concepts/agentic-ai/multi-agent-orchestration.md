@@ -8,8 +8,6 @@ readingTime: "10 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Multi-Agent Orchestration
-
 ## What it is
 
 Multi-agent orchestration is the pattern of using more than one LLM-powered agent to solve a single goal. Each agent has a specialized role, prompt, and tool set. They coordinate through some structure — a coordinator dispatches to workers, peers exchange messages, or a state graph governs transitions.

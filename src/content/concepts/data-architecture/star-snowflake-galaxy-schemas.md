@@ -8,12 +8,6 @@ readingTime: 7
 lastReviewed: "2026-03-15"
 ---
 
-# Star, Snowflake, and Galaxy Schemas
-
-`DATA ARCHITECTURE · INTERMEDIATE · 7 MIN · LAST REVIEWED MARCH 2026`
-
-> Three dimensional modeling patterns that organize fact and dimension tables for analytical consumption — each trading off normalization against query performance and complexity.
-
 ## What it is
 
 Dimensional modeling, formalized by Ralph Kimball, organizes analytical data around **fact tables** (the events or measurements the business cares about) and **dimension tables** (the descriptive context in which those facts occur). Three canonical schema shapes emerge from this pattern:
@@ -56,6 +50,6 @@ This is a modeling pattern, not a vendor choice — but the platform you build o
 
 ## Related reading
 
-- [Slowly Changing Dimensions](/concepts/data-architecture/slowly-changing-dimensions)
-- [Medallion Architecture](/concepts/data-architecture/medallion-architecture)
-- [Data Transformation with dbt](/concepts/data-engineering/data-transformation-with-dbt)
+- [Slowly Changing Dimensions](/concepts/slowly-changing-dimensions)
+- [Medallion Architecture](/concepts/medallion-architecture)
+- [Data Transformation with dbt](/concepts/data-transformation-with-dbt)

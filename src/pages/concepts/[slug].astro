@@ -20,7 +20,9 @@ const { Content } = await render(entry);
 ---
 
 <Layout title={`${entry.data.title} — Concept Library — Yoann Leny`} description={entry.data.definition}>
-  
+
+  <div class="reading-progress" aria-hidden="true"></div>
+
   <Section id="header">
     <Container size="narrow">
       <div class="pt-24 pb-8">
@@ -45,21 +47,16 @@ const { Content } = await render(entry);
         <Content />
       </Prose>
       
-      <!-- Appendix -->
-      <div class="mt-24 pt-12 border-t border-ink-100">
-        <Heading level={3} as="h3" class="mb-8">Appendix</Heading>
-        
-        {entry.data.relatedConcepts && entry.data.relatedConcepts.length > 0 && (
-          <div class="mb-8">
-            <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-4">Related Reading</div>
-            <ul class="list-disc pl-5 space-y-2 font-body text-[length:var(--t-body-size)] text-ink-700 marker:text-ink-300">
-              {entry.data.relatedConcepts.map((concept: string) => (
-                <li><a href={`/concepts/${concept}`} class="text-ink-1000 hover:text-ink-500 underline decoration-ink-100 underline-offset-4">{concept.replace(/-/g, ' ')}</a></li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {entry.data.relatedConcepts && entry.data.relatedConcepts.length > 0 && (
+        <div class="mt-24 pt-12 border-t border-ink-100">
+          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-4">Related Reading</div>
+          <ul class="list-disc pl-5 space-y-2 font-body text-[length:var(--t-body-size)] text-ink-700 marker:text-ink-300">
+            {entry.data.relatedConcepts.map((concept: string) => (
+              <li><a href={`/concepts/${concept}`} class="text-ink-1000 hover:text-ink-500 underline decoration-ink-100 underline-offset-4">{concept.replace(/-/g, ' ')}</a></li>
+            ))}
+          </ul>
+        </div>
+      )}
     </Container>
   </Section>
 

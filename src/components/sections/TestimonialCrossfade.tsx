@@ -50,7 +50,7 @@ export default function TestimonialCrossfade({ testimonials, intervalMs = 6000 }
 
   return (
     <div 
-      className="relative min-h-[400px] flex items-center justify-center cursor-default"
+      className="relative min-h-[480px] sm:min-h-[400px] flex items-center justify-center cursor-default"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onFocus={() => setIsPaused(true)}
@@ -76,12 +76,12 @@ export default function TestimonialCrossfade({ testimonials, intervalMs = 6000 }
         </AnimatePresence>
       </div>
 
-      <div className="absolute bottom-0 right-0 flex gap-2">
+      <div className="absolute bottom-[-24px] left-1/2 -translate-x-1/2 flex gap-2 sm:bottom-0 sm:right-0 sm:left-auto sm:translate-x-0">
         {testimonials.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrentIndex(i)}
-            className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? 'bg-ink-1000' : 'bg-ink-100 hover:bg-ink-300'}`}
+            className={`w-2 h-2 rounded-full transition-colors cursor-pointer ${i === currentIndex ? 'bg-ink-1000' : 'bg-ink-100 hover:bg-ink-300'}`}
             aria-label={`Go to testimonial ${i + 1}`}
             aria-current={i === currentIndex}
           />

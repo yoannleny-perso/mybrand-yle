@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/layout/Container.astro';
+import Section from '../components/layout/Section.astro';
+import Eyebrow from '../components/primitives/Eyebrow.astro';
+---
+
+<Layout title="Imprint — Yoann Leny" description="Legal notice for yoannleny.com.">
+  <Section id="imprint">
+    <Container size="narrow">
+      <div class="pt-24 pb-16 max-w-[70ch]">
+        <Eyebrow text="IMPRINT" />
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-10 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          Legal notice.
+        </h1>
+        <div class="font-body text-[1.0625rem] leading-[1.75] text-ink-700 space-y-6">
+          <p><strong class="text-ink-900">Publisher.</strong> Yoann Leny, Bordeaux, France.</p>
+          <p><strong class="text-ink-900">Contact.</strong> <a href="mailto:yoann.leny@gmail.com" class="text-signal underline decoration-signal/30 underline-offset-4 hover:text-ink-900 transition-colors">yoann.leny@gmail.com</a></p>
+          <p><strong class="text-ink-900">Content.</strong> All content on this site — essays, concept entries, case studies — is written and maintained by Yoann Leny unless otherwise noted. Opinions are my own.</p>
+          <p><strong class="text-ink-900">Trademarks.</strong> Product and company names mentioned (Databricks, Snowflake, dbt, and others) are trademarks of their respective owners and are referenced for identification only.</p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>

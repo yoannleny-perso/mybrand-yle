@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Anomaly Detection and Forecasting
-
 ## What it is
 
 Anomaly detection identifies metric movements outside expected behavior — a sudden drop in conversion, a spike in support tickets, a flat line where there should be growth. Forecasting projects where a metric is likely to land based on historical patterns, seasonality, and known drivers.

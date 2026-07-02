@@ -1,0 +1,343 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import Grid from '../../components/layout/Grid.astro';
+import Eyebrow from '../../components/primitives/Eyebrow.astro';
+import Heading from '../../components/primitives/Heading.astro';
+import MetricBlock from '../../components/primitives/MetricBlock.astro';
+import Hero from '../../components/sections/Hero.tsx';
+import CapabilityList from '../../components/sections/CapabilityList.tsx';
+import AsymmetricCard from '../../components/sections/AsymmetricCard.astro';
+import TestimonialCrossfade from '../../components/sections/TestimonialCrossfade.tsx';
+
+const heroHeadline = [
+  "Construyendo",
+  "Sistemas Operativos con IA",
+  "para Organizaciones Modernas."
+];
+
+const capabilities = [
+  {
+    number: "01",
+    title: "Arquitectura de IA Agéntica",
+    summary: "Sistemas multiagente con barreras de seguridad deterministas y registros de auditoría.",
+    slug: "agentic-ai-architecture"
+  },
+  {
+    number: "02",
+    title: "Plataformas de Datos & Semánticas",
+    summary: "Lakehouses Medallion con una capa semántica gobernada.",
+    slug: "data-platforms"
+  },
+  {
+    number: "03",
+    title: "Operaciones de Datos Estratégicas",
+    summary: "Tratamiento de datos como un producto con contratos, SLA y linaje.",
+    slug: "strategic-data-ops"
+  },
+  {
+    number: "04",
+    title: "Orquestación de Equipos",
+    summary: "Diseño de células, roles y rituales que se adaptan a más de 40 expertos.",
+    slug: "team-orchestration"
+  },
+  {
+    number: "05",
+    title: "Habilitación Ejecutiva",
+    summary: "Conversión de preguntas de liderazgo en decisiones operativas observables.",
+    slug: "executive-enablement"
+  }
+];
+
+const testimonials = [
+  {
+    quote: "\"Yoann es ese líder excepcional capaz de estar con los ingenieros en la pizarra por la mañana y ante el comité ejecutivo por la tarde, logrando hacer avanzar a ambas salas.\"",
+    attribution: "Director General, Firma de Consultoría Global"
+  },
+  {
+    quote: "\"No solo modernizó nuestra tecnología de datos. Nos dio un modelo operativo que el próximo CTO heredará sin tener que rediseñarlo.\"",
+    attribution: "Director de Datos, Grupo Industrial"
+  },
+  {
+    quote: "\"Lo que él llama 'moderación', el resto de nosotros lo llamamos 'ver por fin la señal'. Yoann elimina más de lo que añade, y eso es exactamente lo que necesitan los equipos ejecutivos.\"",
+    attribution: "Socio, Práctica de Estrategia"
+  }
+];
+---
+
+<Layout title="Yoann Leny — Arquitecto de Operaciones de Datos e IA Agéntica" description="Yoann Leny diseña sistemas operativos basados en inteligencia artificial para organizaciones modernas.">
+  <!-- SECTION 1 — HERO -->
+  <Hero
+    client:load
+    headlineLines={heroHeadline}
+    subheadline="Ayudo a las empresas a transformar los datos, la IA y las personas en una ventaja operativa medible."
+    eyebrow="Operador. Arquitecto. Constructor."
+    primaryCta={{ label: "Hablemos", href: "/es/contact" }}
+    secondaryCta={{ label: "Ver proyectos", href: "/es/work" }}
+  />
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 2 — ABOUT + METRICS -->
+  <Section id="about">
+    <Container>
+      <div class="mb-10">
+        <Eyebrow text="02 / 08 — ENFOQUE" />
+      </div>
+
+      <Grid columns={12}>
+        <div class="col-span-12 lg:col-span-6 flex flex-col gap-8 mb-16 lg:mb-0">
+          <h2 class="font-display font-black text-ink-900 max-w-[14ch] leading-[1.08] tracking-[-0.03em]"
+              style="font-size: clamp(2.25rem, 4.5vw, 3.75rem);">
+            Construyo los sistemas<br />
+            <span class="text-signal">que escalan equipos.</span>
+          </h2>
+
+          <div class="flex flex-col gap-6 max-w-[55ch]">
+            <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700">
+              He pasado la última década en la intersección de la ingeniería de datos, la arquitectura de IA y las operaciones ejecutivas, construyendo las plataformas, los flujos de trabajo de agentes y las estructuras de equipo que convierten la capacidad en margen acumulado.
+            </p>
+            <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700">
+              La mayoría de las organizaciones no tienen un problema de herramientas. Tienen un problema de <em class="text-ink-900 not-italic font-semibold">sistema operativo</em>. Las herramientas son sencillas. La forma en que las decisiones, los datos, los modelos y las personas se integran en un todo funcional: ahí es donde reside el verdadero impacto operativo.
+            </p>
+          </div>
+
+          <a href="/es/work"
+             class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-900 border-b-2 border-signal pb-1 w-fit hover:text-signal transition-colors duration-200">
+            Ver cómo funciona <span class="text-base">→</span>
+          </a>
+        </div>
+
+        <div class="col-span-12 lg:col-span-5 lg:col-start-8 flex items-start lg:items-center">
+          <div class="grid grid-cols-2 gap-x-4 gap-y-6 w-full">
+            <MetricBlock label="Impacto financiero entregado" value="+$13M" size="large" />
+            <MetricBlock label="Expertos orquestados" value="40+" size="large" />
+            <MetricBlock label="Regiones lideradas" value="3" size="large" />
+            <MetricBlock label="Aumento de utilización" value="+15%" size="large" />
+          </div>
+        </div>
+      </Grid>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 3 — CAPABILITIES -->
+  <Section id="capabilities">
+    <Container>
+      <div class="mb-12 max-w-3xl">
+        <Eyebrow text="03 / 08 — CAPACIDADES" />
+        <h2 class="font-display font-black text-ink-900 mt-4 mb-5 leading-[1.1] tracking-[-0.025em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          Así es como escalo organizaciones.
+        </h2>
+        <p class="font-body text-[1.125rem] leading-[1.7] text-ink-700 max-w-[52ch]">
+          Cinco prácticas, una lógica operativa. Cada fila es un sistema que he construido y operado en producción, no una teoría teórica.
+        </p>
+      </div>
+    </Container>
+    
+    <div class="max-w-[1440px] mx-auto">
+      <CapabilityList client:visible capabilities={capabilities} basePath="/es/capabilities" />
+    </div>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 4 — SELECTED WORK -->
+  <Section id="work">
+    <Container>
+      <div class="mb-12">
+        <Eyebrow text="04 / 08 — PROYECTOS SELECCIONADOS" />
+        <h2 class="font-display font-black text-ink-900 mt-4 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          <span class="block">Trabajo en producción.</span>
+          <span class="block text-ink-500 font-medium">Resultados medidos.</span>
+        </h2>
+      </div>
+
+      <Grid columns={12} gap="loose">
+        <AsymmetricCard
+          size="tall"
+          pattern="agents"
+          tag="2025 · EMPRESA · 18 MESES"
+          title="Rastreador de habilidades multiagente"
+          description="Un sistema de agentes jerárquicos que mantiene un gráfico de habilidades en tiempo real para más de 40 consultores, recomienda asignaciones de personal e identifica brechas de contratación semanalmente para el liderazgo."
+          metrics={[
+            { value: "+15%", label: "utilización" },
+            { value: "-22%", label: "tiempo de espera" },
+            { value: "3", label: "regiones" }
+          ]}
+          href="/es/work/multi-agent-skill-tracker"
+        />
+
+        <AsymmetricCard
+          size="wide"
+          pattern="layers"
+          tag="2024 · GLOBAL · 12 MESES"
+          title="Arquitectura Medallion Corporativa"
+          description="Una arquitectura de lakehouse bronce-plata-oro desplegada en tres regiones con una capa semántica gobernada que alimenta análisis, ML y flujos de trabajo de agentes desde una única fuente de verdad."
+          metrics={[
+            { value: "+$13M", label: "impacto en ingresos" },
+            { value: "9 meses", label: "de recuperación" },
+            { value: "0", label: "desviaciones de KPI" }
+          ]}
+          href="/es/work/enterprise-medallion-stack"
+        />
+
+        <AsymmetricCard
+          size="square"
+          pattern="semantic"
+          tag="2024 · MEDIANA EMPRESA · 6 MESES"
+          title="Capa Semántica Lista para IA"
+          description="Una capa de definición de métricas diseñada específicamente para el consumo de LLMs y agentes, eliminando las desviaciones de KPI y estandarizando cómo la IA consulta la empresa."
+          metrics={[
+            { value: "0", label: "desviaciones de KPI" },
+            { value: "47", label: "métricas conformes" },
+            { value: "4", label: "sistemas LLM" }
+          ]}
+          href="/es/work/ai-ready-semantic-layer"
+        />
+
+        <AsymmetricCard
+          size="wide"
+          pattern="org"
+          tag="2023 · GLOBAL · 24 MESES"
+          title="Modelo de Escalamiento Global de Data Ops"
+          description="Un modelo operativo para un equipo de datos de 40 personas en tres regiones: diseño de células, división de roles, rituales y una capa de observabilidad interna personalizada para la salud de las entregas."
+          metrics={[
+            { value: "40+", label: "expertos" },
+            { value: "3", label: "regiones" },
+            { value: "4 T", label: "a régimen estable" }
+          ]}
+          href="/es/work/global-data-ops-scaling-model"
+        />
+      </Grid>
+      
+      <div class="mt-16 text-right">
+        <a href="/es/work" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+          &rarr; Ver todos los proyectos
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 5 — LEADERSHIP PHILOSOPHY -->
+  <Section id="philosophy">
+    <Container>
+      <Eyebrow text="05 / 08 — FILOSOFÍA" />
+
+      <div class="max-w-[42ch] mx-auto text-center my-12 md:my-16">
+        <p class="font-display font-semibold italic text-ink-900 leading-[1.35] tracking-[-0.02em]"
+           style="font-size: clamp(1.25rem, 2.5vw, 1.875rem);">
+          Las organizaciones modernas no fallan porque les falten herramientas.<br />
+          Fallan porque carecen de un sistema operativo que convierta esas herramientas en decisiones.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+        <div class="flex flex-col gap-4 bg-[var(--surface-indigo)] rounded-2xl p-8 border border-indigo-100">
+          <div class="w-8 h-[3px] rounded-full bg-signal"></div>
+          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">Los datos son un producto, no un servicio.</h3>
+          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Propietarios, contratos, SLA, políticas de obsolescencia: como cualquier producto que valga la pena operar.</p>
+        </div>
+        <div class="flex flex-col gap-4 bg-[var(--surface-blue)] rounded-2xl p-8 border border-blue-100">
+          <div class="w-8 h-[3px] rounded-full bg-blue-500"></div>
+          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">La IA debe elevar los equipos a la categoría de arquitectos.</h3>
+          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Los agentes manejan la ejecución. Los humanos establecen las reglas que el proceso debe respetar.</p>
+        </div>
+        <div class="flex flex-col gap-4 bg-[var(--surface-green)] rounded-2xl p-8 border border-emerald-100">
+          <div class="w-8 h-[3px] rounded-full bg-emerald-500"></div>
+          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">La visibilidad operativa es un activo estratégico.</h3>
+          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Si un líder no puede ver el sistema, no puede gobernarlo.</p>
+        </div>
+        <div class="flex flex-col gap-4 bg-[var(--surface-purple)] rounded-2xl p-8 border border-purple-100">
+          <div class="w-8 h-[3px] rounded-full bg-purple-500"></div>
+          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">Los sistemas escalan lo que el talento por sí solo no puede.</h3>
+          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">La contratación resuelve el rendimiento por un trimestre. Los sistemas lo resuelven para siempre.</p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 6 — INSIGHTS / WRITING -->
+  <Section id="insights">
+    <Container>
+      <div class="mb-10">
+        <Eyebrow text="06 / 08 — REFLEXIONES" />
+        <h2 class="font-display font-black text-ink-900 mt-4 mb-4 leading-[1.1] tracking-[-0.025em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">Escribir es mi forma de pensar.</h2>
+        <p class="font-body text-[1.125rem] leading-[1.7] text-ink-700 max-w-[52ch]">
+          Ensayos y fichas de conceptos sobre arquitectura de datos, IA de agentes y las cuestiones del modelo operativo que deciden si funcionan.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <a href="/es/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-indigo)] border border-indigo-100 hover:shadow-[0_8px_32px_rgba(99,102,241,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
+          <div class="flex flex-col gap-4">
+            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-signal">IA de Agentes · 5 min de lectura</span>
+            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-signal transition-colors">
+              Por qué la mayoría de las demos de agentes colapsan en producción
+            </h3>
+            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">La brecha entre un prototipo de demostración y un sistema gobernable.</p>
+          </div>
+          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-T1 →</span>
+        </a>
+
+        <a href="/es/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-blue)] border border-blue-100 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
+          <div class="flex flex-col gap-4">
+            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-blue-600">Arquitectura de Datos · 8 min de lectura</span>
+            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-blue-600 transition-colors">
+              La arquitectura Medallion, descodificada
+            </h3>
+            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">Por qué bronce, plata y oro no es solo una convención de nombres.</p>
+          </div>
+          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-T1 →</span>
+        </a>
+
+        <a href="/es/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-green)] border border-emerald-100 hover:shadow-[0_8px_32px_rgba(16,185,129,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
+          <div class="flex flex-col gap-4">
+            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-emerald-600">BI & Analítica · 6 min de lectura</span>
+            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-emerald-600 transition-colors">
+              La capa semántica es la nueva API de datos
+            </h3>
+            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">Por qué tus KPI necesitan un contrato antes de que tus agentes los lean.</p>
+          </div>
+          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-T1 →</span>
+        </a>
+      </div>
+      
+      <div class="mt-8 flex justify-end">
+        <a href="/es/concepts"
+           class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-900 hover:text-signal transition-colors">
+          Explorar la biblioteca completa de conceptos (50+) →
+        </a>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <!-- SECTION 7 — TESTIMONIALS / PROOF -->
+  <Section id="testimonials">
+    <Container>
+      <div class="mb-8">
+        <Eyebrow text="07 / 08 — EN SUS PALABRAS" />
+      </div>
+      
+      <TestimonialCrossfade client:visible testimonials={testimonials} />
+      
+      <div class="mt-12 flex justify-center">
+        <a href="/es/contact"
+           class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-900 hover:text-signal transition-colors">
+          Referencias disponibles bajo petición →
+        </a>
+      </div>
+    </Container>
+  </Section>
+</Layout>

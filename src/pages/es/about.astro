@@ -1,0 +1,161 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../../components/layout/Container.astro';
+import Section from '../../components/layout/Section.astro';
+import Grid from '../../components/layout/Grid.astro';
+import Eyebrow from '../../components/primitives/Eyebrow.astro';
+import Heading from '../../components/primitives/Heading.astro';
+import MetricBlock from '../../components/primitives/MetricBlock.astro';
+---
+
+<Layout title="Sobre mí — Yoann Leny" description="Operador-arquitecto con experiencia a nivel VP liderando operaciones de datos e IA agentica a gran escala. Antecedentes, principios y cómo trabajo.">
+  
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-16">
+        <Eyebrow text="SOBRE MÍ" />
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);">
+          <span class="block">Yoann Leny.</span>
+          <span class="block text-signal">Operador, arquitecto, constructor.</span>
+        </h1>
+        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
+          Construyendo sistemas operativos de datos e IA para organizaciones que buscan margen, no magia.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <section class="w-full relative scroll-reveal border-y border-ink-100 bg-paper-0">
+    <Container>
+      <div class="py-16 md:py-24 max-w-[46ch] mx-auto text-center">
+        <p class="font-display font-semibold italic text-ink-900 leading-[1.35] tracking-[-0.02em]"
+           style="font-size: clamp(1.375rem, 2.8vw, 2rem);">
+          Las herramientas son fáciles. La forma en que las decisiones, los datos, los modelos y las personas componen un todo que funciona — ahí es donde vive la ventaja.
+        </p>
+        <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mt-8">
+          BURDEOS, FRANCIA
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <Section id="bio">
+    <Container>
+      <div class="max-w-[70ch] mx-auto">
+        <Eyebrow text="01 — BIOGRAFÍA" />
+        
+        <div class="font-body text-ink-900 space-y-8 text-[1.0625rem] leading-[1.7] mt-10">
+          <p class="text-[1.25rem] leading-[1.6] font-semibold text-ink-900 mb-10">
+            He pasado la última década aprendiendo la misma lección una y otra vez: las organizaciones no rinden lo suficiente porque les falten herramientas, sino porque las herramientas nunca se integran en un sistema que funcione. Los paneles existen. Los datos existen. Los modelos existen. Lo que falta es la lógica operativa que los convierta en decisiones.
+          </p>
+          <p>
+            Mi carrera ha sido la práctica de instalar esa lógica operativa. Al principio, construí almacenes de datos para equipos de rendimiento que necesitaban respuestas en minutos, no en semanas. Aprendí la diferencia entre una consulta que se ejecuta y una consulta que sobrevive. Luego construí las plataformas debajo de esos almacenes — medallion lakehouses, capas semánticas, canalizaciones basadas en contratos — porque la fragilidad de la pila anterior hacía que las respuestas rápidas volvieran a ser lentas cada seis meses.
+          </p>
+          <p>
+            Para cuando los modelos de lenguaje grandes dejaron de ser una curiosidad de investigación y pasaron a ser componentes desplegables, yo ya había estado pensando en agentes — en flujos de trabajo que necesitaban actuar, no solo recuperar información. El trabajo se orientó hacia el diseño de sistemas multi-agente con límites deterministas: gráficos de agentes jerárquicos, pistas de auditoría, puntos de control con intervención humana. El patrón quedó claro: la IA agentica funciona en producción solo cuando se asienta sobre la misma base de datos disciplinada que necesita la analítica tradicional. No hay atajos.
+          </p>
+          <p>
+            Más recientemente, como VP de Operaciones de Datos, he sido responsable de todo el triángulo: las plataformas (datos e IA), el modelo operativo (más de 40 expertos en tres regiones) y la superficie ejecutiva (la capa de visibilidad que convierte el sistema en decisiones gobernables). El triángulo es el trabajo. Quitar una esquina hace que las otras dos colapsen en un plazo de doce meses.
+          </p>
+          <p>
+            Escribo lo que aprendo. La biblioteca de conceptos de este sitio no es marketing de contenidos; es un cuaderno de trabajo sobre cómo pienso cada problema, con comparaciones de proveedores basadas en lo que realmente he desplegado. Si algo en el sitio le resulta útil, ese es el objetivo. Si cree que me equivoco en algo, prefiero escucharlo.
+          </p>
+          <p>
+            Vivo en Burdeos. Trabajo con equipos ejecutivos en Francia, el Reino Unido y de forma selectiva en Europa y América del Norte. Acepto un número reducido de compromisos cada año, normalmente una gran reestructuración y una o dos relaciones de asesoría, porque la profundidad que produce resultados reales es incompatible con una mentalidad de cartera.
+          </p>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <Section id="principles">
+    <Container>
+      <Eyebrow text="02 — PRINCIPIOS" />
+      <h2 class="font-display font-black text-ink-900 mt-4 mb-16 leading-[1.08] tracking-[-0.03em]"
+          style="font-size: clamp(2rem, 4vw, 3rem);">
+        Cómo trabajo.
+      </h2>
+      
+      <div class="flex flex-col border-t border-ink-100">
+        {[
+          { num: "01", title: "Hacer legible el sistema.", desc: "Si un CEO no puede ver cómo se toman las decisiones, el sistema aún no está terminado." },
+          { num: "02", title: "Tratar los datos como un producto.", desc: "Propietarios, contratos, SLA, depreciación. La disciplina de desarrollar software aplicada a la información." },
+          { num: "03", title: "Restringir a los agentes antes de escalarlos.", desc: "Los sistemas probabilísticos necesitan límites deterministas. Los límites son arquitectura, no una idea de último momento." },
+          { num: "04", title: "Contratar para el pensamiento sistémico, no por experiencia técnica.", desc: "Las herramientas cambian cada dos años. Los instintos operativos se acumulan." },
+          { num: "05", title: "Eliminar más de lo que se añade.", desc: "La mayoría de las organizaciones ya se están ahogando. La moderación es el movimiento de los profesionales senior." }
+        ].map(item => (
+          <div class="py-8 border-b border-ink-100 grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-4 items-start group hover:bg-paper-0 transition-colors">
+            <div class="md:col-span-1 font-mono text-[0.6875rem] font-bold uppercase text-signal pt-2">{item.num}</div>
+            <div class="md:col-span-5 font-display font-bold text-[1.25rem] leading-snug text-ink-900">{item.title}</div>
+            <div class="md:col-span-6 font-body text-[1rem] leading-[1.7] text-ink-700 md:pt-1">{item.desc}</div>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="track-record">
+    <Container>
+      <div class="max-w-[70ch] mx-auto mb-16">
+        <Eyebrow text="03 — TRAYECTORIA" />
+      </div>
+      
+      <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+        <MetricBlock size="large" label="IMPACTO EN INGRESOS" value="$13M+" description="Impacto acumulado en proyectos de datos e IA, medido a nivel de pérdidas y ganancias — no modelado." />
+        <MetricBlock size="large" label="TAMAÑO DEL EQUIPO" value="40+" description="Expertos orquestados directamente en ingeniería de datos, analítica, IA y funciones adyacentes." />
+        <MetricBlock size="large" label="REGIONES LIDERADAS" value="3" description="Europa, Reino Unido y un tercer nodo regional gestionados en paralelo." />
+        <MetricBlock size="large" label="EFICIENCIA" value="+15%" description="Incremento sostenido del uso de un equipo de 40 personas tras desplegar el gestor de habilidades agentico." />
+        <MetricBlock size="large" label="RETORNO DE INVERSIÓN" value="9m" description="Desde el inicio hasta la amortización en la reconstrucción más reciente de la pila medallion empresarial." />
+        <MetricBlock size="large" label="FIABILIDAD" value="0" description="Incidentes de desviación de KPI en producción tras introducir la capa semántica lista para IA." />
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="stack">
+    <Container>
+      <div class="max-w-[70ch] mx-auto">
+        <Eyebrow text="04 — TECNOLOGÍAS" />
+        <p class="font-body text-[0.9375rem] leading-[1.7] text-ink-700 mt-6">
+          Mis herramientas de trabajo diarias incluyen las principales plataformas de lakehouse y almacenamiento (Databricks, Snowflake, BigQuery), orquestación a través de Airflow y Dagster, transformación en dbt, capas semánticas a través de Cube y LookML (Looker), observabilidad a través de Monte Carlo y Lightdash, y marcos de agentes que incluyen LangGraph, CrewAI y, cada vez más, implementaciones de gráficos deterministas personalizadas. La nube es múltiple (AWS, GCP, Azure) sin preferencia dogmática. Todo lo demás es un medio para un fin.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto"></div>
+
+  <Section id="writing">
+    <Container>
+      <div class="max-w-[70ch] mx-auto">
+        <Eyebrow text="05 — PUBLICACIONES" />
+        <ul class="space-y-4 font-body text-[1rem] leading-[1.7] mt-8">
+          <li><a href="/es/insights/why-most-agent-demos-collapse-in-production" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">Por qué la mayoría de las demostraciones de agentes fracasan en producción</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">ensayo</span></li>
+          <li><a href="/es/concepts/medallion-architecture" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">La arquitectura Medallion, descodificada</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">concepto</span></li>
+          <li><a href="/es/concepts/data-lake-vs-warehouse-vs-lakehouse" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">Snowflake vs Databricks vs BigQuery para cargas de trabajo de IA</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">concepto</span></li>
+          <li><a href="/es/insights/the-semantic-layer-is-the-new-data-api" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">La capa semántica es la nueva API de datos</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">ensayo</span></li>
+          <li><a href="/es/insights/designing-teams-for-agentic-operations" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">Diseño de equipos para operaciones agenticas</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">ensayo</span></li>
+          <li><a href="/es/insights/lakehouse-warehouse-mesh" class="text-ink-900 font-medium hover:text-signal underline decoration-ink-100 hover:decoration-signal/30 underline-offset-4 transition-colors">Lakehouse, warehouse, mesh — qué cambia realmente</a> <span class="font-mono text-[0.6875rem] uppercase tracking-widest text-ink-500 ml-3">ensayo</span></li>
+        </ul>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="closing" background="ink">
+    <Container>
+      <div class="py-24 text-center max-w-4xl mx-auto">
+        <h2 class="font-display font-black text-paper-50 mb-12 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          <span class="block text-ink-300 font-medium text-[0.8em] mb-4">Si sus datos y su IA se sienten activos pero no productivos, ese es el problema del sistema operativo.</span>
+          <span class="block">Hablemos.</span>
+        </h2>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em]">
+          <a href="/es/contact" class="bg-signal text-white px-8 py-4 rounded-xl hover:bg-signal/90 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(99,102,241,0.25)] transition-all duration-300">Reservar una introducción de 30 minutos &rarr;</a>
+          <a href="mailto:yoann.leny@gmail.com" class="text-paper-50 hover:text-signal transition-colors pb-1 border-b-2 border-transparent hover:border-signal">O enviar un correo electrónico directo</a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>

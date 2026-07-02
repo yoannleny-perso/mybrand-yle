@@ -8,12 +8,6 @@ readingTime: 7
 lastReviewed: "2026-03-15"
 ---
 
-# Slowly Changing Dimensions
-
-`DATA ARCHITECTURE · INTERMEDIATE · 7 MIN · LAST REVIEWED MARCH 2026`
-
-> A set of patterns (Type 0 through Type 7) for handling attribute changes in dimension tables — choosing how much history to preserve and how to expose it.
-
 ## What it is
 
 SCD is the modeling vocabulary for answering one question: *when an attribute of a dimension changes, what should the warehouse remember?* The answer determines whether historical reports stay correct or silently rewrite themselves.
@@ -70,6 +64,6 @@ Fact tables join on the surrogate key (`customer_sk`), which means each fact row
 
 ## Related reading
 
-- [Star, Snowflake, and Galaxy Schemas](/concepts/data-architecture/star-snowflake-galaxy-schemas)
-- [Data Vault Modeling](/concepts/data-architecture/data-vault-modeling)
-- [CDC — Change Data Capture](/concepts/data-engineering/cdc-change-data-capture)
+- [Star, Snowflake, and Galaxy Schemas](/concepts/star-snowflake-galaxy-schemas)
+- [Data Vault Modeling](/concepts/data-vault-modeling)
+- [CDC — Change Data Capture](/concepts/cdc-change-data-capture)

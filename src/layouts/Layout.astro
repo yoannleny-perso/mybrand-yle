@@ -3,6 +3,7 @@ import '../styles/global.css';
 import '@fontsource-variable/inter';
 import '@fontsource/jetbrains-mono';
 import '@fontsource/jetbrains-mono/500.css';
+import { ClientRouter } from 'astro:transitions';
 
 import Header from '../components/layout/Header.astro';
 import Footer from '../components/layout/Footer.astro';
@@ -24,13 +25,63 @@ const {
 const siteUrl = Astro.site || "https://yoannleny.com";
 const absoluteOgImage = new URL(ogImage, siteUrl).toString();
 const absoluteCanonicalUrl = new URL(Astro.url.pathname, siteUrl).toString().replace(/\/$/, ''); // Remove trailing slash
+
+const lang = Astro.currentLocale || 'en';
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Mark JS as available before first paint; reveal styles only apply then -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
+    <!-- Automatic client-side language detection and redirection -->
+    <script is:inline>
+      (function() {
+        const supportedLangs = ['en', 'fr', 'es'];
+        const defaultLang = 'en';
+
+        // 1. Check if user already has a saved preference in localStorage
+        const savedLang = localStorage.getItem('preferred-lang');
+        
+        // 2. Determine current URL path language prefix (if any)
+        const pathParts = window.location.pathname.split('/').filter(Boolean);
+        const pathLang = pathParts[0] && supportedLangs.includes(pathParts[0]) ? pathParts[0] : null;
+
+        // 3. Determine browser language if no saved preference
+        let targetLang = savedLang;
+        if (!targetLang) {
+          const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase().slice(0, 2);
+          targetLang = supportedLangs.includes(browserLang) ? browserLang : defaultLang;
+        }
+
+        // 4. Redirect if necessary
+        const currentPageLang = pathLang || defaultLang;
+        
+        if (targetLang !== currentPageLang) {
+          let newPath = window.location.pathname;
+          
+          if (pathLang) {
+            // Replace current prefix
+            newPath = '/' + targetLang + newPath.slice(pathLang.length + 1);
+          } else {
+            // Add new prefix if target is not the default
+            if (targetLang !== defaultLang) {
+              newPath = '/' + targetLang + newPath;
+            }
+          }
+          
+          // Clean up multiple slashes or trailing slashes
+          newPath = newPath.replace(/\/+/g, '/');
+          if (newPath !== window.location.pathname) {
+            window.location.replace(newPath + window.location.search + window.location.hash);
+          }
+        }
+      })();
+    </script>
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={absoluteCanonicalUrl} />
@@ -51,6 +102,7 @@ const absoluteCanonicalUrl = new URL(Astro.url.pathname, siteUrl).toString().rep
     
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <ClientRouter />
   </head>
   <body>
     <Header />
@@ -58,5 +110,97 @@ const absoluteCanonicalUrl = new URL(Astro.url.pathname, siteUrl).toString().rep
       <slot />
     </main>
     <Footer />
+
+    <script>
+      // Single site-wide reveal system. Content is visible without JS;
+      // with JS we hide-then-reveal on intersection. Re-runs after
+      // view transitions via astro:page-load.
+      function initReveals() {
+        const targets = document.querySelectorAll('.scroll-reveal:not(.is-revealed), [data-stagger]:not(.is-revealed)');
+        if (targets.length === 0) return;
+
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+          targets.forEach((el) => el.classList.add('is-revealed'));
+          return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1, rootMargin: '0px 0px -5% 0px' });
+
+        targets.forEach((el) => observer.observe(el));
+
+        // Safety net: nothing stays hidden if the observer misbehaves.
+        setTimeout(() => {
+          document.querySelectorAll('.scroll-reveal:not(.is-revealed), [data-stagger]:not(.is-revealed)')
+            .forEach((el) => el.classList.add('is-revealed'));
+          observer.disconnect();
+        }, 6000);
+      }
+
+      // Metric count-up: <span data-countup> animates its numeric part once.
+      function initCountUps() {
+        const els = document.querySelectorAll('[data-countup]:not([data-counted])');
+        if (els.length === 0) return;
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const animate = (el: Element) => {
+          el.setAttribute('data-counted', 'true');
+          const original = el.textContent || '';
+          const match = original.match(/([\d,.]+)/);
+          if (!match || reduceMotion) return;
+          const target = parseFloat(match[1].replace(/,/g, ''));
+          if (!isFinite(target)) return;
+          const decimals = (match[1].split('.')[1] || '').length;
+          const start = performance.now();
+          const dur = 1200;
+          const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+          const frame = (now: number) => {
+            const p = Math.min(1, (now - start) / dur);
+            const value = (target * ease(p)).toFixed(decimals);
+            el.textContent = original.replace(match[1], Number(value).toLocaleString('en-US', { minimumFractionDigits: decimals }));
+            if (p < 1) requestAnimationFrame(frame);
+            else el.textContent = original;
+          };
+          requestAnimationFrame(frame);
+        };
+
+        if (!('IntersectionObserver' in window)) { els.forEach(animate); return; }
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) { animate(entry.target); io.unobserve(entry.target); }
+          });
+        }, { threshold: 0.5 });
+        els.forEach((el) => io.observe(el));
+      }
+
+      // Reading progress hairline: opt-in per page via .reading-progress element.
+      function initReadingProgress() {
+        const bar = document.querySelector<HTMLElement>('.reading-progress');
+        if (!bar) return;
+        const update = () => {
+          const doc = document.documentElement;
+          const max = doc.scrollHeight - window.innerHeight;
+          bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+        };
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+      }
+
+      function initAll() {
+        initReveals();
+        initCountUps();
+        initReadingProgress();
+      }
+
+      initAll();
+      document.addEventListener('astro:page-load', initAll);
+    </script>
   </body>
 </html>

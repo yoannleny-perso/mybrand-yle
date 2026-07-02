@@ -1,0 +1,138 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import Container from '../../../components/layout/Container.astro';
+import Section from '../../../components/layout/Section.astro';
+import Grid from '../../../components/layout/Grid.astro';
+import Eyebrow from '../../../components/primitives/Eyebrow.astro';
+import Heading from '../../../components/primitives/Heading.astro';
+import Prose from '../../../components/primitives/Prose.astro';
+
+export async function getStaticPaths() {
+  const caseStudies = await getCollection('case-studies');
+  const locales = ['fr', 'es'];
+  
+  const paths = [];
+  for (const locale of locales) {
+    for (const entry of caseStudies) {
+      paths.push({
+        params: {
+          lang: locale,
+          slug: entry.data.slug || entry.id
+        },
+        props: {
+          entry,
+          lang: locale
+        }
+      });
+    }
+  }
+  return paths;
+}
+
+const { entry, lang } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={`${entry.data.title} — ${lang === 'fr' ? 'Étude de cas' : 'Caso de Estudio'} — Yoann Leny`} description={`Case study: ${entry.data.title}`}>
+  
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-16">
+        <Eyebrow text={`${lang === 'fr' ? 'RÉALISATION' : 'PROYECTO'} · ${entry.data.yearStart || entry.data.yearEnd || '2026'}`} />
+        <Heading level={2} as="h1" class="mb-6">
+          {entry.data.title}
+        </Heading>
+        {entry.data.client && (
+          <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-700 max-w-[60ch]">
+            {entry.data.client}
+          </p>
+        )}
+      </div>
+    </Container>
+  </Section>
+
+  {entry.data.heroImage && (
+    <section class="w-full relative scroll-reveal">
+      <div class="w-full aspect-[21/9] bg-ink-100 relative">
+        <img src={entry.data.heroImage} alt="" class="w-full h-full object-cover grayscale mix-blend-multiply opacity-80" />
+      </div>
+    </section>
+  )}
+
+  <Section id="content">
+    <Container>
+      <Grid columns={12}>
+        <!-- Meta sidebar -->
+        <div class="col-span-12 md:col-span-3 mb-12 md:mb-0">
+          <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6 border-t border-ink-100 pt-4">
+            {lang === 'fr' ? 'Contexte' : 'Resumen'}
+          </div>
+          <dl class="space-y-4">
+            {entry.data.sector && (
+              <div>
+                <dt class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-1">
+                  {lang === 'fr' ? 'Secteur' : 'Sector'}
+                </dt>
+                <dd class="font-body text-[length:var(--t-body-s-size)] text-ink-1000">{entry.data.sector}</dd>
+              </div>
+            )}
+            {entry.data.yearStart && (
+              <div>
+                <dt class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-1">
+                  {lang === 'fr' ? 'Durée' : 'Duración'}
+                </dt>
+                <dd class="font-body text-[length:var(--t-body-s-size)] text-ink-1000">
+                  {entry.data.yearStart} {entry.data.yearEnd && `— ${entry.data.yearEnd}`}
+                </dd>
+              </div>
+            )}
+          </dl>
+          
+          {entry.data.metrics && entry.data.metrics.length > 0 && (
+            <div class="mt-12">
+              <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-6 border-t border-ink-100 pt-4">
+                {lang === 'fr' ? 'Résultats' : 'Resultados'}
+              </div>
+              <ul class="space-y-4">
+                {entry.data.metrics.map((m: any) => (
+                  <li class="flex items-baseline gap-2">
+                    <span class="font-display text-lg text-ink-1000">{m.value}</span>
+                    <span class="font-body text-[length:var(--t-body-s-size)] text-ink-700">{m.label}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        <!-- Main content -->
+        <div class="col-span-12 md:col-span-8 md:col-start-5">
+          <Prose>
+            <Content />
+          </Prose>
+        </div>
+      </Grid>
+    </Container>
+  </Section>
+
+  <Section id="closing" background="ink">
+    <Container>
+      <div class="py-24 text-center max-w-4xl mx-auto">
+        <Heading level={2} as="h2" class="font-light text-paper-50 mb-16 italic">
+          <span class="block">
+            {lang === 'fr' ? 'Vous faites face à un défi similaire ?' : '¿Te enfrentas a un desafío similar?'}
+          </span>
+        </Heading>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)]">
+          <a href={`/${lang}/contact`} class="bg-paper-50 text-ink-1000 px-6 py-4 hover:bg-ink-300 transition-colors">
+            {lang === 'fr' ? 'Lancer une conversation' : 'Iniciar conversación'} &rarr;
+          </a>
+          <a href={`/${lang}/work`} class="text-paper-50 hover:text-ink-300 transition-colors border-b border-transparent hover:border-ink-300 pb-1">
+            {lang === 'fr' ? 'Retour aux réalisations' : 'Volver a todos los proyectos'}
+          </a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>

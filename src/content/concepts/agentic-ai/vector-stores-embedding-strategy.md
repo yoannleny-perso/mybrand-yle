@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Vector Stores and Embedding Strategy
-
 ## What it is
 
 A vector store holds high-dimensional numerical representations of text, images, or other content, alongside metadata. It supports efficient nearest-neighbor search — given a query vector, return the K closest stored vectors. This is the substrate of retrieval-augmented generation, semantic search, recommendation systems, and any application that needs to find "similar" content quickly.

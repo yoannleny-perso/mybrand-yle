@@ -8,8 +8,6 @@ readingTime: "7 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Embedded vs Standalone Analytics
-
 ## What it is
 
 Standalone analytics: a dedicated BI tool — Looker, Power BI, Tableau — where users go to view dashboards and explore data. The analytics live in their own product, with their own login.

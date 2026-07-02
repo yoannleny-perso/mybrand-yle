@@ -167,42 +167,59 @@ const testimonials = [
       </div>
 
       <Grid columns={12} gap="loose">
-        <AsymmetricCard 
+        <AsymmetricCard
           size="tall"
+          pattern="agents"
           tag="2025 · ENTERPRISE · 18 MONTHS"
           title="Multi-Agent Skill Tracker"
           description="A hierarchical agentic system that maintains a live skills graph for 40+ consultants, recommends staffing, and surfaces hiring gaps to leadership weekly."
-          metric="+15% utilization · -22% bench time"
+          metrics={[
+            { value: "+15%", label: "utilization" },
+            { value: "-22%", label: "bench time" },
+            { value: "3", label: "regions" }
+          ]}
           href="/work/multi-agent-skill-tracker"
         />
-        <div class="col-span-12 md:col-span-2 hidden md:block"></div> {/* Spacer */}
-        
-        <AsymmetricCard 
+
+        <AsymmetricCard
           size="wide"
+          pattern="layers"
           tag="2024 · GLOBAL · 12 MONTHS"
           title="Enterprise Medallion Stack"
           description="A bronze–silver–gold lakehouse architecture deployed across three regions, with a governed semantic layer feeding analytics, ML, and agent workflows from a single source of truth."
-          metric="$13M+ revenue impact · 9-month payback"
+          metrics={[
+            { value: "$13M+", label: "revenue impact" },
+            { value: "9 mo", label: "to payback" },
+            { value: "0", label: "KPI drift incidents" }
+          ]}
           href="/work/enterprise-medallion-stack"
         />
 
-        <AsymmetricCard 
+        <AsymmetricCard
           size="square"
+          pattern="semantic"
           tag="2024 · MID-MARKET · 6 MONTHS"
           title="AI-Ready Semantic Layer"
           description="A metric definition layer designed specifically for LLM and agent consumption, eliminating hallucinated KPIs and standardizing how AI tools query the business."
-          metric="0 KPI drift incidents in production"
+          metrics={[
+            { value: "0", label: "KPI drift incidents" },
+            { value: "47", label: "conformed metrics" },
+            { value: "4", label: "LLM consumers" }
+          ]}
           href="/work/ai-ready-semantic-layer"
         />
-        
-        <div class="col-span-12 md:col-span-2 hidden md:block"></div> {/* Spacer */}
-        
-        <AsymmetricCard 
-          size="tall"
+
+        <AsymmetricCard
+          size="wide"
+          pattern="org"
           tag="2023 · GLOBAL · 24 MONTHS"
           title="Global Data Ops Scaling Model"
           description="An operating model for a 40-person data team across three regions: pod design, role split, ritual cadence, and a custom internal observability layer for delivery health."
-          metric="40+ experts · 3 regions · 4 qtrs to steady-state"
+          metrics={[
+            { value: "40+", label: "experts" },
+            { value: "3", label: "regions" },
+            { value: "4 Q", label: "to steady-state" }
+          ]}
           href="/work/global-data-ops-scaling-model"
         />
       </Grid>

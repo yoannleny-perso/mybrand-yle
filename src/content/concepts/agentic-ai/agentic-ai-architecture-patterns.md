@@ -8,8 +8,6 @@ readingTime: "11 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Agentic AI Architecture Patterns
-
 ## What it is
 
 There is no single way to build an agentic system. The same goal — "investigate why the dashboard is wrong" — can be solved by a single agent with five tools, by an orchestrator dispatching to specialist sub-agents, by a graph-based state machine, or by a workflow with deterministic steps and one LLM call per node.

@@ -8,12 +8,6 @@ readingTime: 7
 lastReviewed: "2026-03-15"
 ---
 
-# The Modern Data Stack
-
-`DATA ARCHITECTURE · FOUNDATIONAL · 7 MIN · LAST REVIEWED MARCH 2026`
-
-> The cloud-native, modular set of tools — ELT, warehouse, transformation, semantic layer, BI — that replaced monolithic data platforms in the 2015-2020 decade.
-
 ## What it is
 
 The "modern data stack" is shorthand for an architectural pattern that emerged when cloud warehouses became cheap enough to keep raw data inside them. Instead of the older Extract → Transform → Load pattern (where transformation happened *before* data hit the warehouse), the modern pattern is Extract → Load → Transform: data is loaded raw and transformed in-warehouse with SQL-based tools.
@@ -66,6 +60,6 @@ The defining stack debates in 2026:
 
 ## Related reading
 
-- [Medallion Architecture](/concepts/data-architecture/medallion-architecture)
-- [The Modern BI Stack](/concepts/bi-analytics/modern-bi-stack)
-- [Data Transformation with dbt](/concepts/data-engineering/data-transformation-with-dbt)
+- [Medallion Architecture](/concepts/medallion-architecture)
+- [The Modern BI Stack](/concepts/modern-bi-stack)
+- [Data Transformation with dbt](/concepts/data-transformation-with-dbt)

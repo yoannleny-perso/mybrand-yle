@@ -8,8 +8,6 @@ readingTime: "7 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Dashboard Design Principles
-
 ## What it is
 
 Dashboard design is the discipline of communicating a data story in a way that supports decisions. It includes metric selection, layout hierarchy, chart-type choice, color use, and editorial restraint.

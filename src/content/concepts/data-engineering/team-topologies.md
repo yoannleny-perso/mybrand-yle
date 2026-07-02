@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Team Topologies for Data and AI
-
 ## What it is
 
 Team topology is the shape of how people are organized around the work. The "Team Topologies" framework (Skelton & Pais) defines four team types — stream-aligned, platform, enabling, complicated-subsystem — and the interaction patterns between them.

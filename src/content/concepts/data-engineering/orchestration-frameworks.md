@@ -8,8 +8,6 @@ readingTime: "10 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Orchestration Frameworks: Airflow, Dagster, Prefect, Temporal
-
 ## What it is
 
 An orchestrator is the control plane for your data work. It defines what runs, in what order, on what schedule, with what retries, and surfaces the answer when something fails. Without an orchestrator you have a folder of cron jobs and a Slack channel called `#data-fires`.

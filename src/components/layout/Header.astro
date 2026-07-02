@@ -1,38 +1,300 @@
 ---
+const lang = Astro.currentLocale || 'en';
+
+const translations = {
+  en: {
+    work: "Work",
+    capabilities: "Capabilities",
+    concepts: "Concepts",
+    insights: "Insights",
+    talk: "Let's Talk",
+    logoLabel: "Yoann Leny Home",
+    toggleMenu: "Open menu",
+    langEn: "English",
+    langFr: "French",
+    langEs: "Spanish"
+  },
+  fr: {
+    work: "Projets",
+    capabilities: "Compétences",
+    concepts: "Concepts",
+    insights: "Réflexions",
+    talk: "Contact",
+    logoLabel: "Accueil Yoann Leny",
+    toggleMenu: "Ouvrir le menu",
+    langEn: "Anglais",
+    langFr: "Français",
+    langEs: "Espagnol"
+  },
+  es: {
+    work: "Proyectos",
+    capabilities: "Competencias",
+    concepts: "Conceptos",
+    insights: "Reflexiones",
+    talk: "Hablemos",
+    logoLabel: "Inicio Yoann Leny",
+    toggleMenu: "Abrir el menú",
+    langEn: "Inglés",
+    langFr: "Francés",
+    langEs: "Español"
+  }
+};
+
+const t = translations[lang as keyof typeof translations] || translations.en;
+
+// Helper to prefix paths for localized links
+const getLangPath = (path: string) => {
+  if (lang === 'en') return path;
+  return `/${lang}${path === '/' ? '' : path}`;
+};
 ---
 
-<header id="global-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-6 px-6 sm:px-12 lg:px-[max(96px,8vw)]">
+<header id="global-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 py-6 px-6 sm:px-12 lg:px-[max(96px,8vw)]" transition:persist>
   <div class="max-w-[1440px] mx-auto flex justify-between items-center relative">
     
     <!-- Left: Brand Name -->
-    <a href="/" class="text-ink-1000 hover:text-signal transition-colors font-display font-bold text-xl md:text-2xl z-10" aria-label="Yoann Leny Home">
+    <a href={getLangPath('/')} class="text-ink-1000 hover:text-signal transition-colors font-display font-bold text-xl md:text-2xl z-50" aria-label={t.logoLabel}>
       Yoann Leny
     </a>
     
-    <!-- Center: Pill Navigation -->
+    <!-- Center: Pill Navigation (Desktop) -->
     <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 z-0">
       <nav class="pill-nav px-8 py-3 flex gap-8 text-[length:var(--t-body-s-size)] font-medium text-ink-700">
-        <a href="/work" class="hover:text-ink-1000 transition-colors">Work</a>
-        <a href="/capabilities" class="hover:text-ink-1000 transition-colors">Capabilities</a>
-        <a href="/concepts" class="hover:text-ink-1000 transition-colors">Concepts</a>
-        <a href="/insights" class="hover:text-ink-1000 transition-colors">Insights</a>
+        <a href={getLangPath('/work')} class="hover:text-ink-1000 transition-colors">{t.work}</a>
+        <a href={getLangPath('/capabilities')} class="hover:text-ink-1000 transition-colors">{t.capabilities}</a>
+        <a href={getLangPath('/concepts')} class="hover:text-ink-1000 transition-colors">{t.concepts}</a>
+        <a href={getLangPath('/insights')} class="hover:text-ink-1000 transition-colors">{t.insights}</a>
       </nav>
     </div>
     
-    <!-- Right: Contact / Let's Talk Button -->
-    <div class="hidden lg:flex z-10">
-      <a href="/contact" class="bg-ink-1000 text-paper-0 px-6 py-3 rounded-full text-[length:var(--t-body-s-size)] font-medium hover:bg-signal hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300">
-        Let's Talk
+    <!-- Right: Desktop Switchers & Contact Button -->
+    <div class="hidden lg:flex items-center gap-6 z-10">
+      <!-- Minimalist Flags Switcher -->
+      <div class="flex items-center gap-3 border-r border-ink-100 pr-5 h-5">
+        <button 
+          data-lang-switch="en" 
+          class={`cursor-pointer transition-all ${lang === 'en' ? 'opacity-100 scale-110' : 'opacity-40 hover:opacity-85'}`}
+          aria-label="Switch to English"
+          title={t.langEn}
+        >
+          <svg class="w-5 h-[13px] border border-ink-100/30 object-cover flex-shrink-0" viewBox="0 0 50 30" fill="none">
+            <rect width="50" height="30" fill="#012169"/>
+            <path d="M0 0 L50 30 M50 0 L0 30" stroke="#FFF" stroke-width="6"/>
+            <path d="M0 0 L50 30" stroke="#C8102E" stroke-width="2"/>
+            <path d="M50 0 L0 30" stroke="#C8102E" stroke-width="2"/>
+            <path d="M25 0 V30 M0 15 H50" stroke="#FFF" stroke-width="10"/>
+            <path d="M25 0 V30 M0 15 H50" stroke="#C8102E" stroke-width="6"/>
+          </svg>
+        </button>
+        <button 
+          data-lang-switch="fr" 
+          class={`cursor-pointer transition-all ${lang === 'fr' ? 'opacity-100 scale-110' : 'opacity-40 hover:opacity-85'}`}
+          aria-label="Switch to French"
+          title={t.langFr}
+        >
+          <svg class="w-5 h-[13px] border border-ink-100/30 object-cover flex-shrink-0" viewBox="0 0 3 2">
+            <rect width="1" height="2" fill="#002395" />
+            <rect x="1" width="1" height="2" fill="#FFFFFF" />
+            <rect x="2" width="1" height="2" fill="#ED2939" />
+          </svg>
+        </button>
+        <button 
+          data-lang-switch="es" 
+          class={`cursor-pointer transition-all ${lang === 'es' ? 'opacity-100 scale-110' : 'opacity-40 hover:opacity-85'}`}
+          aria-label="Switch to Spanish"
+          title={t.langEs}
+        >
+          <svg class="w-5 h-[13px] border border-ink-100/30 object-cover flex-shrink-0" viewBox="0 0 3 2">
+            <rect width="3" height="2" fill="#C1272D" />
+            <rect y="0.5" width="3" height="1" fill="#FECB00" />
+          </svg>
+        </button>
+      </div>
+
+      <a href={getLangPath('/contact')} class="bg-ink-1000 text-paper-0 px-6 py-3 rounded-full text-[length:var(--t-body-s-size)] font-medium hover:bg-signal hover:shadow-hover hover:-translate-y-0.5 transition-all duration-300">
+        {t.talk}
       </a>
     </div>
 
     <!-- Mobile Menu Button -->
-    <button class="lg:hidden text-ink-1000 focus-visible z-10" aria-label="Open menu" id="mobile-menu-btn">
+    <button 
+      class="lg:hidden text-ink-1000 focus-visible z-50 p-3 -mr-3 cursor-pointer relative" 
+      aria-label={t.toggleMenu} 
+      id="mobile-menu-btn"
+      aria-expanded="false"
+      aria-controls="mobile-menu-overlay"
+    >
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
+        <line id="mobile-line-1" class="origin-center transition-all duration-300 ease-[var(--ease-out)]" x1="3" y1="12" x2="21" y2="12"></line>
+        <line id="mobile-line-2" class="origin-center transition-all duration-300 ease-[var(--ease-out)]" x1="3" y1="6" x2="21" y2="6"></line>
+        <line id="mobile-line-3" class="origin-center transition-all duration-300 ease-[var(--ease-out)]" x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
+
+    <!-- Mobile Menu Overlay (Drawer) -->
+    <div 
+      id="mobile-menu-overlay" 
+      class="fixed inset-0 bg-paper-50 z-40 translate-x-full transition-transform duration-300 ease-[var(--ease-out)] flex flex-col justify-between p-8 pt-32 lg:hidden border-l border-ink-100"
+      aria-hidden="true"
+    >
+      <nav class="flex flex-col gap-6 text-2xl font-bold font-display text-ink-900">
+        <a href={getLangPath('/work')} class="hover:text-signal transition-colors py-2 border-b border-ink-100/50">{t.work}</a>
+        <a href={getLangPath('/capabilities')} class="hover:text-signal transition-colors py-2 border-b border-ink-100/50">{t.capabilities}</a>
+        <a href={getLangPath('/concepts')} class="hover:text-signal transition-colors py-2 border-b border-ink-100/50">{t.concepts}</a>
+        <a href={getLangPath('/insights')} class="hover:text-signal transition-colors py-2 border-b border-ink-100/50">{t.insights}</a>
+      </nav>
+      <div class="flex flex-col gap-6">
+        <!-- Mobile Language Selector -->
+        <div class="flex justify-center items-center gap-6 py-4 border-t border-b border-ink-100/50">
+          <button 
+            data-lang-switch="en" 
+            class={`flex items-center gap-2 font-mono text-xs cursor-pointer transition-all ${lang === 'en' ? 'text-signal font-bold' : 'text-ink-500 opacity-60'}`}
+            aria-label="Switch to English"
+          >
+            <svg class="w-5 h-[13px] border border-ink-100/30 object-cover flex-shrink-0" viewBox="0 0 50 30" fill="none">
+              <rect width="50" height="30" fill="#012169"/>
+              <path d="M0 0 L50 30 M50 0 L0 30" stroke="#FFF" stroke-width="6"/>
+              <path d="M0 0 L50 30" stroke="#C8102E" stroke-width="2"/>
+              <path d="M50 0 L0 30" stroke="#C8102E" stroke-width="2"/>
+              <path d="M25 0 V30 M0 15 H50" stroke="#FFF" stroke-width="10"/>
+              <path d="M25 0 V30 M0 15 H50" stroke="#C8102E" stroke-width="6"/>
+            </svg>
+            <span>EN</span>
+          </button>
+          <button 
+            data-lang-switch="fr" 
+            class={`flex items-center gap-2 font-mono text-xs cursor-pointer transition-all ${lang === 'fr' ? 'text-signal font-bold' : 'text-ink-500 opacity-60'}`}
+            aria-label="Switch to French"
+          >
+            <svg class="w-5 h-[13px] border border-ink-100/30 object-cover flex-shrink-0" viewBox="0 0 3 2">
+              <rect width="1" height="2" fill="#002395" />
+              <rect x="1" width="1" height="2" fill="#FFFFFF" />
+              <rect x="2" width="1" height="2" fill="#ED2939" />
+            </svg>
+            <span>FR</span>
+          </button>
+          <button 
+            data-lang-switch="es" 
+            class={`flex items-center gap-2 font-mono text-xs cursor-pointer transition-all ${lang === 'es' ? 'text-signal font-bold' : 'text-ink-500 opacity-60'}`}
+            aria-label="Switch to Spanish"
+          >
+            <svg class="w-5 h-[13px] border border-ink-100/30 object-cover flex-shrink-0" viewBox="0 0 3 2">
+              <rect width="3" height="2" fill="#C1272D" />
+              <rect y="0.5" width="3" height="1" fill="#FECB00" />
+            </svg>
+            <span>ES</span>
+          </button>
+        </div>
+
+        <a href={getLangPath('/contact')} class="bg-ink-1000 text-paper-0 text-center py-4 rounded-full text-base font-semibold hover:bg-signal transition-colors block w-full shadow-sm">
+          {t.talk}
+        </a>
+      </div>
+    </div>
   </div>
 </header>
+
+<style>
+  /* Scrolled state: solid surface so the logo and controls never float
+     transparently over page content. */
+  :global(#global-header.is-scrolled) {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    background-color: color-mix(in srgb, var(--paper-50) 88%, transparent);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 1px 0 var(--ink-100);
+  }
+
+  /* Morphing hamburger to X animation */
+  #mobile-menu-btn[aria-expanded="true"] #mobile-line-1 {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  #mobile-menu-btn[aria-expanded="true"] #mobile-line-2 {
+    transform: translateY(6px) rotate(45deg);
+  }
+  #mobile-menu-btn[aria-expanded="true"] #mobile-line-3 {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+  
+  /* Open state for the drawer overlay */
+  #mobile-menu-overlay.is-open {
+    transform: translateX(0);
+  }
+</style>
+
+<script>
+  // Solid header surface once the page scrolls
+  const header = document.getElementById('global-header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    document.addEventListener('astro:page-load', onScroll);
+  }
+
+  const btn = document.getElementById('mobile-menu-btn');
+  const overlay = document.getElementById('mobile-menu-overlay');
+
+  if (btn && overlay) {
+    btn.addEventListener('click', () => {
+      const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+      const nextExpanded = !isExpanded;
+      
+      btn.setAttribute('aria-expanded', String(nextExpanded));
+      btn.setAttribute('aria-label', nextExpanded ? 'Close menu' : 'Open menu');
+      overlay.setAttribute('aria-hidden', String(!nextExpanded));
+      
+      if (nextExpanded) {
+        overlay.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+      } else {
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Close menu when navigation link is clicked
+    const links = overlay.querySelectorAll('a');
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-label', 'Open menu');
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.classList.remove('is-open');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  // Language Switcher Logic
+  const switchButtons = document.querySelectorAll('[data-lang-switch]');
+  switchButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const targetLang = button.getAttribute('data-lang-switch');
+      if (!targetLang) return;
+      
+      localStorage.setItem('preferred-lang', targetLang);
+      const supportedLangs = ['en', 'fr', 'es'];
+      const defaultLang = 'en';
+      
+      let path = window.location.pathname;
+      const pathParts = path.split('/').filter(Boolean);
+      const currentPathLang = pathParts[0] && supportedLangs.includes(pathParts[0]) ? pathParts[0] : null;
+      
+      // Remove current language prefix if it exists
+      if (currentPathLang) {
+        pathParts.shift();
+      }
+      
+      // Add new language prefix if it's not the default language
+      if (targetLang !== defaultLang) {
+        pathParts.unshift(targetLang);
+      }
+      
+      const newPath = '/' + pathParts.join('/');
+      window.location.href = newPath + window.location.search + window.location.hash;
+    });
+  });
+</script>

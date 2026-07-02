@@ -8,12 +8,6 @@ readingTime: 12
 lastReviewed: "2026-03-15"
 ---
 
-# Open Table Formats — Iceberg, Delta, Hudi
-
-`DATA ARCHITECTURE · ADVANCED · 12 MIN · LAST REVIEWED MARCH 2026`
-
-> Open metadata layers built on top of Parquet that bring transactional guarantees, schema evolution, time travel, and indexing to lakehouse storage.
-
 ## What it is
 
 A modern lakehouse stores data physically as Parquet files in object storage. On its own, that is just a collection of files — no transactions, no schema evolution, no concurrent writes, no time travel. An open table format is a metadata layer that turns that collection of files into a *table* with database-grade guarantees.
@@ -83,9 +77,9 @@ Hudi was designed at Uber for a specific use case: incremental ingestion with fr
 
 ## Related reading
 
-- [Medallion Architecture](/concepts/data-architecture/medallion-architecture)
-- [Data Lake vs Data Warehouse vs Lakehouse](/concepts/data-architecture/data-lake-vs-warehouse-vs-lakehouse)
-- [CDC — Change Data Capture](/concepts/data-engineering/cdc-change-data-capture)
+- [Medallion Architecture](/concepts/medallion-architecture)
+- [Data Lake vs Data Warehouse vs Lakehouse](/concepts/data-lake-vs-warehouse-vs-lakehouse)
+- [CDC — Change Data Capture](/concepts/cdc-change-data-capture)
 
 ## External references
 

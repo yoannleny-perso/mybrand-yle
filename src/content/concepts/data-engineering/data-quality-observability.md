@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Data Quality and Observability
-
 ## What it is
 
 Data quality is the discipline of catching bad data: nulls where they should not be, duplicates, schema drift, distributions that suddenly look wrong, freshness violations. Observability is the broader version — knowing the state of your data platform at any moment, including which pipelines ran, what they produced, who is consuming it, and whether anything looks anomalous.

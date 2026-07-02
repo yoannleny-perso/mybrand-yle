@@ -8,12 +8,6 @@ readingTime: 11
 lastReviewed: "2026-03-15"
 ---
 
-# Data Mesh
-
-`DATA ARCHITECTURE · INTERMEDIATE · 11 MIN · LAST REVIEWED MARCH 2026`
-
-> An organizational and architectural pattern that distributes data ownership to domain teams, treats data as a product, and federates governance — replacing the central data team with a platform-and-policy model.
-
 ## What it is
 
 Data mesh is a four-principle pattern proposed by Zhamak Dehghani in 2019:
@@ -90,9 +84,9 @@ Data mesh is platform-agnostic in principle, but several vendors have built expl
 
 ## Related reading
 
-- [Data as a Product](/concepts/data-engineering/data-as-a-product)
-- [Data Contracts](/concepts/data-engineering/data-contracts)
-- [Team Topologies for Data Orgs](/concepts/data-engineering/team-topologies)
+- [Data as a Product](/concepts/data-as-a-product)
+- [Data Contracts](/concepts/data-contracts)
+- [Team Topologies for Data Orgs](/concepts/team-topologies)
 
 ## External references
 

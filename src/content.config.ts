@@ -36,6 +36,8 @@ const insightsCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     slug: z.string().optional(),
+    dek: z.string().optional(),
+    cluster: z.string().optional(),
     publishedAt: z.string().optional(),
     readingTime: z.union([z.string(), z.number()]).optional(),
     tags: z.array(z.string()).optional(),

@@ -8,8 +8,6 @@ readingTime: "7 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Schema Evolution and Backwards Compatibility
-
 ## What it is
 
 Schema evolution is the management of change. Tables grow columns. Event payloads gain fields. Types narrow or widen. A `string` becomes an `enum`. A field is renamed. A table is deprecated.

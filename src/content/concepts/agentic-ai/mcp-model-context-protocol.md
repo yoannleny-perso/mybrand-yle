@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# MCP: Model Context Protocol
-
 ## What it is
 
 MCP is an open protocol introduced by Anthropic in 2024 that defines how LLM-powered clients communicate with external systems. An MCP server exposes tools, resources, and prompts to any MCP-compliant client. The client can be Claude Desktop, an IDE plugin, an agent framework, or a custom application.

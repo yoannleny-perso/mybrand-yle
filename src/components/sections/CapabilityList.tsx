@@ -9,9 +9,10 @@ interface Capability {
 
 interface Props {
   capabilities: Capability[];
+  basePath?: string;
 }
 
-export default function CapabilityList({ capabilities }: Props) {
+export default function CapabilityList({ capabilities, basePath = '/capabilities' }: Props) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
@@ -23,7 +24,7 @@ export default function CapabilityList({ capabilities }: Props) {
         return (
           <a 
             key={cap.number}
-            href={`/capabilities/${cap.slug}`}
+            href={`${basePath}#${cap.slug}`}
             className={`
               relative flex flex-col md:flex-row md:items-center py-6 md:h-28 px-6 md:px-12 
               border-b border-ink-100 transition-all duration-300 ease-out mb-2 rounded-[24px]
@@ -47,17 +48,6 @@ export default function CapabilityList({ capabilities }: Props) {
             
             <div className="hidden md:flex ml-auto font-mono items-center justify-center w-8 h-8 opacity-0 group-hover/row:opacity-100 transition-opacity duration-240">
               &rarr;
-            </div>
-
-            {/* Preview Image placeholder */}
-            <div 
-              className={`
-                hidden md:block absolute right-24 top-1/2 -translate-y-1/2 w-48 h-16 bg-ink-900 border border-ink-700
-                transition-all duration-320 pointer-events-none
-                ${isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4'}
-              `}
-            >
-              <div className="w-full h-full opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')]"></div>
             </div>
           </a>
         );

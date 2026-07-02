@@ -8,12 +8,6 @@ readingTime: 7
 lastReviewed: "2026-03-15"
 ---
 
-# Reverse ETL and Operational Analytics
-
-`DATA ARCHITECTURE · ADVANCED · 7 MIN · LAST REVIEWED MARCH 2026`
-
-> The pattern of pushing modeled data from the warehouse back into operational tools (CRM, marketing, support) — turning the warehouse into the system of record for data that drives action.
-
 ## What it is
 
 Reverse ETL inverts the classic flow. Where ETL/ELT moves data *from* operational systems into the warehouse for analysis, reverse ETL moves modeled data *from* the warehouse back into operational systems where humans (or now agents) act on it. The CRM gets the calculated lifetime value, the marketing tool gets the predicted churn score, the support platform gets the segmented customer tier.
@@ -63,6 +57,6 @@ A well-implemented reverse ETL flow includes idempotency, conflict resolution (w
 
 ## Related reading
 
-- [The Modern Data Stack](/concepts/data-architecture/modern-data-stack)
-- [Data as a Product](/concepts/data-engineering/data-as-a-product)
-- [Reverse ETL for Analytics Activation](/concepts/bi-analytics/reverse-etl-activation)
+- [The Modern Data Stack](/concepts/modern-data-stack)
+- [Data as a Product](/concepts/data-as-a-product)
+- [Reverse ETL for Analytics Activation](/concepts/reverse-etl-activation)

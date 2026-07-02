@@ -1,0 +1,190 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Container from '../../../components/layout/Container.astro';
+import Section from '../../../components/layout/Section.astro';
+import Grid from '../../../components/layout/Grid.astro';
+import Eyebrow from '../../../components/primitives/Eyebrow.astro';
+import Heading from '../../../components/primitives/Heading.astro';
+import AsymmetricCard from '../../../components/sections/AsymmetricCard.astro';
+
+const filters = [
+  { key: "all", display: "TOUS" },
+  { key: "data platforms", display: "PLATEFORMES DE DONNÉES" },
+  { key: "agentic ai", display: "IA AGENTIQUE" },
+  { key: "operating model", display: "MODÈLE OPÉRATIONNEL" },
+  { key: "executive", display: "EXÉCUTIF" }
+];
+---
+
+<Layout title="Études de cas — Yoann Leny" description="Sélection de travaux : tracker de compétences multi-agents, medallion stack d'entreprise, couche sémantique prête pour l'IA, modèle de mise à l'échelle globale de DataOps. Résultats, décisions et ce que je ferais différemment.">
+  
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-8">
+        <Eyebrow text="RÉALISATIONS" />
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);">
+          <span class="block">Travaux de production sélectionnés.</span>
+          <span class="block text-signal">Chaque entrée est un système en service.</span>
+        </h1>
+        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
+          Une sélection restreinte de projets pour lesquels les choix d'architecture, le modèle opérationnel et les résultats réels peuvent être présentés ouvertement. Des exemples anonymisés sont disponibles sur demande pour les projets sous accord de confidentialité (NDA).
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="gallery">
+    <Container>
+      <!-- Filter Row -->
+      <div class="mb-16 border-b border-ink-100 pb-4 overflow-x-auto">
+        <div class="flex gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] min-w-max" id="work-filters">
+          {filters.map((filter, i) => (
+            <button 
+              class={`filter-btn transition-colors py-3 cursor-pointer ${i === 0 ? 'text-ink-1000 border-b border-ink-1000' : 'text-ink-500 hover:text-ink-1000'}`}
+              data-filter={filter.key}
+            >
+              {filter.display}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <!-- Case Studies Gallery -->
+      <div id="projects-grid">
+        <Grid columns={12} gap="loose">
+          <div class="project-wrapper col-span-12 md:col-span-5 flex" data-categories="agentic ai, operating model">
+            <AsymmetricCard
+              size="tall"
+              pattern="agents"
+              tag="2025 · ENTREPRISE · 18 MOIS"
+              title="Tracker de compétences multi-agents"
+              description="Un système d'agents hiérarchiques maintenant un graphe de compétences en direct pour plus de 40 consultants — recommandant le staffing, révélant les lacunes et fournissant à la direction un état hebdomadaire de la disponibilité (bench)."
+              metrics={[
+                { value: "+15%", label: "utilisation" },
+                { value: "-22%", label: "intercontrat" },
+                { value: "3", label: "régions" }
+              ]}
+              href="/fr/work/multi-agent-skill-tracker"
+              categories="agentic ai, operating model"
+            />
+          </div>
+
+          <div class="project-wrapper col-span-12 md:col-span-7 flex" data-categories="data platforms, operating model">
+            <AsymmetricCard
+              size="wide"
+              pattern="layers"
+              tag="2024 · INTERNATIONAL · 12 MOIS"
+              title="Architecture Médaillon d'Entreprise"
+              description="Un lakehouse bronze–silver–gold déployé sur trois régions avec une couche sémantique gouvernée. L'analytique, le ML et les flux de travail d'agents lisent désormais tous depuis une unique source de vérité."
+              metrics={[
+                { value: "13 M$+", label: "impact revenu" },
+                { value: "9 mois", label: "de retour" },
+                { value: "0", label: "écart de KPI" }
+              ]}
+              href="/fr/work/enterprise-medallion-stack"
+              categories="data platforms, operating model"
+            />
+          </div>
+
+          <div class="project-wrapper col-span-12 md:col-span-5 flex" data-categories="data platforms, agentic ai">
+            <AsymmetricCard
+              size="square"
+              pattern="semantic"
+              tag="2024 · PME / ETI · 6 MOIS"
+              title="Couche Sémantique prête pour l'IA"
+              description="Une couche de métriques repensée spécifiquement pour la consommation par les LLM et les agents d'IA — éliminant les KPI hallucinés et standardisant la lecture de l'activité par l'IA."
+              metrics={[
+                { value: "0", label: "écart de KPI" },
+                { value: "47", label: "métriques conformes" },
+                { value: "4", label: "systèmes LLM" }
+              ]}
+              href="/fr/work/ai-ready-semantic-layer"
+              categories="data platforms, agentic ai"
+            />
+          </div>
+
+          <div class="project-wrapper col-span-12 md:col-span-7 flex" data-categories="operating model, executive">
+            <AsymmetricCard
+              size="wide"
+              pattern="org"
+              tag="2023 · INTERNATIONAL · 24 MOIS"
+              title="Modèle d'échelle DataOps global"
+              description="Un modèle opérationnel pour une fonction de données de 40 personnes sur trois régions : conception de pods, répartition des rôles, rituels et couche d'observabilité interne pour la santé des livrables."
+              metrics={[
+                { value: "40+", label: "experts" },
+                { value: "3", label: "régions" },
+                { value: "4 T", label: "stabilisation" }
+              ]}
+              href="/fr/work/global-data-ops-scaling-model"
+              categories="operating model, executive"
+            />
+          </div>
+        </Grid>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="closing" background="ink">
+    <Container>
+      <div class="py-24 text-center max-w-4xl mx-auto">
+        <h2 class="font-display font-black text-paper-50 mb-12 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          <span class="block">La mise en production est la seule preuve qui compte.</span>
+        </h2>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em]">
+          <a href="/fr/contact" class="bg-signal text-white px-8 py-4 rounded-xl hover:bg-signal/90 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(99,102,241,0.25)] transition-all duration-300">Lancer une conversation &rarr;</a>
+          <a href="/fr/about" class="text-paper-50 hover:text-signal transition-colors pb-1 border-b-2 border-transparent hover:border-signal">Découvrir mon approche</a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>
+
+<script>
+  // Client-side filtering with a soft fade — re-initialized after view transitions.
+  function initWorkFilters() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const projects = document.querySelectorAll<HTMLElement>('.project-wrapper');
+    if (buttons.length === 0) return;
+
+    projects.forEach((p) => {
+      p.style.transition = 'opacity 240ms cubic-bezier(0.16, 1, 0.3, 1), transform 240ms cubic-bezier(0.16, 1, 0.3, 1)';
+    });
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        buttons.forEach((b) => {
+          b.classList.remove('text-ink-1000', 'border-b', 'border-ink-1000');
+          b.classList.add('text-ink-500');
+        });
+        btn.classList.add('text-ink-1000', 'border-b', 'border-ink-1000');
+        btn.classList.remove('text-ink-500');
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        projects.forEach((project) => {
+          const categories = project.getAttribute('data-categories') || '';
+          const show = filterValue === 'all' || categories.includes(filterValue || '');
+
+          if (show) {
+            project.style.display = 'flex';
+            requestAnimationFrame(() => {
+              project.style.opacity = '1';
+              project.style.transform = 'none';
+            });
+          } else {
+            project.style.opacity = '0';
+            project.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+              if (project.style.opacity === '0') project.style.display = 'none';
+            }, 240);
+          }
+        });
+      });
+    });
+  }
+
+  initWorkFilters();
+  document.addEventListener('astro:page-load', initWorkFilters);
+</script>

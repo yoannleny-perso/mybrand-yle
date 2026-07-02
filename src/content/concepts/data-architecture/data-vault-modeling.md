@@ -8,12 +8,6 @@ readingTime: 8
 lastReviewed: "2026-03-15"
 ---
 
-# Data Vault Modeling
-
-`DATA ARCHITECTURE · INTERMEDIATE · 8 MIN · LAST REVIEWED MARCH 2026`
-
-> An ensemble modeling pattern — hubs, links, satellites — designed for auditability and adaptability in environments with frequent source changes.
-
 ## What it is
 
 Data Vault is a modeling methodology developed by Dan Linstedt that decomposes the data warehouse into three primitive constructs: **hubs** (business keys), **links** (associations between business keys), and **satellites** (descriptive attributes that can change over time). Each construct has a single responsibility and is loaded with strict insert-only patterns, preserving full audit history.
@@ -61,6 +55,6 @@ Loading is parallelizable because hubs, links, and satellites have no foreign-ke
 
 ## Related reading
 
-- [Star, Snowflake, and Galaxy Schemas](/concepts/data-architecture/star-snowflake-galaxy-schemas)
-- [Slowly Changing Dimensions](/concepts/data-architecture/slowly-changing-dimensions)
-- [Medallion Architecture](/concepts/data-architecture/medallion-architecture)
+- [Star, Snowflake, and Galaxy Schemas](/concepts/star-snowflake-galaxy-schemas)
+- [Slowly Changing Dimensions](/concepts/slowly-changing-dimensions)
+- [Medallion Architecture](/concepts/medallion-architecture)

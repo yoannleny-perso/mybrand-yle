@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Cost and Latency Budgeting for AI
-
 ## What it is
 
 Cost and latency budgeting is the discipline of designing AI systems within explicit limits — cost per run, latency per step, total monthly budget — rather than building first and discovering the bill later. It includes model selection, context management, caching, batching, and the architectural choices that make those limits hold even under unexpected traffic.

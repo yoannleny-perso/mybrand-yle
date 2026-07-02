@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Data Federation and Virtualization
-
 ## What it is
 
 Data federation means a query engine can read from multiple physical sources — a Postgres database, a Snowflake warehouse, an S3 bucket of Parquet files, a SaaS API — and return a single result set. The data never moves. The engine pushes filters down to each source, joins the partial results in memory, and returns a unified table.

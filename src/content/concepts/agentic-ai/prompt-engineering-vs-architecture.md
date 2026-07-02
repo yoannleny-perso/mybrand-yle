@@ -8,8 +8,6 @@ readingTime: "7 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Prompt Engineering vs Architecture
-
 ## What it is
 
 Prompt engineering is the craft of getting a model to produce desired output by structuring the input — system messages, role framing, examples, format specifications, chain-of-thought scaffolding.

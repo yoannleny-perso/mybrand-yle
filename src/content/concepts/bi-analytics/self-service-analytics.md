@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Self-Service Analytics
-
 ## What it is
 
 Self-service analytics is the operating model where business users — sales leads, marketing managers, finance analysts, product managers — can answer their own data questions without filing a ticket with the data team.

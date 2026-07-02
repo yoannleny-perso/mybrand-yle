@@ -8,8 +8,6 @@ readingTime: "10 min"
 lastReviewed: "2026-Q2"
 ---
 
-# RAG: Retrieval-Augmented Generation
-
 ## What it is
 
 Retrieval-augmented generation is the pattern of augmenting an LLM's context at query time with relevant documents fetched from an external store. The user asks a question. The system retrieves the top-N most relevant chunks from a document store. Those chunks are passed into the model's context along with the question. The model answers using both its training and the retrieved content.

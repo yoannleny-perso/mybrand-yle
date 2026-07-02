@@ -1,0 +1,102 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import Container from '../../../components/layout/Container.astro';
+import Section from '../../../components/layout/Section.astro';
+import Eyebrow from '../../../components/primitives/Eyebrow.astro';
+import Heading from '../../../components/primitives/Heading.astro';
+import Prose from '../../../components/primitives/Prose.astro';
+
+export async function getStaticPaths() {
+  const insights = await getCollection('insights');
+  const locales = ['fr', 'es'];
+  
+  const paths = [];
+  for (const locale of locales) {
+    for (const entry of insights) {
+      paths.push({
+        params: {
+          lang: locale,
+          slug: entry.data.slug || entry.id
+        },
+        props: {
+          entry,
+          lang: locale
+        }
+      });
+    }
+  }
+  return paths;
+}
+
+const { entry, lang } = Astro.props;
+const { Content } = await render(entry);
+
+const tagTranslated = entry.data.tags?.[0]
+  ? (lang === 'fr'
+      ? entry.data.tags[0].replace('agentic-ai', 'IA AGENTIQUE').replace('data-architecture', 'ARCHITECTURE').replace('data-engineering', 'INGÉNIERIE').toUpperCase()
+      : entry.data.tags[0].replace('agentic-ai', 'IA AGÉNTICA').replace('data-architecture', 'ARQUITECTURA').replace('data-engineering', 'INGENIERÍA').toUpperCase())
+  : (lang === 'fr' ? 'RÉFLEXION' : 'ENSAYO');
+---
+
+<Layout title={`${entry.data.title} — ${lang === 'fr' ? 'Analyse' : 'Ensayo'} — Yoann Leny`} description={entry.data.dek || entry.data.title}>
+
+  <div class="reading-progress" aria-hidden="true"></div>
+
+  <Section id="header">
+    <Container size="narrow">
+      <div class="pt-24 pb-8">
+        <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-8 border-b border-ink-100 pb-4">
+          {tagTranslated} &middot; {entry.data.readingTime || '10'} {lang === 'fr' ? 'MIN DE LECTURE' : 'MIN DE LECTURA'} &middot; {lang === 'fr' ? 'PUBLIÉ EN' : 'PUBLICADO EN'} {entry.data.publishedAt || '2026'}
+        </div>
+        
+        <Heading level={1} as="h1" class="mb-6 max-w-[18ch]">
+          {entry.data.title}
+        </Heading>
+        
+        {entry.data.dek && (
+          <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-500 max-w-[60ch]">
+            {entry.data.dek}
+          </p>
+        )}
+      </div>
+    </Container>
+  </Section>
+
+  {entry.data.heroImage && (
+    <section class="w-full relative scroll-reveal max-w-5xl mx-auto my-8">
+      <div class="w-full aspect-[21/9] bg-ink-100 relative">
+        <img src={entry.data.heroImage} alt="" class="w-full h-full object-cover grayscale mix-blend-multiply opacity-80" />
+      </div>
+    </section>
+  )}
+
+  <Section id="content">
+    <Container size="narrow">
+      <Prose>
+        <Content />
+      </Prose>
+      
+      <!-- Author Signature Block -->
+      <div class="mt-24 pt-12 border-t border-ink-100">
+        <div class="font-display text-[length:var(--t-headline-size)] mb-2">Yoann Leny</div>
+        <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700 max-w-md mb-4">
+          {lang === 'fr'
+            ? "Concepteur de systèmes d'exploitation de données et d'IA. J'écris sur l'architecture, les opérations et les systèmes invisibles qui font ou défont les deux."
+            : "Diseñador de sistemas operativos de datos e IA. Escribo sobre arquitectura, operaciones y los sistemas invisibles que construyen o destruyen a ambos."}
+        </p>
+        <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+          {lang === 'fr' ? "→ Me rejoindre sur LinkedIn" : "→ Conectar en LinkedIn"}
+        </a>
+      </div>
+      
+      <!-- Comment Policy -->
+      <div class="mt-16 text-center font-body text-[length:var(--t-body-s-size)] text-ink-500 italic">
+        {lang === 'fr' 
+          ? "Je n'héberge pas de commentaires. Les échanges par email ou LinkedIn sont les bienvenus."
+          : "No tengo sección de comentarios. Tus comentarios por correo o LinkedIn son bienvenidos."}
+      </div>
+    </Container>
+  </Section>
+
+</Layout>

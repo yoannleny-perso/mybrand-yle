@@ -8,12 +8,6 @@ readingTime: 9
 lastReviewed: "2026-03-15"
 ---
 
-# Multi-Region Data Architectures
-
-`DATA ARCHITECTURE · ADVANCED · 9 MIN · LAST REVIEWED MARCH 2026`
-
-> Patterns for distributing data across regions to satisfy residency laws, latency requirements, and disaster-recovery commitments — without losing analytical coherence.
-
 ## What it is
 
 A multi-region architecture decides three things: where data physically lives, how regions communicate, and how analytics see across them. The drivers are usually some combination of:
@@ -75,6 +69,6 @@ A typical pattern:
 
 ## Related reading
 
-- [Data Federation and Virtualization](/concepts/data-architecture/data-federation-virtualization)
-- [Data Mesh](/concepts/data-architecture/data-mesh)
-- [Cost Optimization for Data Platforms](/concepts/data-engineering/cost-optimization)
+- [Data Federation and Virtualization](/concepts/data-federation-virtualization)
+- [Data Mesh](/concepts/data-mesh)
+- [Cost Optimization for Data Platforms](/concepts/cost-optimization)

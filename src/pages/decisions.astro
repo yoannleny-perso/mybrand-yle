@@ -1,0 +1,149 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Container from '../components/layout/Container.astro';
+import Section from '../components/layout/Section.astro';
+import Eyebrow from '../components/primitives/Eyebrow.astro';
+
+type Grade = 'aged-well' | 'mixed' | 'wrong';
+
+const gradeStyles: Record<Grade, { label: string; chip: string }> = {
+  'aged-well': { label: 'Aged well', chip: 'bg-[var(--surface-green)] text-emerald-700 border-emerald-200' },
+  'mixed': { label: 'Mixed', chip: 'bg-amber-50 text-amber-700 border-amber-200' },
+  'wrong': { label: 'Wrong', chip: 'bg-[var(--surface-rose)] text-rose-700 border-rose-200' },
+};
+
+const decisions: { date: string; title: string; bet: string; grade: Grade; retro: string }[] = [
+  {
+    date: "2025",
+    title: "Deterministic guardrails over prompt-based safety",
+    bet: "For the multi-agent skill tracker, every irreversible action was gated by code-enforced boundaries rather than instructions in the prompt, despite the extra build time.",
+    grade: "aged-well",
+    retro: "The system survived its first genuinely adversarial inputs without an incident. The prompt-only pilots I benchmarked against in the same period all had at least one visible failure. I now consider this non-negotiable, and wrote the reasoning up as a concept entry."
+  },
+  {
+    date: "2025",
+    title: "Bet that agent frameworks would consolidate quickly",
+    bet: "I advised standardizing early on a single orchestration framework, expecting the ecosystem to converge within a year and early standardization to pay off.",
+    grade: "wrong",
+    retro: "The ecosystem did not consolidate; it fragmented further, and the framework we standardized on changed its core abstractions twice. What actually held value was the layer underneath — versioned tools with contracts. I now keep framework coupling thin and treat the tool catalog as the durable asset."
+  },
+  {
+    date: "2024",
+    title: "Semantic layer before more AI features",
+    bet: "When an internal AI assistant reported a wrong churn number to the CFO, the popular fix was better prompts. I froze new AI features for a quarter and built a governed metric layer instead.",
+    grade: "aged-well",
+    retro: "Zero KPI drift incidents since launch, and every subsequent AI feature shipped faster because definitions were already machine-readable. Freezing visible features to fix an invisible layer was unpopular for exactly one quarter."
+  },
+  {
+    date: "2024",
+    title: "Open table formats over a single-vendor engine",
+    bet: "For the enterprise medallion build, I kept all storage on open formats even though the vendor-native path was faster to ship and the sales pressure to go native was considerable.",
+    grade: "aged-well",
+    retro: "Two years later the client renegotiated compute pricing from a position of strength because the data was portable. The 'slower' path cost us roughly six weeks up front and returned it many times over in leverage."
+  },
+  {
+    date: "2023",
+    title: "Lakehouse over regional warehouses",
+    bet: "Three regions each wanted to keep their own warehouse with a sync layer on top. I bet the political capital on one lakehouse with asymmetric regional replication instead.",
+    grade: "aged-well",
+    retro: "The quarterly number-reconciliation ritual disappeared, and the ML and agent workloads that arrived in 2024–2025 would have been unbuildable on the federated design. The political fight was real, and worth it."
+  },
+  {
+    date: "2023",
+    title: "Domain pods over a bigger central team",
+    bet: "With delivery slowing at 40 people, the default request was more hiring into the central team. I reorganized into domain pods with a platform pod instead, and froze hiring for two quarters.",
+    grade: "aged-well",
+    retro: "Throughput per head recovered to what it had been at half the size. One caveat I under-called: two pod leads needed a different job than the one they thought they had accepted, and I paid a quarter of drift for not writing the role down earlier."
+  },
+  {
+    date: "2022",
+    title: "Betting on a data catalog to fix discovery",
+    bet: "I sponsored a full enterprise data catalog rollout, expecting tooling to solve the 'nobody knows what data exists' problem.",
+    grade: "wrong",
+    retro: "Adoption never crossed 20%. The catalog documented a mess instead of fixing it. What worked later was ownership plus deprecation — fewer, named, maintained data products need less discovery tooling. I now treat catalogs as the last 10%, not the first."
+  },
+  {
+    date: "2022",
+    title: "Delaying streaming adoption",
+    bet: "Against strong internal enthusiasm, I kept the stack on well-operated batch and micro-batch, arguing that no decision at the company actually needed sub-minute data.",
+    grade: "mixed",
+    retro: "Right for two years — we saved significant complexity and cost. But I held the position about six months too long: one pricing use case genuinely needed streaming, and we started it late. The lesson is not 'streaming yes/no' but re-testing the assumption on a schedule."
+  },
+  {
+    date: "2021",
+    title: "Standardizing transformations on dbt early",
+    bet: "I moved all transformation logic to dbt when it was still a contrarian choice in the enterprise, betting that version-controlled, tested SQL would outlast hand-rolled pipeline code.",
+    grade: "aged-well",
+    retro: "The codebase survived two platform migrations precisely because transformations were portable and tested. Some early macros aged into technical debt — discipline about macro complexity matters more than I appreciated at the time."
+  }
+];
+---
+
+<Layout title="Decision Log — Yoann Leny" description="Dated technical bets and how they aged — including the wrong ones. Architecture and operating-model decisions with honest retrospectives.">
+
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-8 max-w-[720px]">
+        <Eyebrow text="DECISION LOG" />
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);">
+          Calls I made, <span class="text-signal">and how they aged.</span>
+        </h1>
+        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
+          Anyone can list successes. Judgment shows in the dated record: what I bet, what it cost, and what I got wrong. Engagements are anonymized; the decisions and outcomes are real.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="log">
+    <Container>
+      <div class="relative max-w-[860px]">
+        <div class="absolute left-[7px] top-2 bottom-2 w-px bg-ink-100 hidden sm:block" aria-hidden="true"></div>
+        <div class="flex flex-col gap-8">
+          {decisions.map((d) => (
+            <article class="relative sm:pl-12 scroll-reveal">
+              <div class="absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 border-signal bg-paper-50 hidden sm:block" aria-hidden="true"></div>
+              <div class="bg-paper-0 border border-ink-100 rounded-2xl p-6 md:p-8">
+                <div class="flex flex-wrap items-center gap-3 mb-4">
+                  <span class="font-mono text-[11px] font-bold uppercase tracking-[0.1em] text-ink-500">{d.date}</span>
+                  <span class={`font-mono text-[10px] font-bold uppercase tracking-[0.08em] px-3 py-1 rounded-full border ${gradeStyles[d.grade].chip}`}>
+                    {gradeStyles[d.grade].label}
+                  </span>
+                </div>
+                <h2 class="font-display font-bold text-[1.25rem] leading-[1.3] text-ink-900 mb-3">{d.title}</h2>
+                <p class="font-body text-[0.9375rem] leading-[1.65] text-ink-700 mb-4">
+                  <span class="font-semibold text-ink-900">The bet: </span>{d.bet}
+                </p>
+                <p class="font-body text-[0.9375rem] leading-[1.65] text-ink-700 border-t border-ink-100 pt-4">
+                  <span class="font-semibold text-ink-900">How it aged: </span>{d.retro}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="max-w-[860px] mt-12">
+        <p class="font-body text-[0.875rem] leading-[1.7] text-ink-500 italic">
+          Scoring rule: a decision is "aged well" only if I would make the same call again with the same information. Reviewed and extended as engagements close.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <Section id="closing" background="ink">
+    <Container>
+      <div class="py-24 text-center max-w-3xl mx-auto">
+        <h2 class="font-display font-black text-paper-50 mb-10 leading-[1.1] tracking-[-0.03em]"
+            style="font-size: clamp(1.75rem, 3.5vw, 2.75rem);">
+          Want to interrogate one of these?
+        </h2>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em]">
+          <a href="/contact" class="bg-signal text-white px-8 py-4 rounded-xl hover:bg-signal/90 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(99,102,241,0.25)] transition-all duration-300">Start a conversation &rarr;</a>
+          <a href="/hire" class="text-paper-50 hover:text-signal transition-colors pb-1 border-b-2 border-transparent hover:border-signal">The hiring page</a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+</Layout>

@@ -8,8 +8,6 @@ readingTime: "7 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Batch vs Streaming vs Micro-Batch
-
 ## What it is
 
 Batch processing reads a bounded set of data — yesterday's events, last hour's orders — and produces a result. Runs on a schedule. Simple, well-understood, cheap.

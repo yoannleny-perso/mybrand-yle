@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Executive Metric Design
-
 ## What it is
 
 Executive metrics are the small set of numbers that the CEO, CFO, board, and operating committee use to run the business. They are different from the operational metrics product managers and team leads use day-to-day.

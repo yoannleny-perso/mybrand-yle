@@ -8,12 +8,6 @@ readingTime: 8
 lastReviewed: "2026-03-15"
 ---
 
-# Lambda vs Kappa vs Unified Streaming
-
-`DATA ARCHITECTURE · ADVANCED · 8 MIN · LAST REVIEWED MARCH 2026`
-
-> Three architectural patterns for processing batch and streaming data — preserving them as separate paths, collapsing them into one streaming-only path, or unifying them on a single engine.
-
 ## What it is
 
 The **Lambda architecture** (Nathan Marz, 2011) maintains two parallel pipelines: a *batch layer* for historical accuracy and a *speed layer* for low-latency views. Consumers query a *serving layer* that merges the two. The **Kappa architecture** (Jay Kreps, 2014) argues this is unnecessary complexity: run everything as a stream and replay history when needed. The **unified streaming** pattern (the dominant 2026 approach) uses a single engine that handles both batch and streaming on the same code, with the same semantics.
@@ -70,6 +64,6 @@ Lambda was a pragmatic answer when batch tools and streaming tools had nothing i
 
 ## Related reading
 
-- [Batch vs Streaming vs Micro-Batch](/concepts/data-engineering/batch-vs-streaming-vs-micro-batch)
-- [Idempotency and Exactly-Once Semantics](/concepts/data-engineering/idempotency-exactly-once)
-- [Open Table Formats — Iceberg, Delta, Hudi](/concepts/data-architecture/open-table-formats)
+- [Batch vs Streaming vs Micro-Batch](/concepts/batch-vs-streaming-vs-micro-batch)
+- [Idempotency and Exactly-Once Semantics](/concepts/idempotency-exactly-once)
+- [Open Table Formats — Iceberg, Delta, Hudi](/concepts/open-table-formats)

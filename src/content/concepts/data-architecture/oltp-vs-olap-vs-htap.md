@@ -8,12 +8,6 @@ readingTime: 6
 lastReviewed: "2026-03-15"
 ---
 
-# OLTP vs OLAP vs HTAP
-
-`DATA ARCHITECTURE · INTERMEDIATE · 6 MIN · LAST REVIEWED MARCH 2026`
-
-> Three database workload patterns — transactional, analytical, and hybrid — each requiring different storage layouts, query patterns, and operational commitments.
-
 ## What it is
 
 **OLTP** (Online Transaction Processing) systems handle high-volume, low-latency, single-record reads and writes — the database behind your application. **OLAP** (Online Analytical Processing) systems handle large scans across many records to compute aggregates — the warehouse behind your dashboards. **HTAP** (Hybrid Transactional/Analytical Processing) systems attempt both on the same engine.
@@ -56,6 +50,6 @@ The architectural answer is replication: data flows from OLTP to OLAP via CDC or
 
 ## Related reading
 
-- [CDC — Change Data Capture](/concepts/data-engineering/cdc-change-data-capture)
-- [The Modern Data Stack](/concepts/data-architecture/modern-data-stack)
-- [Data Lake vs Data Warehouse vs Lakehouse](/concepts/data-architecture/data-lake-vs-warehouse-vs-lakehouse)
+- [CDC — Change Data Capture](/concepts/cdc-change-data-capture)
+- [The Modern Data Stack](/concepts/modern-data-stack)
+- [Data Lake vs Data Warehouse vs Lakehouse](/concepts/data-lake-vs-warehouse-vs-lakehouse)

@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# AI Governance Frameworks
-
 ## What it is
 
 AI governance is the operating model that decides how AI systems are built, deployed, monitored, and retired. It includes risk classification (what category of risk does this use case carry?), approval gates (who needs to sign off?), data and access policy (what can the model see?), monitoring and incident response (what happens when it goes wrong?), and audit trails (can we reconstruct what happened?).

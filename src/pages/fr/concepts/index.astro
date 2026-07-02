@@ -1,0 +1,301 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../../layouts/Layout.astro';
+import Container from '../../../components/layout/Container.astro';
+import Section from '../../../components/layout/Section.astro';
+import Grid from '../../../components/layout/Grid.astro';
+import Eyebrow from '../../../components/primitives/Eyebrow.astro';
+import Heading from '../../../components/primitives/Heading.astro';
+
+const allConcepts = await getCollection('concepts');
+
+const clusters = [
+  {
+    id: "01",
+    key: "data-architecture",
+    name: "Architecture des Données",
+    description: "La forme que prennent les données lorsqu'elles doivent servir plusieurs consommateurs de manière fiable — lakes, warehouses, lakehouses, mesh, couches sémantiques et les contrats qui les lient."
+  },
+  {
+    id: "02",
+    key: "data-engineering",
+    name: "Ingénierie des Données",
+    description: "Les disciplines qui permettent de faire circuler les données de manière fiable à grande échelle — orchestration, transformation, contrats, observabilité, coûts et modèle opérationnel associé."
+  },
+  {
+    id: "03",
+    key: "bi-analytics",
+    name: "BI & Décisionnel",
+    description: "La couche qui transforme les données en décisions — modèles sémantiques, tableaux de bord, intelligence décisionnelle et la rigueur de conception des indicateurs pour les directions générales."
+  },
+  {
+    id: "04",
+    key: "agentic-ai",
+    name: "IA Agentique",
+    description: "Bâtir des systèmes d'IA qui agissent, et pas seulement répondent — topologies d'agents, garde-fous, évaluation, gouvernance et les architectures d'agents viables en production."
+  }
+].map(c => ({
+  ...c,
+  count: allConcepts.filter(entry => entry.data.cluster === c.key).length,
+  entries: allConcepts.filter(entry => entry.data.cluster === c.key)
+}));
+
+---
+
+<Layout title="Bibliothèque de concepts — Yoann Leny" description="Cinquante analyses approfondies sur l'architecture des données, l'ingénierie des données, la BI et l'analyse, et l'IA agentique. Chaque entrée : ce que c'est, pourquoi c'est important, comment ça fonctionne, comparaison des fournisseurs et mon avis.">
+  
+  <Section id="header">
+    <Container>
+      <div class="pt-24 pb-8">
+        <Eyebrow text="BIBLIOTHÈQUE DE CONCEPTS" />
+        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2.5rem, 5vw, 4rem);">
+          Un carnet de bord de ma réflexion sur chaque problème.
+        </h1>
+        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
+          Plus de 50 entrées couvrant l'architecture des données, l'ingénierie des données, la BI et l'analyse, et l'IA agentique. Chaque fiche suit la même structure : ce que c'est, pourquoi c'est important, comment ça fonctionne, des comparaisons d'outils basées sur ce que j'ai réellement déployé, et mon avis synthétique.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+  <!-- CLUSTER OVERVIEW & DIAGRAM -->
+  <Section id="clusters">
+    <Container>
+      {/* Concept Architecture Diagram */}
+      <div class="mb-20 bg-paper-0 p-8 md:p-12 border border-ink-100 rounded-[20px] shadow-sm overflow-hidden">
+        <Eyebrow text="LE SYSTÈME D'EXPLOITATION" />
+        <h2 class="font-display font-black text-ink-900 mt-4 mb-12 leading-[1.08] tracking-[-0.03em]"
+            style="font-size: clamp(2rem, 4vw, 3rem);">
+          Comment les pôles s'assemblent.
+        </h2>
+        
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8 relative">
+          {/* Connecting Line (Desktop) */}
+          <div class="hidden md:block absolute top-1/2 left-0 w-full h-[2px] bg-ink-100 -z-10 -translate-y-1/2"></div>
+          
+          {/* Engineering */}
+          <div class="flex flex-col items-center bg-[var(--surface-blue)] w-full md:w-1/4 p-6 rounded-2xl border border-blue-200 shadow-sm relative">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-blue-600 mb-4 shadow-sm font-bold">1</div>
+            <h4 class="font-display font-bold text-ink-900 mb-2">Ingénierie des Données</h4>
+            <p class="text-center font-body text-[13px] text-ink-700">Pipelines, calcul & orchestration</p>
+          </div>
+
+          {/* Architecture */}
+          <div class="flex flex-col items-center bg-[var(--surface-indigo)] w-full md:w-1/4 p-6 rounded-2xl border border-indigo-200 shadow-sm relative">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-indigo-600 mb-4 shadow-sm font-bold">2</div>
+            <h4 class="font-display font-bold text-ink-900 mb-2">Architecture des Données</h4>
+            <p class="text-center font-body text-[13px] text-ink-700">Stockage, modèles & sémantique</p>
+          </div>
+
+          {/* BI */}
+          <div class="flex flex-col items-center bg-[var(--surface-green)] w-full md:w-1/4 p-6 rounded-2xl border border-emerald-200 shadow-sm relative">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-emerald-600 mb-4 shadow-sm font-bold">3</div>
+            <h4 class="font-display font-bold text-ink-900 mb-2">BI & Décisionnel</h4>
+            <p class="text-center font-body text-[13px] text-ink-700">Métriques, tableaux de bord & décisions</p>
+          </div>
+
+          {/* Agentic AI */}
+          <div class="flex flex-col items-center bg-[var(--surface-purple)] w-full md:w-1/4 p-6 rounded-2xl border border-purple-200 shadow-sm relative">
+            <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center text-purple-600 mb-4 shadow-sm font-bold">4</div>
+            <h4 class="font-display font-bold text-ink-900 mb-2">IA Agentique</h4>
+            <p class="text-center font-body text-[13px] text-ink-700">Flux de travail, outils & orchestration</p>
+          </div>
+        </div>
+      </div>
+
+      <Grid columns={4} gap="loose">
+        {clusters.map((cluster, i) => {
+          // Assign subtle surface colors based on index
+          const colors = ['bg-[var(--surface-blue)]', 'bg-[var(--surface-indigo)]', 'bg-[var(--surface-green)]', 'bg-[var(--surface-purple)]'];
+          const borders = ['border-blue-100', 'border-indigo-100', 'border-emerald-100', 'border-purple-100'];
+          
+          return (
+            <div class={`col-span-12 md:col-span-2 p-8 border ${borders[i]} ${colors[i]} shadow-sm hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-all duration-300 rounded-[20px] flex flex-col justify-between min-h-[320px]`}>
+              <div>
+                <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-700 mb-6">{cluster.id}</div>
+                <h3 class="font-display font-bold text-[1.5rem] leading-snug text-ink-900 mb-2">{cluster.name}</h3>
+                <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-signal mb-6">{cluster.count} entrées</div>
+                <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-700">
+                  {cluster.description}
+                </p>
+              </div>
+              <div class="mt-8">
+                <a href={`#cluster-${cluster.id}`} class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 font-bold hover:text-signal transition-colors flex items-center gap-2">
+                  Parcourir le pôle <span class="text-lg">&rarr;</span>
+                </a>
+              </div>
+            </div>
+          );
+        })}
+      </Grid>
+    </Container>
+  </Section>
+
+  <!-- SEARCH + FILTER -->
+  <div class="sticky top-0 md:top-20 z-40 bg-paper-50/95 backdrop-blur-md border-y border-ink-100 py-6 my-16">
+    <Container>
+      <div class="flex flex-col xl:flex-row gap-8 items-start xl:items-center justify-between">
+        <input 
+          id="search-input"
+          type="text" 
+          placeholder="Rechercher parmi 50+ concepts…" 
+          class="bg-paper-0 border border-ink-100 px-4 py-3 font-body text-[length:var(--t-body-size)] text-ink-1000 w-full xl:w-96 focus:outline-none focus:border-ink-500 focus:ring-1 focus:ring-ink-500 transition-all"
+        />
+        
+        <div class="flex flex-col md:flex-row gap-8 overflow-x-auto w-full xl:w-auto pb-2 xl:pb-0">
+          <div class="flex gap-6 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] min-w-max" id="cluster-filters">
+            <button class="filter-btn-cluster text-ink-1000 border-b border-ink-1000 py-3 cursor-pointer" data-filter="all">TOUS LES PÔLES</button>
+            <button class="filter-btn-cluster text-ink-500 hover:text-ink-1000 py-3 cursor-pointer" data-filter="data-architecture">ARCHITECTURE</button>
+            <button class="filter-btn-cluster text-ink-500 hover:text-ink-1000 py-3 cursor-pointer" data-filter="data-engineering">INGÉNIERIE</button>
+            <button class="filter-btn-cluster text-ink-500 hover:text-ink-1000 py-3 cursor-pointer" data-filter="bi-analytics">BI & DÉCISIONNEL</button>
+            <button class="filter-btn-cluster text-ink-500 hover:text-ink-1000 py-3 cursor-pointer" data-filter="agentic-ai">IA AGENTIQUE</button>
+          </div>
+          <div class="flex gap-6 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] min-w-max" id="depth-filters">
+            <button class="filter-btn-depth text-ink-1000 border-b border-ink-1000 py-3 cursor-pointer" data-filter="all">TOUS NIVEAUX</button>
+            <button class="filter-btn-depth text-ink-500 hover:text-ink-1000 py-3 cursor-pointer" data-filter="foundational">FONDAMENTAL</button>
+            <button class="filter-btn-depth text-ink-500 hover:text-ink-1000 py-3 cursor-pointer" data-filter="intermediate">INTERMÉDIAIRE</button>
+            <button class="filter-btn-depth text-ink-500 hover:text-ink-1000 py-3 cursor-pointer" data-filter="advanced">AVANCÉ</button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </div>
+
+  <!-- INDEX BY CLUSTER -->
+  <Section id="index">
+    <Container>
+      <div class="space-y-24" id="concepts-list">
+        {clusters.map(cluster => (
+          <div id={`cluster-${cluster.id}`} class="cluster-section scroll-mt-48" data-cluster={cluster.key}>
+            <Eyebrow text={`${cluster.id} — ${cluster.name.toUpperCase()} (${cluster.count} entrées)`} />
+            <div class="columns-1 md:columns-2 gap-16 space-y-8 mt-8">
+              {cluster.entries.map(entry => (
+                <div class="concept-item break-inside-avoid" data-cluster={cluster.key} data-depth={entry.data.depth || 'foundational'}>
+                  <div class="font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-500 mb-2">
+                    {entry.data.depth === 'foundational' || !entry.data.depth ? 'FONDAMENTAL' : entry.data.depth === 'intermediate' ? 'INTERMÉDIAIRE' : entry.data.depth === 'advanced' ? 'AVANCÉ' : 'ESSENTIEL'}
+                  </div>
+                  <a href={`/fr/concepts/${entry.data.slug || entry.slug}`} class="group block">
+                    <h3 class="font-display font-bold text-[1.25rem] leading-snug group-hover:text-signal transition-colors mb-2 concept-title">
+                      {entry.data.title}
+                    </h3>
+                    <p class="font-body text-[0.9375rem] leading-[1.7] text-ink-700 concept-def">
+                      {entry.data.definition}
+                    </p>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div id="no-results" class="hidden text-center py-16 font-body text-[length:var(--t-body-l-size)] text-ink-500">
+        Aucun concept ne correspond à vos critères.
+      </div>
+    </Container>
+  </Section>
+
+  <div class="hairline max-w-[1440px] mx-auto mt-16"></div>
+
+  <!-- CONTRIBUTION NOTE -->
+  <Section id="contribution">
+    <Container>
+      <div class="max-w-[60ch] py-8">
+        <Eyebrow text="DOCUMENT VIVANT" />
+        <p class="font-body text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] text-ink-500 italic">
+          La bibliothèque est revue chaque trimestre. Si une comparaison d'outils est dépassée ou qu'une définition a vieilli, <a href="/fr/contact" class="text-ink-1000 underline decoration-ink-100 underline-offset-4 hover:text-ink-500">signalez-le moi</a> et je mettrai à jour la fiche — avec mention de votre contribution si vous le souhaitez.
+        </p>
+      </div>
+    </Container>
+  </Section>
+
+</Layout>
+
+<script>
+  // Client-side filtering and search
+  const clusterBtns = document.querySelectorAll('.filter-btn-cluster');
+  const depthBtns = document.querySelectorAll('.filter-btn-depth');
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  
+  const concepts = document.querySelectorAll('.concept-item');
+  const clusters = document.querySelectorAll('.cluster-section');
+  const noResults = document.getElementById('no-results');
+
+  let activeCluster = 'all';
+  let activeDepth = 'all';
+  let searchQuery = '';
+
+  function updateFilters() {
+    let visibleCount = 0;
+
+    concepts.forEach((concept: any) => {
+      const cluster = concept.getAttribute('data-cluster');
+      const depth = concept.getAttribute('data-depth');
+      const title = concept.querySelector('.concept-title')?.textContent?.toLowerCase() || '';
+      const def = concept.querySelector('.concept-def')?.textContent?.toLowerCase() || '';
+
+      const matchCluster = activeCluster === 'all' || cluster === activeCluster;
+      const matchDepth = activeDepth === 'all' || depth === activeDepth;
+      const matchSearch = searchQuery === '' || title.includes(searchQuery) || def.includes(searchQuery);
+
+      if (matchCluster && matchDepth && matchSearch) {
+        concept.style.display = 'block';
+        visibleCount++;
+      } else {
+        concept.style.display = 'none';
+      }
+    });
+
+    // Hide empty clusters
+    clusters.forEach((cluster: any) => {
+      const clusterKey = cluster.getAttribute('data-cluster');
+      const hasVisibleConcepts = Array.from(cluster.querySelectorAll('.concept-item')).some((c: any) => c.style.display === 'block');
+      
+      if (hasVisibleConcepts || (activeCluster === clusterKey && activeDepth === 'all' && searchQuery === '')) {
+        cluster.style.display = 'block';
+      } else {
+        cluster.style.display = 'none';
+      }
+    });
+
+    if (noResults) {
+      noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  // Event Listeners
+  clusterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      clusterBtns.forEach(b => {
+        b.classList.remove('text-ink-1000', 'border-b', 'border-ink-1000');
+        b.classList.add('text-ink-500');
+      });
+      btn.classList.add('text-ink-1000', 'border-b', 'border-ink-1000');
+      btn.classList.remove('text-ink-500');
+      
+      activeCluster = btn.getAttribute('data-filter') || 'all';
+      updateFilters();
+    });
+  });
+
+  depthBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      depthBtns.forEach(b => {
+        b.classList.remove('text-ink-1000', 'border-b', 'border-ink-1000');
+        b.classList.add('text-ink-500');
+      });
+      btn.classList.add('text-ink-1000', 'border-b', 'border-ink-1000');
+      btn.classList.remove('text-ink-500');
+      
+      activeDepth = btn.getAttribute('data-filter') || 'all';
+      updateFilters();
+    });
+  });
+
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = (e.target as HTMLInputElement).value.toLowerCase();
+      updateFilters();
+    });
+  }
+</script>

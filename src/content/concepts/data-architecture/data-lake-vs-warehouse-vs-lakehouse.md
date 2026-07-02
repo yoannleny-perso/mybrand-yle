@@ -8,12 +8,6 @@ readingTime: 9
 lastReviewed: "2026-03-15"
 ---
 
-# Data Lake vs Data Warehouse vs Lakehouse
-
-`DATA ARCHITECTURE · INTERMEDIATE · 9 MIN · LAST REVIEWED MARCH 2026`
-
-> Three storage and compute paradigms — schema-on-read, schema-on-write, and the convergent model that combines both — each fit for different organizational profiles.
-
 ## What it is
 
 A **data warehouse** stores structured data in a tightly governed, schema-on-write format, optimized for SQL analytics. A **data lake** stores any data — structured, semi-structured, unstructured — in its raw form on cheap object storage, applying schema only when read. A **lakehouse** is the architectural attempt to unify both: lake-style cheap storage with warehouse-style transactional guarantees, schema enforcement, and SQL performance.
@@ -72,9 +66,9 @@ The lakehouse is the right default for new architectures in 2026. The warehouse 
 
 ## Related reading
 
-- [Medallion Architecture](/concepts/data-architecture/medallion-architecture)
-- [Open Table Formats — Iceberg, Delta, Hudi](/concepts/data-architecture/open-table-formats)
-- [The Modern Data Stack](/concepts/data-architecture/modern-data-stack)
+- [Medallion Architecture](/concepts/medallion-architecture)
+- [Open Table Formats — Iceberg, Delta, Hudi](/concepts/open-table-formats)
+- [The Modern Data Stack](/concepts/modern-data-stack)
 
 ## External references
 

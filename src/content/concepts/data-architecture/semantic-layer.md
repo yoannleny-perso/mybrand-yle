@@ -8,12 +8,6 @@ readingTime: 10
 lastReviewed: "2026-03-15"
 ---
 
-# The Semantic Layer
-
-`DATA ARCHITECTURE · INTERMEDIATE · 10 MIN · LAST REVIEWED MARCH 2026`
-
-> A governed contract between physical data and consuming tools — defining metrics, dimensions, and access in one place so that every consumer (BI, ML, agents) reads the same business truth.
-
 ## What it is
 
 The semantic layer is the place where business logic — what *revenue* means, what *churn* means, what *active customer* means — is defined once and consumed by every downstream tool. It sits between the physical warehouse or lakehouse and the things that read from it: BI dashboards, ML feature stores, embedded analytics, and increasingly AI agents.
@@ -82,9 +76,9 @@ The headless pattern is winning in 2026 because of agentic consumption — but t
 
 ## Related reading
 
-- [Medallion Architecture](/concepts/data-architecture/medallion-architecture)
-- [Data Contracts](/concepts/data-engineering/data-contracts)
-- [The Modern BI Stack](/concepts/bi-analytics/modern-bi-stack)
+- [Medallion Architecture](/concepts/medallion-architecture)
+- [Data Contracts](/concepts/data-contracts)
+- [The Modern BI Stack](/concepts/modern-bi-stack)
 
 ## External references
 

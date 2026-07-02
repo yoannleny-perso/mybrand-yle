@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Deterministic Guardrails
-
 ## What it is
 
 Deterministic guardrails are the non-LLM checks that constrain what an agent can do. They are code, not prompts. They run on every input and every output. They fail closed — if the guardrail can't evaluate, the action is blocked.

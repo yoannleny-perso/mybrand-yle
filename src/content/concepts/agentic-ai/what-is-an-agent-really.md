@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# What Is an Agent, Really
-
 ## What it is
 
 An agent is a system where an LLM decides, in a loop, what to do next based on its goal, takes an action through tools, observes the result, and continues. The LLM is the controller; tools are how it acts on the world; memory is how it carries context across steps; the loop is how it makes progress.

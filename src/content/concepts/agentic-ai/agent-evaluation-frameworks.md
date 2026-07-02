@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Agent Evaluation Frameworks
-
 ## What it is
 
 Evaluation is the discipline of measuring whether an agentic system produces the right outcomes. It includes output-level evaluation (was the answer correct?), trace-level evaluation (did the agent take a sensible path?), regression testing (does a change degrade existing behavior?), and online evaluation (how does the system perform on real traffic?).

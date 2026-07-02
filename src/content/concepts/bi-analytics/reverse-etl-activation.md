@@ -8,8 +8,6 @@ readingTime: "7 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Reverse ETL and Activation
-
 ## What it is
 
 Reverse ETL is the pattern of moving data from the warehouse — where it was modeled — back into the operational tools where work actually happens. A customer health score calculated in dbt becomes a field in Salesforce. A churn-risk segment becomes an audience in HubSpot. A product-qualified lead becomes a Slack alert in the SDR workflow.

@@ -19,22 +19,26 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 ---
 
-<Layout title={`${entry.data.title} — Insight — Yoann Leny`} description={entry.data.title}>
-  
+<Layout title={`${entry.data.title} — Insight — Yoann Leny`} description={entry.data.dek || entry.data.title}>
+
+  <div class="reading-progress" aria-hidden="true"></div>
+
   <Section id="header">
     <Container size="narrow">
       <div class="pt-24 pb-8">
         <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-8 border-b border-ink-100 pb-4">
-          {entry.data.tags?.[0] || 'INSIGHT'} &middot; {entry.data.readingTime || '10'} MIN READ &middot; PUBLISHED {entry.data.publishedAt || '2026'}
+          {entry.data.cluster || entry.data.tags?.[0] || 'INSIGHT'} &middot; {entry.data.readingTime || '10'} MIN READ &middot; PUBLISHED {entry.data.publishedAt || '2026'}
         </div>
-        
+
         <Heading level={1} as="h1" class="mb-6 max-w-[18ch]">
           {entry.data.title}
         </Heading>
-        
-        <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-500 max-w-[60ch]">
-          Placeholder dek for the essay. A single sentence summarizing the argument.
-        </p>
+
+        {entry.data.dek && (
+          <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-500 max-w-[60ch]">
+            {entry.data.dek}
+          </p>
+        )}
       </div>
     </Container>
   </Section>
@@ -54,19 +58,14 @@ const { Content } = await render(entry);
       </Prose>
       
       <!-- Author Signature Block -->
-      <div class="mt-24 pt-12 border-t border-ink-100 flex items-start gap-8">
-        <div class="w-24 h-24 bg-ink-100 rounded-full flex-shrink-0 relative overflow-hidden grayscale">
-          <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPjxyZWN0IHdpZHRoPSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiMwMDAiIGZpbGwtb3BhY2l0eT0iMC4wNCIvPjwvc3ZnPg==')] mix-blend-overlay"></div>
-        </div>
-        <div>
-          <div class="font-display text-[length:var(--t-headline-size)] mb-2">Yoann Leny</div>
-          <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700 max-w-md mb-4">
-            Building data and AI operating systems. I write about architecture, operations, and the invisible systems that make or break both.
-          </p>
-          <a href="https://linkedin.com/in/yoannleny" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
-            &rarr; Connect on LinkedIn
-          </a>
-        </div>
+      <div class="mt-24 pt-12 border-t border-ink-100">
+        <div class="font-display text-[length:var(--t-headline-size)] mb-2">Yoann Leny</div>
+        <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700 max-w-md mb-4">
+          Building data and AI operating systems. I write about architecture, operations, and the invisible systems that make or break both.
+        </p>
+        <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
+          &rarr; Connect on LinkedIn
+        </a>
       </div>
       
       <!-- Comment Policy -->

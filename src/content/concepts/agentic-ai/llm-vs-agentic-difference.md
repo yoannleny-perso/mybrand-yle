@@ -8,8 +8,6 @@ readingTime: "6 min"
 lastReviewed: "2026-Q2"
 ---
 
-# LLM vs Agentic: The Difference
-
 ## What it is
 
 An LLM is a model that produces text given text. Send a prompt, get a completion. Stateless, single-step, no autonomy.

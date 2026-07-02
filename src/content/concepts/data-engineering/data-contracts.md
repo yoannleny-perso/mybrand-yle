@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Data Contracts
-
 ## What it is
 
 A data contract is a written, machine-readable agreement between the team producing data and the teams consuming it. It specifies the schema (columns, types, nullability), the semantics (what each field means and how it is computed), the SLA (freshness, completeness, latency), and the ownership (who is on call when it breaks).

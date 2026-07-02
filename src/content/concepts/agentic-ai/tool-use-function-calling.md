@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Tool Use and Function Calling
-
 ## What it is
 
 Tool use is the mechanism by which an LLM emits a structured call to an external function. Instead of returning free-text, the model returns a JSON object naming a tool and its arguments. The runtime executes the tool and returns the result. The model continues with the result in context.

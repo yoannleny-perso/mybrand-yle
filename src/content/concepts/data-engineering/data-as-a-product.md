@@ -8,8 +8,6 @@ readingTime: "7 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Data as a Product
-
 ## What it is
 
 Data as a product is an operating model, not a technology. It treats each data asset — a table, a metric, a dataset, a model — as a product with an owner, a defined consumer, a contract, an SLA, a roadmap, and a feedback loop.

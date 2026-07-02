@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Fine-tuning vs RAG vs Tool Use
-
 ## What it is
 
 Three patterns for making an LLM work well on a specific problem. They are not mutually exclusive — production systems often use combinations — but each fits a distinct problem shape.

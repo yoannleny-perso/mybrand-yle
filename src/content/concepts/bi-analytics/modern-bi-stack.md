@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# The Modern BI Stack
-
 ## What it is
 
 The modern BI stack separates concerns. The warehouse stores and processes data. The transformation layer (dbt, SQLMesh) models it. The semantic layer (Cube, dbt Semantic Layer, Snowflake Semantic Views) defines metrics. The BI tool renders them.

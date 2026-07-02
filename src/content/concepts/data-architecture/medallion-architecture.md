@@ -8,12 +8,6 @@ readingTime: 11
 lastReviewed: "2026-03-15"
 ---
 
-# Medallion Architecture
-
-`DATA ARCHITECTURE · INTERMEDIATE · 11 MIN · LAST REVIEWED MARCH 2026`
-
-> A three-zone data architecture — bronze, silver, gold — that separates raw, refined, and business-ready data within a single lakehouse.
-
 ## What it is
 
 The medallion architecture is a way of organizing data inside a lakehouse so that the same physical platform can serve raw ingestion, cleaned refinement, and business-ready analytics — without those three concerns colliding into each other. The metaphor of bronze, silver, and gold is borrowed from precious-metal classification: each zone refines what the previous one delivered.
@@ -85,9 +79,9 @@ The medallion pattern is implementable on any modern lakehouse. The differences 
 
 ## Related reading
 
-- [Data Lake vs Data Warehouse vs Lakehouse](/concepts/data-architecture/data-lake-vs-warehouse-vs-lakehouse)
-- [Open Table Formats — Iceberg, Delta, Hudi](/concepts/data-architecture/open-table-formats)
-- [Data as a Product](/concepts/data-engineering/data-as-a-product)
+- [Data Lake vs Data Warehouse vs Lakehouse](/concepts/data-lake-vs-warehouse-vs-lakehouse)
+- [Open Table Formats — Iceberg, Delta, Hudi](/concepts/open-table-formats)
+- [Data as a Product](/concepts/data-as-a-product)
 
 ## Related work
 

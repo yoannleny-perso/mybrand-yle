@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Cost Optimization for Data Platforms
-
 ## What it is
 
 Cost optimization is what separates a sustainable data platform from a board slide labeled "data spend up 80% YoY." It is not about cutting features or running fewer queries. It is about producing the same outcomes for materially less money by being deliberate about pipeline design, storage layout, compute selection, and operational hygiene.

@@ -1,98 +1,127 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 interface HeroProps {
   headlineLines?: string[];
   subheadline: string;
+  eyebrow?: string;
+  primaryCta?: { label: string; href: string };
+  secondaryCta?: { label: string; href: string };
 }
 
-export default function Hero({ subheadline }: HeroProps) {
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+/** Primary CTA with a subtle magnetic pull toward the cursor. */
+function MagneticLink({ href, children }: { href: string; children: React.ReactNode }) {
+  const shouldReduceMotion = useReducedMotion();
+  const ref = useRef<HTMLAnchorElement>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  const handleMove = (e: React.MouseEvent) => {
+    if (shouldReduceMotion || !ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const x = e.clientX - (rect.left + rect.width / 2);
+    const y = e.clientY - (rect.top + rect.height / 2);
+    setOffset({ x: x * 0.18, y: y * 0.3 });
+  };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={href}
+      onMouseMove={handleMove}
+      onMouseLeave={() => setOffset({ x: 0, y: 0 })}
+      animate={{ x: offset.x, y: offset.y }}
+      transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+      className="inline-flex items-center gap-2 bg-ink-1000 text-paper-0 px-8 py-4 rounded-full text-[15px] font-semibold hover:bg-signal transition-colors duration-300"
+    >
+      {children}
+    </motion.a>
+  );
+}
+
+export default function Hero({
+  headlineLines = ['Building', 'AI-Enabled Operating Systems', 'for Modern Organizations.'],
+  subheadline,
+  eyebrow = 'Operator. Architect. Builder.',
+  primaryCta = { label: "Let's talk", href: '/contact' },
+  secondaryCta = { label: 'Explore work', href: '/work' },
+}: HeroProps) {
   const shouldReduceMotion = useReducedMotion();
 
-  const getTransition = (delayMs: number, durationMs: number) => ({
-    duration: shouldReduceMotion ? 0 : durationMs / 1000,
-    delay: shouldReduceMotion ? 0 : delayMs / 1000,
-    ease: [0.16, 1, 0.3, 1]
+  const lineTransition = (i: number) => ({
+    duration: shouldReduceMotion ? 0 : 0.9,
+    delay: shouldReduceMotion ? 0 : 0.15 + i * 0.12,
+    ease: EASE,
   });
 
   return (
-    <section className="relative min-h-[85vh] flex flex-col justify-end pt-32 overflow-hidden bg-paper-50" aria-labelledby="hero-heading">
-      
-      {/* Ambient Blur Backgrounds */}
-      <motion.div 
-        className="ambient-blur top-[10%] left-[-10%]"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.6, scale: 1 }}
-        transition={getTransition(0, 1500)}
-      />
-      <motion.div 
-        className="ambient-blur bottom-[-20%] right-[-10%]"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 0.4, scale: 1 }}
-        transition={getTransition(400, 1500)}
+    <section
+      className="relative min-h-[88vh] flex flex-col justify-center overflow-hidden bg-paper-50 pt-32 pb-16"
+      aria-labelledby="hero-heading"
+    >
+      {/* Ambient light, static and quiet */}
+      <motion.div
+        className="ambient-blur top-[-10%] left-[-15%]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.5 }}
+        transition={{ duration: shouldReduceMotion ? 0 : 1.6, ease: 'easeOut' }}
       />
 
-      {/* Main Container */}
-      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 flex flex-col items-center justify-end h-full">
-
-        {/* Top Text / Bio - moved ABOVE the photo to avoid overlap */}
-        <motion.div 
-          className="max-w-[500px] text-center mb-8 z-20"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={getTransition(400, 800)}
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-6 flex flex-col items-center text-center">
+        <motion.p
+          className="font-mono text-[13px] font-semibold uppercase tracking-[0.14em] text-ink-500 mb-8"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={lineTransition(0)}
         >
-          <h1 className="font-display text-[length:var(--t-headline-size)] font-bold text-ink-900 mb-4">
-            Hi, I'm Yoann Leny.
-          </h1>
-          <p className="text-ink-700 font-medium text-[length:var(--t-body-size)] leading-relaxed">
-            {subheadline}
-          </p>
-          <a href="/work" className="inline-block mt-4 border-b border-ink-1000 pb-1 font-bold hover:text-signal hover:border-signal transition-colors uppercase tracking-widest text-[13px]">
-            Explore Work
+          {eyebrow}
+        </motion.p>
+
+        <h1
+          id="hero-heading"
+          className="font-display font-black text-ink-1000 tracking-[-0.03em] leading-[1.05] mb-10"
+          style={{ fontSize: 'clamp(2.5rem, 6.5vw, 5.5rem)' }}
+        >
+          {headlineLines.map((line, i) => (
+            <span key={i} className="block overflow-hidden py-[0.08em] -my-[0.08em]">
+              <motion.span
+                className="block"
+                initial={{ y: '110%' }}
+                animate={{ y: 0 }}
+                transition={lineTransition(i)}
+              >
+                {i === 1 ? <span className="text-signal">{line}</span> : line}
+              </motion.span>
+            </span>
+          ))}
+        </h1>
+
+        <motion.p
+          className="font-body text-[1.125rem] md:text-[1.25rem] leading-[1.7] text-ink-700 max-w-[52ch] mb-12"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={lineTransition(headlineLines.length)}
+        >
+          {subheadline}
+        </motion.p>
+
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-6"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={lineTransition(headlineLines.length + 1)}
+        >
+          <MagneticLink href={primaryCta.href}>
+            {primaryCta.label} <span aria-hidden="true">→</span>
+          </MagneticLink>
+          <a
+            href={secondaryCta.href}
+            className="font-mono text-[13px] font-bold uppercase tracking-[0.12em] text-ink-900 border-b-2 border-signal pb-1 hover:text-signal transition-colors duration-200"
+          >
+            {secondaryCta.label} <span aria-hidden="true">→</span>
           </a>
         </motion.div>
-
-        {/* The Huge Text and Image Container */}
-        <div className="relative w-full flex justify-center items-end mt-4">
-          
-          {/* Left Text: AGENTIC */}
-          <motion.div 
-            className="hidden md:block absolute left-[5%] top-[30%] -translate-y-1/2 text-[10vw] leading-[0.8] font-display font-black text-ink-1000 z-0"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={getTransition(600, 1000)}
-          >
-            AGENTIC
-          </motion.div>
-
-          {/* Right Text: ARCHITECT */}
-          <motion.div 
-            className="hidden md:block absolute right-[5%] top-[30%] -translate-y-1/2 text-[10vw] leading-[0.8] font-display font-black text-ink-1000 z-0"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={getTransition(800, 1000)}
-          >
-            ARCHITECT
-          </motion.div>
-
-          {/* Center Headshot */}
-          <motion.div 
-            className="relative w-full max-w-[400px] lg:max-w-[500px] flex justify-center items-end z-10"
-            initial={{ opacity: 0, y: 100 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={getTransition(200, 1200)}
-          >
-            <img 
-              src="/images/Yoann-headshot.png" 
-              alt="Yoann Leny" 
-              className="w-full h-auto object-contain object-bottom drop-shadow-[0_20px_40px_rgba(0,0,0,0.15)] relative z-10"
-            />
-            {/* Gradient fade to blend the bottom smoothly into the background */}
-            <div className="absolute bottom-0 left-0 w-full h-24 md:h-32 bg-gradient-to-t from-paper-50 to-transparent pointer-events-none z-20"></div>
-          </motion.div>
-          
-        </div>
       </div>
     </section>
   );

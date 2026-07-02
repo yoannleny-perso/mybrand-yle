@@ -8,8 +8,6 @@ readingTime: "10 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Data Transformation: dbt, SQLMesh, Coalesce
-
 ## What it is
 
 Transformation is the layer that turns raw warehouse tables into the tables business users and applications actually read. It is mostly SQL, occasionally Python, and the discipline around it — modular models, tests, version control, documentation, lineage — is what separates a data team from a folder of stored procedures.

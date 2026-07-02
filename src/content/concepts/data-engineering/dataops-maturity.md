@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# DataOps Maturity
-
 ## What it is
 
 DataOps is what software engineering taught data engineering once we admitted that pipelines are code. Version control. Code review. Continuous integration. Multiple environments (dev / staging / prod). Automated testing on every change. Deployment via merge, not console clicks. Observability and on-call.

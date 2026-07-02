@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Decision Intelligence
-
 ## What it is
 
 Decision intelligence is the practice of designing analytics around the decision they support. It starts from a question — "should we extend this campaign?" — and works backward to the data, the visualization, the threshold, and the workflow that operationalizes the answer.

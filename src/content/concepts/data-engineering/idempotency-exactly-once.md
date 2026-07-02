@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Idempotency and Exactly-Once Semantics
-
 ## What it is
 
 Idempotency: running the same operation twice produces the same outcome as running it once. Re-running yesterday's pipeline does not double the row count. Replaying the last hour of events does not duplicate orders.

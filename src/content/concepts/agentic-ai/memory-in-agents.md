@@ -8,8 +8,6 @@ readingTime: "9 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Memory in Agents
-
 ## What it is
 
 Memory in agents has three distinct layers. Working memory is what fits in the model's context window during a single run — accumulating tool results, intermediate reasoning, and recent observations. Long-term memory persists across runs — summarized prior conversations, learned user preferences, episodic logs of past behavior. Shared memory is knowledge available to many agents — the document corpus, the metric definitions, the organizational facts.

@@ -8,8 +8,6 @@ readingTime: "8 min"
 lastReviewed: "2026-Q2"
 ---
 
-# Change Data Capture (CDC)
-
 ## What it is
 
 CDC reads the transaction log of a source database (Postgres WAL, MySQL binlog, SQL Server CT) and emits a stream of every row that changes. Each event includes the operation type (insert / update / delete), the before and after values, a timestamp, and a transaction ID. Downstream systems consume that stream and stay in lockstep with the source.
