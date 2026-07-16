@@ -3,10 +3,11 @@ const lang = Astro.currentLocale || 'en';
 
 const translations = {
   en: {
-    tagline: "Modern organizations don't just need better tools. They need better operating systems.",
+    tagline: "Data and AI leadership, built for the way organizations really operate.",
     sitemap: "Sitemap",
     work: "Work",
     capabilities: "Capabilities",
+    about: "About",
     concepts: "Concepts",
     insights: "Insights",
     hire: "Hire me",
@@ -26,6 +27,7 @@ const translations = {
     sitemap: "Plan du site",
     work: "Projets",
     capabilities: "Compétences",
+    about: "À propos",
     concepts: "Concepts",
     insights: "Réflexions",
     hire: "Me recruter",
@@ -45,6 +47,7 @@ const translations = {
     sitemap: "Mapa del sitio",
     work: "Proyectos",
     capabilities: "Competencias",
+    about: "Sobre mí",
     concepts: "Conceptos",
     insights: "Reflexiones",
     hire: "Contrátame",
@@ -69,7 +72,7 @@ const getLangPath = (path: string) => {
 };
 ---
 
-<footer class="dark-surface py-24 mt-32">
+<footer class="dark-surface py-20 sm:py-24">
   <div class="mx-auto w-full px-6 sm:px-12 lg:px-[max(96px,8vw)] max-w-[1440px]">
     
     <div class="mb-24">
@@ -85,6 +88,7 @@ const getLangPath = (path: string) => {
         <h3 class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">{t.sitemap}</h3>
         <a href={getLangPath('/work')} class="hover:text-paper-50 transition-colors">{t.work}</a>
         <a href={getLangPath('/capabilities')} class="hover:text-paper-50 transition-colors">{t.capabilities}</a>
+        <a href={getLangPath('/about')} class="hover:text-paper-50 transition-colors">{t.about}</a>
         <a href={getLangPath('/concepts')} class="hover:text-paper-50 transition-colors">{t.concepts}</a>
         <a href={getLangPath('/insights')} class="hover:text-paper-50 transition-colors">{t.insights}</a>
         <a href="/decisions" class="hover:text-paper-50 transition-colors">{t.decisions}</a>
@@ -114,4 +118,3 @@ const getLangPath = (path: string) => {
     </div>
   </div>
 </footer>
-

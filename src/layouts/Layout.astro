@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '@fontsource-variable/inter';
+import '@fontsource-variable/inter-tight';
 import '@fontsource/jetbrains-mono';
 import '@fontsource/jetbrains-mono/500.css';
 import { ClientRouter } from 'astro:transitions';
@@ -18,15 +19,23 @@ interface Props {
 const { 
   title = "Yoann Leny — Data Operations and Agentic AI Architect", 
   description = "Yoann Leny architects AI-enabled operating systems for modern organizations.",
-  ogImage = "/og/home.png",
+  ogImage = '/og/home.png',
   canonicalUrl = Astro.url.pathname === "/" ? Astro.site : new URL(Astro.url.pathname, Astro.site)
 } = Astro.props;
 
 const siteUrl = Astro.site || "https://yoannleny.com";
 const absoluteOgImage = new URL(ogImage, siteUrl).toString();
-const absoluteCanonicalUrl = new URL(Astro.url.pathname, siteUrl).toString().replace(/\/$/, ''); // Remove trailing slash
+const absoluteCanonicalUrl = new URL(canonicalUrl || Astro.url.pathname, siteUrl).toString();
 
 const lang = Astro.currentLocale || 'en';
+const skipText = lang === 'fr' ? 'Aller au contenu' : lang === 'es' ? 'Ir al contenido' : 'Skip to content';
+const localePrefix = /^\/(fr|es)(?=\/|$)/;
+const unprefixedPath = Astro.url.pathname.replace(localePrefix, '') || '/';
+const localizedPath = (locale: 'en' | 'fr' | 'es') => {
+  if (locale === 'en') return unprefixedPath;
+  return `/${locale}${unprefixedPath === '/' ? '/' : unprefixedPath}`;
+};
+const hasLocalizedEquivalent = !unprefixedPath.startsWith('/decisions');
 ---
 
 <!doctype html>
@@ -47,8 +56,7 @@ const lang = Astro.currentLocale || 'en';
         const path = window.location.pathname;
 
         const homeFor = (l) => (l === defaultLang ? '/' : '/' + l + '/');
-        const isHome = path === '/' || supportedLangs.some((l) => path === '/' + l || path === '/' + l + '/');
-        if (!isHome) return;
+        if (path !== '/') return;
 
         const savedLang = localStorage.getItem('preferred-lang');
         let targetLang = savedLang;
@@ -57,10 +65,7 @@ const lang = Astro.currentLocale || 'en';
           targetLang = supportedLangs.includes(browserLang) ? browserLang : defaultLang;
         }
 
-        const parts = path.split('/').filter(Boolean);
-        const currentLang = parts[0] && supportedLangs.includes(parts[0]) ? parts[0] : defaultLang;
-
-        if (targetLang !== currentLang) {
+        if (targetLang !== defaultLang) {
           window.location.replace(homeFor(targetLang));
         }
       })();
@@ -68,6 +73,14 @@ const lang = Astro.currentLocale || 'en';
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={absoluteCanonicalUrl} />
+    {hasLocalizedEquivalent && (
+      <>
+        <link rel="alternate" hreflang="en" href={new URL(localizedPath('en'), siteUrl)} />
+        <link rel="alternate" hreflang="fr" href={new URL(localizedPath('fr'), siteUrl)} />
+        <link rel="alternate" hreflang="es" href={new URL(localizedPath('es'), siteUrl)} />
+        <link rel="alternate" hreflang="x-default" href={new URL(localizedPath('en'), siteUrl)} />
+      </>
+    )}
     
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -88,8 +101,9 @@ const lang = Astro.currentLocale || 'en';
     <ClientRouter />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">{skipText}</a>
     <Header />
-    <main>
+    <main id="main-content" tabindex="-1">
       <slot />
     </main>
     <Footer />

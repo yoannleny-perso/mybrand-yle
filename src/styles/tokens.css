@@ -10,12 +10,12 @@
   --paper-0:   #FFFFFF;
 
   /* Accents */
-  --signal:    #6366F1; /* Vibrant Indigo */
-  --signal-glow: #E0E7FF;
+  --signal:    #2446FF; /* Accessible cobalt */
+  --signal-glow: #E8EDFF;
   --signal-success: #10B981;
 
   /* Functional */
-  --focus:     #6366F1;
+  --focus:     #2446FF;
   --focus-on-dark: #FFFFFF;
 
   /* Elevation */
@@ -31,7 +31,7 @@
   --surface-rose: #FFF1F2;
 
   /* Typography */
-  --font-display: 'Inter Variable', sans-serif;
+  --font-display: 'Inter Tight Variable', 'Inter Variable', sans-serif;
   --font-body:    'Inter Variable', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
