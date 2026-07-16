@@ -117,6 +117,24 @@ test('provides shared keyboard navigation and active-page semantics', () => {
   assert.ok(globalCss.includes('.skip-link'));
 });
 
+test('keeps the cinematic shell accessible and locale aware', () => {
+  const header = read('src/components/layout/Header.astro');
+  const footer = read('src/components/layout/Footer.astro');
+  const layout = read('src/layouts/Layout.astro');
+  const prose = read('src/components/primitives/Prose.astro');
+  assert.ok(header.includes('aria-current'));
+  assert.ok(header.includes("event.key === 'Escape'"));
+  assert.ok(header.includes('data-lang-switch'));
+  assert.ok(header.includes('preferred-lang'));
+  assert.ok(footer.includes("Astro.currentLocale"));
+  assert.ok(layout.includes("if (path !== '/') return"));
+  assert.ok(layout.includes('navigator.languages'));
+  assert.ok(layout.includes("localStorage.getItem('preferred-lang')"));
+  assert.ok(layout.includes('window.location.replace(homeFor(targetLang))'));
+  assert.ok(prose.includes('max-width'));
+  assert.doesNotMatch(header + footer, /#2446FF|surface-indigo|surface-purple/i);
+});
+
 test('uses an Open Graph image that exists in public assets', () => {
   const layout = read('src/layouts/Layout.astro');
 

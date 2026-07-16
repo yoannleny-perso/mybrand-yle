@@ -1,9 +1,10 @@
 ---
 interface Props {
   size?: 'small' | 'default' | 'large';
+  class?: string;
 }
 
-const { size = 'default' } = Astro.props;
+const { size = 'default', class: className = '' } = Astro.props;
 
 const styles = {
   small: 'text-[length:var(--t-body-s-size)] leading-[var(--t-body-s-line)] tracking-[var(--t-body-s-letter)] font-[var(--t-body-s-weight)]',
@@ -12,13 +13,14 @@ const styles = {
 };
 ---
 
-<div class={`prose-content ${styles[size]} max-w-3xl mx-auto`}>
+<div class:list={['prose-content mx-auto', styles[size], className]}>
   <slot />
 </div>
 
 <style is:global>
   .prose-content {
-    color: var(--color-ink-800);
+    max-width: 72ch;
+    color: var(--ink-900);
   }
   .prose-content p {
     margin-bottom: var(--space-paragraph);
@@ -28,14 +30,14 @@ const styles = {
     font-size: var(--t-headline-size);
     margin-top: calc(var(--space-paragraph-heading) * 1.5);
     margin-bottom: var(--space-paragraph);
-    color: var(--color-ink-1000);
+    color: var(--ink-1000);
   }
   .prose-content h3 {
     font-family: var(--font-display);
     font-size: var(--t-headline-size); /* Or slightly smaller if defined */
     margin-top: calc(var(--space-paragraph-heading) * 1.2);
     margin-bottom: var(--space-paragraph);
-    color: var(--color-ink-1000);
+    color: var(--ink-1000);
   }
   .prose-content ul {
     list-style-type: disc;
@@ -51,14 +53,15 @@ const styles = {
     margin-bottom: 0.5rem;
   }
   .prose-content a {
-    color: var(--color-ink-1000);
+    color: var(--ink-1000);
     text-decoration: underline;
-    text-decoration-color: var(--color-ink-200);
+    text-decoration-color: var(--signal-intelligence);
+    text-decoration-thickness: 0.125rem;
     text-underline-offset: 4px;
-    transition: color 0.2s;
+    transition: text-decoration-color 0.2s;
   }
   .prose-content a:hover {
-    color: var(--color-ink-500);
+    text-decoration-color: currentColor;
   }
   /* Table styling */
   .prose-content .table-container {
@@ -81,18 +84,18 @@ const styles = {
     font-size: var(--t-meta-size);
     text-transform: uppercase;
     letter-spacing: var(--t-meta-letter);
-    color: var(--color-ink-500);
-    border-bottom: 1px solid var(--color-ink-100);
+    color: var(--ink-700);
+    border-bottom: 1px solid var(--ink-100);
     padding: 1rem 1rem 1rem 0;
     font-weight: normal;
   }
   .prose-content td {
     padding: 1.5rem 1rem 1.5rem 0;
-    border-bottom: 1px solid var(--color-ink-100);
+    border-bottom: 1px solid var(--ink-100);
     vertical-align: top;
   }
   .prose-content tr:hover td {
-    background-color: var(--color-paper-0);
+    background-color: var(--paper-50);
   }
   
   /* Yoann's Take (Blockquote) */
@@ -100,9 +103,9 @@ const styles = {
     margin-top: var(--space-paragraph-heading);
     margin-bottom: var(--space-paragraph);
     padding-top: 2rem;
-    border-top: 1px solid var(--color-ink-100);
+    border-top: 1px solid var(--ink-100);
     font-style: italic;
-    color: var(--color-ink-700);
+    color: var(--ink-700);
     font-size: var(--t-body-l-size);
     line-height: var(--t-body-l-line);
   }
@@ -115,7 +118,7 @@ const styles = {
   .prose-content code {
     font-family: var(--font-mono);
     font-size: var(--t-meta-size);
-    background-color: var(--color-ink-100);
+    background-color: var(--paper-50);
     padding: 0.2rem 0.4rem;
   }
 </style>

@@ -1,11 +1,12 @@
 ---
 interface Props {
   text?: string;
+  class?: string;
 }
 
-const { text } = Astro.props;
+const { text, class: className = '' } = Astro.props;
 ---
 
-<div class="font-mono text-[var(--t-meta-size)] leading-[var(--t-meta-line)] tracking-[var(--t-meta-letter)] uppercase font-medium text-ink-500 mb-8">
+<div class:list={['mb-8 font-mono text-[var(--t-meta-size)] font-semibold uppercase leading-[var(--t-meta-line)] tracking-[var(--t-meta-letter)] text-ink-700', className]}>
   {text ? text : <slot />}
 </div>

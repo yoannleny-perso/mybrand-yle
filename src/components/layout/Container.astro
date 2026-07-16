@@ -1,9 +1,10 @@
 ---
 interface Props {
-  size?: 'narrow' | 'default' | 'wide'
+  size?: 'narrow' | 'default' | 'wide';
+  class?: string;
 }
 
-const { size = 'default' } = Astro.props;
+const { size = 'default', class: className = '' } = Astro.props;
 
 const sizes = {
   narrow: 'max-w-[720px]',
@@ -12,6 +13,6 @@ const sizes = {
 };
 ---
 
-<div class={`mx-auto w-full px-6 sm:px-12 lg:px-[max(96px,8vw)] ${sizes[size]}`}>
+<div class:list={['mx-auto w-full px-4 sm:px-8 lg:px-[max(72px,6vw)]', sizes[size], className]}>
   <slot />
 </div>

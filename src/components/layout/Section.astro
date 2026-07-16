@@ -2,13 +2,14 @@
 interface Props {
   id?: string;
   background?: 'paper' | 'ink';
+  class?: string;
 }
 
-const { id, background = 'paper' } = Astro.props;
+const { id, background = 'paper', class: className = '' } = Astro.props;
 
-const bgClasses = background === 'ink' ? 'dark-surface' : '';
+const bgClasses = background === 'ink' ? 'dark-surface' : 'bg-paper-0';
 ---
 
-<section id={id} class={`py-[var(--space-section)] ${bgClasses} scroll-reveal`}>
+<section id={id} class:list={['scroll-reveal py-[var(--space-section)]', bgClasses, className]}>
   <slot />
 </section>

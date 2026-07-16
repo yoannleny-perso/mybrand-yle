@@ -3,9 +3,10 @@ interface Props {
   level: 1 | 2 | 3 | 4;
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'div';
   serif?: boolean;
+  class?: string;
 }
 
-const { level, as: Tag = `h${level}` as any, serif = true } = Astro.props;
+const { level, as: Tag = `h${level}` as any, serif = true, class: className = '' } = Astro.props;
 
 const styles = {
   1: 'text-[length:var(--t-display-xl-size)] leading-[var(--t-display-xl-line)] tracking-[var(--t-display-xl-letter)] font-[var(--t-display-xl-weight)]',
@@ -17,6 +18,6 @@ const styles = {
 const fontClass = serif ? 'font-display' : 'font-body';
 ---
 
-<Tag class={`${fontClass} ${styles[level]}`}>
+<Tag class:list={[fontClass, styles[level], className]}>
   <slot />
 </Tag>

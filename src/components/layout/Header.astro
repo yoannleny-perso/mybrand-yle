@@ -40,10 +40,10 @@ const languages = [
 ];
 ---
 
-<header id="global-header" class="fixed left-0 top-0 z-50 w-full px-6 py-5 transition-[padding,background-color,box-shadow] duration-300 sm:px-12 lg:px-[max(96px,8vw)]">
-  <div class="relative mx-auto flex min-h-12 max-w-[1440px] items-center justify-between">
-    <a href={getLangPath('/')} class="z-50 font-display text-xl font-semibold tracking-[-0.035em] text-ink-1000 transition-colors hover:text-signal md:text-2xl" aria-label={t.logoLabel}>
-      Yoann Leny<span class="text-signal">.</span>
+<header id="global-header" class="fixed left-0 top-0 z-50 w-full px-4 py-4 transition-[padding] duration-300 sm:px-8 lg:px-[max(72px,6vw)]">
+  <div class="relative mx-auto flex min-h-14 max-w-[1440px] items-center justify-between rounded-full bg-paper-0/95 px-5 shadow-[0_10px_32px_rgba(5,5,5,.08)]">
+    <a href={getLangPath('/')} class="z-50 rounded-full font-display text-xl font-semibold tracking-[-0.035em] text-ink-1000 md:text-2xl" aria-label={t.logoLabel}>
+      Yoann Leny<span style="color: var(--signal-intelligence)">.</span>
     </a>
 
     <nav aria-label="Primary navigation" class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 lg:flex">
@@ -52,15 +52,15 @@ const languages = [
           href={getLangPath(item.path)}
           aria-current={isActive(item.path) ? 'page' : undefined}
           class:list={[
-            'relative py-3 text-sm font-medium transition-colors after:absolute after:inset-x-0 after:bottom-1 after:h-px after:origin-left after:bg-signal after:transition-transform',
-            isActive(item.path) ? 'text-ink-1000 after:scale-x-100' : 'text-ink-700 after:scale-x-0 hover:text-ink-1000 hover:after:scale-x-100',
+            'relative py-3 text-sm font-medium transition-colors after:absolute after:inset-x-0 after:bottom-1 after:h-0.5 after:origin-left after:bg-signal-intelligence after:transition-transform',
+            isActive(item.path) ? 'text-ink-1000 after:scale-x-100' : 'text-ink-900 after:scale-x-0 hover:text-ink-1000 hover:after:scale-x-100',
           ]}
         >{item.label}</a>
       ))}
     </nav>
 
     <div class="z-10 hidden items-center gap-5 lg:flex">
-      <div class="flex items-center gap-1 border-r border-ink-300 pr-4" aria-label={t.language}>
+      <div class="flex items-center gap-1" aria-label={t.language}>
         {languages.map((language) => (
           <button
             type="button"
@@ -68,13 +68,13 @@ const languages = [
             aria-label={`${t.language}: ${language.label}`}
             aria-pressed={lang === language.code}
             class:list={[
-              'min-h-9 min-w-9 px-2 font-mono text-[0.625rem] font-semibold uppercase tracking-[0.08em] transition-colors',
-              lang === language.code ? 'bg-ink-1000 text-paper-0' : 'text-ink-500 hover:bg-paper-0 hover:text-ink-1000',
+              'min-h-11 min-w-11 rounded-full px-2 font-mono text-[0.625rem] font-semibold uppercase tracking-[0.08em] transition-colors',
+              lang === language.code ? 'bg-ink-1000 text-paper-0' : 'text-ink-700 hover:bg-paper-50 hover:text-ink-1000',
             ]}
           >{language.code}</button>
         ))}
       </div>
-      <a href={getLangPath('/hire')} class="inline-flex min-h-11 items-center bg-ink-1000 px-5 py-2.5 text-sm font-semibold text-paper-0 transition-colors hover:bg-signal">
+      <a href={getLangPath('/hire')} class="inline-flex min-h-11 items-center rounded-full bg-ink-1000 px-5 py-2.5 text-sm font-semibold text-paper-0 transition-colors hover:bg-ink-900">
         {t.talk}
       </a>
     </div>
@@ -96,15 +96,15 @@ const languages = [
       </svg>
     </button>
 
-    <div id="mobile-menu-overlay" class="fixed inset-0 z-40 flex translate-x-full flex-col justify-between border-l border-ink-200 bg-paper-50 px-6 pb-8 pt-28 transition-transform duration-300 sm:px-12 lg:hidden" role="dialog" aria-modal="true" aria-label={t.openMenu} aria-hidden="true" inert>
-      <nav aria-label="Mobile navigation" class="flex flex-col border-t border-ink-300">
+    <div id="mobile-menu-overlay" class="fixed inset-0 z-40 flex translate-x-full flex-col justify-between px-6 pb-8 pt-28 transition-transform duration-300 sm:px-12 lg:hidden" style="background-color: var(--paper-0)" role="dialog" aria-modal="true" aria-label={t.openMenu} aria-hidden="true" inert>
+      <nav aria-label="Mobile navigation" class="flex flex-col border-t border-ink-100">
         {navItems.map((item, index) => (
           <a
             href={getLangPath(item.path)}
             aria-current={isActive(item.path) ? 'page' : undefined}
             class:list={[
-              'flex items-center justify-between border-b border-ink-300 py-5 font-display text-[clamp(1.75rem,8vw,2.75rem)] font-semibold leading-none tracking-[-0.04em] transition-colors hover:text-signal',
-              isActive(item.path) ? 'text-signal' : 'text-ink-1000',
+              'flex items-center justify-between border-b border-ink-100 py-5 font-display text-[clamp(1.75rem,8vw,2.75rem)] font-semibold leading-none tracking-[-0.04em] transition-colors hover:text-ink-700',
+              isActive(item.path) ? 'text-ink-1000 underline decoration-signal-intelligence decoration-2 underline-offset-8' : 'text-ink-1000',
             ]}
           >
             <span>{item.label}</span><span class="font-mono text-[0.625rem] font-normal tracking-normal text-ink-500" aria-hidden="true">0{index + 1}</span>
@@ -115,7 +115,7 @@ const languages = [
       <div class="space-y-5">
         <div>
           <p class="mb-3 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{t.language}</p>
-          <div class="grid grid-cols-3 border border-ink-300">
+          <div class="grid grid-cols-3 gap-2">
             {languages.map((language) => (
               <button
                 type="button"
@@ -123,14 +123,14 @@ const languages = [
                 aria-label={`${t.language}: ${language.label}`}
                 aria-pressed={lang === language.code}
                 class:list={[
-                  'min-h-12 border-r border-ink-300 px-3 font-mono text-xs font-semibold uppercase last:border-r-0',
-                  lang === language.code ? 'bg-ink-1000 text-paper-0' : 'text-ink-700',
+                  'min-h-12 rounded-full px-3 font-mono text-xs font-semibold uppercase transition-colors',
+                  lang === language.code ? 'bg-ink-1000 text-paper-0' : 'bg-paper-0 text-ink-1000 hover:bg-paper-50',
                 ]}
               >{language.code}</button>
             ))}
           </div>
         </div>
-        <a href={getLangPath('/hire')} class="flex min-h-12 w-full items-center justify-center bg-signal px-5 py-3 text-center text-base font-semibold text-white">
+        <a href={getLangPath('/hire')} class="flex min-h-12 w-full items-center justify-center rounded-full bg-ink-1000 px-5 py-3 text-center text-base font-semibold text-paper-0 transition-colors hover:bg-ink-900">
           {t.talk}<span class="ml-3" aria-hidden="true">↗</span>
         </a>
       </div>
@@ -143,10 +143,6 @@ const languages = [
   :global(#global-header.menu-open) {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
-    background-color: color-mix(in srgb, var(--paper-50) 94%, transparent);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 1px 0 var(--ink-100);
   }
 
   #mobile-menu-btn[aria-expanded="true"] #mobile-line-1 { transform: scaleX(0); opacity: 0; }

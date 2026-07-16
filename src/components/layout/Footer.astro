@@ -72,8 +72,8 @@ const getLangPath = (path: string) => {
 };
 ---
 
-<footer class="dark-surface py-20 sm:py-24">
-  <div class="mx-auto w-full px-6 sm:px-12 lg:px-[max(96px,8vw)] max-w-[1440px]">
+<footer class="footer-scene bg-ink-900 py-20 text-paper-0 sm:py-24" style="border-radius: var(--radius-scene) var(--radius-scene) 0 0">
+  <div class="mx-auto w-full max-w-[1440px] px-4 sm:px-8 lg:px-[max(72px,6vw)]">
     
     <div class="mb-24">
       <div class="font-display text-[length:var(--t-display-m-size)] leading-[var(--t-display-m-line)] font-light max-w-3xl mb-8">
@@ -82,10 +82,10 @@ const getLangPath = (path: string) => {
       <div class="h-px w-full bg-ink-700"></div>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 font-body text-[length:var(--t-body-size)] text-ink-300">
+    <div class="grid grid-cols-1 gap-12 font-body text-[length:var(--t-body-size)] text-ink-300 md:grid-cols-3">
       <!-- Column 1: Sitemap -->
       <div class="flex flex-col gap-4">
-        <h3 class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">{t.sitemap}</h3>
+        <h3 class="mb-2 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-300">{t.sitemap}</h3>
         <a href={getLangPath('/work')} class="hover:text-paper-50 transition-colors">{t.work}</a>
         <a href={getLangPath('/capabilities')} class="hover:text-paper-50 transition-colors">{t.capabilities}</a>
         <a href={getLangPath('/about')} class="hover:text-paper-50 transition-colors">{t.about}</a>
@@ -96,7 +96,7 @@ const getLangPath = (path: string) => {
       
       <!-- Column 2: Direct -->
       <div class="flex flex-col gap-4">
-        <h3 class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">{t.direct}</h3>
+        <h3 class="mb-2 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-300">{t.direct}</h3>
         <a href="mailto:yoann.leny@gmail.com" class="hover:text-paper-50 transition-colors">{t.email}</a>
         <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="hover:text-paper-50 transition-colors">{t.linkedin}</a>
         <a href={getLangPath('/contact')} class="hover:text-paper-50 transition-colors">{t.calendar}</a>
@@ -104,7 +104,7 @@ const getLangPath = (path: string) => {
       
       <!-- Column 3: Meta -->
       <div class="flex flex-col gap-4">
-        <h3 class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-2">{t.meta}</h3>
+        <h3 class="mb-2 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-300">{t.meta}</h3>
         <a href={getLangPath('/now')} class="hover:text-paper-50 transition-colors">{t.now}</a>
         <a href={getLangPath('/hire')} class="hover:text-paper-50 transition-colors">{t.hire}</a>
         <a href={getLangPath('/privacy')} class="hover:text-paper-50 transition-colors">{t.privacy}</a>
@@ -112,9 +112,15 @@ const getLangPath = (path: string) => {
       </div>
     </div>
     
-    <div class="mt-24 flex flex-col md:flex-row justify-between items-center pt-8 border-t border-ink-700 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500">
+    <div class="mt-24 flex flex-col items-center justify-between border-t border-ink-700 pt-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-300 md:flex-row">
       <div>&copy; {new Date().getFullYear()} Yoann Leny</div>
       <div>{t.sub}</div>
     </div>
   </div>
 </footer>
+
+<style>
+  .footer-scene :global(a:focus-visible) {
+    outline-color: var(--focus-on-dark);
+  }
+</style>
