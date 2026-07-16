@@ -65,6 +65,7 @@ test('keeps English, French, and Spanish page structure in shared renderers', ()
   for (const section of ['hero', 'proof', 'achievements', 'capabilities', 'recruiter-fit', 'thinking', 'contact-close']) {
     assert.ok(home.includes(`data-page-section=\"${section}\"`), `missing shared home section ${section}`);
   }
+  assert.ok(home.includes('pathFor(`/insights/${item.slug}`)'), 'thinking cards must preserve the active locale');
   for (const section of ['work-intro', 'achievement-register', 'supporting-cases', 'work-close']) {
     assert.ok(work.includes(`data-page-section=\"${section}\"`), `missing shared work section ${section}`);
   }

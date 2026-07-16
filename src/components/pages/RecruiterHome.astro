@@ -132,7 +132,7 @@ const pathFor = (path: string) => localizedPath(locale, path);
 
         <div class="grid border-t border-ink-300 md:grid-cols-3 md:border-t-0">
           {copy.home.thinking.items.map((item, index) => (
-            <a href={`/insights/${item.slug}`} class="group flex min-h-[18rem] flex-col border-b border-ink-300 py-7 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
+            <a href={pathFor(`/insights/${item.slug}`)} class="group flex min-h-[18rem] flex-col border-b border-ink-300 py-7 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
               <div class="flex items-center justify-between gap-4 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">
                 <span>{item.label}</span>
                 <span>{String(index + 1).padStart(2, '0')}</span>
