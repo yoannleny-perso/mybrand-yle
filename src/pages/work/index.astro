@@ -2,189 +2,120 @@
 import Layout from '../../layouts/Layout.astro';
 import Container from '../../components/layout/Container.astro';
 import Section from '../../components/layout/Section.astro';
-import Grid from '../../components/layout/Grid.astro';
 import Eyebrow from '../../components/primitives/Eyebrow.astro';
-import Heading from '../../components/primitives/Heading.astro';
 import AsymmetricCard from '../../components/sections/AsymmetricCard.astro';
-
-const filters = [
-  "ALL",
-  "DATA PLATFORMS",
-  "AGENTIC AI",
-  "OPERATING MODEL",
-  "EXECUTIVE"
-];
+import AchievementCard from '../../components/sections/AchievementCard.astro';
+import { achievements } from '../../data/achievements';
 ---
 
-<Layout title="Case Studies — Yoann Leny" description="Selected work: multi-agent skill tracker, enterprise medallion stack, AI-ready semantic layer, global data ops scaling model. Outcomes, decisions, and what I would do differently.">
-  
-  <Section id="header">
+<Layout
+  title="Selected achievements — Yoann Leny"
+  description="Five products and operating systems across data, AI, reporting, people operations, media, and marketplaces — with detailed case studies in preparation."
+>
+  <section class="border-b border-ink-200 pt-36 pb-16 sm:pt-44 sm:pb-24">
     <Container>
-      <div class="pt-24 pb-8">
-        <Eyebrow text="WORK" />
-        <h1 class="font-display font-black text-ink-900 mt-4 mb-6 leading-[1.08] tracking-[-0.03em]"
-            style="font-size: clamp(2.5rem, 5vw, 4rem);">
-          <span class="block">Selected production work.</span>
-          <span class="block text-signal">Each entry is a system in service.</span>
-        </h1>
-        <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700 max-w-[55ch]">
-          A small selection of engagements where the architectural decisions, operating model, and outcomes can be written about openly. Anonymized examples are available on request for engagements under NDA.
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-8">
+          <Eyebrow text="SELECTED ACHIEVEMENTS" />
+          <h1 class="max-w-[13ch] font-display text-[clamp(3.25rem,7vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.055em] text-ink-1000">
+            Work built to change how teams operate.
+          </h1>
+        </div>
+        <p class="max-w-[42ch] font-body text-lg leading-8 text-ink-700 lg:col-span-4 lg:pb-2">
+          A working portfolio of products, platforms, and operating systems. The named dossiers below are being prepared for publication; supporting case studies remain available now.
         </p>
       </div>
     </Container>
-  </Section>
+  </section>
 
-  <Section id="gallery">
+  <Section id="achievement-register">
     <Container>
-      <!-- Filter Row -->
-      <div class="mb-16 border-b border-ink-100 pb-4 overflow-x-auto">
-        <div class="flex gap-8 font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] min-w-max" id="work-filters">
-          {filters.map((filter, i) => (
-            <button 
-              class={`filter-btn transition-colors py-3 cursor-pointer ${i === 0 ? 'text-ink-1000 border-b border-ink-1000' : 'text-ink-500 hover:text-ink-1000'}`}
-              data-filter={filter === "ALL" ? "all" : filter.toLowerCase()}
-            >
-              {filter}
-            </button>
-          ))}
+      <div class="mb-10 flex flex-col gap-4 border-b border-ink-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-ink-500">Evidence register / 2026</p>
+          <h2 class="mt-2 font-display text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-none tracking-[-0.04em] text-ink-1000">
+            Five missions, one operating thesis.
+          </h2>
         </div>
+        <p class="max-w-[34ch] text-sm leading-6 text-ink-600">
+          Each entry will expand with the problem, decisions, artefacts, and measurable outcome once publishable.
+        </p>
       </div>
 
-      <!-- Case Studies Gallery -->
-      <div id="projects-grid">
-        <Grid columns={12} gap="loose">
-          <div class="project-wrapper col-span-12 md:col-span-5 flex" data-categories="agentic ai, operating model">
-            <AsymmetricCard
-              size="tall"
-              pattern="agents"
-              tag="2025 · ENTERPRISE · 18 MONTHS"
-              title="Multi-Agent Skill Tracker"
-              description="A hierarchical agent system maintaining a live skills graph for 40+ consultants — recommending staffing, surfacing gaps, and giving leadership a weekly read on bench health."
-              metrics={[
-                { value: "+15%", label: "utilization" },
-                { value: "-22%", label: "bench time" },
-                { value: "3", label: "regions" }
-              ]}
-              href="/work/multi-agent-skill-tracker"
-              categories="agentic ai, operating model"
-            />
+      <div class="grid gap-5 md:grid-cols-2">
+        {achievements.map((achievement, index) => (
+          <div class:list={[index === 4 && 'md:col-span-2 lg:max-w-[calc(50%-0.625rem)]']}>
+            <AchievementCard achievement={achievement} index={index} featured={index === 0 || index === 4} />
           </div>
-
-          <div class="project-wrapper col-span-12 md:col-span-7 flex" data-categories="data platforms, operating model">
-            <AsymmetricCard
-              size="wide"
-              pattern="layers"
-              tag="2024 · GLOBAL · 12 MONTHS"
-              title="Enterprise Medallion Stack"
-              description="A bronze–silver–gold lakehouse deployed across three regions with a governed semantic layer on top. Analytics, ML, and agent workflows now read from one source of truth."
-              metrics={[
-                { value: "$13M+", label: "revenue impact" },
-                { value: "9 mo", label: "to payback" },
-                { value: "0", label: "KPI drift incidents" }
-              ]}
-              href="/work/enterprise-medallion-stack"
-              categories="data platforms, operating model"
-            />
-          </div>
-
-          <div class="project-wrapper col-span-12 md:col-span-5 flex" data-categories="data platforms, agentic ai">
-            <AsymmetricCard
-              size="square"
-              pattern="semantic"
-              tag="2024 · MID-MARKET · 6 MONTHS"
-              title="AI-Ready Semantic Layer"
-              description="A metric layer redesigned specifically for LLM and agent consumption — eliminating hallucinated KPIs and standardizing how AI reads the business."
-              metrics={[
-                { value: "0", label: "KPI drift incidents" },
-                { value: "47", label: "conformed metrics" },
-                { value: "4", label: "LLM consumers" }
-              ]}
-              href="/work/ai-ready-semantic-layer"
-              categories="data platforms, agentic ai"
-            />
-          </div>
-
-          <div class="project-wrapper col-span-12 md:col-span-7 flex" data-categories="operating model, executive">
-            <AsymmetricCard
-              size="wide"
-              pattern="org"
-              tag="2023 · GLOBAL · 24 MONTHS"
-              title="Global Data Ops Scaling Model"
-              description="An operating model for a 40-person data function across three regions: pod design, role split, ritual cadence, and an internal observability layer for delivery health."
-              metrics={[
-                { value: "40+", label: "experts" },
-                { value: "3", label: "regions" },
-                { value: "4 Q", label: "to steady-state" }
-              ]}
-              href="/work/global-data-ops-scaling-model"
-              categories="operating model, executive"
-            />
-          </div>
-        </Grid>
+        ))}
       </div>
     </Container>
   </Section>
 
-  <Section id="closing" background="ink">
+  <Section id="supporting-cases">
     <Container>
-      <div class="py-24 text-center max-w-4xl mx-auto">
-        <h2 class="font-display font-black text-paper-50 mb-12 leading-[1.08] tracking-[-0.03em]"
-            style="font-size: clamp(2rem, 4vw, 3rem);">
-          <span class="block">Production work is the only proof that matters.</span>
+      <div class="mb-12 grid gap-6 border-t border-ink-300 pt-8 md:grid-cols-12">
+        <h2 class="font-display text-[clamp(2.25rem,4vw,4rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink-1000 md:col-span-7">
+          Supporting case studies
         </h2>
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-6 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em]">
-          <a href="/contact" class="bg-signal text-white px-8 py-4 rounded-xl hover:bg-signal/90 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(99,102,241,0.25)] transition-all duration-300">Start a conversation &rarr;</a>
-          <a href="/about" class="text-paper-50 hover:text-signal transition-colors pb-1 border-b-2 border-transparent hover:border-signal">See my approach</a>
-        </div>
+        <p class="max-w-[46ch] text-base leading-7 text-ink-700 md:col-span-5">
+          Anonymized production examples that show the architecture, operating choices, and outcomes behind the broader practice.
+        </p>
+      </div>
+
+      <div class="grid gap-6 md:grid-cols-2">
+        <AsymmetricCard
+          size="wide"
+          pattern="agents"
+          tag="AGENTIC AI · OPERATING MODEL"
+          title="Multi-Agent Skill Tracker"
+          description="A hierarchical agent system maintaining a live skills graph for 40+ consultants and supporting staffing decisions across three regions."
+          metrics={[{ value: '40+', label: 'experts' }, { value: '3', label: 'regions' }, { value: '-22%', label: 'bench time' }]}
+          href="/work/multi-agent-skill-tracker"
+        />
+        <AsymmetricCard
+          size="wide"
+          pattern="layers"
+          tag="DATA PLATFORM · GOVERNANCE"
+          title="Enterprise Medallion Stack"
+          description="A governed bronze–silver–gold lakehouse with one semantic layer for analytics, machine learning, and agent workflows."
+          metrics={[{ value: '$13M+', label: 'impact' }, { value: '9 mo', label: 'payback' }, { value: '0', label: 'KPI drift' }]}
+          href="/work/enterprise-medallion-stack"
+        />
+        <AsymmetricCard
+          size="wide"
+          pattern="semantic"
+          tag="SEMANTIC LAYER · AI"
+          title="AI-Ready Semantic Layer"
+          description="A metric layer redesigned for LLM and agent consumption, standardizing how AI systems read the business."
+          metrics={[{ value: '47', label: 'metrics' }, { value: '4', label: 'AI consumers' }, { value: '0', label: 'KPI drift' }]}
+          href="/work/ai-ready-semantic-layer"
+        />
+        <AsymmetricCard
+          size="wide"
+          pattern="org"
+          tag="LEADERSHIP · OPERATING MODEL"
+          title="Global Data Ops Scaling Model"
+          description="An operating model for a distributed data function: pod design, role boundaries, delivery rituals, and a view of organizational health."
+          metrics={[{ value: '40+', label: 'experts' }, { value: '3', label: 'regions' }, { value: '4 Q', label: 'to steady state' }]}
+          href="/work/global-data-ops-scaling-model"
+        />
       </div>
     </Container>
   </Section>
+
+  <section class="bg-ink-1000 py-20 text-paper-50 sm:py-28">
+    <Container>
+      <div class="grid gap-10 md:grid-cols-12 md:items-end">
+        <h2 class="max-w-[14ch] font-display text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[0.94] tracking-[-0.045em] md:col-span-8">
+          Need the fuller version for a role or mandate?
+        </h2>
+        <div class="md:col-span-4 md:text-right">
+          <a href="/hire" class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform hover:-translate-y-0.5">
+            Discuss a role <span class="ml-3" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
 </Layout>
-
-<script>
-  // Client-side filtering with a soft fade — re-initialized after view transitions.
-  function initWorkFilters() {
-    const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-    const projects = document.querySelectorAll<HTMLElement>('.project-wrapper');
-    if (buttons.length === 0) return;
-
-    projects.forEach((p) => {
-      p.style.transition = 'opacity 240ms cubic-bezier(0.16, 1, 0.3, 1), transform 240ms cubic-bezier(0.16, 1, 0.3, 1)';
-    });
-
-    buttons.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        buttons.forEach((b) => {
-          b.classList.remove('text-ink-1000', 'border-b', 'border-ink-1000');
-          b.classList.add('text-ink-500');
-        });
-        btn.classList.add('text-ink-1000', 'border-b', 'border-ink-1000');
-        btn.classList.remove('text-ink-500');
-
-        const filterValue = btn.getAttribute('data-filter');
-
-        projects.forEach((project) => {
-          const categories = project.getAttribute('data-categories') || '';
-          const show = filterValue === 'all' || categories.includes(filterValue || '');
-
-          if (show) {
-            project.style.display = 'flex';
-            requestAnimationFrame(() => {
-              project.style.opacity = '1';
-              project.style.transform = 'none';
-            });
-          } else {
-            project.style.opacity = '0';
-            project.style.transform = 'scale(0.98)';
-            setTimeout(() => {
-              if (project.style.opacity === '0') project.style.display = 'none';
-            }, 240);
-          }
-        });
-      });
-    });
-  }
-
-  initWorkFilters();
-  document.addEventListener('astro:page-load', initWorkFilters);
-</script>

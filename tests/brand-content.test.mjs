@@ -19,7 +19,7 @@ test('defines the five approved achievement placeholders', () => {
     assert.ok(source.includes(summary), `missing approved summary for ${name}`);
   }
 
-  assert.equal((source.match(/name:/g) ?? []).length, 5);
+  assert.equal((source.match(/name: '[^']+'/g) ?? []).length, 5);
 });
 
 test('puts recruiter proposition and proof on the English homepage', () => {
