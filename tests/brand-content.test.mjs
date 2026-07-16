@@ -62,9 +62,21 @@ test('keeps English, French, and Spanish page structure in shared renderers', ()
 
   const home = read('src/components/pages/RecruiterHome.astro');
   const work = read('src/components/pages/WorkIndex.astro');
-  for (const section of ['hero', 'proof', 'achievements', 'capabilities', 'recruiter-fit', 'thinking', 'contact-close']) {
+  const expectedHomeSections = [
+    'hero', 'decision-trace', 'achievements', 'proof',
+    'capabilities', 'recruiter-fit', 'thinking', 'contact-close',
+  ];
+  for (const section of expectedHomeSections) {
     assert.ok(home.includes(`data-page-section=\"${section}\"`), `missing shared home section ${section}`);
   }
+  assert.ok(home.includes('IdentityLens'));
+  assert.ok(home.includes('DecisionTrace'));
+  assert.ok(home.includes('MissionRow'));
+  assert.ok(home.includes('EvidencePanel'));
+  assert.doesNotMatch(
+    home + read('src/components/sections/RecruiterHero.astro'),
+    /ribbon|lens-ring|stroke=\"#(?:9151F6|E7615F|087A55)\"/i,
+  );
   assert.ok(home.includes('pathFor(`/insights/${item.slug}`)'), 'thinking cards must preserve the active locale');
   for (const section of ['work-intro', 'achievement-register', 'supporting-cases', 'work-close']) {
     assert.ok(work.includes(`data-page-section=\"${section}\"`), `missing shared work section ${section}`);
@@ -81,6 +93,10 @@ test('contains a complete localized content model for the shared pages', () => {
   assert.ok(source.includes('I build the data and AI systems leaders can trust.'));
   assert.ok(source.includes('Je construis les systèmes Data et IA sur lesquels les dirigeants peuvent compter.'));
   assert.ok(source.includes('Construyo los sistemas de Datos e IA en los que confían los líderes.'));
+  assert.ok(source.includes('Strategy is only real when a team can run it on Monday.'));
+  assert.ok(source.includes("Une stratégie n’est réelle que lorsqu’une équipe peut l’exécuter dès lundi."));
+  assert.ok(source.includes('La estrategia solo es real cuando un equipo puede ponerla en marcha el lunes.'));
+  assert.equal((source.match(/orbitLabel:/g) ?? []).length, 4, 'the interface and all three locales declare orbit copy');
 });
 
 test('uses browser language on the bare root while preserving an explicit choice', () => {
@@ -94,14 +110,18 @@ test('uses browser language on the bare root while preserving an explicit choice
 });
 
 test('loads an optimized portrait in the landing hero', () => {
-  const source = read('src/components/sections/RecruiterHero.astro');
+  const hero = read('src/components/sections/RecruiterHero.astro');
+  const lens = read('src/components/brand/IdentityLens.astro');
 
-  assert.ok(source.includes('<picture>'));
-  assert.ok(source.includes('/images/portrait-960.webp'));
-  assert.ok(source.includes('/images/portrait.jpeg'));
-  assert.ok(source.includes('fetchpriority="high"'));
-  assert.ok(source.includes('width="960"'));
-  assert.ok(source.includes('height="1280"'));
+  assert.ok(hero.includes('<IdentityLens'));
+  assert.ok(hero.includes('eager'));
+  assert.ok(lens.includes('<picture>'));
+  assert.ok(lens.includes('/images/portrait-960.webp'));
+  assert.ok(lens.includes('/images/portrait.jpeg'));
+  assert.ok(lens.includes("fetchpriority={eager ? 'high' : 'auto'}"));
+  assert.ok(lens.includes('width="960"'));
+  assert.ok(lens.includes('height="1280"'));
+  assert.doesNotMatch(hero + lens, /grayscale/);
   assert.ok(existsSync('public/images/portrait-960.webp'));
 });
 

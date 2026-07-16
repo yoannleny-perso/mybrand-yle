@@ -23,8 +23,16 @@ export interface RecruiterHeroCopy {
   scopeValue: string;
   reachTerm: string;
   reachValue: string;
-  decisionTraceLabel: string;
-  decisionTrace: string[];
+  orbitLabel: string;
+  decisionTrace: {
+    label: string;
+    principle: string;
+    steps: [
+      { label: string; title: string; signal: 'change' },
+      { label: string; title: string; signal: 'intelligence' },
+      { label: string; title: string; signal: 'outcome' },
+    ];
+  };
 }
 
 export interface AchievementLabels {
@@ -160,8 +168,16 @@ export const localizedSite: Record<Locale, LocalizedSiteCopy> = {
         scopeValue: 'Strategy, platforms, products, teams',
         reachTerm: 'Reach',
         reachValue: 'International · English / French / Spanish',
-        decisionTraceLabel: 'Decision trace',
-        decisionTrace: ['Set the operating direction', 'Build the enabling system', 'Make adoption measurable'],
+        orbitLabel: 'YOANN LENY · DATA & AI LEADERSHIP · STRATEGY · SYSTEMS · ADOPTION · ',
+        decisionTrace: {
+          label: 'The decision trace',
+          principle: 'Strategy is only real when a team can run it on Monday.',
+          steps: [
+            { label: '01 / Direction', title: 'Frame the real decision', signal: 'change' },
+            { label: '02 / System', title: 'Build what enables it', signal: 'intelligence' },
+            { label: '03 / Adoption', title: 'Make the change visible', signal: 'outcome' },
+          ],
+        },
       },
       proof: {
         title: 'Published proof',
@@ -269,8 +285,16 @@ export const localizedSite: Record<Locale, LocalizedSiteCopy> = {
         scopeValue: 'Stratégie, plateformes, produits, équipes',
         reachTerm: 'Portée',
         reachValue: 'International · Français / Anglais / Espagnol',
-        decisionTraceLabel: 'Trajectoire de décision',
-        decisionTrace: ["Définir la direction opérationnelle", "Construire le système qui la rend possible", "Mesurer l'adoption"],
+        orbitLabel: 'YOANN LENY · DIRECTION DATA & IA · STRATÉGIE · SYSTÈMES · ADOPTION · ',
+        decisionTrace: {
+          label: 'La trajectoire de décision',
+          principle: 'Une stratégie n’est réelle que lorsqu’une équipe peut l’exécuter dès lundi.',
+          steps: [
+            { label: '01 / Direction', title: 'Cadrer la vraie décision', signal: 'change' },
+            { label: '02 / Système', title: 'Construire ce qui la rend possible', signal: 'intelligence' },
+            { label: '03 / Adoption', title: 'Rendre le changement visible', signal: 'outcome' },
+          ],
+        },
       },
       proof: {
         title: 'Preuves publiées',
@@ -378,8 +402,16 @@ export const localizedSite: Record<Locale, LocalizedSiteCopy> = {
         scopeValue: 'Estrategia, plataformas, productos, equipos',
         reachTerm: 'Cobertura',
         reachValue: 'Internacional · Español / Francés / Inglés',
-        decisionTraceLabel: 'Ruta de decisión',
-        decisionTrace: ['Definir la dirección operativa', 'Construir el sistema habilitador', 'Medir la adopción'],
+        orbitLabel: 'YOANN LENY · LIDERAZGO EN DATOS E IA · ESTRATEGIA · SISTEMAS · ADOPCIÓN · ',
+        decisionTrace: {
+          label: 'La ruta de decisión',
+          principle: 'La estrategia solo es real cuando un equipo puede ponerla en marcha el lunes.',
+          steps: [
+            { label: '01 / Dirección', title: 'Definir la decisión real', signal: 'change' },
+            { label: '02 / Sistema', title: 'Construir lo que la hace posible', signal: 'intelligence' },
+            { label: '03 / Adopción', title: 'Hacer visible el cambio', signal: 'outcome' },
+          ],
+        },
       },
       proof: {
         title: 'Evidencia publicada',

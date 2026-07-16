@@ -1,5 +1,6 @@
 ---
 import Container from '../layout/Container.astro';
+import IdentityLens from '../brand/IdentityLens.astro';
 import type { RecruiterHeroCopy } from '../../data/localized-site';
 
 interface Props {
@@ -11,93 +12,160 @@ interface Props {
 const { copy, primaryHref, secondaryHref } = Astro.props;
 ---
 
-<section class="relative overflow-hidden border-b border-ink-200 pt-32 sm:pt-40 lg:pt-44">
-  <div class="pointer-events-none absolute inset-y-0 right-0 hidden w-[36%] border-l border-ink-200 bg-paper-0 lg:block" aria-hidden="true"></div>
-
-  <Container>
-    <div class="relative grid gap-14 pb-14 lg:grid-cols-12 lg:gap-10 lg:pb-20">
-      <div class="lg:col-span-8 lg:pr-8">
-        <div class="mb-9 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.1em] text-ink-700">
-          <span class="inline-flex items-center gap-2">
-            <span class="relative flex h-2.5 w-2.5" aria-hidden="true">
-              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-30 motion-reduce:animate-none"></span>
-              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-signal"></span>
-            </span>
-            {copy.availability}
-          </span>
-          <span class="text-ink-300" aria-hidden="true">/</span>
+<section class="recruiter-hero">
+  <Container size="wide">
+    <div class="recruiter-hero__grid">
+      <div class="recruiter-hero__copy">
+        <div class="recruiter-hero__status">
+          <span class="recruiter-hero__availability"><i aria-hidden="true"></i>{copy.availability}</span>
+          <span aria-hidden="true">/</span>
           <span>{copy.location}</span>
         </div>
 
-        <p class="mb-5 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.13em] text-signal">
-          {copy.roleLabel}
-        </p>
-        <h1 class="max-w-[13ch] text-balance font-display text-[clamp(3.25rem,6.7vw,6.75rem)] font-semibold leading-[0.88] tracking-[-0.06em] text-ink-1000">
-          {copy.headline}
-        </h1>
-        <p class="mt-8 max-w-[57ch] font-body text-[clamp(1.1rem,1.5vw,1.35rem)] leading-[1.6] text-ink-700">
-          {copy.summary}
-        </p>
+        <p class="recruiter-hero__role">{copy.roleLabel}</p>
+        <h1>{copy.headline}</h1>
+        <p class="recruiter-hero__summary">{copy.summary}</p>
 
-        <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <a href={primaryHref} class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform duration-200 hover:-translate-y-0.5">
-            {copy.primaryLabel}<span class="ml-3 text-base" aria-hidden="true">↗</span>
+        <div class="recruiter-hero__actions">
+          <a class="recruiter-hero__primary" href={primaryHref}>
+            {copy.primaryLabel}<span aria-hidden="true">↗</span>
           </a>
-          <a href={secondaryHref} class="inline-flex min-h-12 items-center justify-center border border-ink-300 bg-transparent px-6 py-3.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-ink-1000 hover:bg-paper-0">
-            {copy.secondaryLabel}<span class="ml-3" aria-hidden="true">→</span>
+          <a class="recruiter-hero__secondary" href={secondaryHref}>
+            {copy.secondaryLabel}<span aria-hidden="true">→</span>
           </a>
         </div>
+
+        <aside class="recruiter-hero__brief" aria-label={copy.briefAriaLabel}>
+          <header><span>{copy.briefLabel}</span><span>{copy.fitLabel}</span></header>
+          <dl>
+            <div><dt>{copy.roleTerm}</dt><dd>{copy.roleValue}</dd></div>
+            <div><dt>{copy.scopeTerm}</dt><dd>{copy.scopeValue}</dd></div>
+            <div><dt>{copy.reachTerm}</dt><dd>{copy.reachValue}</dd></div>
+          </dl>
+        </aside>
       </div>
 
-      <aside class="relative overflow-hidden border border-ink-300 bg-paper-0 lg:col-span-4 lg:self-end" aria-label={copy.briefAriaLabel}>
-        <picture>
-          <source srcset="/images/portrait-960.webp" type="image/webp" />
-          <img
-            src="/images/portrait.jpeg"
-            alt={copy.portraitAlt}
-            width="960"
-            height="1280"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-            class="aspect-[4/3] w-full border-b border-ink-200 object-cover object-[center_24%] grayscale-[35%]"
-          />
-        </picture>
-
-        <div class="p-6 sm:p-8">
-          <div class="mb-8 flex items-center justify-between gap-4 border-b border-ink-200 pb-4">
-            <span class="font-mono text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-ink-500">{copy.briefLabel}</span>
-            <span class="shrink-0 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-signal">{copy.fitLabel}</span>
-          </div>
-
-          <dl class="space-y-6">
-            <div class="grid grid-cols-[minmax(4rem,5rem)_1fr] gap-4">
-              <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{copy.roleTerm}</dt>
-              <dd class="text-sm font-semibold leading-5 text-ink-1000">{copy.roleValue}</dd>
-            </div>
-            <div class="grid grid-cols-[minmax(4rem,5rem)_1fr] gap-4">
-              <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{copy.scopeTerm}</dt>
-              <dd class="text-sm font-semibold leading-5 text-ink-1000">{copy.scopeValue}</dd>
-            </div>
-            <div class="grid grid-cols-[minmax(4rem,5rem)_1fr] gap-4">
-              <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{copy.reachTerm}</dt>
-              <dd class="text-sm font-semibold leading-5 text-ink-1000">{copy.reachValue}</dd>
-            </div>
-          </dl>
-
-          <div class="mt-9 border-t border-ink-200 pt-6">
-            <p class="mb-5 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{copy.decisionTraceLabel}</p>
-            <ol class="relative space-y-5 before:absolute before:bottom-2 before:left-[0.3125rem] before:top-2 before:w-px before:bg-ink-300">
-              {copy.decisionTrace.map((item, index) => (
-                <li class="relative flex items-center gap-4 text-sm font-medium text-ink-900">
-                  <span class:list={['z-10 h-2.5 w-2.5 shrink-0 rounded-full border-2 border-signal', index === copy.decisionTrace.length - 1 ? 'bg-signal' : 'bg-paper-0']}></span>
-                  {item}
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </aside>
+      <div class="recruiter-hero__lens">
+        <IdentityLens alt={copy.portraitAlt} orbitLabel={copy.orbitLabel} eager />
+      </div>
     </div>
   </Container>
 </section>
+
+<style>
+  .recruiter-hero {
+    overflow: clip;
+    padding-block: clamp(7.5rem, 13vw, 11rem) clamp(3.5rem, 8vw, 7rem);
+    border-bottom: 1px solid var(--ink-100);
+    background: var(--paper-50);
+  }
+  .recruiter-hero__grid {
+    display: grid;
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: center;
+    min-width: 0;
+  }
+  .recruiter-hero__copy { min-width: 0; order: 2; }
+  .recruiter-hero__lens {
+    width: min(100%, 31rem);
+    min-width: 0;
+    order: 1;
+    justify-self: center;
+  }
+  .recruiter-hero__status, .recruiter-hero__role, .recruiter-hero__brief header,
+  .recruiter-hero__brief dt {
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: var(--t-meta-weight);
+    letter-spacing: var(--t-meta-letter);
+    line-height: var(--t-meta-line);
+    text-transform: uppercase;
+  }
+  .recruiter-hero__status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem 1rem;
+    align-items: center;
+    color: var(--ink-700);
+  }
+  .recruiter-hero__availability { display: inline-flex; gap: .6rem; align-items: center; }
+  .recruiter-hero__availability i {
+    width: .65rem;
+    height: .65rem;
+    flex: none;
+    background: var(--signal-outcome);
+    border-radius: 50%;
+  }
+  .recruiter-hero__role { margin: clamp(2rem, 4vw, 3.5rem) 0 0; color: var(--signal-intelligence); }
+  h1 {
+    max-width: 13ch;
+    margin: 1rem 0 0;
+    overflow-wrap: break-word;
+    color: var(--ink-1000);
+    font-family: var(--font-display);
+    font-size: var(--t-display-xl-size);
+    font-weight: var(--t-display-xl-weight);
+    letter-spacing: var(--t-display-xl-letter);
+    line-height: var(--t-display-xl-line);
+    text-wrap: balance;
+  }
+  .recruiter-hero__summary {
+    max-width: 43rem;
+    margin: 1.75rem 0 0;
+    color: var(--ink-700);
+    font-size: var(--t-body-l-size);
+    line-height: var(--t-body-l-line);
+    text-wrap: pretty;
+  }
+  .recruiter-hero__actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+  .recruiter-hero__actions a {
+    display: inline-flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    max-width: 100%;
+    padding: .8rem 1.35rem;
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: 700;
+    letter-spacing: var(--t-meta-letter);
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .recruiter-hero__primary { background: var(--ink-1000); color: var(--paper-0); }
+  .recruiter-hero__secondary { border: 1px solid var(--ink-300); color: var(--ink-1000); }
+  .recruiter-hero__actions a:hover, .recruiter-hero__actions a:focus-visible { transform: translateY(-2px); }
+  .recruiter-hero__brief { max-width: 49rem; margin-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--ink-300); }
+  .recruiter-hero__brief header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .75rem 2rem;
+    justify-content: space-between;
+    padding-block: 1rem;
+    color: var(--ink-500);
+  }
+  .recruiter-hero__brief dl { display: grid; margin: 0; border-top: 1px solid var(--ink-100); }
+  .recruiter-hero__brief dl div { min-width: 0; padding: 1rem 0; border-bottom: 1px solid var(--ink-100); }
+  .recruiter-hero__brief dt { color: var(--ink-500); }
+  .recruiter-hero__brief dd { margin: .5rem 0 0; color: var(--ink-900); font-size: var(--t-body-s-size); line-height: var(--t-body-s-line); }
+  @media (min-width: 38rem) {
+    .recruiter-hero__brief dl { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .recruiter-hero__brief dl div { padding-inline: 1rem; border-left: 1px solid var(--ink-100); }
+    .recruiter-hero__brief dl div:first-child { padding-left: 0; border-left: 0; }
+  }
+  @media (min-width: 64rem) {
+    .recruiter-hero__grid { grid-template-columns: minmax(0, 1.15fr) minmax(22rem, .85fr); }
+    .recruiter-hero__copy { order: 1; }
+    .recruiter-hero__lens { width: min(100%, 39rem); order: 2; }
+  }
+  @media (max-width: 32rem) {
+    .recruiter-hero__actions a { width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .recruiter-hero__actions a { transition: none; }
+    .recruiter-hero__actions a:hover, .recruiter-hero__actions a:focus-visible { transform: none; }
+  }
+</style>

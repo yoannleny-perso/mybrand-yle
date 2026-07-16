@@ -1,13 +1,15 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Container from '../layout/Container.astro';
-import Section from '../layout/Section.astro';
-import AchievementCard from '../sections/AchievementCard.astro';
-import ProofStrip from '../sections/ProofStrip.astro';
+import DecisionTrace from '../brand/DecisionTrace.astro';
+import EvidencePanel from '../brand/EvidencePanel.astro';
+import MissionRow from '../brand/MissionRow.astro';
+import SceneHeading from '../brand/SceneHeading.astro';
 import RecruiterHero from '../sections/RecruiterHero.astro';
 import { getAchievements } from '../../data/achievements';
 import { localizedPath, localizedSite, type Locale } from '../../data/localized-site';
 
+// RecruiterHero owns the eager IdentityLens so the title remains first in DOM order.
 interface Props {
   locale: Locale;
 }
@@ -16,6 +18,16 @@ const { locale } = Astro.props;
 const copy = localizedSite[locale];
 const achievements = getAchievements(locale);
 const pathFor = (path: string) => localizedPath(locale, path);
+const achievementHeading = {
+  eyebrow: copy.home.achievements.eyebrow,
+  title: copy.home.achievements.heading,
+  summary: copy.home.achievements.summary,
+};
+const proofSignals = ['change', 'intelligence', 'outcome'] as const;
+const proofMetrics = copy.home.proof.metrics.map((metric, index) => ({
+  ...metric,
+  signal: proofSignals[index] || 'intelligence',
+}));
 ---
 
 <Layout title={copy.home.title} description={copy.home.description}>
@@ -23,144 +35,219 @@ const pathFor = (path: string) => localizedPath(locale, path);
     <RecruiterHero copy={copy.home.hero} primaryHref={pathFor('/hire')} secondaryHref={pathFor('/work')} />
   </div>
 
-  <div data-page-section="proof">
-    <ProofStrip title={copy.home.proof.title} note={copy.home.proof.note} metrics={copy.home.proof.metrics} />
+  <div data-page-section="decision-trace" class="scene scene--trace">
+    <Container size="wide">
+      <DecisionTrace {...copy.home.hero.decisionTrace} />
+    </Container>
   </div>
 
-  <div data-page-section="achievements">
-    <Section id="selected-achievements">
-      <Container>
-        <div class="mb-12 grid gap-8 border-b border-ink-300 pb-8 lg:grid-cols-12 lg:items-end">
-          <div class="lg:col-span-8">
-            <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">{copy.home.achievements.eyebrow}</p>
-            <h2 class="mt-4 max-w-[15ch] text-balance font-display text-[clamp(2.75rem,5.5vw,5.75rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-ink-1000">
-              {copy.home.achievements.heading}
-            </h2>
-          </div>
-          <div class="lg:col-span-4">
-            <p class="max-w-[42ch] text-base leading-7 text-ink-700">{copy.home.achievements.summary}</p>
-            <a href={pathFor('/work')} class="mt-5 inline-flex min-h-11 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
-              {copy.home.achievements.linkLabel} <span class="ml-3" aria-hidden="true">→</span>
-            </a>
-          </div>
-        </div>
+  <section data-page-section="achievements" id="selected-achievements" class="scene scene--paper">
+    <Container>
+      <SceneHeading {...achievementHeading} accent="change" />
+      <div class="mission-register">
+        {achievements.map((achievement, index) => (
+          <MissionRow achievement={achievement} labels={copy.achievementLabels} index={index} />
+        ))}
+      </div>
+      <a href={pathFor('/work')} class="scene-link">
+        {copy.home.achievements.linkLabel}<span aria-hidden="true">→</span>
+      </a>
+    </Container>
+  </section>
 
-        <div class="grid gap-5 md:grid-cols-2">
-          {achievements.map((achievement, index) => (
-            <div class:list={[index === 4 && 'md:col-span-2 lg:max-w-[calc(50%-0.625rem)]']}>
-              <AchievementCard achievement={achievement} index={index} featured={index === 0 || index === 4} labels={copy.achievementLabels} />
+  <div data-page-section="proof" class="scene scene--proof">
+    <Container size="wide">
+      <EvidencePanel label={copy.home.proof.title} note={copy.home.proof.note} metrics={proofMetrics} />
+    </Container>
+  </div>
+
+  <section data-page-section="capabilities" id="capabilities" class="scene scene--paper">
+    <Container>
+      <SceneHeading
+        eyebrow={copy.home.capabilities.eyebrow}
+        title={copy.home.capabilities.heading}
+        summary={copy.home.capabilities.summary}
+      />
+      <div class="cinematic-list capability-list">
+        {copy.home.capabilities.items.map((item, index) => (
+          <article class="cinematic-row capability-row">
+            <span class="row-index">{String(index + 1).padStart(2, '0')}</span>
+            <h3>{item.mandate}</h3>
+            <div>
+              <p>{item.practice}</p>
+              <p class="row-evidence">{copy.home.capabilities.evidenceLabel}: {item.evidence.join(' · ')}</p>
             </div>
-          ))}
-        </div>
-      </Container>
-    </Section>
-  </div>
+          </article>
+        ))}
+      </div>
+      <a href={pathFor('/capabilities')} class="scene-link">
+        {copy.home.capabilities.linkLabel}<span aria-hidden="true">→</span>
+      </a>
+    </Container>
+  </section>
 
-  <section data-page-section="capabilities" id="capabilities" class="border-y border-ink-300 bg-paper-0 py-[var(--space-section)]">
+  <section data-page-section="recruiter-fit" class="scene scene-dark">
     <Container>
-      <div class="grid gap-8 lg:grid-cols-12">
-        <div class="lg:col-span-5">
-          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">{copy.home.capabilities.eyebrow}</p>
-          <h2 class="mt-4 max-w-[12ch] text-balance font-display text-[clamp(2.5rem,4.5vw,4.25rem)] font-semibold leading-[0.94] tracking-[-0.045em] text-ink-1000">
-            {copy.home.capabilities.heading}
-          </h2>
-          <p class="mt-6 max-w-[36ch] text-base leading-7 text-ink-700">{copy.home.capabilities.summary}</p>
-          <a href={pathFor('/capabilities')} class="mt-8 inline-flex min-h-11 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
-            {copy.home.capabilities.linkLabel} <span class="ml-3" aria-hidden="true">→</span>
-          </a>
-        </div>
-
-        <div class="border-t border-ink-300 lg:col-span-7 lg:border-t-0">
-          {copy.home.capabilities.items.map((item, index) => (
-            <article class="grid gap-5 border-b border-ink-300 py-7 sm:grid-cols-[2.5rem_1.1fr_1.5fr] sm:gap-6 lg:py-9">
-              <span class="font-mono text-[0.6875rem] text-signal">{String(index + 1).padStart(2, '0')}</span>
-              <h3 class="font-display text-[clamp(1.5rem,2.5vw,2.25rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-ink-1000">{item.mandate}</h3>
-              <div>
-                <p class="text-[0.95rem] leading-6 text-ink-700">{item.practice}</p>
-                <p class="mt-4 font-mono text-[0.625rem] uppercase tracking-[0.08em] text-ink-500">
-                  {copy.home.capabilities.evidenceLabel}: <span class="text-ink-900">{item.evidence.join(' · ')}</span>
-                </p>
-              </div>
-            </article>
+      <SceneHeading
+        eyebrow={copy.home.fit.eyebrow}
+        title={copy.home.fit.heading}
+        summary={copy.home.fit.summary}
+        accent="outcome"
+        tone="dark"
+      />
+      <div class="fit-grid">
+        <ol>
+          {copy.home.fit.items.map((item, index) => (
+            <li><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></li>
           ))}
+        </ol>
+        <div class="fit-actions">
+          <a href={pathFor('/hire')} class="fit-action fit-action--primary">{copy.home.fit.primaryLabel}<span aria-hidden="true">↗</span></a>
+          <a href={pathFor('/about')} class="fit-action">{copy.home.fit.secondaryLabel}<span aria-hidden="true">→</span></a>
         </div>
       </div>
     </Container>
   </section>
 
-  <section data-page-section="recruiter-fit" class="bg-ink-1000 py-[var(--space-section)] text-paper-50">
+  <section data-page-section="thinking" id="thinking" class="scene scene--paper">
     <Container>
-      <div class="grid gap-12 lg:grid-cols-12 lg:items-start">
-        <div class="lg:col-span-7">
-          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-ink-300">{copy.home.fit.eyebrow}</p>
-          <h2 class="mt-5 max-w-[13ch] text-balance font-display text-[clamp(3rem,5.5vw,6rem)] font-semibold leading-[0.9] tracking-[-0.05em] text-white">
-            {copy.home.fit.heading}
-          </h2>
-        </div>
-        <div class="lg:col-span-5 lg:pt-8">
-          <p class="max-w-[48ch] text-lg leading-8 text-ink-300">{copy.home.fit.summary}</p>
-          <ul class="mt-8 border-t border-ink-700 text-sm text-paper-50">
-            {copy.home.fit.items.map((item, index) => (
-              <li class="flex gap-4 border-b border-ink-700 py-4"><span class="shrink-0 font-mono text-signal">{String(index + 1).padStart(2, '0')}</span>{item}</li>
-            ))}
-          </ul>
-          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href={pathFor('/hire')} class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white hover:bg-white hover:text-ink-1000">
-              {copy.home.fit.primaryLabel} <span class="ml-3" aria-hidden="true">↗</span>
-            </a>
-            <a href={pathFor('/about')} class="inline-flex min-h-12 items-center justify-center border border-ink-700 px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-paper-50 hover:border-paper-50">
-              {copy.home.fit.secondaryLabel}
-            </a>
-          </div>
-        </div>
+      <SceneHeading eyebrow={copy.home.thinking.eyebrow} title={copy.home.thinking.heading} />
+      <div class="cinematic-list thinking-list">
+        {copy.home.thinking.items.map((item, index) => (
+          <a class="cinematic-row thinking-row" href={pathFor(`/insights/${item.slug}`)}>
+            <span class="row-index">{String(index + 1).padStart(2, '0')}</span>
+            <span class="thinking-label">{item.label}</span>
+            <h3>{item.title}</h3>
+            <span class="thinking-read">{copy.home.thinking.readLabel}<i aria-hidden="true">↗</i></span>
+          </a>
+        ))}
       </div>
+      <a href={pathFor('/insights')} class="scene-link">
+        {copy.home.thinking.linkLabel}<span aria-hidden="true">→</span>
+      </a>
     </Container>
   </section>
 
-  <div data-page-section="thinking">
-    <Section id="thinking">
-      <Container>
-        <div class="mb-10 flex flex-col gap-6 border-b border-ink-300 pb-7 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">{copy.home.thinking.eyebrow}</p>
-            <h2 class="mt-4 text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-none tracking-[-0.045em] text-ink-1000">{copy.home.thinking.heading}</h2>
-          </div>
-          <a href={pathFor('/insights')} class="inline-flex min-h-11 shrink-0 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
-            {copy.home.thinking.linkLabel} <span class="ml-3" aria-hidden="true">→</span>
-          </a>
-        </div>
-
-        <div class="grid border-t border-ink-300 md:grid-cols-3 md:border-t-0">
-          {copy.home.thinking.items.map((item, index) => (
-            <a href={pathFor(`/insights/${item.slug}`)} class="group flex min-h-[18rem] flex-col border-b border-ink-300 py-7 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
-              <div class="flex items-center justify-between gap-4 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">
-                <span>{item.label}</span>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-              </div>
-              <h3 class="mt-8 max-w-[18ch] font-display text-[clamp(1.75rem,2.7vw,2.65rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink-1000 transition-colors group-hover:text-signal">{item.title}</h3>
-              <span class="mt-auto pt-8 font-mono text-xs text-ink-700" aria-hidden="true">{copy.home.thinking.readLabel} ↗</span>
-            </a>
-          ))}
-        </div>
-      </Container>
-    </Section>
-  </div>
-
-  <section data-page-section="contact-close" class="border-t border-ink-300 bg-paper-0 py-16 sm:py-24">
+  <section data-page-section="contact-close" class="scene scene--close">
     <Container>
-      <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-8">
-          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">{copy.home.close.eyebrow}</p>
-          <h2 class="mt-4 max-w-[17ch] text-balance font-display text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.94] tracking-[-0.045em] text-ink-1000">
-            {copy.home.close.heading}
-          </h2>
-        </div>
-        <div class="lg:col-span-4 lg:text-right">
-          <a href={pathFor('/hire')} class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform hover:-translate-y-0.5">
-            {copy.home.close.cta} <span class="ml-3" aria-hidden="true">↗</span>
-          </a>
-        </div>
+      <div class="close-grid">
+        <SceneHeading eyebrow={copy.home.close.eyebrow} title={copy.home.close.heading} accent="change" />
+        <a href={pathFor('/hire')} class="close-action">{copy.home.close.cta}<span aria-hidden="true">↗</span></a>
       </div>
     </Container>
   </section>
 </Layout>
+
+<style>
+  .scene { padding-block: var(--space-section); }
+  .scene--trace { background: var(--paper-50); }
+  .scene--paper { border-top: 1px solid var(--ink-100); background: var(--paper-0); }
+  .scene--proof { padding-top: 0; background: var(--paper-0); }
+  .scene-dark { overflow: clip; background: var(--ink-1000); color: var(--paper-0); }
+  .mission-register, .cinematic-list { margin-top: clamp(3rem, 7vw, 6rem); }
+  .scene-link {
+    display: inline-flex;
+    gap: 1rem;
+    align-items: center;
+    min-height: 2.75rem;
+    margin-top: clamp(2rem, 5vw, 4rem);
+    border-bottom: 1px solid currentColor;
+    color: var(--ink-900);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: 700;
+    letter-spacing: var(--t-meta-letter);
+    line-height: 1.3;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .scene-link:hover, .scene-link:focus-visible { color: var(--signal-intelligence); }
+  .cinematic-list { border-top: 1px solid var(--ink-300); }
+  .cinematic-row {
+    min-width: 0;
+    border-bottom: 1px solid var(--ink-300);
+  }
+  .row-index, .row-evidence, .thinking-label, .thinking-read {
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: var(--t-meta-weight);
+    letter-spacing: var(--t-meta-letter);
+    line-height: var(--t-meta-line);
+    text-transform: uppercase;
+  }
+  .row-index { color: var(--signal-intelligence); }
+  .capability-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-block: clamp(1.75rem, 4vw, 3rem);
+  }
+  .capability-row h3, .thinking-row h3 {
+    max-width: 21ch;
+    margin: 0;
+    overflow-wrap: break-word;
+    color: var(--ink-1000);
+    font-family: var(--font-display);
+    font-size: var(--t-headline-size);
+    font-weight: 700;
+    letter-spacing: var(--t-headline-letter);
+    line-height: var(--t-headline-line);
+    text-wrap: balance;
+  }
+  .capability-row p { max-width: 46rem; margin: 0; color: var(--ink-700); line-height: var(--t-body-line); }
+  .capability-row .row-evidence { margin-top: 1rem; color: var(--ink-500); }
+  .fit-grid { display: grid; gap: clamp(2rem, 6vw, 5rem); margin-top: clamp(3rem, 7vw, 6rem); }
+  .fit-grid ol { margin: 0; padding: 0; border-top: 1px solid var(--ink-700); list-style: none; }
+  .fit-grid li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--ink-700); }
+  .fit-grid li span { color: var(--signal-outcome); font-family: var(--font-mono); font-size: var(--t-meta-size); }
+  .fit-grid li p { max-width: 42rem; margin: 0; color: var(--paper-50); font-size: var(--t-body-size); line-height: var(--t-body-line); }
+  .fit-actions { display: flex; flex-wrap: wrap; gap: .75rem; align-content: start; }
+  .fit-action, .close-action {
+    display: inline-flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    max-width: 100%;
+    padding: .8rem 1.35rem;
+    border: 1px solid var(--ink-700);
+    color: var(--paper-0);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: 700;
+    letter-spacing: var(--t-meta-letter);
+    line-height: 1.3;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .fit-action--primary { border-color: var(--paper-0); background: var(--paper-0); color: var(--ink-1000); }
+  .thinking-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: clamp(1.75rem, 4vw, 3rem);
+    color: inherit;
+    text-decoration: none;
+  }
+  .thinking-label { color: var(--ink-500); }
+  .thinking-read { display: inline-flex; gap: .75rem; align-items: center; color: var(--ink-700); }
+  .thinking-read i { font-style: normal; }
+  .thinking-row:hover h3, .thinking-row:focus-visible h3 { color: var(--signal-intelligence); }
+  .scene--close { border-top: 1px solid var(--ink-300); background: var(--paper-50); }
+  .close-grid { display: grid; gap: 2.5rem; }
+  .close-action { width: fit-content; border-color: var(--ink-1000); background: var(--ink-1000); }
+  @media (min-width: 44rem) {
+    .capability-row { grid-template-columns: 3rem minmax(12rem, .8fr) minmax(16rem, 1.2fr); gap: clamp(1.5rem, 4vw, 4rem); }
+    .thinking-row { grid-template-columns: 3rem minmax(8rem, .65fr) minmax(15rem, 1.35fr) auto; gap: clamp(1.25rem, 3vw, 3rem); align-items: start; }
+    .thinking-read { justify-self: end; }
+  }
+  @media (min-width: 56rem) {
+    .fit-grid { grid-template-columns: minmax(0, 1.35fr) minmax(15rem, .65fr); }
+    .close-grid { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+    .close-action { margin-bottom: .35rem; }
+  }
+  @media (max-width: 32rem) {
+    .fit-action, .close-action { width: 100%; }
+  }
+</style>
