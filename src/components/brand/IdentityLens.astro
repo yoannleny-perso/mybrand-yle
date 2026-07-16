@@ -43,5 +43,12 @@ const orbitId = `identity-orbit-${crypto.randomUUID()}`;
     from { opacity: 0; clip-path: circle(0 at 50% 50%); transform: scale(.92); }
     to { opacity: 1; clip-path: circle(72% at 50% 50%); transform: none; }
   }
-  @media (prefers-reduced-motion: reduce) { .identity-lens__portrait { animation: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    html.js .identity-lens__portrait {
+      animation: none !important;
+      opacity: 1;
+      clip-path: none;
+      transform: none;
+    }
+  }
 </style>

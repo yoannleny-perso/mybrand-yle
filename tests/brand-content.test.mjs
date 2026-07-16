@@ -61,26 +61,41 @@ test('keeps English, French, and Spanish page structure in shared renderers', ()
   }
 
   const home = read('src/components/pages/RecruiterHome.astro');
+  const hero = read('src/components/sections/RecruiterHero.astro');
   const work = read('src/components/pages/WorkIndex.astro');
   const expectedHomeSections = [
     'hero', 'decision-trace', 'achievements', 'proof',
     'capabilities', 'recruiter-fit', 'thinking', 'contact-close',
   ];
-  for (const section of expectedHomeSections) {
-    assert.ok(home.includes(`data-page-section=\"${section}\"`), `missing shared home section ${section}`);
-  }
-  assert.ok(home.includes('IdentityLens'));
+  const actualHomeSections = [...home.matchAll(/data-page-section="([^"]+)"/g)].map(([, section]) => section);
+  assert.deepEqual(actualHomeSections, expectedHomeSections, 'shared home sections must use the approved source order');
+  assert.ok(home.includes('<RecruiterHero'), 'shared home must compose RecruiterHero');
+  assert.ok(hero.includes('<IdentityLens'), 'RecruiterHero must compose IdentityLens');
   assert.ok(home.includes('DecisionTrace'));
   assert.ok(home.includes('MissionRow'));
   assert.ok(home.includes('EvidencePanel'));
   assert.doesNotMatch(
-    home + read('src/components/sections/RecruiterHero.astro'),
+    home + hero,
     /ribbon|lens-ring|stroke=\"#(?:9151F6|E7615F|087A55)\"/i,
   );
   assert.ok(home.includes('pathFor(`/insights/${item.slug}`)'), 'thinking cards must preserve the active locale');
   for (const section of ['work-intro', 'achievement-register', 'supporting-cases', 'work-close']) {
     assert.ok(work.includes(`data-page-section=\"${section}\"`), `missing shared work section ${section}`);
   }
+});
+
+test('keeps small homepage utility text on accessible neutral ink', () => {
+  const home = read('src/components/pages/RecruiterHome.astro');
+  const hero = read('src/components/sections/RecruiterHero.astro');
+
+  assert.doesNotMatch(hero, /\.recruiter-hero__role\s*\{[^}]*color:\s*var\(--signal-intelligence\)/s);
+  assert.doesNotMatch(home, /\.row-index\s*\{[^}]*color:\s*var\(--signal-intelligence\)/s);
+  assert.doesNotMatch(home, /\.scene-link:hover[^}]*color:\s*var\(--signal-intelligence\)/s);
+  assert.equal(
+    (home.match(/color:\s*var\(--signal-intelligence\)/g) ?? []).length,
+    1,
+    'purple text is reserved for the large thinking-row heading state',
+  );
 });
 
 test('contains a complete localized content model for the shared pages', () => {
@@ -266,4 +281,13 @@ test('gives each identity lens a unique orbit path id', () => {
   assert.ok(lens.includes('crypto.randomUUID()'));
   assert.ok(lens.includes('id={orbitId}'));
   assert.ok(lens.includes('href={`#${orbitId}`}'));
+});
+
+test('shows the identity portrait immediately for reduced-motion users', () => {
+  const lens = read('src/components/brand/IdentityLens.astro');
+
+  assert.match(
+    lens,
+    /@media \(prefers-reduced-motion: reduce\)\s*\{\s*html\.js \.identity-lens__portrait\s*\{[^}]*animation:\s*none[^}]*opacity:\s*1[^}]*clip-path:\s*none[^}]*transform:\s*none/s,
+  );
 });

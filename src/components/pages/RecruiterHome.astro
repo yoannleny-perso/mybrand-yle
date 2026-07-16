@@ -9,7 +9,6 @@ import RecruiterHero from '../sections/RecruiterHero.astro';
 import { getAchievements } from '../../data/achievements';
 import { localizedPath, localizedSite, type Locale } from '../../data/localized-site';
 
-// RecruiterHero owns the eager IdentityLens so the title remains first in DOM order.
 interface Props {
   locale: Locale;
 }
@@ -161,7 +160,7 @@ const proofMetrics = copy.home.proof.metrics.map((metric, index) => ({
     text-decoration: none;
     text-transform: uppercase;
   }
-  .scene-link:hover, .scene-link:focus-visible { color: var(--signal-intelligence); }
+  .scene-link:hover, .scene-link:focus-visible { color: var(--ink-1000); }
   .cinematic-list { border-top: 1px solid var(--ink-300); }
   .cinematic-row {
     min-width: 0;
@@ -175,7 +174,7 @@ const proofMetrics = copy.home.proof.metrics.map((metric, index) => ({
     line-height: var(--t-meta-line);
     text-transform: uppercase;
   }
-  .row-index { color: var(--signal-intelligence); }
+  .row-index { color: var(--ink-700); }
   .capability-row {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
