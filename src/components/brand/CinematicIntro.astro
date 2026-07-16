@@ -1,0 +1,68 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  summary?: string;
+  variant?: 'index' | 'detail' | 'utility';
+  accent?: 'intelligence' | 'change' | 'outcome';
+}
+const { eyebrow, title, summary, variant = 'index', accent = 'intelligence' } = Astro.props;
+---
+
+<header class:list={['cinematic-intro', `cinematic-intro--${variant}`]} data-accent={accent}>
+  <p class="cinematic-intro__eyebrow">{eyebrow}</p>
+  <h1>{title}</h1>
+  {summary && <p class="cinematic-intro__summary">{summary}</p>}
+  <div class="cinematic-intro__actions"><slot /></div>
+</header>
+
+<style>
+  .cinematic-intro {
+    --intro-accent: var(--signal-intelligence);
+    position: relative;
+    display: grid;
+    gap: clamp(1rem, 2.4vw, 1.75rem);
+    max-width: 78rem;
+    padding-block: clamp(2.5rem, 8vw, 7.5rem);
+  }
+  .cinematic-intro[data-accent='change'] { --intro-accent: var(--signal-change); }
+  .cinematic-intro[data-accent='outcome'] { --intro-accent: var(--signal-outcome); }
+  .cinematic-intro::before {
+    width: clamp(2.5rem, 6vw, 5rem);
+    height: .25rem;
+    background: var(--intro-accent);
+    content: '';
+  }
+  .cinematic-intro__eyebrow {
+    margin: 0;
+    color: var(--ink-500);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: var(--t-meta-weight);
+    letter-spacing: var(--t-meta-letter);
+    line-height: var(--t-meta-line);
+    text-transform: uppercase;
+  }
+  h1 {
+    max-width: 15ch;
+    margin: 0;
+    color: var(--ink-1000);
+    font-family: var(--font-display);
+    font-size: var(--t-display-xl-size);
+    font-weight: var(--t-display-xl-weight);
+    letter-spacing: var(--t-display-xl-letter);
+    line-height: var(--t-display-xl-line);
+    text-wrap: balance;
+  }
+  .cinematic-intro--detail h1 { font-size: var(--t-display-l-size); }
+  .cinematic-intro--utility h1 { max-width: 18ch; font-size: var(--t-display-m-size); }
+  .cinematic-intro__summary {
+    max-width: 44rem;
+    margin: 0;
+    color: var(--ink-700);
+    font-size: var(--t-body-l-size);
+    line-height: var(--t-body-l-line);
+    text-wrap: pretty;
+  }
+  .cinematic-intro__actions { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+</style>

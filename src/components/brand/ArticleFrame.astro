@@ -1,0 +1,47 @@
+---
+interface Props { eyebrow: string; title: string; dek?: string; metadata?: string[]; }
+const { eyebrow, title, dek, metadata = [] } = Astro.props;
+---
+
+<article class="article-frame">
+  <header class="article-frame__header">
+    <p class="article-frame__eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    {dek && <p class="article-frame__dek">{dek}</p>}
+    {metadata.length > 0 && (
+      <ul class="article-frame__metadata">
+        {metadata.map((item) => <li>{item}</li>)}
+      </ul>
+    )}
+  </header>
+  <div class="article-frame__body"><slot /></div>
+</article>
+
+<style>
+  .article-frame { color: var(--ink-1000); }
+  .article-frame__header { display: grid; gap: clamp(1rem, 2vw, 1.5rem); max-width: 68rem; padding-block: clamp(3rem, 9vw, 8rem); }
+  .article-frame__eyebrow {
+    margin: 0;
+    color: var(--ink-500);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: var(--t-meta-weight);
+    letter-spacing: var(--t-meta-letter);
+    line-height: var(--t-meta-line);
+    text-transform: uppercase;
+  }
+  h1 {
+    max-width: 17ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--t-display-l-size);
+    font-weight: var(--t-display-l-weight);
+    letter-spacing: var(--t-display-l-letter);
+    line-height: var(--t-display-l-line);
+    text-wrap: balance;
+  }
+  .article-frame__dek { max-width: 45rem; margin: 0; color: var(--ink-700); font-size: var(--t-body-l-size); line-height: var(--t-body-l-line); text-wrap: pretty; }
+  .article-frame__metadata { display: flex; flex-wrap: wrap; gap: .65rem 1.5rem; margin: .5rem 0 0; padding: 1.25rem 0 0; border-top: 1px solid var(--ink-100); list-style: none; }
+  .article-frame__metadata li { color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: var(--t-meta-weight); letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  .article-frame__body { display: flow-root; }
+</style>

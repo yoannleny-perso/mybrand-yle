@@ -168,3 +168,20 @@ test('reveals cinematic content through initialization and reduced-motion fallba
     opacity: 1 !important;
     transform: none !important;`));
 });
+
+test('provides bounded cinematic brand primitives', () => {
+  const expected = [
+    'IdentityLens', 'CinematicIntro', 'DecisionTrace', 'SceneHeading',
+    'EvidencePanel', 'MissionRow', 'ArticleFrame',
+  ];
+  for (const name of expected) {
+    const path = `src/components/brand/${name}.astro`;
+    assert.ok(existsSync(path), `missing ${path}`);
+  }
+
+  const lens = read('src/components/brand/IdentityLens.astro');
+  assert.ok(lens.includes('/images/portrait-960.webp'));
+  assert.ok(lens.includes('/images/portrait.jpeg'));
+  assert.ok(lens.includes('identity-orbit'));
+  assert.doesNotMatch(lens, /#9151F6|#E7615F|#087A55|lens-ring|ribbon/i);
+});

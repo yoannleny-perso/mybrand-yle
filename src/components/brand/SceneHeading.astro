@@ -1,0 +1,61 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  summary?: string;
+  accent?: 'intelligence' | 'change' | 'outcome';
+  tone?: 'light' | 'dark';
+}
+const { eyebrow, title, summary, accent = 'intelligence', tone = 'light' } = Astro.props;
+---
+
+<header class="scene-heading" data-accent={accent} data-tone={tone}>
+  <p class="scene-heading__eyebrow">{eyebrow}</p>
+  <h2>{title}</h2>
+  {summary && <p class="scene-heading__summary">{summary}</p>}
+</header>
+
+<style>
+  .scene-heading {
+    --heading-accent: var(--signal-intelligence);
+    --heading-ink: var(--ink-1000);
+    --heading-muted: var(--ink-700);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .scene-heading[data-accent='change'] { --heading-accent: var(--signal-change); }
+  .scene-heading[data-accent='outcome'] { --heading-accent: var(--signal-outcome); }
+  .scene-heading[data-tone='dark'] { --heading-ink: var(--paper-0); --heading-muted: var(--ink-100); }
+  .scene-heading__eyebrow {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    margin: 0;
+    color: var(--heading-muted);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: var(--t-meta-weight);
+    letter-spacing: var(--t-meta-letter);
+    line-height: var(--t-meta-line);
+    text-transform: uppercase;
+  }
+  .scene-heading__eyebrow::before { width: 2rem; height: .2rem; flex: none; background: var(--heading-accent); content: ''; }
+  h2 {
+    max-width: 18ch;
+    margin: 0;
+    color: var(--heading-ink);
+    font-family: var(--font-display);
+    font-size: var(--t-display-m-size);
+    font-weight: var(--t-display-m-weight);
+    letter-spacing: var(--t-display-m-letter);
+    line-height: var(--t-display-m-line);
+    text-wrap: balance;
+  }
+  .scene-heading__summary { max-width: 42rem; margin: 0; color: var(--heading-muted); font-size: var(--t-body-size); line-height: var(--t-body-line); text-wrap: pretty; }
+  @media (min-width: 48rem) {
+    .scene-heading { grid-template-columns: minmax(0, 1.5fr) minmax(16rem, 1fr); column-gap: clamp(2rem, 6vw, 6rem); }
+    .scene-heading__eyebrow { grid-column: 1 / -1; }
+    .scene-heading__summary { padding-top: .35rem; }
+  }
+</style>

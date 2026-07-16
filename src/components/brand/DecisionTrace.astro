@@ -1,0 +1,45 @@
+---
+interface Step { label: string; title: string; signal: 'change' | 'intelligence' | 'outcome'; }
+interface Props { label: string; principle: string; steps: [Step, Step, Step]; }
+const { label, principle, steps } = Astro.props;
+---
+
+<section class="decision-trace" aria-label={label}>
+  <div class="decision-trace__intro"><span>{label}</span><strong>{principle}</strong></div>
+  {steps.map((step) => <div class="decision-trace__step" data-signal={step.signal}><b>{step.title}</b><span>{step.label}</span></div>)}
+</section>
+
+<style>
+  .decision-trace {
+    display: grid;
+    overflow: hidden;
+    border: 1px solid var(--ink-100);
+    border-radius: var(--radius-group);
+    background: var(--paper-0);
+  }
+  .decision-trace__intro, .decision-trace__step { display: grid; gap: .65rem; padding: clamp(1.25rem, 2.5vw, 2rem); }
+  .decision-trace__intro { background: var(--ink-1000); color: var(--paper-0); }
+  .decision-trace__intro span, .decision-trace__step span {
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: var(--t-meta-weight);
+    letter-spacing: var(--t-meta-letter);
+    line-height: var(--t-meta-line);
+    text-transform: uppercase;
+  }
+  .decision-trace__intro strong { max-width: 30ch; font-family: var(--font-display); font-size: var(--t-headline-size); line-height: var(--t-headline-line); }
+  .decision-trace__step {
+    --step-signal: var(--signal-intelligence);
+    position: relative;
+    border-top: 1px solid var(--ink-100);
+  }
+  .decision-trace__step[data-signal='change'] { --step-signal: var(--signal-change); }
+  .decision-trace__step[data-signal='outcome'] { --step-signal: var(--signal-outcome); }
+  .decision-trace__step::before { position: absolute; inset: 0 auto 0 0; width: .25rem; background: var(--step-signal); content: ''; }
+  .decision-trace__step b { color: var(--ink-1000); font-family: var(--font-display); font-size: var(--t-headline-size); line-height: var(--t-headline-line); }
+  .decision-trace__step span { color: var(--ink-500); }
+  @media (min-width: 56rem) {
+    .decision-trace { grid-template-columns: minmax(14rem, 1.3fr) repeat(3, minmax(0, 1fr)); }
+    .decision-trace__step { border-top: 0; border-left: 1px solid var(--ink-100); }
+  }
+</style>

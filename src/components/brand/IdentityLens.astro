@@ -1,0 +1,46 @@
+---
+interface Props { alt: string; orbitLabel: string; eager?: boolean; }
+const { alt, orbitLabel, eager = false } = Astro.props;
+---
+
+<figure class="identity-lens" data-identity-lens>
+  <div class="identity-lens__portrait">
+    <picture>
+      <source srcset="/images/portrait-960.webp" type="image/webp" />
+      <img
+        src="/images/portrait.jpeg"
+        alt={alt}
+        width="960"
+        height="1280"
+        loading={eager ? 'eager' : 'lazy'}
+        fetchpriority={eager ? 'high' : 'auto'}
+        decoding="async"
+      />
+    </picture>
+  </div>
+  <svg class="identity-lens__orbit" viewBox="0 0 600 600" aria-hidden="true">
+    <defs><path id="identity-orbit" d="M300,300 m-286,0 a286,286 0 1,1 572,0 a286,286 0 1,1 -572,0" /></defs>
+    <text><textPath href="#identity-orbit">{orbitLabel}</textPath></text>
+  </svg>
+</figure>
+
+<style>
+  .identity-lens { position: relative; aspect-ratio: 1; margin: 0; }
+  .identity-lens__portrait {
+    position: absolute; inset: 11%; overflow: hidden; border-radius: 50%;
+    background: var(--paper-50); box-shadow: var(--shadow-scene);
+  }
+  .identity-lens__portrait picture, .identity-lens__portrait img { display: block; width: 100%; height: 100%; }
+  .identity-lens__portrait img { object-fit: cover; object-position: center 24%; }
+  .identity-lens__orbit { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .identity-lens__orbit text {
+    fill: var(--ink-1000); font-family: var(--font-mono); font-size: 13px;
+    font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  }
+  html.js .identity-lens__portrait { animation: iris-open 1.05s var(--ease-cinematic) both 180ms; }
+  @keyframes iris-open {
+    from { opacity: 0; clip-path: circle(0 at 50% 50%); transform: scale(.92); }
+    to { opacity: 1; clip-path: circle(72% at 50% 50%); transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .identity-lens__portrait { animation: none; } }
+</style>

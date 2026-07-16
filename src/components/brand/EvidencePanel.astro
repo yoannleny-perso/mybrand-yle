@@ -1,0 +1,68 @@
+---
+interface Metric {
+  value: string;
+  label: string;
+  description?: string;
+  signal: 'change' | 'intelligence' | 'outcome';
+}
+interface Props { label: string; note: string; metrics: Metric[]; }
+const { label, note, metrics } = Astro.props;
+---
+
+<section class="evidence-panel" aria-label={label}>
+  <header class="evidence-panel__intro">
+    <h2>{label}</h2>
+    <p>{note}</p>
+  </header>
+  <dl class="evidence-panel__metrics">
+    {metrics.map((metric) => (
+      <div class="evidence-panel__metric" data-signal={metric.signal}>
+        <dd>{metric.value}</dd>
+        <dt>{metric.label}</dt>
+        {metric.description && <p>{metric.description}</p>}
+      </div>
+    ))}
+  </dl>
+</section>
+
+<style>
+  .evidence-panel { overflow: hidden; border-radius: var(--radius-scene); background: var(--ink-1000); color: var(--paper-0); }
+  .evidence-panel__intro { display: grid; gap: 1rem; padding: clamp(1.5rem, 4vw, 3.5rem); border-bottom: 1px solid var(--ink-700); }
+  .evidence-panel__intro h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--t-display-m-size);
+    font-weight: var(--t-display-m-weight);
+    letter-spacing: var(--t-display-m-letter);
+    line-height: var(--t-display-m-line);
+  }
+  .evidence-panel__intro p { max-width: 42rem; margin: 0; color: var(--ink-100); font-size: var(--t-body-size); line-height: var(--t-body-line); }
+  .evidence-panel__metrics { display: grid; margin: 0; }
+  .evidence-panel__metric {
+    --metric-signal: var(--signal-intelligence);
+    position: relative;
+    min-width: 0;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-top: 1px solid var(--ink-700);
+  }
+  .evidence-panel__metric[data-signal='change'] { --metric-signal: var(--signal-change); }
+  .evidence-panel__metric[data-signal='outcome'] { --metric-signal: var(--signal-outcome); }
+  .evidence-panel__metric::before { display: block; width: 2.5rem; height: .25rem; margin-bottom: 2rem; background: var(--metric-signal); content: ''; }
+  .evidence-panel__metric dd {
+    overflow-wrap: anywhere;
+    margin: 0;
+    color: var(--paper-0);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    font-weight: var(--t-display-xl-weight);
+    letter-spacing: var(--t-display-xl-letter);
+    line-height: 1;
+  }
+  .evidence-panel__metric dt { margin-top: 1rem; font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: var(--t-meta-weight); letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  .evidence-panel__metric p { margin: .75rem 0 0; color: var(--ink-100); font-size: var(--t-body-s-size); line-height: var(--t-body-s-line); }
+  @media (min-width: 42rem) {
+    .evidence-panel__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .evidence-panel__metric { border-left: 1px solid var(--ink-700); }
+  }
+  @media (min-width: 68rem) { .evidence-panel__metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>
