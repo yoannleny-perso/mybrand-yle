@@ -44,16 +44,68 @@ test('makes named achievements primary on the English work index', () => {
   assert.ok(copy.includes('enterprise-medallion-stack'));
 });
 
-test('shares cinematic work indexes and detail composition', () => {
+test('keeps work routes as collection-backed shared-renderer adapters', () => {
   const index = read('src/components/pages/WorkIndex.astro');
   assert.ok(existsSync('src/components/pages/WorkDetail.astro'));
-  const detail = read('src/components/pages/WorkDetail.astro');
   assert.ok(index.includes('CinematicIntro'));
   assert.ok(index.includes('MissionRow'));
-  assert.ok(detail.includes('ArticleFrame'));
-  assert.ok(detail.includes("pathFor('/contact')"));
-  assert.ok(read('src/pages/work/[slug].astro').includes('WorkDetail'));
-  assert.ok(read('src/pages/[lang]/work/[slug].astro').includes('WorkDetail'));
+
+  for (const routePath of ['src/pages/work/[slug].astro', 'src/pages/[lang]/work/[slug].astro']) {
+    const route = read(routePath);
+    assert.ok(route.includes("getCollection('case-studies')"), `${routePath} must resolve the collection`);
+    assert.ok(route.includes('getStaticPaths()'), `${routePath} must retain static path generation`);
+    assert.ok(route.includes('WorkDetail'), `${routePath} must delegate rendering`);
+    assert.doesNotMatch(route, /\brender\s*\(/, `${routePath} must not render collection content`);
+  }
+});
+
+test('keeps unpublished achievement missions non-interactive', () => {
+  const achievements = read('src/data/achievements.ts');
+  const missionRow = read('src/components/brand/MissionRow.astro');
+
+  assert.equal((achievements.match(/href: null/g) ?? []).length, 5);
+  assert.ok(missionRow.includes("const Tag = achievement.href ? 'a' : 'article'"));
+});
+
+test('places the case narrative before supporting diagrams and outcomes', () => {
+  const detail = read('src/components/pages/WorkDetail.astro');
+  const sourceOrder = [
+    'class="case-artifact"',
+    'class="language-notice"',
+    '<Prose><Content /></Prose>',
+    '<CaseDiagram',
+    'class="case-outcomes"',
+  ].map((fragment) => detail.indexOf(fragment));
+
+  assert.ok(sourceOrder.every((index) => index >= 0), 'detail must retain every narrative element');
+  assert.deepEqual(sourceOrder, [...sourceOrder].sort((a, b) => a - b));
+});
+
+test('composes a semantic signal shape in work detail introductions', () => {
+  const detail = read('src/components/pages/WorkDetail.astro');
+  const frame = read('src/components/brand/ArticleFrame.astro');
+
+  assert.ok(frame.includes("import { SIGNAL_SHAPES, type CinematicSignal }"));
+  assert.ok(frame.includes('accent?: CinematicSignal'));
+  assert.ok(frame.includes('data-signal-shape={SIGNAL_SHAPES[accent]}'));
+  assert.ok(frame.includes("[data-signal-shape='diamond']"));
+  assert.ok(frame.includes("[data-signal-shape='circle']"));
+  assert.ok(detail.includes('accent={diagram?.accent}'));
+});
+
+test('localizes work diagram captions and language notice labels', () => {
+  const detail = read('src/components/pages/WorkDetail.astro');
+
+  assert.equal((detail.match(/diagramCaptions:/g) ?? []).length, 3);
+  assert.ok(detail.includes('HIERARCHICAL AGENTS INSIDE DETERMINISTIC BOUNDARIES'));
+  assert.ok(detail.includes('AGENTS HIÉRARCHISÉS DANS DES FRONTIÈRES DÉTERMINISTES'));
+  assert.ok(detail.includes('AGENTES JERÁRQUICOS DENTRO DE LÍMITES DETERMINISTAS'));
+  assert.ok(detail.includes("noticeLabel: 'English content notice'"));
+  assert.ok(detail.includes("noticeLabel: 'Note sur le contenu en anglais'"));
+  assert.ok(detail.includes("noticeLabel: 'Aviso de contenido en inglés'"));
+  assert.ok(detail.includes('aria-label={copy.noticeLabel}'));
+  assert.doesNotMatch(detail, /aria-label="English content notice"/);
+  assert.doesNotMatch(detail, /const diagrams:[\s\S]*?caption:/);
 });
 
 test('keeps English, French, and Spanish page structure in shared renderers', () => {

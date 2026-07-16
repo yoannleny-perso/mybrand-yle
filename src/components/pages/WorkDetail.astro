@@ -5,6 +5,7 @@ import Container from '../layout/Container.astro';
 import ArticleFrame from '../brand/ArticleFrame.astro';
 import Prose from '../primitives/Prose.astro';
 import CaseDiagram from '../visuals/CaseDiagram.astro';
+import type { CinematicSignal } from '../brand/cinematic-contracts';
 import { localizedPath, type Locale } from '../../data/localized-site';
 
 interface Props {
@@ -30,7 +31,14 @@ const detailCopy = {
     closeHeading: 'Have a similar problem?',
     contactLabel: 'Start a conversation',
     backLabel: 'Back to all work',
+    noticeLabel: 'English content notice',
     notice: null,
+    diagramCaptions: {
+      'multi-agent-skill-tracker': 'HIERARCHICAL AGENTS INSIDE DETERMINISTIC BOUNDARIES',
+      'enterprise-medallion-stack': 'BRONZE → SILVER → GOLD → ONE GOVERNED CONSUMPTION LAYER',
+      'ai-ready-semantic-layer': 'EVERY CONSUMER RESOLVES METRICS THROUGH ONE CONTRACT',
+      'global-data-ops-scaling-model': 'DOMAIN PODS ON A PAVED ROAD, INSTRUMENTED MONTHLY',
+    },
   },
   fr: {
     detailLabel: 'Étude de cas',
@@ -42,7 +50,14 @@ const detailCopy = {
     closeHeading: 'Vous faites face à un défi similaire ?',
     contactLabel: 'Lancer une conversation',
     backLabel: 'Retour aux réalisations',
+    noticeLabel: 'Note sur le contenu en anglais',
     notice: "Ce contenu est rédigé et maintenu en anglais — la référence technique reste dans sa langue d'origine.",
+    diagramCaptions: {
+      'multi-agent-skill-tracker': 'AGENTS HIÉRARCHISÉS DANS DES FRONTIÈRES DÉTERMINISTES',
+      'enterprise-medallion-stack': 'BRONZE → SILVER → GOLD → UNE COUCHE DE CONSOMMATION GOUVERNÉE',
+      'ai-ready-semantic-layer': 'CHAQUE CONSOMMATEUR RÉSOUT LES MÉTRIQUES VIA UN CONTRAT UNIQUE',
+      'global-data-ops-scaling-model': 'PODS MÉTIERS SUR UNE VOIE BALISÉE, INSTRUMENTÉS CHAQUE MOIS',
+    },
   },
   es: {
     detailLabel: 'Caso de Estudio',
@@ -54,7 +69,14 @@ const detailCopy = {
     closeHeading: '¿Te enfrentas a un desafío similar?',
     contactLabel: 'Iniciar conversación',
     backLabel: 'Volver a todos los proyectos',
+    noticeLabel: 'Aviso de contenido en inglés',
     notice: 'Este contenido se redacta y mantiene en inglés — la referencia técnica permanece en su idioma original.',
+    diagramCaptions: {
+      'multi-agent-skill-tracker': 'AGENTES JERÁRQUICOS DENTRO DE LÍMITES DETERMINISTAS',
+      'enterprise-medallion-stack': 'BRONCE → PLATA → ORO → UNA CAPA DE CONSUMO GOBERNADA',
+      'ai-ready-semantic-layer': 'CADA CONSUMIDOR RESUELVE MÉTRICAS MEDIANTE UN ÚNICO CONTRATO',
+      'global-data-ops-scaling-model': 'PODS DE DOMINIO SOBRE UN CAMINO PAVIMENTADO, INSTRUMENTADOS MENSUALMENTE',
+    },
   },
 } as const;
 
@@ -69,13 +91,14 @@ const metadata = [
   duration && `${copy.durationLabel}: ${duration}`,
 ].filter((item): item is string => Boolean(item));
 
-const diagrams: Record<string, { variant: DiagramVariant; caption: string }> = {
-  'multi-agent-skill-tracker': { variant: 'agents', caption: 'HIERARCHICAL AGENTS INSIDE DETERMINISTIC BOUNDARIES' },
-  'enterprise-medallion-stack': { variant: 'medallion', caption: 'BRONZE → SILVER → GOLD → ONE GOVERNED CONSUMPTION LAYER' },
-  'ai-ready-semantic-layer': { variant: 'semantic', caption: 'EVERY CONSUMER RESOLVES METRICS THROUGH ONE CONTRACT' },
-  'global-data-ops-scaling-model': { variant: 'org', caption: 'DOMAIN PODS ON A PAVED ROAD, INSTRUMENTED MONTHLY' },
+const diagrams: Record<string, { variant: DiagramVariant; accent: CinematicSignal }> = {
+  'multi-agent-skill-tracker': { variant: 'agents', accent: 'intelligence' },
+  'enterprise-medallion-stack': { variant: 'medallion', accent: 'change' },
+  'ai-ready-semantic-layer': { variant: 'semantic', accent: 'intelligence' },
+  'global-data-ops-scaling-model': { variant: 'org', accent: 'outcome' },
 };
 const diagram = diagrams[slug];
+const diagramCaption = copy.diagramCaptions[slug as keyof typeof copy.diagramCaptions];
 ---
 
 <Layout title={`${entry.data.title} — ${copy.detailLabel} — Yoann Leny`} description={entry.data.client}>
@@ -85,6 +108,7 @@ const diagram = diagrams[slug];
       title={entry.data.title}
       dek={entry.data.client}
       metadata={metadata}
+      accent={diagram?.accent}
     >
       {entry.data.heroImage && (
         <figure class="case-artifact">
@@ -92,15 +116,17 @@ const diagram = diagrams[slug];
         </figure>
       )}
 
-      {diagram && (
-        <CaseDiagram variant={diagram.variant} locale={locale} caption={diagram.caption} />
-      )}
-
       {copy.notice && (
-        <aside class="language-notice" aria-label="English content notice">
+        <aside class="language-notice" aria-label={copy.noticeLabel}>
           <span lang="en">EN</span>
           <p>{copy.notice}</p>
         </aside>
+      )}
+
+      <Prose><Content /></Prose>
+
+      {diagram && (
+        <CaseDiagram variant={diagram.variant} locale={locale} caption={diagramCaption} />
       )}
 
       {entry.data.metrics && entry.data.metrics.length > 0 && (
@@ -113,8 +139,6 @@ const diagram = diagrams[slug];
           </dl>
         </section>
       )}
-
-      <Prose><Content /></Prose>
     </ArticleFrame>
   </Container>
 
@@ -132,8 +156,8 @@ const diagram = diagrams[slug];
 </Layout>
 
 <style>
-  .case-artifact, :global(.case-diagram) { margin: 0 0 clamp(2.5rem, 7vw, 6rem); }
-  .case-artifact { overflow: hidden; border-block: 1px solid var(--ink-100); background: var(--paper-50); }
+  .case-artifact { margin: 0 0 clamp(2.5rem, 7vw, 6rem); overflow: hidden; border-block: 1px solid var(--ink-100); background: var(--paper-50); }
+  :global(.case-diagram) { margin: clamp(3rem, 7vw, 6rem) 0; }
   .case-artifact img { display: block; width: 100%; height: auto; }
   .language-notice {
     display: grid;

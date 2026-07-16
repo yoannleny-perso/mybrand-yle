@@ -1,10 +1,20 @@
 ---
-interface Props { eyebrow: string; title: string; dek?: string; metadata?: string[]; }
-const { eyebrow, title, dek, metadata = [] } = Astro.props;
+import { SIGNAL_SHAPES, type CinematicSignal } from './cinematic-contracts';
+
+interface Props { eyebrow: string; title: string; dek?: string; metadata?: string[]; accent?: CinematicSignal; }
+const { eyebrow, title, dek, metadata = [], accent } = Astro.props;
 ---
 
 <article class="article-frame">
   <header class="article-frame__header">
+    {accent && (
+      <span
+        class="article-frame__signal"
+        data-signal={accent}
+        data-signal-shape={SIGNAL_SHAPES[accent]}
+        aria-hidden="true"
+      />
+    )}
     <p class="article-frame__eyebrow">{eyebrow}</p>
     <h1>{title}</h1>
     {dek && <p class="article-frame__dek">{dek}</p>}
@@ -20,6 +30,11 @@ const { eyebrow, title, dek, metadata = [] } = Astro.props;
 <style>
   .article-frame { color: var(--ink-1000); }
   .article-frame__header { display: grid; gap: clamp(1rem, 2vw, 1.5rem); max-width: 68rem; padding-block: clamp(3rem, 9vw, 8rem); }
+  .article-frame__signal { width: .75rem; height: .75rem; background: var(--signal-intelligence); }
+  .article-frame__signal[data-signal='change'] { background: var(--signal-change); }
+  .article-frame__signal[data-signal='outcome'] { background: var(--signal-outcome); }
+  .article-frame__signal[data-signal-shape='diamond'] { transform: rotate(45deg); }
+  .article-frame__signal[data-signal-shape='circle'] { border-radius: 50%; }
   .article-frame__eyebrow {
     margin: 0;
     color: var(--ink-500);
