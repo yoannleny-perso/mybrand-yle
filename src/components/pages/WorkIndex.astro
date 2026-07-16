@@ -1,10 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Container from '../layout/Container.astro';
-import Section from '../layout/Section.astro';
-import Eyebrow from '../primitives/Eyebrow.astro';
-import AchievementCard from '../sections/AchievementCard.astro';
-import AsymmetricCard from '../sections/AsymmetricCard.astro';
+import CinematicIntro from '../brand/CinematicIntro.astro';
+import MissionRow from '../brand/MissionRow.astro';
+import SceneHeading from '../brand/SceneHeading.astro';
 import { getAchievements } from '../../data/achievements';
 import { localizedPath, localizedSite, type Locale } from '../../data/localized-site';
 
@@ -19,79 +18,144 @@ const pathFor = (path: string) => localizedPath(locale, path);
 ---
 
 <Layout title={copy.work.title} description={copy.work.description}>
-  <section data-page-section="work-intro" class="border-b border-ink-200 pb-16 pt-36 sm:pb-24 sm:pt-44">
+  <section data-page-section="work-intro" class="work-intro">
+    <Container size="wide">
+      <CinematicIntro
+        eyebrow={copy.work.intro.eyebrow}
+        title={copy.work.intro.heading}
+        summary={copy.work.intro.summary}
+        accent="change"
+      />
+    </Container>
+  </section>
+
+  <section data-page-section="achievement-register" id="achievement-register" class="work-scene work-scene--register">
     <Container>
-      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-8">
-          <Eyebrow text={copy.work.intro.eyebrow.toUpperCase()} />
-          <h1 class="max-w-[13ch] text-balance font-display text-[clamp(3.25rem,7vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.055em] text-ink-1000">
-            {copy.work.intro.heading}
-          </h1>
-        </div>
-        <p class="max-w-[42ch] font-body text-lg leading-8 text-ink-700 lg:col-span-4 lg:pb-2">{copy.work.intro.summary}</p>
+      <SceneHeading
+        eyebrow={copy.work.register.eyebrow}
+        title={copy.work.register.heading}
+        summary={copy.work.register.summary}
+        accent="change"
+      />
+      <div class="mission-register">
+        {achievements.map((achievement, index) => (
+          <MissionRow achievement={achievement} labels={copy.achievementLabels} index={index} />
+        ))}
       </div>
     </Container>
   </section>
 
-  <div data-page-section="achievement-register">
-    <Section id="achievement-register">
-      <Container>
-        <div class="mb-10 flex flex-col gap-4 border-b border-ink-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p class="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-ink-500">{copy.work.register.eyebrow}</p>
-            <h2 class="mt-2 text-balance font-display text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-none tracking-[-0.04em] text-ink-1000">{copy.work.register.heading}</h2>
-          </div>
-          <p class="max-w-[34ch] text-sm leading-6 text-ink-600">{copy.work.register.summary}</p>
-        </div>
-
-        <div class="grid gap-5 md:grid-cols-2">
-          {achievements.map((achievement, index) => (
-            <div class:list={[index === 4 && 'md:col-span-2 lg:max-w-[calc(50%-0.625rem)]']}>
-              <AchievementCard achievement={achievement} index={index} featured={index === 0 || index === 4} labels={copy.achievementLabels} />
-            </div>
-          ))}
-        </div>
-      </Container>
-    </Section>
-  </div>
-
-  <div data-page-section="supporting-cases">
-    <Section id="supporting-cases">
-      <Container>
-        <div class="mb-12 grid gap-6 border-t border-ink-300 pt-8 md:grid-cols-12">
-          <h2 class="text-balance font-display text-[clamp(2.25rem,4vw,4rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink-1000 md:col-span-7">{copy.work.supporting.heading}</h2>
-          <p class="max-w-[46ch] text-base leading-7 text-ink-700 md:col-span-5">{copy.work.supporting.summary}</p>
-        </div>
-
-        <div class="grid gap-6 md:grid-cols-2">
-          {copy.work.supporting.cards.map((card) => (
-            <div class="flex min-w-0">
-              <AsymmetricCard
-                size="wide"
-                pattern={card.pattern}
-                tag={card.tag}
-                title={card.title}
-                description={card.description}
-                metrics={card.metrics}
-                href={pathFor(`/work/${card.slug}`)}
-              />
-            </div>
-          ))}
-        </div>
-      </Container>
-    </Section>
-  </div>
-
-  <section data-page-section="work-close" class="bg-ink-1000 py-20 text-paper-50 sm:py-28">
+  <section data-page-section="supporting-cases" id="supporting-cases" class="work-scene work-scene--supporting">
     <Container>
-      <div class="grid gap-10 md:grid-cols-12 md:items-end">
-        <h2 class="max-w-[14ch] text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[0.94] tracking-[-0.045em] md:col-span-8">{copy.work.close.heading}</h2>
-        <div class="md:col-span-4 md:text-right">
-          <a href={pathFor('/hire')} class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform hover:-translate-y-0.5">
-            {copy.work.close.cta} <span class="ml-3" aria-hidden="true">↗</span>
+      <SceneHeading
+        eyebrow={copy.achievementLabels.evidence}
+        title={copy.work.supporting.heading}
+        summary={copy.work.supporting.summary}
+        accent="intelligence"
+      />
+      <div class="supporting-register">
+        {copy.work.supporting.cards.map((card, index) => (
+          <a class="supporting-row" href={pathFor(`/work/${card.slug}`)}>
+            <span class="supporting-row__index">{String(index + 1).padStart(2, '0')}</span>
+            <div class="supporting-row__title">
+              <p>{card.tag}</p>
+              <h3>{card.title}</h3>
+            </div>
+            <div class="supporting-row__evidence">
+              <p>{card.description}</p>
+              <dl>
+                {card.metrics.map((metric) => (
+                  <div><dt>{metric.label}</dt><dd>{metric.value}</dd></div>
+                ))}
+              </dl>
+            </div>
+            <span class="supporting-row__arrow" aria-hidden="true">↗</span>
           </a>
-        </div>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <section data-page-section="work-close" class="work-close">
+    <Container>
+      <div class="work-close__grid">
+        <h2>{copy.work.close.heading}</h2>
+        <a href={pathFor('/hire')}>
+          {copy.work.close.cta}<span aria-hidden="true">↗</span>
+        </a>
       </div>
     </Container>
   </section>
 </Layout>
+
+<style>
+  .work-intro { border-bottom: 1px solid var(--ink-100); background: var(--paper-0); }
+  .work-scene { padding-block: var(--space-section); }
+  .work-scene--register { background: var(--paper-0); }
+  .work-scene--supporting { border-top: 1px solid var(--ink-100); background: var(--paper-50); }
+  .mission-register, .supporting-register { margin-top: clamp(3rem, 7vw, 6rem); }
+  .supporting-register { border-top: 1px solid var(--ink-300); }
+  .supporting-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-block: clamp(1.75rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--ink-300);
+    color: var(--ink-1000);
+    text-decoration: none;
+  }
+  .supporting-row__index, .supporting-row__title > p, .supporting-row dt {
+    margin: 0;
+    color: var(--ink-500);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: var(--t-meta-weight);
+    letter-spacing: var(--t-meta-letter);
+    line-height: var(--t-meta-line);
+    text-transform: uppercase;
+  }
+  .supporting-row h3 {
+    max-width: 18ch;
+    margin: .75rem 0 0;
+    font-family: var(--font-display);
+    font-size: var(--t-headline-size);
+    font-weight: 700;
+    letter-spacing: var(--t-headline-letter);
+    line-height: var(--t-headline-line);
+    text-wrap: balance;
+  }
+  .supporting-row__evidence > p { max-width: 44rem; margin: 0; color: var(--ink-700); line-height: var(--t-body-line); text-wrap: pretty; }
+  .supporting-row dl { display: flex; flex-wrap: wrap; gap: 1.25rem clamp(2rem, 5vw, 4rem); margin: 1.5rem 0 0; }
+  .supporting-row dd { margin: .35rem 0 0; font-family: var(--font-display); font-size: var(--t-headline-size); font-weight: 700; line-height: 1; }
+  .supporting-row__arrow { justify-self: start; font-size: 1.25rem; transition: transform var(--dur-hover) var(--ease-cinematic); }
+  .supporting-row:hover .supporting-row__arrow, .supporting-row:focus-visible .supporting-row__arrow { transform: translate(.2rem, -.2rem); }
+  .work-close { padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); }
+  .work-close__grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: end; }
+  .work-close h2 { max-width: 15ch; margin: 0; font-family: var(--font-display); font-size: var(--t-display-m-size); letter-spacing: var(--t-display-m-letter); line-height: var(--t-display-m-line); text-wrap: balance; }
+  .work-close a {
+    display: inline-flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    justify-self: start;
+    padding: .8rem 1.35rem;
+    border: 1px solid var(--paper-0);
+    color: var(--paper-0);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: 700;
+    letter-spacing: var(--t-meta-letter);
+    line-height: 1.3;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .work-close a:hover, .work-close a:focus-visible { background: var(--paper-0); color: var(--ink-1000); }
+  @media (min-width: 48rem) {
+    .supporting-row { grid-template-columns: 3rem minmax(13rem, .8fr) minmax(20rem, 1.2fr) 2rem; column-gap: clamp(1.5rem, 4vw, 4rem); }
+    .supporting-row__arrow { justify-self: end; }
+    .work-close__grid { grid-template-columns: minmax(0, 1fr) auto; }
+    .work-close a { justify-self: end; }
+  }
+  @media (prefers-reduced-motion: reduce) { .supporting-row__arrow { transition: none; } }
+</style>

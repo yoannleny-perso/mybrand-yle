@@ -39,9 +39,21 @@ test('makes named achievements primary on the English work index', () => {
   const copy = read('src/data/localized-site.ts');
 
   assert.ok(source.includes('getAchievements'));
-  assert.ok(source.includes('AchievementCard'));
+  assert.ok(source.includes('MissionRow'));
   assert.ok(copy.includes('Supporting case studies'));
   assert.ok(copy.includes('enterprise-medallion-stack'));
+});
+
+test('shares cinematic work indexes and detail composition', () => {
+  const index = read('src/components/pages/WorkIndex.astro');
+  assert.ok(existsSync('src/components/pages/WorkDetail.astro'));
+  const detail = read('src/components/pages/WorkDetail.astro');
+  assert.ok(index.includes('CinematicIntro'));
+  assert.ok(index.includes('MissionRow'));
+  assert.ok(detail.includes('ArticleFrame'));
+  assert.ok(detail.includes("pathFor('/contact')"));
+  assert.ok(read('src/pages/work/[slug].astro').includes('WorkDetail'));
+  assert.ok(read('src/pages/[lang]/work/[slug].astro').includes('WorkDetail'));
 });
 
 test('keeps English, French, and Spanish page structure in shared renderers', () => {

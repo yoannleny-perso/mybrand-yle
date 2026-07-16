@@ -1,15 +1,16 @@
 ---
 // Animated architecture diagrams, one scene per system pattern.
 // Same blueprint language as OsBlueprint: draw-in strokes, flowing dashes.
-// Labels are localized via the `lang` prop.
+// Labels are localized via `locale`; `lang` remains for existing callers.
 interface Props {
   variant: 'agents' | 'medallion' | 'semantic' | 'org' | 'contracts' | 'executive';
+  locale?: 'en' | 'fr' | 'es';
   lang?: 'en' | 'fr' | 'es';
   caption?: string;
   class?: string;
 }
 
-const { variant, lang = 'en', caption, class: className = '' } = Astro.props;
+const { variant, locale, lang, caption, class: className = '' } = Astro.props;
 
 const dict = {
   en: {
@@ -71,11 +72,12 @@ const dict = {
   },
 } as const;
 
-const L = dict[lang];
+const L = dict[locale || lang || 'en'];
 ---
 
-<div class={`diagram-draw scroll-reveal w-full overflow-x-auto ${className}`} aria-hidden="true">
-  <svg viewBox="0 0 800 340" fill="none" class="w-full h-auto min-w-[560px]" preserveAspectRatio="xMidYMid meet">
+<figure class={`case-diagram diagram-draw scroll-reveal ${className}`} data-variant={variant}>
+  <div class="case-diagram__viewport" aria-hidden="true">
+  <svg viewBox="0 0 800 340" fill="none" preserveAspectRatio="xMidYMid meet">
 
     {variant === 'agents' && (
       <g>
@@ -258,15 +260,37 @@ const L = dict[lang];
       </g>
     )}
   </svg>
+  </div>
 
   {caption && (
-    <div class="text-center mt-3">
-      <span class="font-mono text-[10px] uppercase tracking-[0.14em] text-ink-500">{caption}</span>
-    </div>
+    <figcaption>{caption}</figcaption>
   )}
-</div>
+</figure>
 
 <style>
+  .case-diagram {
+    --diagram-signal: var(--signal-intelligence);
+    --signal: var(--diagram-signal);
+    width: 100%;
+    margin-inline: 0;
+    padding-block: clamp(1.5rem, 4vw, 3rem);
+    border-block: 1px solid var(--ink-100);
+    background: var(--paper-0);
+  }
+  .case-diagram[data-variant='medallion'], .case-diagram[data-variant='contracts'] { --diagram-signal: var(--signal-change); }
+  .case-diagram[data-variant='org'], .case-diagram[data-variant='executive'] { --diagram-signal: var(--signal-outcome); }
+  .case-diagram__viewport { width: 100%; overflow-x: auto; }
+  svg { display: block; width: 100%; min-width: 35rem; height: auto; }
+  figcaption {
+    margin-top: .75rem;
+    color: var(--ink-500);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    letter-spacing: var(--t-meta-letter);
+    line-height: var(--t-meta-line);
+    text-align: center;
+    text-transform: uppercase;
+  }
   .dg-label {
     font-family: var(--font-mono);
     font-size: 11px;

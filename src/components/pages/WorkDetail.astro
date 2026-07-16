@@ -1,0 +1,180 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import ArticleFrame from '../brand/ArticleFrame.astro';
+import Prose from '../primitives/Prose.astro';
+import CaseDiagram from '../visuals/CaseDiagram.astro';
+import { localizedPath, type Locale } from '../../data/localized-site';
+
+interface Props {
+  locale: Locale;
+  entry: CollectionEntry<'case-studies'>;
+}
+
+type DiagramVariant = 'agents' | 'medallion' | 'semantic' | 'org';
+
+const { locale, entry } = Astro.props;
+const { Content } = await render(entry);
+const slug = entry.data.slug || entry.id;
+const pathFor = (path: string) => localizedPath(locale, path);
+
+const detailCopy = {
+  en: {
+    detailLabel: 'Case Study',
+    achievementLabel: 'Work',
+    contextLabel: 'Brief',
+    sectorLabel: 'Sector',
+    durationLabel: 'Duration',
+    outcomesLabel: 'Outcomes',
+    closeHeading: 'Have a similar problem?',
+    contactLabel: 'Start a conversation',
+    backLabel: 'Back to all work',
+    notice: null,
+  },
+  fr: {
+    detailLabel: 'Étude de cas',
+    achievementLabel: 'Réalisation',
+    contextLabel: 'Contexte',
+    sectorLabel: 'Secteur',
+    durationLabel: 'Durée',
+    outcomesLabel: 'Résultats',
+    closeHeading: 'Vous faites face à un défi similaire ?',
+    contactLabel: 'Lancer une conversation',
+    backLabel: 'Retour aux réalisations',
+    notice: "Ce contenu est rédigé et maintenu en anglais — la référence technique reste dans sa langue d'origine.",
+  },
+  es: {
+    detailLabel: 'Caso de Estudio',
+    achievementLabel: 'Proyecto',
+    contextLabel: 'Resumen',
+    sectorLabel: 'Sector',
+    durationLabel: 'Duración',
+    outcomesLabel: 'Resultados',
+    closeHeading: '¿Te enfrentas a un desafío similar?',
+    contactLabel: 'Iniciar conversación',
+    backLabel: 'Volver a todos los proyectos',
+    notice: 'Este contenido se redacta y mantiene en inglés — la referencia técnica permanece en su idioma original.',
+  },
+} as const;
+
+const copy = detailCopy[locale];
+const year = entry.data.yearStart || entry.data.yearEnd || '2026';
+const duration = entry.data.yearStart
+  ? `${entry.data.yearStart}${entry.data.yearEnd ? ` — ${entry.data.yearEnd}` : ''}`
+  : entry.data.yearEnd?.toString();
+const metadata = [
+  copy.contextLabel,
+  entry.data.sector && `${copy.sectorLabel}: ${entry.data.sector}`,
+  duration && `${copy.durationLabel}: ${duration}`,
+].filter((item): item is string => Boolean(item));
+
+const diagrams: Record<string, { variant: DiagramVariant; caption: string }> = {
+  'multi-agent-skill-tracker': { variant: 'agents', caption: 'HIERARCHICAL AGENTS INSIDE DETERMINISTIC BOUNDARIES' },
+  'enterprise-medallion-stack': { variant: 'medallion', caption: 'BRONZE → SILVER → GOLD → ONE GOVERNED CONSUMPTION LAYER' },
+  'ai-ready-semantic-layer': { variant: 'semantic', caption: 'EVERY CONSUMER RESOLVES METRICS THROUGH ONE CONTRACT' },
+  'global-data-ops-scaling-model': { variant: 'org', caption: 'DOMAIN PODS ON A PAVED ROAD, INSTRUMENTED MONTHLY' },
+};
+const diagram = diagrams[slug];
+---
+
+<Layout title={`${entry.data.title} — ${copy.detailLabel} — Yoann Leny`} description={entry.data.client}>
+  <Container>
+    <ArticleFrame
+      eyebrow={`${copy.achievementLabel} · ${year}`}
+      title={entry.data.title}
+      dek={entry.data.client}
+      metadata={metadata}
+    >
+      {entry.data.heroImage && (
+        <figure class="case-artifact">
+          <img src={entry.data.heroImage} alt={entry.data.title} />
+        </figure>
+      )}
+
+      {diagram && (
+        <CaseDiagram variant={diagram.variant} locale={locale} caption={diagram.caption} />
+      )}
+
+      {copy.notice && (
+        <aside class="language-notice" aria-label="English content notice">
+          <span lang="en">EN</span>
+          <p>{copy.notice}</p>
+        </aside>
+      )}
+
+      {entry.data.metrics && entry.data.metrics.length > 0 && (
+        <section class="case-outcomes" aria-labelledby="case-outcomes-heading">
+          <h2 id="case-outcomes-heading">{copy.outcomesLabel}</h2>
+          <dl>
+            {entry.data.metrics.map((metric) => (
+              <div><dt>{metric.label}</dt><dd>{metric.value}</dd></div>
+            ))}
+          </dl>
+        </section>
+      )}
+
+      <Prose><Content /></Prose>
+    </ArticleFrame>
+  </Container>
+
+  <section class="detail-close">
+    <Container>
+      <div class="detail-close__grid">
+        <h2>{copy.closeHeading}</h2>
+        <div class="detail-close__actions">
+          <a href={pathFor('/contact')}>{copy.contactLabel}<span aria-hidden="true">↗</span></a>
+          <a href={pathFor('/work')}>{copy.backLabel}<span aria-hidden="true">←</span></a>
+        </div>
+      </div>
+    </Container>
+  </section>
+</Layout>
+
+<style>
+  .case-artifact, :global(.case-diagram) { margin: 0 0 clamp(2.5rem, 7vw, 6rem); }
+  .case-artifact { overflow: hidden; border-block: 1px solid var(--ink-100); background: var(--paper-50); }
+  .case-artifact img { display: block; width: 100%; height: auto; }
+  .language-notice {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1rem;
+    max-width: 72ch;
+    margin: 0 auto clamp(2.5rem, 6vw, 5rem);
+    padding: 1rem 0;
+    border-block: 1px solid var(--ink-100);
+  }
+  .language-notice span, .language-notice p { margin: 0; }
+  .language-notice span { color: var(--signal-intelligence); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); }
+  .language-notice p { color: var(--ink-700); font-size: var(--t-body-s-size); line-height: var(--t-body-s-line); }
+  .case-outcomes { max-width: 72ch; margin: 0 auto clamp(3rem, 7vw, 6rem); border-block: 1px solid var(--ink-300); }
+  .case-outcomes h2 { margin: 0; padding-block: 1rem; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  .case-outcomes dl { display: grid; margin: 0; }
+  .case-outcomes dl > div { display: flex; flex-direction: column-reverse; gap: .5rem; padding-block: 1.5rem; border-top: 1px solid var(--ink-100); }
+  .case-outcomes dt { color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  .case-outcomes dd { margin: 0; color: var(--ink-1000); font-family: var(--font-display); font-size: var(--t-display-m-size); font-weight: 700; letter-spacing: var(--t-display-m-letter); line-height: 1; }
+  .detail-close { margin-top: var(--space-section); padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); }
+  .detail-close__grid { display: grid; gap: clamp(2rem, 6vw, 5rem); }
+  .detail-close h2 { max-width: 15ch; margin: 0; font-family: var(--font-display); font-size: var(--t-display-m-size); letter-spacing: var(--t-display-m-letter); line-height: var(--t-display-m-line); text-wrap: balance; }
+  .detail-close__actions { display: flex; flex-wrap: wrap; gap: .75rem; align-items: start; }
+  .detail-close a {
+    display: inline-flex;
+    gap: 1rem;
+    align-items: center;
+    min-height: 3rem;
+    padding: .8rem 1.35rem;
+    border: 1px solid var(--ink-700);
+    color: var(--paper-0);
+    font-family: var(--font-mono);
+    font-size: var(--t-meta-size);
+    font-weight: 700;
+    letter-spacing: var(--t-meta-letter);
+    line-height: 1.3;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .detail-close a:first-child { border-color: var(--paper-0); background: var(--paper-0); color: var(--ink-1000); }
+  .detail-close a:hover, .detail-close a:focus-visible { border-color: var(--signal-change); }
+  @media (min-width: 40rem) { .case-outcomes dl { grid-template-columns: repeat(3, minmax(0, 1fr)); } .case-outcomes dl > div { padding-inline: 1rem; } .case-outcomes dl > div:first-child { padding-left: 0; } }
+  @media (min-width: 48rem) { .detail-close__grid { grid-template-columns: minmax(0, 1fr) minmax(18rem, .7fr); align-items: end; } }
+</style>
