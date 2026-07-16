@@ -131,3 +131,24 @@ test('caps shared display type for readable page openings', () => {
   assert.ok(tokens.includes('--t-display-l-size: clamp(40px, 5vw, 72px)'));
   assert.doesNotMatch(tokens, /--t-display-(?:xl|l)-size:[^;]*100px/);
 });
+
+test('defines the approved cinematic identity-lens tokens', () => {
+  const tokens = read('src/styles/tokens.css');
+  const layout = read('src/layouts/Layout.astro');
+
+  for (const declaration of [
+    '--ink-1000: #050505',
+    '--ink-900: #24262B',
+    '--paper-0: #FFFFFF',
+    '--paper-50: #F3F3F1',
+    '--signal-intelligence: #9151F6',
+    '--signal-change: #E7615F',
+    '--signal-outcome: #087A55',
+  ]) assert.ok(tokens.includes(declaration), `missing ${declaration}`);
+
+  assert.ok(tokens.includes("--font-display: 'Archivo Variable'"));
+  assert.ok(tokens.includes("--font-mono: 'Azeret Mono'"));
+  assert.ok(layout.includes("@fontsource-variable/archivo"));
+  assert.ok(layout.includes("@fontsource/azeret-mono"));
+  assert.doesNotMatch(tokens, /--signal:\s*#2446FF/i);
+});
