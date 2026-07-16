@@ -1,43 +1,33 @@
-# Astro Starter Kit: Minimal
+# Yoann Leny — Brand Site
+
+A multilingual, recruiter-first portfolio for Yoann Leny's Data & AI leadership practice. Built with Astro, TypeScript, React islands, and Tailwind CSS.
+
+## Local development
+
+Requires Node.js 22.12 or newer.
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The development server is available at `http://localhost:4321/` by default.
 
-## 🚀 Project Structure
+## Quality checks
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+npm test
+npm run build
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+`npm test` validates the achievement content contract, recruiter signals, accessibility hooks, social artwork, and responsive display scale. `npm run build` renders the complete English, French, and Spanish static site.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## Content structure
 
-Any static assets, like images, can be placed in the `public/` directory.
+- `src/data/achievements.ts` — named achievement placeholders shared by the homepage and Work index.
+- `src/content/case-studies/` — production case studies.
+- `src/content/insights/` — long-form writing.
+- `src/content/concepts/` — concept library entries.
+- `src/pages/fr/` and `src/pages/es/` — localized route shells.
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Do not add confidential client detail or outcome figures unless they are approved for publication.
