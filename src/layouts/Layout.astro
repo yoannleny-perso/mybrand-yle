@@ -121,7 +121,7 @@ const hasLocalizedEquivalent = !unprefixedPath.startsWith('/decisions');
       // with JS we hide-then-reveal on intersection. Re-runs after
       // view transitions via astro:page-load.
       function initReveals() {
-        const targets = document.querySelectorAll('.scroll-reveal:not(.is-revealed), [data-stagger]:not(.is-revealed)');
+        const targets = document.querySelectorAll('.cinematic-reveal:not(.is-revealed), .scroll-reveal:not(.is-revealed), [data-stagger]:not(.is-revealed)');
         if (targets.length === 0) return;
 
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -143,7 +143,7 @@ const hasLocalizedEquivalent = !unprefixedPath.startsWith('/decisions');
 
         // Safety net: nothing stays hidden if the observer misbehaves.
         setTimeout(() => {
-          document.querySelectorAll('.scroll-reveal:not(.is-revealed), [data-stagger]:not(.is-revealed)')
+          document.querySelectorAll('.cinematic-reveal:not(.is-revealed), .scroll-reveal:not(.is-revealed), [data-stagger]:not(.is-revealed)')
             .forEach((el) => el.classList.add('is-revealed'));
           observer.disconnect();
         }, 6000);

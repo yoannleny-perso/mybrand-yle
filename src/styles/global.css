@@ -234,6 +234,7 @@ html.js .diagram-draw.is-revealed [data-draw] {
     stroke-dashoffset: 0 !important;
   }
 
+  html.js .cinematic-reveal,
   html.js .scroll-reveal,
   html.js [data-stagger] > * {
     opacity: 1 !important;

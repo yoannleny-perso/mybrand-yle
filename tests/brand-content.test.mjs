@@ -152,3 +152,19 @@ test('defines the approved cinematic identity-lens tokens', () => {
   assert.ok(layout.includes("@fontsource/azeret-mono"));
   assert.doesNotMatch(tokens, /--signal:\s*#2446FF/i);
 });
+
+test('reveals cinematic content through initialization and reduced-motion fallbacks', () => {
+  const layout = read('src/layouts/Layout.astro');
+  const globalCss = read('src/styles/global.css');
+
+  assert.equal(
+    (layout.match(/\.cinematic-reveal:not\(\.is-revealed\)/g) ?? []).length,
+    2,
+    'cinematic reveals must be owned by the initializer and its safety net',
+  );
+  assert.ok(globalCss.includes(`html.js .cinematic-reveal,
+  html.js .scroll-reveal,
+  html.js [data-stagger] > * {
+    opacity: 1 !important;
+    transform: none !important;`));
+});
