@@ -41,7 +41,7 @@ test('makes named achievements primary on the English work index', () => {
   assert.ok(source.includes('getAchievements'));
   assert.ok(source.includes('AchievementCard'));
   assert.ok(copy.includes('Supporting case studies'));
-  assert.ok(source.includes('enterprise-medallion-stack'));
+  assert.ok(copy.includes('enterprise-medallion-stack'));
 });
 
 test('keeps English, French, and Spanish page structure in shared renderers', () => {

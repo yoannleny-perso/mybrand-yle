@@ -1,13 +1,15 @@
 ---
 import type { Achievement } from '../../data/achievements';
+import type { AchievementLabels } from '../../data/localized-site';
 
 interface Props {
   achievement: Achievement;
   index: number;
   featured?: boolean;
+  labels: AchievementLabels;
 }
 
-const { achievement, index, featured = false } = Astro.props;
+const { achievement, index, featured = false, labels } = Astro.props;
 const indexLabel = String(index + 1).padStart(2, '0');
 const Tag = achievement.href ? 'a' : 'article';
 const tagProps = achievement.href ? { href: achievement.href } : {};
@@ -24,11 +26,11 @@ const tagProps = achievement.href ? { href: achievement.href } : {};
 >
   <div class="absolute inset-x-0 top-0 h-1 bg-[var(--project-accent)]" aria-hidden="true"></div>
 
-  <div class="flex items-start justify-between gap-6 border-b border-ink-200 pb-5">
+  <div class="flex flex-col gap-3 border-b border-ink-200 pb-5 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
     <div class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-ink-500">
-      Evidence / {indexLabel}
+      {labels.evidence} / {indexLabel}
     </div>
-    <div class="flex items-center gap-2 text-right font-mono text-[0.625rem] uppercase tracking-[0.08em] text-ink-600">
+    <div class="flex items-center gap-2 font-mono text-[0.625rem] uppercase tracking-[0.08em] text-ink-600 sm:justify-end sm:text-right">
       <span class="h-2 w-2 shrink-0 rounded-full bg-signal" aria-hidden="true"></span>
       {achievement.status}
     </div>
@@ -47,16 +49,16 @@ const tagProps = achievement.href ? { href: achievement.href } : {};
 
     <dl class="mt-auto grid grid-cols-2 gap-x-5 gap-y-4 border-t border-ink-200 pt-6">
       <div>
-        <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">Sector</dt>
+        <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{labels.sector}</dt>
         <dd class="mt-1 text-sm font-medium text-ink-900">{achievement.industry}</dd>
       </div>
       <div>
-        <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">Context</dt>
+        <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{labels.context}</dt>
         <dd class="mt-1 text-sm font-medium text-ink-900">{achievement.location}</dd>
       </div>
     </dl>
 
-    <ul class="mt-6 flex flex-wrap gap-2" aria-label="Capabilities demonstrated">
+    <ul class="mt-6 flex flex-wrap gap-2" aria-label={labels.capabilities}>
       {achievement.capabilities.map((capability) => (
         <li class="border border-ink-200 bg-paper-50 px-3 py-1.5 font-mono text-[0.625rem] uppercase tracking-[0.06em] text-ink-700">
           {capability}

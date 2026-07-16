@@ -1,0 +1,166 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import AchievementCard from '../sections/AchievementCard.astro';
+import ProofStrip from '../sections/ProofStrip.astro';
+import RecruiterHero from '../sections/RecruiterHero.astro';
+import { getAchievements } from '../../data/achievements';
+import { localizedPath, localizedSite, type Locale } from '../../data/localized-site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = localizedSite[locale];
+const achievements = getAchievements(locale);
+const pathFor = (path: string) => localizedPath(locale, path);
+---
+
+<Layout title={copy.home.title} description={copy.home.description}>
+  <div data-page-section="hero">
+    <RecruiterHero copy={copy.home.hero} primaryHref={pathFor('/hire')} secondaryHref={pathFor('/work')} />
+  </div>
+
+  <div data-page-section="proof">
+    <ProofStrip title={copy.home.proof.title} note={copy.home.proof.note} metrics={copy.home.proof.metrics} />
+  </div>
+
+  <div data-page-section="achievements">
+    <Section id="selected-achievements">
+      <Container>
+        <div class="mb-12 grid gap-8 border-b border-ink-300 pb-8 lg:grid-cols-12 lg:items-end">
+          <div class="lg:col-span-8">
+            <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">{copy.home.achievements.eyebrow}</p>
+            <h2 class="mt-4 max-w-[15ch] text-balance font-display text-[clamp(2.75rem,5.5vw,5.75rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-ink-1000">
+              {copy.home.achievements.heading}
+            </h2>
+          </div>
+          <div class="lg:col-span-4">
+            <p class="max-w-[42ch] text-base leading-7 text-ink-700">{copy.home.achievements.summary}</p>
+            <a href={pathFor('/work')} class="mt-5 inline-flex min-h-11 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
+              {copy.home.achievements.linkLabel} <span class="ml-3" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          {achievements.map((achievement, index) => (
+            <div class:list={[index === 4 && 'md:col-span-2 lg:max-w-[calc(50%-0.625rem)]']}>
+              <AchievementCard achievement={achievement} index={index} featured={index === 0 || index === 4} labels={copy.achievementLabels} />
+            </div>
+          ))}
+        </div>
+      </Container>
+    </Section>
+  </div>
+
+  <section data-page-section="capabilities" id="capabilities" class="border-y border-ink-300 bg-paper-0 py-[var(--space-section)]">
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">{copy.home.capabilities.eyebrow}</p>
+          <h2 class="mt-4 max-w-[12ch] text-balance font-display text-[clamp(2.5rem,4.5vw,4.25rem)] font-semibold leading-[0.94] tracking-[-0.045em] text-ink-1000">
+            {copy.home.capabilities.heading}
+          </h2>
+          <p class="mt-6 max-w-[36ch] text-base leading-7 text-ink-700">{copy.home.capabilities.summary}</p>
+          <a href={pathFor('/capabilities')} class="mt-8 inline-flex min-h-11 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
+            {copy.home.capabilities.linkLabel} <span class="ml-3" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="border-t border-ink-300 lg:col-span-7 lg:border-t-0">
+          {copy.home.capabilities.items.map((item, index) => (
+            <article class="grid gap-5 border-b border-ink-300 py-7 sm:grid-cols-[2.5rem_1.1fr_1.5fr] sm:gap-6 lg:py-9">
+              <span class="font-mono text-[0.6875rem] text-signal">{String(index + 1).padStart(2, '0')}</span>
+              <h3 class="font-display text-[clamp(1.5rem,2.5vw,2.25rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-ink-1000">{item.mandate}</h3>
+              <div>
+                <p class="text-[0.95rem] leading-6 text-ink-700">{item.practice}</p>
+                <p class="mt-4 font-mono text-[0.625rem] uppercase tracking-[0.08em] text-ink-500">
+                  {copy.home.capabilities.evidenceLabel}: <span class="text-ink-900">{item.evidence.join(' · ')}</span>
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section data-page-section="recruiter-fit" class="bg-ink-1000 py-[var(--space-section)] text-paper-50">
+    <Container>
+      <div class="grid gap-12 lg:grid-cols-12 lg:items-start">
+        <div class="lg:col-span-7">
+          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-ink-300">{copy.home.fit.eyebrow}</p>
+          <h2 class="mt-5 max-w-[13ch] text-balance font-display text-[clamp(3rem,5.5vw,6rem)] font-semibold leading-[0.9] tracking-[-0.05em] text-white">
+            {copy.home.fit.heading}
+          </h2>
+        </div>
+        <div class="lg:col-span-5 lg:pt-8">
+          <p class="max-w-[48ch] text-lg leading-8 text-ink-300">{copy.home.fit.summary}</p>
+          <ul class="mt-8 border-t border-ink-700 text-sm text-paper-50">
+            {copy.home.fit.items.map((item, index) => (
+              <li class="flex gap-4 border-b border-ink-700 py-4"><span class="shrink-0 font-mono text-signal">{String(index + 1).padStart(2, '0')}</span>{item}</li>
+            ))}
+          </ul>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href={pathFor('/hire')} class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white hover:bg-white hover:text-ink-1000">
+              {copy.home.fit.primaryLabel} <span class="ml-3" aria-hidden="true">↗</span>
+            </a>
+            <a href={pathFor('/about')} class="inline-flex min-h-12 items-center justify-center border border-ink-700 px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-paper-50 hover:border-paper-50">
+              {copy.home.fit.secondaryLabel}
+            </a>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <div data-page-section="thinking">
+    <Section id="thinking">
+      <Container>
+        <div class="mb-10 flex flex-col gap-6 border-b border-ink-300 pb-7 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">{copy.home.thinking.eyebrow}</p>
+            <h2 class="mt-4 text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-none tracking-[-0.045em] text-ink-1000">{copy.home.thinking.heading}</h2>
+          </div>
+          <a href={pathFor('/insights')} class="inline-flex min-h-11 shrink-0 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
+            {copy.home.thinking.linkLabel} <span class="ml-3" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="grid border-t border-ink-300 md:grid-cols-3 md:border-t-0">
+          {copy.home.thinking.items.map((item, index) => (
+            <a href={`/insights/${item.slug}`} class="group flex min-h-[18rem] flex-col border-b border-ink-300 py-7 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
+              <div class="flex items-center justify-between gap-4 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">
+                <span>{item.label}</span>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+              </div>
+              <h3 class="mt-8 max-w-[18ch] font-display text-[clamp(1.75rem,2.7vw,2.65rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink-1000 transition-colors group-hover:text-signal">{item.title}</h3>
+              <span class="mt-auto pt-8 font-mono text-xs text-ink-700" aria-hidden="true">{copy.home.thinking.readLabel} ↗</span>
+            </a>
+          ))}
+        </div>
+      </Container>
+    </Section>
+  </div>
+
+  <section data-page-section="contact-close" class="border-t border-ink-300 bg-paper-0 py-16 sm:py-24">
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-8">
+          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">{copy.home.close.eyebrow}</p>
+          <h2 class="mt-4 max-w-[17ch] text-balance font-display text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.94] tracking-[-0.045em] text-ink-1000">
+            {copy.home.close.heading}
+          </h2>
+        </div>
+        <div class="lg:col-span-4 lg:text-right">
+          <a href={pathFor('/hire')} class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform hover:-translate-y-0.5">
+            {copy.home.close.cta} <span class="ml-3" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+</Layout>

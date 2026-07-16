@@ -1,0 +1,97 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import Section from '../layout/Section.astro';
+import Eyebrow from '../primitives/Eyebrow.astro';
+import AchievementCard from '../sections/AchievementCard.astro';
+import AsymmetricCard from '../sections/AsymmetricCard.astro';
+import { getAchievements } from '../../data/achievements';
+import { localizedPath, localizedSite, type Locale } from '../../data/localized-site';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = localizedSite[locale];
+const achievements = getAchievements(locale);
+const pathFor = (path: string) => localizedPath(locale, path);
+---
+
+<Layout title={copy.work.title} description={copy.work.description}>
+  <section data-page-section="work-intro" class="border-b border-ink-200 pb-16 pt-36 sm:pb-24 sm:pt-44">
+    <Container>
+      <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-8">
+          <Eyebrow text={copy.work.intro.eyebrow.toUpperCase()} />
+          <h1 class="max-w-[13ch] text-balance font-display text-[clamp(3.25rem,7vw,6.5rem)] font-semibold leading-[0.9] tracking-[-0.055em] text-ink-1000">
+            {copy.work.intro.heading}
+          </h1>
+        </div>
+        <p class="max-w-[42ch] font-body text-lg leading-8 text-ink-700 lg:col-span-4 lg:pb-2">{copy.work.intro.summary}</p>
+      </div>
+    </Container>
+  </section>
+
+  <div data-page-section="achievement-register">
+    <Section id="achievement-register">
+      <Container>
+        <div class="mb-10 flex flex-col gap-4 border-b border-ink-200 pb-6 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p class="font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-ink-500">{copy.work.register.eyebrow}</p>
+            <h2 class="mt-2 text-balance font-display text-[clamp(2rem,4vw,3.75rem)] font-semibold leading-none tracking-[-0.04em] text-ink-1000">{copy.work.register.heading}</h2>
+          </div>
+          <p class="max-w-[34ch] text-sm leading-6 text-ink-600">{copy.work.register.summary}</p>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2">
+          {achievements.map((achievement, index) => (
+            <div class:list={[index === 4 && 'md:col-span-2 lg:max-w-[calc(50%-0.625rem)]']}>
+              <AchievementCard achievement={achievement} index={index} featured={index === 0 || index === 4} labels={copy.achievementLabels} />
+            </div>
+          ))}
+        </div>
+      </Container>
+    </Section>
+  </div>
+
+  <div data-page-section="supporting-cases">
+    <Section id="supporting-cases">
+      <Container>
+        <div class="mb-12 grid gap-6 border-t border-ink-300 pt-8 md:grid-cols-12">
+          <h2 class="text-balance font-display text-[clamp(2.25rem,4vw,4rem)] font-semibold leading-[0.95] tracking-[-0.04em] text-ink-1000 md:col-span-7">{copy.work.supporting.heading}</h2>
+          <p class="max-w-[46ch] text-base leading-7 text-ink-700 md:col-span-5">{copy.work.supporting.summary}</p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          {copy.work.supporting.cards.map((card) => (
+            <div class="flex min-w-0">
+              <AsymmetricCard
+                size="wide"
+                pattern={card.pattern}
+                tag={card.tag}
+                title={card.title}
+                description={card.description}
+                metrics={card.metrics}
+                href={pathFor(`/work/${card.slug}`)}
+              />
+            </div>
+          ))}
+        </div>
+      </Container>
+    </Section>
+  </div>
+
+  <section data-page-section="work-close" class="bg-ink-1000 py-20 text-paper-50 sm:py-28">
+    <Container>
+      <div class="grid gap-10 md:grid-cols-12 md:items-end">
+        <h2 class="max-w-[14ch] text-balance font-display text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-[0.94] tracking-[-0.045em] md:col-span-8">{copy.work.close.heading}</h2>
+        <div class="md:col-span-4 md:text-right">
+          <a href={pathFor('/hire')} class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform hover:-translate-y-0.5">
+            {copy.work.close.cta} <span class="ml-3" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+    </Container>
+  </section>
+</Layout>

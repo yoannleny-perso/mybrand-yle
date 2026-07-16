@@ -1,12 +1,14 @@
 ---
 import Container from '../layout/Container.astro';
+import type { RecruiterHeroCopy } from '../../data/localized-site';
 
 interface Props {
-  primaryLabel?: string;
-  primaryHref?: string;
+  copy: RecruiterHeroCopy;
+  primaryHref: string;
+  secondaryHref: string;
 }
 
-const { primaryLabel = 'Discuss a role', primaryHref = '/hire' } = Astro.props;
+const { copy, primaryHref, secondaryHref } = Astro.props;
 ---
 
 <section class="relative overflow-hidden border-b border-ink-200 pt-32 sm:pt-40 lg:pt-44">
@@ -21,60 +23,79 @@ const { primaryLabel = 'Discuss a role', primaryHref = '/hire' } = Astro.props;
               <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal opacity-30 motion-reduce:animate-none"></span>
               <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-signal"></span>
             </span>
-            Open to senior Data &amp; AI leadership roles
+            {copy.availability}
           </span>
           <span class="text-ink-300" aria-hidden="true">/</span>
-          <span>Bordeaux · Europe</span>
+          <span>{copy.location}</span>
         </div>
 
         <p class="mb-5 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.13em] text-signal">
-          VP / Head of Data &amp; AI
+          {copy.roleLabel}
         </p>
         <h1 class="max-w-[13ch] text-balance font-display text-[clamp(3.25rem,6.7vw,6.75rem)] font-semibold leading-[0.88] tracking-[-0.06em] text-ink-1000">
-          I build the data and AI systems leaders rely on.
+          {copy.headline}
         </h1>
         <p class="mt-8 max-w-[57ch] font-body text-[clamp(1.1rem,1.5vw,1.35rem)] leading-[1.6] text-ink-700">
-          I turn fragmented data, emerging AI, and distributed teams into a clear operating advantage—connecting strategy, platforms, and the way work actually gets done.
+          {copy.summary}
         </p>
 
         <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
           <a href={primaryHref} class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform duration-200 hover:-translate-y-0.5">
-            {primaryLabel}<span class="ml-3 text-base" aria-hidden="true">↗</span>
+            {copy.primaryLabel}<span class="ml-3 text-base" aria-hidden="true">↗</span>
           </a>
-          <a href="/work" class="inline-flex min-h-12 items-center justify-center border border-ink-300 bg-transparent px-6 py-3.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-ink-1000 hover:bg-paper-0">
-            Review achievements<span class="ml-3" aria-hidden="true">→</span>
+          <a href={secondaryHref} class="inline-flex min-h-12 items-center justify-center border border-ink-300 bg-transparent px-6 py-3.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-ink-900 transition-colors hover:border-ink-1000 hover:bg-paper-0">
+            {copy.secondaryLabel}<span class="ml-3" aria-hidden="true">→</span>
           </a>
         </div>
       </div>
 
-      <aside class="relative border border-ink-300 bg-paper-0 p-6 sm:p-8 lg:col-span-4 lg:self-end" aria-label="Recruiter brief">
-        <div class="mb-8 flex items-center justify-between border-b border-ink-200 pb-4">
-          <span class="font-mono text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-ink-500">Recruiter brief</span>
-          <span class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-signal">01 / Fit</span>
-        </div>
+      <aside class="relative overflow-hidden border border-ink-300 bg-paper-0 lg:col-span-4 lg:self-end" aria-label={copy.briefAriaLabel}>
+        <picture>
+          <source srcset="/images/portrait-960.webp" type="image/webp" />
+          <img
+            src="/images/portrait.jpeg"
+            alt={copy.portraitAlt}
+            width="960"
+            height="1280"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            class="aspect-[4/3] w-full border-b border-ink-200 object-cover object-[center_24%] grayscale-[35%]"
+          />
+        </picture>
 
-        <dl class="space-y-6">
-          <div class="grid grid-cols-[5rem_1fr] gap-4">
-            <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">Role</dt>
-            <dd class="text-sm font-semibold leading-5 text-ink-1000">Data &amp; AI executive leadership</dd>
+        <div class="p-6 sm:p-8">
+          <div class="mb-8 flex items-center justify-between gap-4 border-b border-ink-200 pb-4">
+            <span class="font-mono text-[0.625rem] font-semibold uppercase tracking-[0.12em] text-ink-500">{copy.briefLabel}</span>
+            <span class="shrink-0 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-signal">{copy.fitLabel}</span>
           </div>
-          <div class="grid grid-cols-[5rem_1fr] gap-4">
-            <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">Scope</dt>
-            <dd class="text-sm font-semibold leading-5 text-ink-1000">Strategy, platforms, products, teams</dd>
-          </div>
-          <div class="grid grid-cols-[5rem_1fr] gap-4">
-            <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">Reach</dt>
-            <dd class="text-sm font-semibold leading-5 text-ink-1000">International · English / French / Spanish</dd>
-          </div>
-        </dl>
 
-        <div class="mt-9 border-t border-ink-200 pt-6">
-          <p class="mb-5 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">Decision trace</p>
-          <ol class="relative space-y-5 before:absolute before:bottom-2 before:left-[0.3125rem] before:top-2 before:w-px before:bg-ink-300">
-            <li class="relative flex items-center gap-4 text-sm font-medium text-ink-900"><span class="z-10 h-2.5 w-2.5 rounded-full border-2 border-signal bg-paper-0"></span>Set the operating direction</li>
-            <li class="relative flex items-center gap-4 text-sm font-medium text-ink-900"><span class="z-10 h-2.5 w-2.5 rounded-full border-2 border-signal bg-paper-0"></span>Build the enabling system</li>
-            <li class="relative flex items-center gap-4 text-sm font-medium text-ink-900"><span class="z-10 h-2.5 w-2.5 rounded-full bg-signal"></span>Make adoption measurable</li>
-          </ol>
+          <dl class="space-y-6">
+            <div class="grid grid-cols-[minmax(4rem,5rem)_1fr] gap-4">
+              <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{copy.roleTerm}</dt>
+              <dd class="text-sm font-semibold leading-5 text-ink-1000">{copy.roleValue}</dd>
+            </div>
+            <div class="grid grid-cols-[minmax(4rem,5rem)_1fr] gap-4">
+              <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{copy.scopeTerm}</dt>
+              <dd class="text-sm font-semibold leading-5 text-ink-1000">{copy.scopeValue}</dd>
+            </div>
+            <div class="grid grid-cols-[minmax(4rem,5rem)_1fr] gap-4">
+              <dt class="font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{copy.reachTerm}</dt>
+              <dd class="text-sm font-semibold leading-5 text-ink-1000">{copy.reachValue}</dd>
+            </div>
+          </dl>
+
+          <div class="mt-9 border-t border-ink-200 pt-6">
+            <p class="mb-5 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">{copy.decisionTraceLabel}</p>
+            <ol class="relative space-y-5 before:absolute before:bottom-2 before:left-[0.3125rem] before:top-2 before:w-px before:bg-ink-300">
+              {copy.decisionTrace.map((item, index) => (
+                <li class="relative flex items-center gap-4 text-sm font-medium text-ink-900">
+                  <span class:list={['z-10 h-2.5 w-2.5 shrink-0 rounded-full border-2 border-signal', index === copy.decisionTrace.length - 1 ? 'bg-signal' : 'bg-paper-0']}></span>
+                  {item}
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </aside>
     </div>

@@ -58,12 +58,20 @@ const hasLocalizedEquivalent = !unprefixedPath.startsWith('/decisions');
         const homeFor = (l) => (l === defaultLang ? '/' : '/' + l + '/');
         if (path !== '/') return;
 
-        const savedLang = localStorage.getItem('preferred-lang');
-        let targetLang = savedLang;
-        if (!targetLang) {
-          const browserLang = (navigator.language || '').toLowerCase().slice(0, 2);
-          targetLang = supportedLangs.includes(browserLang) ? browserLang : defaultLang;
+        let savedLang = null;
+        try {
+          savedLang = localStorage.getItem('preferred-lang');
+        } catch (_) {
+          // Storage can be unavailable in privacy-restricted browser contexts.
         }
+
+        const normalize = (language) => (language || '').toLowerCase().split('-')[0];
+        const browserLanguages = [
+          ...(Array.isArray(navigator.languages) ? navigator.languages : []),
+          navigator.language,
+        ];
+        const browserLang = browserLanguages.map(normalize).find((language) => supportedLangs.includes(language));
+        const targetLang = supportedLangs.includes(savedLang) ? savedLang : (browserLang || defaultLang);
 
         if (targetLang !== defaultLang) {
           window.location.replace(homeFor(targetLang));
