@@ -1,6 +1,7 @@
 ---
 interface Props { alt: string; orbitLabel: string; eager?: boolean; }
 const { alt, orbitLabel, eager = false } = Astro.props;
+const orbitId = `identity-orbit-${crypto.randomUUID()}`;
 ---
 
 <figure class="identity-lens" data-identity-lens>
@@ -19,8 +20,8 @@ const { alt, orbitLabel, eager = false } = Astro.props;
     </picture>
   </div>
   <svg class="identity-lens__orbit" viewBox="0 0 600 600" aria-hidden="true">
-    <defs><path id="identity-orbit" d="M300,300 m-286,0 a286,286 0 1,1 572,0 a286,286 0 1,1 -572,0" /></defs>
-    <text><textPath href="#identity-orbit">{orbitLabel}</textPath></text>
+    <defs><path id={orbitId} d="M300,300 m-286,0 a286,286 0 1,1 572,0 a286,286 0 1,1 -572,0" /></defs>
+    <text><textPath href={`#${orbitId}`}>{orbitLabel}</textPath></text>
   </svg>
 </figure>
 

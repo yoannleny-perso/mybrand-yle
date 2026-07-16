@@ -1,12 +1,21 @@
 ---
-interface Step { label: string; title: string; signal: 'change' | 'intelligence' | 'outcome'; }
-interface Props { label: string; principle: string; steps: [Step, Step, Step]; }
+import { SIGNAL_SHAPES, type DecisionSteps } from './cinematic-contracts';
+
+interface Props { label: string; principle: string; steps: DecisionSteps; }
 const { label, principle, steps } = Astro.props;
 ---
 
 <section class="decision-trace" aria-label={label}>
   <div class="decision-trace__intro"><span>{label}</span><strong>{principle}</strong></div>
-  {steps.map((step) => <div class="decision-trace__step" data-signal={step.signal}><b>{step.title}</b><span>{step.label}</span></div>)}
+  {steps.map((step) => (
+    <div
+      class="decision-trace__step"
+      data-signal={step.signal}
+      data-signal-shape={SIGNAL_SHAPES[step.signal]}
+    >
+      <b>{step.title}</b><span>{step.label}</span>
+    </div>
+  ))}
 </section>
 
 <style>
@@ -31,11 +40,22 @@ const { label, principle, steps } = Astro.props;
   .decision-trace__step {
     --step-signal: var(--signal-intelligence);
     position: relative;
+    padding-inline-end: clamp(3rem, 5vw, 4rem);
     border-top: 1px solid var(--ink-100);
   }
   .decision-trace__step[data-signal='change'] { --step-signal: var(--signal-change); }
   .decision-trace__step[data-signal='outcome'] { --step-signal: var(--signal-outcome); }
   .decision-trace__step::before { position: absolute; inset: 0 auto 0 0; width: .25rem; background: var(--step-signal); content: ''; }
+  .decision-trace__step::after {
+    position: absolute;
+    inset: clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 2.5vw, 2rem) auto auto;
+    width: .75rem;
+    height: .75rem;
+    background: var(--step-signal);
+    content: '';
+  }
+  .decision-trace__step[data-signal-shape='diamond']::after { transform: rotate(45deg); }
+  .decision-trace__step[data-signal-shape='circle']::after { border-radius: 50%; }
   .decision-trace__step b { color: var(--ink-1000); font-family: var(--font-display); font-size: var(--t-headline-size); line-height: var(--t-headline-line); }
   .decision-trace__step span { color: var(--ink-500); }
   @media (min-width: 56rem) {

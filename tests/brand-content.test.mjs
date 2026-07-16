@@ -185,3 +185,41 @@ test('provides bounded cinematic brand primitives', () => {
   assert.ok(lens.includes('identity-orbit'));
   assert.doesNotMatch(lens, /#9151F6|#E7615F|#087A55|lens-ring|ribbon/i);
 });
+
+test('gives every cinematic signal a visible non-color shape', () => {
+  const contractPath = 'src/components/brand/cinematic-contracts.ts';
+  assert.ok(existsSync(contractPath), `missing ${contractPath}`);
+  const contract = read(contractPath);
+  const trace = read('src/components/brand/DecisionTrace.astro');
+  const evidence = read('src/components/brand/EvidencePanel.astro');
+
+  assert.ok(contract.includes("change: 'square'"));
+  assert.ok(contract.includes("intelligence: 'diamond'"));
+  assert.ok(contract.includes("outcome: 'circle'"));
+  assert.ok(trace.includes('type DecisionSteps'));
+  assert.ok(trace.includes('steps: DecisionSteps'));
+  assert.ok(trace.includes('data-signal-shape={SIGNAL_SHAPES[step.signal]}'));
+  assert.ok(evidence.includes('data-signal-shape={SIGNAL_SHAPES[metric.signal]}'));
+  for (const source of [trace, evidence]) {
+    assert.ok(source.includes("[data-signal-shape='diamond']"));
+    assert.ok(source.includes('rotate(45deg)'));
+    assert.ok(source.includes("[data-signal-shape='circle']"));
+    assert.ok(source.includes('border-radius: 50%'));
+  }
+});
+
+test('keeps evidence metrics valid definition-list groups', () => {
+  const evidence = read('src/components/brand/EvidencePanel.astro');
+
+  assert.match(evidence, /<dt>\{metric\.label\}<\/dt>[\s\S]*?<dd[^>]*>\{metric\.value\}<\/dd>/);
+  assert.match(evidence, /metric\.description && <dd[^>]*>\{metric\.description\}<\/dd>/);
+  assert.doesNotMatch(evidence, /metric\.description && <p>/);
+});
+
+test('gives each identity lens a unique orbit path id', () => {
+  const lens = read('src/components/brand/IdentityLens.astro');
+
+  assert.ok(lens.includes('crypto.randomUUID()'));
+  assert.ok(lens.includes('id={orbitId}'));
+  assert.ok(lens.includes('href={`#${orbitId}`}'));
+});

@@ -10,6 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "node --test tests/brand-content.test.mjs",
+    "test:types": "tsc -p tests/types/tsconfig.json",
     "astro": "astro"
   },
   "dependencies": {
@@ -30,5 +31,8 @@
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2"
   }
 }

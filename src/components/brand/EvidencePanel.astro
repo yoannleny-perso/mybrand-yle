@@ -1,9 +1,11 @@
 ---
+import { SIGNAL_SHAPES, type CinematicSignal } from './cinematic-contracts';
+
 interface Metric {
   value: string;
   label: string;
   description?: string;
-  signal: 'change' | 'intelligence' | 'outcome';
+  signal: CinematicSignal;
 }
 interface Props { label: string; note: string; metrics: Metric[]; }
 const { label, note, metrics } = Astro.props;
@@ -16,10 +18,14 @@ const { label, note, metrics } = Astro.props;
   </header>
   <dl class="evidence-panel__metrics">
     {metrics.map((metric) => (
-      <div class="evidence-panel__metric" data-signal={metric.signal}>
-        <dd>{metric.value}</dd>
+      <div
+        class="evidence-panel__metric"
+        data-signal={metric.signal}
+        data-signal-shape={SIGNAL_SHAPES[metric.signal]}
+      >
         <dt>{metric.label}</dt>
-        {metric.description && <p>{metric.description}</p>}
+        <dd class="evidence-panel__value">{metric.value}</dd>
+        {metric.description && <dd class="evidence-panel__description">{metric.description}</dd>}
       </div>
     ))}
   </dl>
@@ -41,15 +47,27 @@ const { label, note, metrics } = Astro.props;
   .evidence-panel__metric {
     --metric-signal: var(--signal-intelligence);
     position: relative;
+    display: flex;
+    flex-direction: column;
     min-width: 0;
     padding: clamp(1.5rem, 4vw, 3rem);
     border-top: 1px solid var(--ink-700);
   }
   .evidence-panel__metric[data-signal='change'] { --metric-signal: var(--signal-change); }
   .evidence-panel__metric[data-signal='outcome'] { --metric-signal: var(--signal-outcome); }
-  .evidence-panel__metric::before { display: block; width: 2.5rem; height: .25rem; margin-bottom: 2rem; background: var(--metric-signal); content: ''; }
-  .evidence-panel__metric dd {
+  .evidence-panel__metric::before {
+    width: .875rem;
+    height: .875rem;
+    order: 0;
+    margin: 0 0 2rem .15rem;
+    background: var(--metric-signal);
+    content: '';
+  }
+  .evidence-panel__metric[data-signal-shape='diamond']::before { transform: rotate(45deg); }
+  .evidence-panel__metric[data-signal-shape='circle']::before { border-radius: 50%; }
+  .evidence-panel__value {
     overflow-wrap: anywhere;
+    order: 1;
     margin: 0;
     color: var(--paper-0);
     font-family: var(--font-display);
@@ -58,8 +76,8 @@ const { label, note, metrics } = Astro.props;
     letter-spacing: var(--t-display-xl-letter);
     line-height: 1;
   }
-  .evidence-panel__metric dt { margin-top: 1rem; font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: var(--t-meta-weight); letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
-  .evidence-panel__metric p { margin: .75rem 0 0; color: var(--ink-100); font-size: var(--t-body-s-size); line-height: var(--t-body-s-line); }
+  .evidence-panel__metric dt { order: 2; margin-top: 1rem; font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: var(--t-meta-weight); letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  .evidence-panel__description { order: 3; margin: .75rem 0 0; color: var(--ink-100); font-size: var(--t-body-s-size); line-height: var(--t-body-s-line); }
   @media (min-width: 42rem) {
     .evidence-panel__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .evidence-panel__metric { border-left: 1px solid var(--ink-700); }
