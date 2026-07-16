@@ -23,23 +23,85 @@ test('defines the five approved achievement placeholders', () => {
 });
 
 test('puts recruiter proposition and proof on the English homepage', () => {
-  const source = read('src/pages/index.astro');
+  const source = read('src/components/pages/RecruiterHome.astro');
+  const copy = read('src/data/localized-site.ts');
 
   assert.ok(source.includes('RecruiterHero'));
   assert.ok(source.includes('achievements'));
-  assert.ok(source.includes('Discuss a role'));
-  assert.ok(source.includes('40+'));
-  assert.ok(source.includes('$13M+'));
-  assert.ok(source.includes('3 regions'));
+  assert.ok(copy.includes('Discuss a role'));
+  assert.ok(copy.includes('40+'));
+  assert.ok(copy.includes('$13M+'));
+  assert.ok(copy.includes('3 regions'));
 });
 
 test('makes named achievements primary on the English work index', () => {
-  const source = read('src/pages/work/index.astro');
+  const source = read('src/components/pages/WorkIndex.astro');
+  const copy = read('src/data/localized-site.ts');
 
-  assert.ok(source.includes("from '../../data/achievements'"));
+  assert.ok(source.includes('getAchievements'));
   assert.ok(source.includes('AchievementCard'));
-  assert.ok(source.includes('Supporting case studies'));
-  assert.ok(source.includes('/work/enterprise-medallion-stack'));
+  assert.ok(copy.includes('Supporting case studies'));
+  assert.ok(source.includes('enterprise-medallion-stack'));
+});
+
+test('keeps English, French, and Spanish page structure in shared renderers', () => {
+  const routes = [
+    ['src/pages/index.astro', "locale=\"en\""],
+    ['src/pages/fr/index.astro', "locale=\"fr\""],
+    ['src/pages/es/index.astro', "locale=\"es\""],
+    ['src/pages/work/index.astro', "locale=\"en\""],
+    ['src/pages/fr/work/index.astro', "locale=\"fr\""],
+    ['src/pages/es/work/index.astro', "locale=\"es\""],
+  ];
+
+  for (const [route, locale] of routes) {
+    const source = read(route);
+    assert.ok(source.includes(locale), `${route} does not declare ${locale}`);
+    assert.match(source, /(?:RecruiterHome|WorkIndex)/, `${route} does not use a shared renderer`);
+  }
+
+  const home = read('src/components/pages/RecruiterHome.astro');
+  const work = read('src/components/pages/WorkIndex.astro');
+  for (const section of ['hero', 'proof', 'achievements', 'capabilities', 'recruiter-fit', 'thinking', 'contact-close']) {
+    assert.ok(home.includes(`data-page-section=\"${section}\"`), `missing shared home section ${section}`);
+  }
+  for (const section of ['work-intro', 'achievement-register', 'supporting-cases', 'work-close']) {
+    assert.ok(work.includes(`data-page-section=\"${section}\"`), `missing shared work section ${section}`);
+  }
+});
+
+test('contains a complete localized content model for the shared pages', () => {
+  const source = read('src/data/localized-site.ts');
+
+  for (const locale of ['en', 'fr', 'es']) {
+    assert.match(source, new RegExp(`\\b${locale}: \\{`), `missing ${locale} localized copy`);
+  }
+
+  assert.ok(source.includes('I build the data and AI systems leaders can trust.'));
+  assert.ok(source.includes('Je construis les systèmes Data et IA sur lesquels les dirigeants peuvent compter.'));
+  assert.ok(source.includes('Construyo los sistemas de Datos e IA en los que confían los líderes.'));
+});
+
+test('uses browser language on the bare root while preserving an explicit choice', () => {
+  const source = read('src/layouts/Layout.astro');
+
+  assert.ok(source.includes("path !== '/'"));
+  assert.ok(source.includes("localStorage.getItem('preferred-lang')"));
+  assert.ok(source.includes('navigator.languages'));
+  assert.ok(source.includes('navigator.language'));
+  assert.ok(source.includes("window.location.replace(homeFor(targetLang))"));
+});
+
+test('loads an optimized portrait in the landing hero', () => {
+  const source = read('src/components/sections/RecruiterHero.astro');
+
+  assert.ok(source.includes('<picture>'));
+  assert.ok(source.includes('/images/portrait-960.webp'));
+  assert.ok(source.includes('/images/portrait.jpeg'));
+  assert.ok(source.includes('fetchpriority="high"'));
+  assert.ok(source.includes('width="960"'));
+  assert.ok(source.includes('height="1280"'));
+  assert.ok(existsSync('public/images/portrait-960.webp'));
 });
 
 test('provides shared keyboard navigation and active-page semantics', () => {
