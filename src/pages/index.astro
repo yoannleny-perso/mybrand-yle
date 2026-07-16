@@ -2,364 +2,198 @@
 import Layout from '../layouts/Layout.astro';
 import Container from '../components/layout/Container.astro';
 import Section from '../components/layout/Section.astro';
-import Grid from '../components/layout/Grid.astro';
-import Eyebrow from '../components/primitives/Eyebrow.astro';
-import Heading from '../components/primitives/Heading.astro';
-import MetricBlock from '../components/primitives/MetricBlock.astro';
-import Hero from '../components/sections/Hero.tsx';
-import CapabilityList from '../components/sections/CapabilityList.tsx';
-import AsymmetricCard from '../components/sections/AsymmetricCard.astro';
-import TestimonialCrossfade from '../components/sections/TestimonialCrossfade.tsx';
-import OsBlueprint from '../components/visuals/OsBlueprint.astro';
+import AchievementCard from '../components/sections/AchievementCard.astro';
+import ProofStrip from '../components/sections/ProofStrip.astro';
+import RecruiterHero from '../components/sections/RecruiterHero.astro';
+import { achievements } from '../data/achievements';
 
-const heroHeadline = [
-  "Building",
-  "AI-Enabled Operating Systems",
-  "for Modern Organizations."
+const capabilityEvidence = [
+  {
+    mandate: 'Make data useful to leaders',
+    practice: 'Executive reporting, semantic layers, and decision products that make performance legible.',
+    evidence: ['GroupIQ', 'Polaris'],
+  },
+  {
+    mandate: 'Put AI into reliable operation',
+    practice: 'Agentic systems, governed context, evaluation, and human control where decisions carry weight.',
+    evidence: ['Lense Studio', 'Media Data Studio'],
+  },
+  {
+    mandate: 'Turn platforms into adoption',
+    practice: 'Product strategy, operating models, and team rituals that move a system from delivery to daily use.',
+    evidence: ['Cap Ostrea', 'Polaris'],
+  },
 ];
 
-const capabilities = [
+const thinking = [
   {
-    number: "01",
-    title: "Agentic AI Architecture",
-    summary: "Multi-agent systems with deterministic guardrails and audit trails.",
-    slug: "agentic-ai-architecture"
+    label: 'Agentic operations',
+    title: 'Why most agent demos collapse in production',
+    href: '/insights/why-most-agent-demos-collapse-in-production',
   },
   {
-    number: "02",
-    title: "Data & Semantic Platforms",
-    summary: "Medallion lakehouses with a governed semantic layer on top.",
-    slug: "data-platforms"
+    label: 'Data products',
+    title: 'Data as a product, three years on',
+    href: '/insights/data-as-a-product-three-years-on',
   },
   {
-    number: "03",
-    title: "Strategic Data Operations",
-    summary: "Treating data as a product with contracts, SLAs, and lineage.",
-    slug: "strategic-data-ops"
+    label: 'Executive systems',
+    title: 'The ten numbers on a CEO dashboard',
+    href: '/insights/ten-numbers-ceo-dashboard',
   },
-  {
-    number: "04",
-    title: "Team Orchestration",
-    summary: "Designing pods, roles, and rituals that scale beyond 40 experts.",
-    slug: "team-orchestration"
-  },
-  {
-    number: "05",
-    title: "Executive Enablement",
-    summary: "Turning leadership questions into observable operating decisions.",
-    slug: "executive-enablement"
-  }
-];
-
-const testimonials = [
-  {
-    quote: "\"Yoann is the rare leader who can stand at the whiteboard with engineers in the morning and at the executive committee in the afternoon — and move both rooms forward.\"",
-    attribution: "CEO, Global Consulting Firm"
-  },
-  {
-    quote: "\"He didn't just modernize our data stack. He gave us an operating model that the next CTO will inherit and not have to redesign.\"",
-    attribution: "Chief Data Officer, Industrial Group"
-  },
-  {
-    quote: "\"What he calls 'restraint' the rest of us call 'finally seeing the signal'. Yoann removes more than he adds, and that is exactly what senior teams need.\"",
-    attribution: "Partner, Strategy Practice"
-  }
 ];
 ---
 
-<Layout>
-  <!-- SECTION 1 — HERO -->
-  <Hero
-    client:load
-    headlineLines={heroHeadline}
-    subheadline="I help companies turn data, AI, and people into measurable operating advantage."
+<Layout
+  title="Yoann Leny — Data & AI executive leader"
+  description="Data and AI leadership across strategy, platforms, products, and operating models. Explore selected achievements and production case studies."
+>
+  <RecruiterHero primaryLabel="Discuss a role" primaryHref="/hire" />
+
+  <ProofStrip
+    metrics={[
+      { value: '40+', label: 'experts led' },
+      { value: '3 regions', label: 'international scope' },
+      { value: '$13M+', label: 'attributed impact' },
+    ]}
   />
 
-  <!-- THE OPERATING SYSTEM, DRAWN -->
-  <section class="scroll-reveal hidden sm:block pt-8 pb-16 md:pb-24">
+  <Section id="selected-achievements">
     <Container>
-      <OsBlueprint />
-    </Container>
-  </section>
-
-  <div class="hairline max-w-[1440px] mx-auto"></div>
-
-  <!-- SECTION 2 — ABOUT + METRICS -->
-  <Section id="about">
-    <Container>
-      <!-- Eyebrow: fully integrated, subtle, doesn't compete with heading -->
-      <div class="mb-10">
-        <Eyebrow text="02 / 08 — APPROACH" />
+      <div class="mb-12 grid gap-8 border-b border-ink-300 pb-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-8">
+          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">02 / Evidence</p>
+          <h2 class="mt-4 max-w-[15ch] font-display text-[clamp(2.75rem,5.5vw,5.75rem)] font-semibold leading-[0.92] tracking-[-0.05em] text-ink-1000">
+            Products that make the claim concrete.
+          </h2>
+        </div>
+        <div class="lg:col-span-4">
+          <p class="max-w-[42ch] text-base leading-7 text-ink-700">
+            Five named achievements across regulated reporting, people operations, analytics quality, marketplaces, and media data architecture.
+          </p>
+          <a href="/work" class="mt-5 inline-flex min-h-11 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
+            Open the complete work register <span class="ml-3" aria-hidden="true">→</span>
+          </a>
+        </div>
       </div>
 
-      <Grid columns={12}>
-        <!-- LEFT: Copy block — 8pt vertical rhythm throughout -->
-        <div class="col-span-12 lg:col-span-6 flex flex-col gap-8 mb-16 lg:mb-0">
-
-          <!-- Headline: breathable negative space via leading-[1.08] and max-w -->
-          <h2 class="font-display font-black text-ink-900 max-w-[14ch] leading-[1.08] tracking-[-0.03em]"
-              style="font-size: clamp(2.25rem, 4.5vw, 3.75rem);">
-            I build the systems<br />
-            <span class="text-signal">that scale teams.</span>
-          </h2>
-
-          <!-- Body copy: 20px / 1.7 line-height, constrained to 55ch -->
-          <div class="flex flex-col gap-6 max-w-[55ch]">
-            <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700">
-              I have spent the last decade at the intersection of data engineering, AI architecture, and executive operations — building the platforms, agentic workflows, and team structures that turn capability into compounding margin.
-            </p>
-            <p class="font-body text-[1.125rem] leading-[1.75] text-ink-700">
-              Most organizations don't have a tooling problem. They have an <em class="text-ink-900 not-italic font-semibold">operating system</em> problem. Tools are easy. The way decisions, data, models, and people compose into a working whole — that's where leverage lives.
-            </p>
+      <div class="grid gap-5 md:grid-cols-2">
+        {achievements.map((achievement, index) => (
+          <div class:list={[index === 4 && 'md:col-span-2 lg:max-w-[calc(50%-0.625rem)]']}>
+            <AchievementCard achievement={achievement} index={index} featured={index === 0 || index === 4} />
           </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
 
-          <!-- CTA link -->
-          <a href="/work"
-             class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.12em] text-ink-900 border-b-2 border-signal pb-1 w-fit hover:text-signal transition-colors duration-200">
-            See how it works <span class="text-base">→</span>
+  <section id="capabilities" class="border-y border-ink-300 bg-paper-0 py-[var(--space-section)]">
+    <Container>
+      <div class="grid gap-8 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">03 / Capability map</p>
+          <h2 class="mt-4 max-w-[12ch] font-display text-[clamp(2.5rem,4.5vw,4.75rem)] font-semibold leading-[0.94] tracking-[-0.045em] text-ink-1000">
+            Capabilities, attached to proof.
+          </h2>
+          <p class="mt-6 max-w-[36ch] text-base leading-7 text-ink-700">
+            Recruiters should not have to infer the link between a skill and where it has been applied.
+          </p>
+          <a href="/capabilities" class="mt-8 inline-flex min-h-11 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
+            Explore the full practice <span class="ml-3" aria-hidden="true">→</span>
           </a>
         </div>
 
-        <!-- RIGHT: Metrics grid — 8pt gaps, cards sized to content not viewport -->
-        <div class="col-span-12 lg:col-span-5 lg:col-start-8 flex items-start lg:items-center">
-          <!--
-            4-card grid:
-            gap-4 (16px) horizontally, gap-6 (24px) vertically — 8pt multiples.
-            Cards are width-bound by the column, not fixed px.
-          -->
-          <div class="grid grid-cols-2 gap-x-4 gap-y-6 w-full">
-            <MetricBlock label="Revenue impact delivered" value="$13M+" size="large" />
-            <MetricBlock label="Experts orchestrated" value="40+" size="large" />
-            <MetricBlock label="Regions led" value="3" size="large" />
-            <MetricBlock label="Utilization uplift" value="+15%" size="large" />
+        <div class="border-t border-ink-300 lg:col-span-8 lg:border-t-0">
+          {capabilityEvidence.map((item, index) => (
+            <article class="grid gap-5 border-b border-ink-300 py-7 sm:grid-cols-[2.5rem_1.1fr_1.5fr] sm:gap-6 lg:py-9">
+              <span class="font-mono text-[0.6875rem] text-signal">{String(index + 1).padStart(2, '0')}</span>
+              <h3 class="font-display text-[clamp(1.5rem,2.5vw,2.25rem)] font-semibold leading-[1.05] tracking-[-0.035em] text-ink-1000">{item.mandate}</h3>
+              <div>
+                <p class="text-[0.95rem] leading-6 text-ink-700">{item.practice}</p>
+                <p class="mt-4 font-mono text-[0.625rem] uppercase tracking-[0.08em] text-ink-500">
+                  Evidence: <span class="text-ink-900">{item.evidence.join(' · ')}</span>
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <section class="bg-ink-1000 py-[var(--space-section)] text-paper-50">
+    <Container>
+      <div class="grid gap-12 lg:grid-cols-12 lg:items-start">
+        <div class="lg:col-span-7">
+          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-ink-300">04 / Recruiter fit</p>
+          <h2 class="mt-5 max-w-[13ch] font-display text-[clamp(3rem,5.5vw,6rem)] font-semibold leading-[0.9] tracking-[-0.05em] text-white">
+            The right mandate is bigger than a tool choice.
+          </h2>
+        </div>
+        <div class="lg:col-span-5 lg:pt-8">
+          <p class="max-w-[48ch] text-lg leading-8 text-ink-300">
+            I am most useful where a leadership team needs to connect business direction with data and AI delivery—and leave behind an operating system the organization can actually run.
+          </p>
+          <ul class="mt-8 border-t border-ink-700 text-sm text-paper-50">
+            <li class="flex gap-4 border-b border-ink-700 py-4"><span class="font-mono text-signal">01</span>Executive ownership of a data and AI transformation</li>
+            <li class="flex gap-4 border-b border-ink-700 py-4"><span class="font-mono text-signal">02</span>A platform or product portfolio that needs sharper adoption</li>
+            <li class="flex gap-4 border-b border-ink-700 py-4"><span class="font-mono text-signal">03</span>A distributed team that needs a scalable operating model</li>
+          </ul>
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="/hire" class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white hover:bg-white hover:text-ink-1000">
+              Discuss a role <span class="ml-3" aria-hidden="true">↗</span>
+            </a>
+            <a href="/about" class="inline-flex min-h-12 items-center justify-center border border-ink-700 px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-paper-50 hover:border-paper-50">
+              Leadership approach
+            </a>
           </div>
         </div>
-      </Grid>
-    </Container>
-  </Section>
-
-  <div class="hairline max-w-[1440px] mx-auto"></div>
-
-  <!-- SECTION 3 — CAPABILITIES -->
-  <Section id="capabilities">
-    <Container>
-      <div class="mb-12 max-w-3xl">
-        <Eyebrow text="03 / 08 — WHAT I DO" />
-        <h2 class="font-display font-black text-ink-900 mt-4 mb-5 leading-[1.1] tracking-[-0.025em]"
-            style="font-size: clamp(2rem, 4vw, 3rem);">
-          This is how I scale organizations.
-        </h2>
-        <p class="font-body text-[1.125rem] leading-[1.7] text-ink-700 max-w-[52ch]">
-          Five practices, one operating logic. Each row is a system I have built and run in production — not a methodology I read about.
-        </p>
       </div>
     </Container>
-    
-    <div class="max-w-[1440px] mx-auto">
-      <CapabilityList client:visible capabilities={capabilities} />
-    </div>
-  </Section>
+  </section>
 
-  <div class="hairline max-w-[1440px] mx-auto"></div>
-
-  <!-- SECTION 4 — SELECTED WORK -->
-  <Section id="work">
+  <Section id="thinking">
     <Container>
-      <div class="mb-12">
-        <Eyebrow text="04 / 08 — SELECTED WORK" />
-        <h2 class="font-display font-black text-ink-900 mt-4 leading-[1.08] tracking-[-0.03em]"
-            style="font-size: clamp(2rem, 4vw, 3rem);">
-          <span class="block">Production work.</span>
-          <span class="block text-ink-500 font-medium">Measured outcomes.</span>
-        </h2>
-      </div>
-
-      <Grid columns={12} gap="loose">
-        <AsymmetricCard
-          size="tall"
-          pattern="agents"
-          tag="2025 · ENTERPRISE · 18 MONTHS"
-          title="Multi-Agent Skill Tracker"
-          description="A hierarchical agentic system that maintains a live skills graph for 40+ consultants, recommends staffing, and surfaces hiring gaps to leadership weekly."
-          metrics={[
-            { value: "+15%", label: "utilization" },
-            { value: "-22%", label: "bench time" },
-            { value: "3", label: "regions" }
-          ]}
-          href="/work/multi-agent-skill-tracker"
-        />
-
-        <AsymmetricCard
-          size="wide"
-          pattern="layers"
-          tag="2024 · GLOBAL · 12 MONTHS"
-          title="Enterprise Medallion Stack"
-          description="A bronze–silver–gold lakehouse architecture deployed across three regions, with a governed semantic layer feeding analytics, ML, and agent workflows from a single source of truth."
-          metrics={[
-            { value: "$13M+", label: "revenue impact" },
-            { value: "9 mo", label: "to payback" },
-            { value: "0", label: "KPI drift incidents" }
-          ]}
-          href="/work/enterprise-medallion-stack"
-        />
-
-        <AsymmetricCard
-          size="square"
-          pattern="semantic"
-          tag="2024 · MID-MARKET · 6 MONTHS"
-          title="AI-Ready Semantic Layer"
-          description="A metric definition layer designed specifically for LLM and agent consumption, eliminating hallucinated KPIs and standardizing how AI tools query the business."
-          metrics={[
-            { value: "0", label: "KPI drift incidents" },
-            { value: "47", label: "conformed metrics" },
-            { value: "4", label: "LLM consumers" }
-          ]}
-          href="/work/ai-ready-semantic-layer"
-        />
-
-        <AsymmetricCard
-          size="wide"
-          pattern="org"
-          tag="2023 · GLOBAL · 24 MONTHS"
-          title="Global Data Ops Scaling Model"
-          description="An operating model for a 40-person data team across three regions: pod design, role split, ritual cadence, and a custom internal observability layer for delivery health."
-          metrics={[
-            { value: "40+", label: "experts" },
-            { value: "3", label: "regions" },
-            { value: "4 Q", label: "to steady-state" }
-          ]}
-          href="/work/global-data-ops-scaling-model"
-        />
-      </Grid>
-      
-      <div class="mt-16 text-right">
-        <a href="/work" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
-          &rarr; See all work
+      <div class="mb-10 flex flex-col gap-6 border-b border-ink-300 pb-7 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">05 / Thinking</p>
+          <h2 class="mt-4 font-display text-[clamp(2.5rem,5vw,5rem)] font-semibold leading-none tracking-[-0.045em] text-ink-1000">How I make decisions.</h2>
+        </div>
+        <a href="/insights" class="inline-flex min-h-11 items-center border-b border-ink-1000 font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.09em] text-ink-900 hover:text-signal">
+          Browse all thinking <span class="ml-3" aria-hidden="true">→</span>
         </a>
       </div>
+
+      <div class="grid border-t border-ink-300 md:grid-cols-3 md:border-t-0">
+        {thinking.map((item, index) => (
+          <a href={item.href} class="group flex min-h-[18rem] flex-col border-b border-ink-300 py-7 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0 md:last:pr-0">
+            <div class="flex items-center justify-between gap-4 font-mono text-[0.625rem] uppercase tracking-[0.1em] text-ink-500">
+              <span>{item.label}</span>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+            </div>
+            <h3 class="mt-8 max-w-[18ch] font-display text-[clamp(1.75rem,2.7vw,2.65rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-ink-1000 transition-colors group-hover:text-signal">{item.title}</h3>
+            <span class="mt-auto pt-8 font-mono text-xs text-ink-700" aria-hidden="true">Read essay ↗</span>
+          </a>
+        ))}
+      </div>
     </Container>
   </Section>
 
-  <div class="hairline max-w-[1440px] mx-auto"></div>
-
-  <!-- SECTION 5 — LEADERSHIP PHILOSOPHY -->
-  <Section id="philosophy">
+  <section class="border-t border-ink-300 bg-paper-0 py-16 sm:py-24">
     <Container>
-      <Eyebrow text="05 / 08 — PHILOSOPHY" />
-
-      <!-- Pull-quote: constrained width, large italic, generous vertical space -->
-      <div class="max-w-[42ch] mx-auto text-center my-12 md:my-16">
-        <p class="font-display font-semibold italic text-ink-900 leading-[1.35] tracking-[-0.02em]"
-           style="font-size: clamp(1.25rem, 2.5vw, 1.875rem);">
-          Modern organizations don't fail because they lack tools.<br />
-          They fail because they lack an operating system that turns those tools into decisions.
-        </p>
-      </div>
-
-      <!-- Philosophy cards: 4-col grid, each with a tinted surface for variety -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-        <div class="flex flex-col gap-4 bg-[var(--surface-indigo)] rounded-2xl p-8 border border-indigo-100">
-          <div class="w-8 h-[3px] rounded-full bg-signal"></div>
-          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">Data is a product, not a service.</h3>
-          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Owners, contracts, SLAs, deprecation policies — like any product worth running.</p>
+      <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+        <div class="lg:col-span-8">
+          <p class="font-mono text-[0.6875rem] font-semibold uppercase tracking-[0.12em] text-signal">06 / Next conversation</p>
+          <h2 class="mt-4 max-w-[17ch] font-display text-[clamp(2.75rem,5vw,5rem)] font-semibold leading-[0.94] tracking-[-0.045em] text-ink-1000">
+            If the mandate needs both strategic range and operating depth, let's talk.
+          </h2>
         </div>
-        <div class="flex flex-col gap-4 bg-[var(--surface-blue)] rounded-2xl p-8 border border-blue-100">
-          <div class="w-8 h-[3px] rounded-full bg-blue-500"></div>
-          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">AI should upgrade teams into architects.</h3>
-          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Agents handle execution. Humans set the rules execution must respect.</p>
-        </div>
-        <div class="flex flex-col gap-4 bg-[var(--surface-green)] rounded-2xl p-8 border border-emerald-100">
-          <div class="w-8 h-[3px] rounded-full bg-emerald-500"></div>
-          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">Operational visibility is a strategic asset.</h3>
-          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">If a leader cannot see the system, they cannot govern it.</p>
-        </div>
-        <div class="flex flex-col gap-4 bg-[var(--surface-purple)] rounded-2xl p-8 border border-purple-100">
-          <div class="w-8 h-[3px] rounded-full bg-purple-500"></div>
-          <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug">Systems scale what talent alone cannot.</h3>
-          <p class="font-body text-[0.9375rem] leading-relaxed text-ink-700">Hiring fixes throughput for a quarter. Systems fix it forever.</p>
+        <div class="lg:col-span-4 lg:text-right">
+          <a href="/hire" class="inline-flex min-h-12 items-center justify-center bg-signal px-6 py-3.5 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white transition-transform hover:-translate-y-0.5">
+            Discuss a role <span class="ml-3" aria-hidden="true">↗</span>
+          </a>
         </div>
       </div>
     </Container>
-  </Section>
-
-  <div class="hairline max-w-[1440px] mx-auto"></div>
-
-  <!-- SECTION 6 — INSIGHTS / WRITING -->
-  <Section id="insights">
-    <Container>
-      <div class="mb-10">
-        <Eyebrow text="06 / 08 — INSIGHTS" />
-        <h2 class="font-display font-black text-ink-900 mt-4 mb-4 leading-[1.1] tracking-[-0.025em]"
-            style="font-size: clamp(2rem, 4vw, 3rem);">Writing is how I think.</h2>
-        <p class="font-body text-[1.125rem] leading-[1.7] text-ink-700 max-w-[52ch]">
-          Essays and concept entries on data architecture, agentic AI, and the operating model questions that decide whether either of them works.
-        </p>
-      </div>
-
-      <!-- Insight cards: each gets a distinct surface tint for scannability -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-        <a href="/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-indigo)] border border-indigo-100 hover:shadow-[0_8px_32px_rgba(99,102,241,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
-          <div class="flex flex-col gap-4">
-            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-signal">Agentic AI · 5 min read</span>
-            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-signal transition-colors">
-              Why most agent demos collapse in production
-            </h3>
-            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">The gap between a working prototype and a system you can govern.</p>
-          </div>
-          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-Q1 →</span>
-        </a>
-
-        <a href="/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-blue)] border border-blue-100 hover:shadow-[0_8px_32px_rgba(59,130,246,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
-          <div class="flex flex-col gap-4">
-            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-blue-600">Data Architecture · 8 min read</span>
-            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-blue-600 transition-colors">
-              The medallion architecture, decoded
-            </h3>
-            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">Why bronze, silver, gold is not just a naming convention.</p>
-          </div>
-          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-Q1 →</span>
-        </a>
-
-        <a href="/insights" class="group flex flex-col justify-between gap-6 p-8 rounded-2xl bg-[var(--surface-green)] border border-emerald-100 hover:shadow-[0_8px_32px_rgba(16,185,129,0.15)] hover:-translate-y-1 transition-all duration-300 min-h-[280px]">
-          <div class="flex flex-col gap-4">
-            <span class="font-mono text-[0.625rem] font-bold uppercase tracking-[0.12em] text-emerald-600">BI & Analytics · 6 min read</span>
-            <h3 class="font-display font-bold text-[1.125rem] text-ink-900 leading-snug group-hover:text-emerald-600 transition-colors">
-              The semantic layer is the new data API
-            </h3>
-            <p class="font-body text-[0.875rem] leading-relaxed text-ink-700">Why your KPIs need a contract before your agents read them.</p>
-          </div>
-          <span class="font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-500">2026-Q1 →</span>
-        </a>
-      </div>
-      
-      <div class="mt-8 flex justify-end">
-        <a href="/concepts"
-           class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-900 hover:text-signal transition-colors">
-          Browse the full concept library (50+) →
-        </a>
-      </div>
-    </Container>
-  </Section>
-
-  <div class="hairline max-w-[1440px] mx-auto"></div>
-
-  <!-- SECTION 7 — TESTIMONIALS / PROOF -->
-  <Section id="testimonials">
-    <Container>
-      <div class="mb-8">
-        <Eyebrow text="07 / 08 — IN THEIR WORDS" />
-      </div>
-      
-      <TestimonialCrossfade client:visible testimonials={testimonials} />
-      
-      <div class="mt-12 flex justify-center">
-        <a href="/contact"
-           class="inline-flex items-center gap-2 font-mono text-[0.6875rem] font-bold uppercase tracking-[0.1em] text-ink-900 hover:text-signal transition-colors">
-          References available on request →
-        </a>
-      </div>
-    </Container>
-  </Section>
-
+  </section>
 </Layout>
