@@ -107,7 +107,7 @@ const languages = [
               isActive(item.path) ? 'text-signal' : 'text-ink-1000',
             ]}
           >
-            <span>{item.label}</span><span class="font-mono text-[0.625rem] font-normal tracking-normal text-ink-500">0{index + 1}</span>
+            <span>{item.label}</span><span class="font-mono text-[0.625rem] font-normal tracking-normal text-ink-500" aria-hidden="true">0{index + 1}</span>
           </a>
         ))}
       </nav>
