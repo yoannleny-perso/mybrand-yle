@@ -40,13 +40,13 @@ const languages = [
 ];
 ---
 
-<header id="global-header" class="fixed left-0 top-0 z-50 w-full px-4 py-4 transition-[padding] duration-300 sm:px-8 lg:px-[max(72px,6vw)]">
+<header id="global-header" class="fixed left-0 top-0 z-50 w-full px-4 py-4 transition-[padding] duration-300 sm:px-8 xl:px-[max(72px,6vw)]">
   <div class="relative mx-auto flex min-h-14 max-w-[1440px] items-center justify-between rounded-full bg-paper-0/95 px-5 shadow-[0_10px_32px_rgba(5,5,5,.08)]">
     <a href={getLangPath('/')} class="z-50 rounded-full font-display text-xl font-semibold tracking-[-0.035em] text-ink-1000 md:text-2xl" aria-label={t.logoLabel}>
       Yoann Leny<span style="color: var(--signal-intelligence)">.</span>
     </a>
 
-    <nav aria-label="Primary navigation" class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 lg:flex">
+    <nav aria-label="Primary navigation" class="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 xl:flex">
       {navItems.map((item) => (
         <a
           href={getLangPath(item.path)}
@@ -59,7 +59,7 @@ const languages = [
       ))}
     </nav>
 
-    <div class="z-10 hidden items-center gap-5 lg:flex">
+    <div class="z-10 hidden items-center gap-5 xl:flex">
       <div class="flex items-center gap-1" aria-label={t.language}>
         {languages.map((language) => (
           <button
@@ -81,7 +81,7 @@ const languages = [
 
     <button
       type="button"
-      class="relative z-50 -mr-3 inline-flex min-h-12 min-w-12 items-center justify-center text-ink-1000 lg:hidden"
+      class="relative z-50 -mr-3 inline-flex min-h-12 min-w-12 items-center justify-center text-ink-1000 xl:hidden"
       aria-label={t.openMenu}
       data-label-open={t.openMenu}
       data-label-close={t.closeMenu}
@@ -96,7 +96,7 @@ const languages = [
       </svg>
     </button>
 
-    <div id="mobile-menu-overlay" class="fixed inset-0 z-40 flex translate-x-full flex-col justify-between px-6 pb-8 pt-28 transition-transform duration-300 sm:px-12 lg:hidden" style="background-color: var(--paper-0)" role="dialog" aria-modal="true" aria-label={t.openMenu} aria-hidden="true" inert>
+    <div id="mobile-menu-overlay" class="fixed inset-0 z-40 flex translate-x-full flex-col justify-between px-6 pb-8 pt-28 transition-transform duration-300 sm:px-12 xl:hidden" style="background-color: var(--paper-0)" role="dialog" aria-modal="true" aria-label={t.openMenu} aria-hidden="true" inert>
       <nav aria-label="Mobile navigation" class="flex flex-col border-t border-ink-100">
         {navItems.map((item, index) => (
           <a

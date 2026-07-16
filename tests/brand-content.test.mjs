@@ -125,13 +125,19 @@ test('keeps the cinematic shell accessible and locale aware', () => {
   assert.ok(header.includes('aria-current'));
   assert.ok(header.includes("event.key === 'Escape'"));
   assert.ok(header.includes('data-lang-switch'));
-  assert.ok(header.includes('preferred-lang'));
+  assert.ok(header.includes("localStorage.setItem('preferred-lang', targetLang)"));
+  assert.ok(header.includes("document.body.style.overflow = 'hidden'"));
+  assert.ok(header.includes('document.body.style.overflow = previousOverflow'));
+  assert.ok(header.includes('if (restoreFocus) btn.focus()'));
+  assert.equal((header.match(/xl:flex/g) ?? []).length, 2);
+  assert.equal((header.match(/xl:hidden/g) ?? []).length, 2);
+  assert.doesNotMatch(header, /\blg:(?:flex|hidden)\b/);
   assert.ok(footer.includes("Astro.currentLocale"));
   assert.ok(layout.includes("if (path !== '/') return"));
   assert.ok(layout.includes('navigator.languages'));
   assert.ok(layout.includes("localStorage.getItem('preferred-lang')"));
   assert.ok(layout.includes('window.location.replace(homeFor(targetLang))'));
-  assert.ok(prose.includes('max-width'));
+  assert.ok(prose.includes('max-width: 72ch'));
   assert.doesNotMatch(header + footer, /#2446FF|surface-indigo|surface-purple/i);
 });
 
