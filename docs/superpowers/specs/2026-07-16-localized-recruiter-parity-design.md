@@ -1,7 +1,7 @@
 # Localized Recruiter Experience Parity
 
-**Date:** 2026-07-16  
-**Status:** Approved direction, implementation pending  
+**Date:** 2026-07-16
+**Status:** Approved direction, implementation pending
 **Scope:** English, French, and Spanish Home and Work experiences; shared browser-language selection; recruiter-hero portrait
 
 ## Objective
