@@ -60,3 +60,11 @@ test('uses an Open Graph image that exists in public assets', () => {
   assert.ok(layout.includes("'/og/home.png'"));
   assert.ok(existsSync('public/og/home.png'));
 });
+
+test('caps shared display type for readable page openings', () => {
+  const tokens = read('src/styles/tokens.css');
+
+  assert.ok(tokens.includes('--t-display-xl-size: clamp(44px, 6vw, 80px)'));
+  assert.ok(tokens.includes('--t-display-l-size: clamp(40px, 5vw, 72px)'));
+  assert.doesNotMatch(tokens, /--t-display-(?:xl|l)-size:[^;]*100px/);
+});

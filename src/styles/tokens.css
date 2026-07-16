@@ -36,14 +36,14 @@
   --font-mono:    'JetBrains Mono', monospace;
 
   /* Type Scale */
-  --t-display-xl-size: clamp(60px, 8vw, 100px);
-  --t-display-xl-line: 1.05;
-  --t-display-xl-letter: -0.03em;
+  --t-display-xl-size: clamp(44px, 6vw, 80px);
+  --t-display-xl-line: 1.02;
+  --t-display-xl-letter: -0.045em;
   --t-display-xl-weight: 800;
 
-  --t-display-l-size: clamp(48px, 6vw, 80px);
-  --t-display-l-line: 1.1;
-  --t-display-l-letter: -0.02em;
+  --t-display-l-size: clamp(40px, 5vw, 72px);
+  --t-display-l-line: 1.04;
+  --t-display-l-letter: -0.035em;
   --t-display-l-weight: 800;
 
   --t-display-m-size: clamp(32px, 4vw, 48px);

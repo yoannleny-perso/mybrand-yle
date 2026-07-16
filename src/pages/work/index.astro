@@ -64,42 +64,50 @@ import { achievements } from '../../data/achievements';
       </div>
 
       <div class="grid gap-6 md:grid-cols-2">
-        <AsymmetricCard
-          size="wide"
-          pattern="agents"
-          tag="AGENTIC AI · OPERATING MODEL"
-          title="Multi-Agent Skill Tracker"
-          description="A hierarchical agent system maintaining a live skills graph for 40+ consultants and supporting staffing decisions across three regions."
-          metrics={[{ value: '40+', label: 'experts' }, { value: '3', label: 'regions' }, { value: '-22%', label: 'bench time' }]}
-          href="/work/multi-agent-skill-tracker"
-        />
-        <AsymmetricCard
-          size="wide"
-          pattern="layers"
-          tag="DATA PLATFORM · GOVERNANCE"
-          title="Enterprise Medallion Stack"
-          description="A governed bronze–silver–gold lakehouse with one semantic layer for analytics, machine learning, and agent workflows."
-          metrics={[{ value: '$13M+', label: 'impact' }, { value: '9 mo', label: 'payback' }, { value: '0', label: 'KPI drift' }]}
-          href="/work/enterprise-medallion-stack"
-        />
-        <AsymmetricCard
-          size="wide"
-          pattern="semantic"
-          tag="SEMANTIC LAYER · AI"
-          title="AI-Ready Semantic Layer"
-          description="A metric layer redesigned for LLM and agent consumption, standardizing how AI systems read the business."
-          metrics={[{ value: '47', label: 'metrics' }, { value: '4', label: 'AI consumers' }, { value: '0', label: 'KPI drift' }]}
-          href="/work/ai-ready-semantic-layer"
-        />
-        <AsymmetricCard
-          size="wide"
-          pattern="org"
-          tag="LEADERSHIP · OPERATING MODEL"
-          title="Global Data Ops Scaling Model"
-          description="An operating model for a distributed data function: pod design, role boundaries, delivery rituals, and a view of organizational health."
-          metrics={[{ value: '40+', label: 'experts' }, { value: '3', label: 'regions' }, { value: '4 Q', label: 'to steady state' }]}
-          href="/work/global-data-ops-scaling-model"
-        />
+        <div class="flex">
+          <AsymmetricCard
+            size="wide"
+            pattern="agents"
+            tag="AGENTIC AI · OPERATING MODEL"
+            title="Multi-Agent Skill Tracker"
+            description="A hierarchical agent system maintaining a live skills graph for 40+ consultants and supporting staffing decisions across three regions."
+            metrics={[{ value: '40+', label: 'experts' }, { value: '3', label: 'regions' }, { value: '-22%', label: 'bench time' }]}
+            href="/work/multi-agent-skill-tracker"
+          />
+        </div>
+        <div class="flex">
+          <AsymmetricCard
+            size="wide"
+            pattern="layers"
+            tag="DATA PLATFORM · GOVERNANCE"
+            title="Enterprise Medallion Stack"
+            description="A governed bronze–silver–gold lakehouse with one semantic layer for analytics, machine learning, and agent workflows."
+            metrics={[{ value: '$13M+', label: 'impact' }, { value: '9 mo', label: 'payback' }, { value: '0', label: 'KPI drift' }]}
+            href="/work/enterprise-medallion-stack"
+          />
+        </div>
+        <div class="flex">
+          <AsymmetricCard
+            size="wide"
+            pattern="semantic"
+            tag="SEMANTIC LAYER · AI"
+            title="AI-Ready Semantic Layer"
+            description="A metric layer redesigned for LLM and agent consumption, standardizing how AI systems read the business."
+            metrics={[{ value: '47', label: 'metrics' }, { value: '4', label: 'AI consumers' }, { value: '0', label: 'KPI drift' }]}
+            href="/work/ai-ready-semantic-layer"
+          />
+        </div>
+        <div class="flex">
+          <AsymmetricCard
+            size="wide"
+            pattern="org"
+            tag="LEADERSHIP · OPERATING MODEL"
+            title="Global Data Ops Scaling Model"
+            description="An operating model for a distributed data function: pod design, role boundaries, delivery rituals, and a view of organizational health."
+            metrics={[{ value: '40+', label: 'experts' }, { value: '3', label: 'regions' }, { value: '4 Q', label: 'to steady state' }]}
+            href="/work/global-data-ops-scaling-model"
+          />
+        </div>
       </div>
     </Container>
   </Section>

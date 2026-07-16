@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://yoannleny.com',
+  devToolbar: { enabled: false },
   integrations: [react(), mdx()],
   i18n: {
     defaultLocale: 'en',
