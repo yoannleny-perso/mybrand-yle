@@ -1,0 +1,66 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import CinematicIntro from '../brand/CinematicIntro.astro';
+import { SIGNAL_SHAPES, type CinematicSignal } from '../brand/cinematic-contracts';
+
+export type Grade = 'aged-well' | 'mixed' | 'wrong';
+export interface Decision { date: string; title: string; bet: string; grade: Grade; retro: string; }
+interface Props { locale: 'en'; decisions: Decision[]; }
+const { locale, decisions } = Astro.props;
+const gradeStyles: Record<Grade, { label: string; signal: CinematicSignal }> = {
+  'aged-well': { label: 'Aged well', signal: 'outcome' },
+  'mixed': { label: 'Mixed', signal: 'change' },
+  'wrong': { label: 'Wrong', signal: 'intelligence' },
+};
+
+export const decisions: Decision[] = [
+  { date: '2025', title: 'Deterministic guardrails over prompt-based safety', bet: 'For the multi-agent skill tracker, every irreversible action was gated by code-enforced boundaries rather than instructions in the prompt, despite the extra build time.', grade: 'aged-well', retro: 'The system survived its first genuinely adversarial inputs without an incident. The prompt-only pilots I benchmarked against in the same period all had at least one visible failure. I now consider this non-negotiable, and wrote the reasoning up as a concept entry.' },
+  { date: '2025', title: 'Bet that agent frameworks would consolidate quickly', bet: 'I advised standardizing early on a single orchestration framework, expecting the ecosystem to converge within a year and early standardization to pay off.', grade: 'wrong', retro: 'The ecosystem did not consolidate; it fragmented further, and the framework we standardized on changed its core abstractions twice. What actually held value was the layer underneath — versioned tools with contracts. I now keep framework coupling thin and treat the tool catalog as the durable asset.' },
+  { date: '2024', title: 'Semantic layer before more AI features', bet: 'When an internal AI assistant reported a wrong churn number to the CFO, the popular fix was better prompts. I froze new AI features for a quarter and built a governed metric layer instead.', grade: 'aged-well', retro: 'Zero KPI drift incidents since launch, and every subsequent AI feature shipped faster because definitions were already machine-readable. Freezing visible features to fix an invisible layer was unpopular for exactly one quarter.' },
+  { date: '2024', title: 'Open table formats over a single-vendor engine', bet: 'For the enterprise medallion build, I kept all storage on open formats even though the vendor-native path was faster to ship and the sales pressure to go native was considerable.', grade: 'aged-well', retro: "Two years later the client renegotiated compute pricing from a position of strength because the data was portable. The 'slower' path cost us roughly six weeks up front and returned it many times over in leverage." },
+  { date: '2023', title: 'Lakehouse over regional warehouses', bet: 'Three regions each wanted to keep their own warehouse with a sync layer on top. I bet the political capital on one lakehouse with asymmetric regional replication instead.', grade: 'aged-well', retro: 'The quarterly number-reconciliation ritual disappeared, and the ML and agent workloads that arrived in 2024–2025 would have been unbuildable on the federated design. The political fight was real, and worth it.' },
+  { date: '2023', title: 'Domain pods over a bigger central team', bet: 'With delivery slowing at 40 people, the default request was more hiring into the central team. I reorganized into domain pods with a platform pod instead, and froze hiring for two quarters.', grade: 'aged-well', retro: 'Throughput per head recovered to what it had been at half the size. One caveat I under-called: two pod leads needed a different job than the one they thought they had accepted, and I paid a quarter of drift for not writing the role down earlier.' },
+  { date: '2022', title: 'Betting on a data catalog to fix discovery', bet: "I sponsored a full enterprise data catalog rollout, expecting tooling to solve the 'nobody knows what data exists' problem.", grade: 'wrong', retro: 'Adoption never crossed 20%. The catalog documented a mess instead of fixing it. What worked later was ownership plus deprecation — fewer, named, maintained data products need less discovery tooling. I now treat catalogs as the last 10%, not the first.' },
+  { date: '2022', title: 'Delaying streaming adoption', bet: 'Against strong internal enthusiasm, I kept the stack on well-operated batch and micro-batch, arguing that no decision at the company actually needed sub-minute data.', grade: 'mixed', retro: "Right for two years — we saved significant complexity and cost. But I held the position about six months too long: one pricing use case genuinely needed streaming, and we started it late. The lesson is not 'streaming yes/no' but re-testing the assumption on a schedule." },
+  { date: '2021', title: 'Standardizing transformations on dbt early', bet: 'I moved all transformation logic to dbt when it was still a contrarian choice in the enterprise, betting that version-controlled, tested SQL would outlast hand-rolled pipeline code.', grade: 'aged-well', retro: 'The codebase survived two platform migrations precisely because transformations were portable and tested. Some early macros aged into technical debt — discipline about macro complexity matters more than I appreciated at the time.' },
+];
+---
+
+<Layout title="Decision Log — Yoann Leny" description="Dated technical bets and how they aged — including the wrong ones. Architecture and operating-model decisions with honest retrospectives.">
+  <section class="decision-intro"><Container size="wide"><CinematicIntro eyebrow="Decision Log" title="Calls I made, and how they aged." summary="Anyone can list successes. Judgment shows in the dated record: what I bet, what it cost, and what I got wrong. Engagements are anonymized; the decisions and outcomes are real." variant="utility" accent="outcome" /></Container></section>
+
+  <section class="decision-log" lang={locale}><Container><div class="decision-register">{decisions.map((decision, index) => { const grade = gradeStyles[decision.grade]; return <article><div class="decision-register__rail"><span>{String(index + 1).padStart(2, '0')}</span><i data-signal={grade.signal} data-signal-shape={SIGNAL_SHAPES[grade.signal]} aria-hidden="true"></i></div><div class="decision-register__heading"><p>{decision.date}</p><p class="grade"><span class="grade__symbol" aria-hidden="true">{decision.grade === 'aged-well' ? '✓' : decision.grade === 'mixed' ? '±' : '×'}</span>{grade.label}</p><h2>{decision.title}</h2></div><div class="decision-register__review"><p><strong>The bet: </strong>{decision.bet}</p><p><strong>How it aged: </strong>{decision.retro}</p></div></article>})}</div><p class="scoring-rule">Scoring rule: a decision is "aged well" only if I would make the same call again with the same information. Reviewed and extended as engagements close.</p></Container></section>
+
+  <section class="decision-close"><Container><div><h2>Want to interrogate one of these?</h2><nav aria-label="Decision log actions"><a href="/contact">Start a conversation <span aria-hidden="true">→</span></a><a href="/hire">The hiring page</a></nav></div></Container></section>
+</Layout>
+
+<style>
+  .decision-intro { border-bottom: 1px solid var(--ink-100); background: var(--paper-0); }
+  .decision-log { padding-block: var(--space-section); background: var(--paper-50); }
+  .decision-register { border-top: 1px solid var(--ink-300); }
+  .decision-register article { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.25rem; padding-block: clamp(2rem, 5vw, 3.5rem); border-bottom: 1px solid var(--ink-300); }
+  .decision-register__rail { display: flex; gap: 1rem; align-items: center; }
+  .decision-register__rail > span, .decision-register__heading > p, .grade { margin: 0; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .decision-register__rail i { width: .75rem; height: .75rem; flex: 0 0 auto; background: var(--signal-intelligence); }
+  .decision-register__rail i[data-signal='change'] { background: var(--signal-change); }
+  .decision-register__rail i[data-signal='outcome'] { background: var(--signal-outcome); }
+  .decision-register__rail i[data-signal-shape='diamond'] { transform: rotate(45deg); }
+  .decision-register__rail i[data-signal-shape='circle'] { border-radius: 50%; }
+  .decision-register__heading { display: grid; gap: .75rem; align-content: start; }
+  .grade { display: inline-flex; gap: .5rem; align-items: center; color: var(--ink-700); }
+  .grade__symbol { display: inline-grid; width: 1.4rem; height: 1.4rem; place-items: center; border: 1px solid var(--ink-500); color: var(--ink-1000); line-height: 1; }
+  .decision-register h2 { max-width: 22ch; margin: .5rem 0 0; font-family: var(--font-display); font-size: var(--t-headline-size); line-height: var(--t-headline-line); }
+  .decision-register__review { display: grid; gap: 1.25rem; }
+  .decision-register__review p { max-width: 48rem; margin: 0; color: var(--ink-700); font-size: var(--t-body-s-size); line-height: var(--t-body-s-line); }
+  .decision-register__review p + p { padding-top: 1.25rem; border-top: 1px solid var(--ink-100); }
+  .decision-register__review strong { color: var(--ink-1000); }
+  .scoring-rule { max-width: 60rem; margin: 3rem 0 0; color: var(--ink-500); font-size: var(--t-body-s-size); font-style: italic; line-height: var(--t-body-s-line); }
+  .decision-close { padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); }
+  .decision-close > :global(div) > div { display: grid; gap: 2rem; }
+  .decision-close h2 { max-width: 18ch; margin: 0; font-family: var(--font-display); font-size: var(--t-display-m-size); }
+  .decision-close nav { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .decision-close a { display: inline-flex; align-items: center; min-height: 44px; padding: .75rem 1rem; border: 1px solid var(--ink-700); color: var(--paper-0); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-decoration: none; text-transform: uppercase; }
+  .decision-close a:first-child { border-color: var(--paper-0); background: var(--paper-0); color: var(--ink-1000); }
+  @media (min-width: 48rem) { .decision-register article { grid-template-columns: 4rem minmax(13rem, .7fr) minmax(22rem, 1.3fr); column-gap: clamp(1.5rem, 5vw, 4rem); } .decision-register__rail { flex-direction: column; align-items: start; } .decision-close > :global(div) > div { grid-template-columns: minmax(0, 1fr) auto; align-items: end; } }
+</style>

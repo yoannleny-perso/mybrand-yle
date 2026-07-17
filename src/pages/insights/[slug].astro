@@ -1,83 +1,11 @@
 ---
-import { getCollection, render } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import Container from '../../components/layout/Container.astro';
-import Section from '../../components/layout/Section.astro';
-import Eyebrow from '../../components/primitives/Eyebrow.astro';
-import Heading from '../../components/primitives/Heading.astro';
-import Prose from '../../components/primitives/Prose.astro';
+import { getCollection } from 'astro:content';
+import InsightDetail from '../../components/pages/InsightDetail.astro';
 
 export async function getStaticPaths() {
   const insights = await getCollection('insights');
-  return insights.map(entry => ({
-    params: { slug: entry.data.slug || entry.id },
-    props: { entry },
-  }));
+  return insights.map((entry) => ({ params: { slug: entry.data.slug || entry.id }, props: { entry } }));
 }
-
 const { entry } = Astro.props;
-const { Content } = await render(entry);
 ---
-
-<Layout title={`${entry.data.title} — Insight — Yoann Leny`} description={entry.data.dek || entry.data.title}>
-
-  <div class="reading-progress" aria-hidden="true"></div>
-
-  <Section id="header">
-    <Container size="narrow">
-      <div class="pt-24 pb-8">
-        <div class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-500 mb-8 border-b border-ink-100 pb-4">
-          {entry.data.cluster || entry.data.tags?.[0] || 'INSIGHT'} &middot; {entry.data.readingTime || '10'} MIN READ &middot; PUBLISHED {entry.data.publishedAt || '2026'}
-        </div>
-
-        <Heading level={1} as="h1" class="mb-6 max-w-[18ch]">
-          {entry.data.title}
-        </Heading>
-
-        {entry.data.dek && (
-          <p class="font-body text-[length:var(--t-body-l-size)] leading-[var(--t-body-l-line)] text-ink-500 max-w-[60ch]">
-            {entry.data.dek}
-          </p>
-        )}
-      </div>
-    </Container>
-  </Section>
-
-  {entry.data.heroImage && (
-    <section class="w-full relative scroll-reveal max-w-5xl mx-auto my-8">
-      <div class="w-full aspect-[21/9] bg-ink-100 relative">
-        <img src={entry.data.heroImage} alt="" class="w-full h-full object-cover grayscale mix-blend-multiply opacity-80" />
-      </div>
-    </section>
-  )}
-
-  <Section id="content">
-    <Container size="narrow">
-      <Prose>
-        <Content />
-      </Prose>
-      
-      <!-- Author Signature Block -->
-      <div class="mt-24 pt-12 border-t border-ink-100 flex items-start gap-6">
-        <div class="w-16 h-16 rounded-full overflow-hidden border border-ink-100 shadow-card shrink-0">
-          <img src="/images/portrait.jpeg" alt="Yoann Leny" class="w-full h-full object-cover grayscale contrast-[1.05]" style="object-position: 50% 22%;" loading="lazy" />
-        </div>
-        <div>
-          <div class="font-display text-[length:var(--t-headline-size)] mb-2">Yoann Leny</div>
-          <p class="font-body text-[length:var(--t-body-s-size)] text-ink-700 max-w-md mb-4">
-            Building data and AI operating systems. I write about architecture, operations, and the invisible systems that make or break both.
-          </p>
-          <a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer" class="font-mono text-[length:var(--t-meta-size)] uppercase tracking-[var(--t-meta-letter)] text-ink-1000 hover:text-ink-500 transition-colors">
-            &rarr; Connect on LinkedIn
-          </a>
-        </div>
-      </div>
-      
-      <!-- Comment Policy -->
-      <div class="mt-16 text-center font-body text-[length:var(--t-body-s-size)] text-ink-500 italic">
-        I don't host comments. Email or LinkedIn welcome.
-      </div>
-    </Container>
-  </Section>
-
-</Layout>
+<InsightDetail locale="en" entry={entry} />

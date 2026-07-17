@@ -1,0 +1,92 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import ArticleFrame from '../brand/ArticleFrame.astro';
+import Prose from '../primitives/Prose.astro';
+import type { Locale } from '../../data/localized-site';
+
+interface Props {
+  locale: Locale;
+  entry: CollectionEntry<'insights'>;
+}
+
+const { locale, entry } = Astro.props;
+const { Content } = await render(entry);
+
+const detailCopy = {
+  en: {
+    kind: 'Insight', read: 'min read', published: 'Published', noticeLabel: 'English content notice', notice: null,
+    author: 'Building data and AI operating systems. I write about architecture, operations, and the invisible systems that make or break both.',
+    linkedIn: 'Connect on LinkedIn', comments: "I don't host comments. Email or LinkedIn welcome.",
+  },
+  fr: {
+    kind: 'Analyse', read: 'min de lecture', published: 'Publié en', noticeLabel: 'Note sur le contenu en anglais',
+    notice: "Ce contenu est rédigé et maintenu en anglais — la référence technique reste dans sa langue d'origine.",
+    author: "Concepteur de systèmes d'exploitation de données et d'IA. J'écris sur l'architecture, les opérations et les systèmes invisibles qui font ou défont les deux.",
+    linkedIn: 'Me rejoindre sur LinkedIn', comments: "Je n'héberge pas de commentaires. Les échanges par email ou LinkedIn sont les bienvenus.",
+  },
+  es: {
+    kind: 'Ensayo', read: 'min de lectura', published: 'Publicado en', noticeLabel: 'Aviso de contenido en inglés',
+    notice: 'Este contenido se redacta y mantiene en inglés — la referencia técnica permanece en su idioma original.',
+    author: 'Diseñador de sistemas operativos de datos e IA. Escribo sobre arquitectura, operaciones y los sistemas invisibles que construyen o destruyen a ambos.',
+    linkedIn: 'Conectar en LinkedIn', comments: 'No tengo sección de comentarios. Tus comentarios por correo o LinkedIn son bienvenidos.',
+  },
+} as const;
+
+const clusterLabels: Record<Locale, Record<string, string>> = {
+  en: {},
+  fr: { 'AGENTIC AI': 'IA AGENTIQUE', 'DATA ARCHITECTURE': 'ARCHITECTURE', 'DATA ENGINEERING': 'INGÉNIERIE', 'BI & ANALYTICS': 'BI & DÉCISIONNEL', 'OPERATING MODEL': 'MODÈLE OPÉRATIONNEL', EXECUTIVE: 'EXÉCUTIF' },
+  es: { 'AGENTIC AI': 'IA AGÉNTICA', 'DATA ARCHITECTURE': 'ARQUITECTURA', 'DATA ENGINEERING': 'INGENIERÍA', 'BI & ANALYTICS': 'BI Y ANALÍTICA', 'OPERATING MODEL': 'MODELO OPERATIVO', EXECUTIVE: 'EJECUTIVO' },
+};
+const copy = detailCopy[locale];
+const cluster = entry.data.cluster || entry.data.tags?.[0]?.replace(/-/g, ' ').toUpperCase() || copy.kind;
+const metadata = [
+  clusterLabels[locale][cluster] || cluster,
+  `${entry.data.readingTime || '10'} ${copy.read}`,
+  `${copy.published} ${entry.data.publishedAt || '2026'}`,
+];
+---
+
+<Layout title={`${entry.data.title} — ${copy.kind} — Yoann Leny`} description={entry.data.dek || entry.data.title}>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <Container>
+    <div class="knowledge-detail">
+      <ArticleFrame eyebrow={copy.kind} title={entry.data.title} dek={entry.data.dek} metadata={metadata} accent="intelligence">
+        {entry.data.heroImage && <figure class="article-image"><img src={entry.data.heroImage} alt="" /></figure>}
+
+        {copy.notice && (
+          <aside class="language-notice" aria-label={copy.noticeLabel}>
+            <span lang="en">EN</span><p>{copy.notice}</p>
+          </aside>
+        )}
+
+        <Prose><Content /></Prose>
+
+        <footer class="article-footer">
+          <img src="/images/portrait.jpeg" alt="Yoann Leny" loading="lazy" />
+          <div><h2>Yoann Leny</h2><p>{copy.author}</p><a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer">{copy.linkedIn} <span aria-hidden="true">↗</span></a></div>
+        </footer>
+        <p class="comment-policy">{copy.comments}</p>
+      </ArticleFrame>
+    </div>
+  </Container>
+</Layout>
+
+<style>
+  .knowledge-detail :global(.article-frame__header h1) { max-width: 19ch; font-size: var(--t-display-m-size); }
+  .knowledge-detail :global(.prose-content pre) { max-width: 100%; overflow-x: auto; padding: 1rem; background: var(--paper-50); }
+  .article-image { margin: 0 0 clamp(2.5rem, 7vw, 6rem); overflow: hidden; border-block: 1px solid var(--ink-100); }
+  .article-image img { display: block; width: 100%; height: auto; }
+  .language-notice, .article-footer, .comment-policy { max-width: 72ch; margin-inline: auto; }
+  .language-notice { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1rem; margin-bottom: 3rem; padding-block: 1rem; border-block: 1px solid var(--ink-100); }
+  .language-notice span, .language-notice p { margin: 0; }
+  .language-notice span { color: var(--signal-intelligence); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; }
+  .language-notice p, .article-footer p { color: var(--ink-700); font-size: var(--t-body-s-size); line-height: var(--t-body-s-line); }
+  .article-footer { display: grid; grid-template-columns: 4rem minmax(0, 1fr); gap: 1.5rem; margin-top: clamp(4rem, 9vw, 7rem); padding-top: 2rem; border-top: 1px solid var(--ink-100); }
+  .article-footer img { width: 4rem; height: 4rem; object-fit: cover; object-position: 50% 22%; filter: grayscale(1); }
+  .article-footer h2 { margin: 0 0 .5rem; font-family: var(--font-display); font-size: var(--t-headline-size); }
+  .article-footer p { max-width: 36rem; margin: 0 0 1rem; }
+  .article-footer a { color: var(--ink-1000); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .comment-policy { margin-top: 3rem; margin-bottom: var(--space-section); color: var(--ink-500); font-size: var(--t-body-s-size); font-style: italic; text-align: center; }
+</style>

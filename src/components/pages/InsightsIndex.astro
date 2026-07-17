@@ -1,0 +1,135 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import CinematicIntro from '../brand/CinematicIntro.astro';
+import { localizedPath, type Locale } from '../../data/localized-site';
+
+interface Props { locale: Locale; entries: CollectionEntry<'insights'>[]; }
+const { locale, entries } = Astro.props;
+const pathFor = (path: string) => localizedPath(locale, path);
+
+const copy = {
+  en: {
+    title: 'Insights — Yoann Leny', description: 'Essays on data architecture, agentic AI, and the operating model behind both. Updated regularly.', eyebrow: 'Insights', heading: 'Writing is how I think.',
+    summary: 'Essays on the questions that decide whether data and AI deliver — operating models, architectural choices, and the soft systems that hold both together.', conceptLead: 'For reference material on specific concepts, see the', conceptLink: 'concept library',
+    filters: [['all', 'All'], ['AGENTIC AI', 'Agentic AI'], ['DATA ARCHITECTURE', 'Data Architecture'], ['DATA ENGINEERING', 'Data Engineering'], ['BI & ANALYTICS', 'BI & Analytics'], ['OPERATING MODEL', 'Operating Model'], ['EXECUTIVE', 'Executive']],
+    featured: 'Featured · Agentic AI', featuredTitle: 'Why most agent demos collapse in production.', featuredDek: 'Probabilistic systems can be built in a weekend. Governable ones take a year. The gap between the two is where most AI initiatives quietly fail.', featuredMeta: '14 MIN READ · LAST REVIEWED MARCH 2026', read: 'Read the essay',
+    reference: 'Reference', referenceTitle: 'Need a definition, not an opinion?', referenceBody: 'The concept library is where I put the reference material — definitions, vendor comparisons, and architectural patterns. Currently 50+ entries across data architecture, data engineering, BI and analytics, and agentic AI.', browse: 'Browse the concept library', closeLead: 'If something here is useful — say so.', close: 'If something here is wrong — say that too.', email: 'Send a direct email',
+  },
+  fr: {
+    title: 'Analyses & Essais — Yoann Leny', description: "Essais sur l'architecture des données, l'IA agentique et le modèle opérationnel sous-jacent. Mis à jour régulièrement.", eyebrow: 'Analyses & Essais', heading: "L'écriture est ma façon de penser.",
+    summary: 'Essais sur les questions déterminantes pour la réussite des initiatives données et IA : modèles opérationnels, choix d’architecture et systèmes organisationnels qui les unissent.', conceptLead: 'Pour des ressources de référence sur des concepts précis, consultez la', conceptLink: 'bibliothèque de concepts',
+    filters: [['all', 'Tous'], ['AGENTIC AI', 'IA Agentique'], ['DATA ARCHITECTURE', 'Architecture de Données'], ['DATA ENGINEERING', 'Ingénierie de Données'], ['BI & ANALYTICS', 'BI & Décisionnel'], ['OPERATING MODEL', 'Modèle Opérationnel'], ['EXECUTIVE', 'Exécutif']],
+    featured: 'À la une · IA Agentique', featuredTitle: "Pourquoi la plupart des démonstrations d'agents s'effondrent en production.", featuredDek: "Les systèmes probabilistes peuvent être construits en un week-end. Les systèmes gouvernables prennent un un. C'est dans cet écart que la plupart des initiatives d'IA échouent silencieusement.", featuredMeta: '14 MIN DE LECTURE · DERNIÈRE RÉVISION EN MARS 2026', read: "Lire l'essai",
+    reference: 'Référence', referenceTitle: "Besoin d'une définition plutôt que d'une opinion ?", referenceBody: "La bibliothèque de concepts regroupe le matériel de référence — définitions, comparaisons d'outils et modèles d'architecture. Plus de 50 fiches couvrant l'architecture des données, l'ingénierie des données, la BI et l'IA agentique.", browse: 'Parcourir la bibliothèque de concepts', closeLead: 'Si un contenu vous est utile — faites-le moi savoir.', close: 'Si quelque chose est erroné — dites-le moi aussi.', email: "M'envoyer un email direct",
+  },
+  es: {
+    title: 'Perspectivas y Ensayos — Yoann Leny', description: 'Ensayos sobre arquitectura de datos, IA agéntica y el modelo operativo detrás de ambos. Actualizado regularmente.', eyebrow: 'Perspectivas', heading: 'Escribir es mi forma de pensar.',
+    summary: 'Ensayos sobre las preguntas clave que determinan si los datos y la IA generan valor real: modelos operativos, decisiones de arquitectura y los sistemas blandos organizacionales que los sostienen.', conceptLead: 'Para material de referencia sobre conceptos específicos, consulte la', conceptLink: 'biblioteca de conceptos',
+    filters: [['all', 'Todos'], ['AGENTIC AI', 'IA Agéntica'], ['DATA ARCHITECTURE', 'Arquitectura de Datos'], ['DATA ENGINEERING', 'Ingeniería de Datos'], ['BI & ANALYTICS', 'BI y Analítica'], ['OPERATING MODEL', 'Modelo Operativo'], ['EXECUTIVE', 'Ejecutivo']],
+    featured: 'Destacado · IA Agéntica', featuredTitle: 'Por qué la mayoría de las demos de agentes colapsan en producción.', featuredDek: 'Los sistemas probabilísticos se pueden construir en un fin de semana. Los gobernables toman un año. La brecha entre ambos es donde la mayoría de las iniciativas de IA fracasan silencieusement (silenciosamente).', featuredMeta: '14 MIN DE LECTURA · ÚLTIMA REVISIÓN EN MARZO DE 2026', read: 'Leer el ensayo',
+    reference: 'Referencia', referenceTitle: '¿Necesitas una definición en lugar de una opinión?', referenceBody: 'La biblioteca de conceptos es donde coloco el material de referencia — definiciones, comparaciones de proveedores y patrones arquitectónicos. Actualmente con más de 50 entradas sobre arquitectura, ingeniería de datos, BI y analítica, e IA agéntica.', browse: 'Explorar la biblioteca de conceptos', closeLead: 'Si algo de aquí te resulta útil — dímelo.', close: 'Si algo está mal — dímelo también.', email: 'Enviar un correo directo',
+  },
+} as const;
+
+const translated: Record<'fr' | 'es', Record<string, { title: string; dek: string; meta: string }>> = {
+  fr: {
+    'the-case-for-deterministic-guardrails': { title: 'Pour des garde-fous déterministes', dek: "La moitié ennuyeuse de la conception d'agents d'IA qui décide si la moitié magique sera un jour mise en production.", meta: '9 MIN · MARS 2026' },
+    'lakehouse-warehouse-mesh': { title: "Lakehouse, warehouse, mesh — ce qui change réellement pour l'entreprise", dek: 'Un arbre de décision concis, pas un débat théologique.', meta: '11 MIN · FÉVRIER 2026' },
+    'designing-teams-for-agentic-operations': { title: 'Organiser les équipes pour des opérations agentiques', dek: "Quand les agents d'IA s'occupent de l'exécution, votre organigramme est faux par défaut.", meta: '13 MIN · FÉVRIER 2026' },
+    'the-semantic-layer-is-the-new-data-api': { title: 'La couche sémantique est la nouvelle API de données', dek: 'Pourquoi vos indicateurs (KPI) ont besoin d’un contrat avant que vos agents ne les lisent.', meta: '8 MIN · JANVIER 2026' },
+    'ten-numbers-ceo-dashboard': { title: 'Dix chiffres qui devraient figurer sur le tableau de bord de chaque PDG', dek: 'Et les quarante qui ne le devraient pas.', meta: '7 MIN · JANVIER 2026' },
+    'half-life-of-data-stack': { title: "La demi-vie d'un stack de données est plus courte que vous ne le pensez", dek: "Les choix d'architecture faits aujourd'hui ont un horizon de quatre ans, pas de dix.", meta: '10 MIN · DÉCEMBRE 2025' },
+    'tools-are-products': { title: "Les appels d'outils ne sont pas des fonctionnalités. Les outils sont des produits.", dek: 'Traiter les outils comme des produits fait la différence entre une démonstration astucieuse et un système gouvernable.', meta: '9 MIN · DÉCEMBRE 2025' },
+    'data-as-a-product-three-years-on': { title: 'La donnée en tant que produit, trois ans plus tard', dek: 'Ce qui a fonctionné, ce qui a échoué et ce que la littérature spécialisée comprend toujours de travers.', meta: '12 MIN · NOVEMBRE 2025' },
+  },
+  es: {
+    'the-case-for-deterministic-guardrails': { title: 'El caso de las barandillas de seguridad deterministas', dek: 'La mitad aburrida del diseño de agentes que decide si la mitad mágica alguna vez se implementa en producción.', meta: '9 MIN · MARZO 2026' },
+    'lakehouse-warehouse-mesh': { title: 'Lakehouse, warehouse, mesh — qué cambia realmente para el negocio', dek: 'Un árbol de decisiones corto, no un debate teológico.', meta: '11 MIN · FEBRERO 2026' },
+    'designing-teams-for-agentic-operations': { title: 'Diseño de equipos para operaciones agénticas', dek: 'Cuando los agentes se encargan de la ejecución, tu organigrama está mal por defecto.', meta: '13 MIN · FEBRERO 2026' },
+    'the-semantic-layer-is-the-new-data-api': { title: 'La capa semántica es la nueva API de datos', dek: 'Por qué tus KPIs necesitan un contrato antes de que tus agentes los lean.', meta: '8 MIN · ENERO 2026' },
+    'ten-numbers-ceo-dashboard': { title: 'Diez números que deberían estar en el dashboard de cada CEO', dek: 'Y los cuarenta que no deberían.', meta: '7 MIN · ENERO 2026' },
+    'half-life-of-data-stack': { title: 'La vida media de un stack de datos es más corta de lo que piensas', dek: 'Las decisiones de arquitectura que se toman hoy tienen un horizonte de cuatro años, no de diez.', meta: '10 MIN · DICIEMBRE 2025' },
+    'tools-are-products': { title: 'Las llamadas a herramientas no son características. Las herramientas son productos.', dek: 'Tratar las herramientas como productos es la diferencia entre una demo ingeniosa y un sistema gobernable.', meta: '9 MIN · DICIEMBRE 2025' },
+    'data-as-a-product-three-years-on': { title: 'Datos como producto, tres años después', dek: 'Qué funcionó, qué no y qué sigue entendiendo mal la literatura de la industria.', meta: '12 MIN · NOVIEMBRE 2025' },
+  },
+};
+
+const order = ['the-case-for-deterministic-guardrails', 'lakehouse-warehouse-mesh', 'designing-teams-for-agentic-operations', 'the-semantic-layer-is-the-new-data-api', 'ten-numbers-ceo-dashboard', 'half-life-of-data-stack', 'tools-are-products', 'data-as-a-product-three-years-on'];
+const slugFor = (entry: CollectionEntry<'insights'>) => entry.data.slug || entry.id;
+const featuredSlug = 'why-most-agent-demos-collapse-in-production';
+const rankFor = (entry: CollectionEntry<'insights'>) => { const rank = order.indexOf(slugFor(entry)); return rank === -1 ? Number.MAX_SAFE_INTEGER : rank; };
+const essays = entries.filter((entry) => slugFor(entry) !== featuredSlug).sort((a, b) => rankFor(a) - rankFor(b));
+const c = copy[locale];
+const englishEntry = (entry: CollectionEntry<'insights'>) => ({ title: entry.data.title, dek: entry.data.dek || '', meta: `${entry.data.readingTime || '10'} MIN · ${(entry.data.publishedAt || '2026').toUpperCase()}` });
+const localEntry = (entry: CollectionEntry<'insights'>) => locale === 'en' ? englishEntry(entry) : translated[locale][slugFor(entry)] || englishEntry(entry);
+---
+
+<Layout title={c.title} description={c.description}>
+  <section class="knowledge-intro"><Container size="wide"><CinematicIntro eyebrow={c.eyebrow} title={c.heading} summary={c.summary} variant="utility" accent="intelligence"><p>{c.conceptLead} <a href={pathFor('/concepts')}>{c.conceptLink}</a>.</p></CinematicIntro></Container></section>
+
+  <section class="featured"><Container><a href={pathFor('/insights/why-most-agent-demos-collapse-in-production')}><p>{c.featured}</p><h2>{c.featuredTitle}</h2><span class="featured__dek">{c.featuredDek}</span><span class="featured__meta">{c.featuredMeta}</span><span class="featured__action">{c.read} <span aria-hidden="true">→</span></span></a></Container></section>
+
+  <section class="insight-register" aria-label={c.eyebrow}><Container>
+    <div class="filter-row" id="insight-filters" aria-label={c.eyebrow}>{c.filters.map(([key, label], index) => <button class="filter-btn" class:list={{ 'is-active': index === 0 }} data-filter={key} type="button" aria-pressed={index === 0 ? 'true' : 'false'}>{label}</button>)}</div>
+    <div class="insight-rows">{essays.map((entry, index) => { const local = localEntry(entry); return <a class="insight-card" href={pathFor(`/insights/${slugFor(entry)}`)} data-cluster={entry.data.cluster}><span class="insight-card__index">{String(index + 1).padStart(2, '0')}</span><div><p class="insight-card__cluster">{entry.data.cluster}</p><h2>{local.title}</h2></div><p class="insight-card__dek">{local.dek}</p><span class="insight-card__meta">{local.meta}</span><span class="insight-card__arrow" aria-hidden="true">↗</span></a>})}</div>
+  </Container></section>
+
+  <section class="reference"><Container><div><p>{c.reference}</p><h2>{c.referenceTitle}</h2><span>{c.referenceBody}</span><a href={pathFor('/concepts')}>{c.browse} <span aria-hidden="true">→</span></a></div></Container></section>
+  <section class="knowledge-close"><Container><div><h2><span>{c.closeLead}</span>{c.close}</h2><a href="mailto:yoann.leny@gmail.com">{c.email} <span aria-hidden="true">→</span></a></div></Container></section>
+</Layout>
+
+<script>
+  function initInsightFilters() {
+    const filterRoot = document.querySelector<HTMLElement>('#insight-filters');
+    if (!filterRoot || filterRoot.dataset.filtersReady === 'true') return;
+    filterRoot.dataset.filtersReady = 'true';
+    const buttons = filterRoot.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const cards = document.querySelectorAll<HTMLElement>('.insight-card');
+    buttons.forEach((button) => button.addEventListener('click', () => {
+      const filter = button.dataset.filter;
+      buttons.forEach((item) => { item.classList.toggle('is-active', item === button); item.setAttribute('aria-pressed', item === button ? 'true' : 'false'); });
+      cards.forEach((card) => { card.hidden = filter !== 'all' && card.dataset.cluster !== filter; });
+    }));
+  }
+  initInsightFilters();
+  document.addEventListener('astro:page-load', initInsightFilters);
+</script>
+
+<style>
+  .knowledge-intro { border-bottom: 1px solid var(--ink-100); background: var(--paper-0); }
+  .knowledge-intro :global(.cinematic-intro__actions p) { max-width: 44rem; margin: 0; color: var(--ink-700); line-height: var(--t-body-line); }
+  .knowledge-intro :global(.cinematic-intro__actions a) { color: var(--ink-1000); text-decoration-color: var(--signal-intelligence); text-underline-offset: .25rem; }
+  .featured { padding-block: clamp(2.5rem, 6vw, 5rem); background: var(--ink-1000); }
+  .featured a { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; color: var(--paper-0); text-decoration: none; }
+  .featured p, .featured__meta, .featured__action { margin: 0; font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .featured p, .featured__action { color: var(--signal-intelligence); }
+  .featured h2 { max-width: 24ch; margin: .5rem 0; font-family: var(--font-display); font-size: var(--t-display-m-size); line-height: var(--t-display-m-line); }
+  .featured__dek { max-width: 48rem; color: var(--ink-300); font-size: var(--t-body-l-size); line-height: var(--t-body-l-line); }
+  .featured__meta { margin-top: 1rem; color: var(--ink-500); }
+  .featured__action { justify-self: start; }
+  .insight-register { padding-block: var(--space-section); background: var(--paper-0); }
+  .filter-row { display: flex; gap: .5rem 1.5rem; overflow-x: auto; padding-bottom: 1rem; border-bottom: 1px solid var(--ink-300); }
+  .filter-btn { min-height: 44px; flex: 0 0 auto; padding: .5rem 0; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; cursor: pointer; }
+  .filter-btn.is-active { border-color: var(--ink-1000); color: var(--ink-1000); }
+  .insight-rows { margin-top: clamp(2rem, 5vw, 4rem); border-top: 1px solid var(--ink-300); }
+  .insight-card { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; padding-block: clamp(1.75rem, 4vw, 3rem); border-bottom: 1px solid var(--ink-300); color: var(--ink-1000); text-decoration: none; }
+  .insight-card[hidden] { display: none; }
+  .insight-card__index, .insight-card__cluster, .insight-card__meta { margin: 0; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .insight-card h2 { max-width: 22ch; margin: .6rem 0 0; font-family: var(--font-display); font-size: var(--t-headline-size); line-height: var(--t-headline-line); }
+  .insight-card__dek { max-width: 38rem; margin: 0; color: var(--ink-700); line-height: var(--t-body-line); }
+  .insight-card__arrow { font-size: 1.25rem; }
+  .reference { padding-block: var(--space-section); border-top: 1px solid var(--ink-100); background: var(--paper-50); }
+  .reference > :global(div) > div { max-width: 48rem; }
+  .reference p { color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .reference h2 { margin: 1.5rem 0; font-family: var(--font-display); font-size: var(--t-display-m-size); }
+  .reference span { color: var(--ink-700); line-height: var(--t-body-line); }
+  .reference a { display: inline-flex; gap: .75rem; margin-top: 2rem; color: var(--ink-1000); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .knowledge-close { padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); }
+  .knowledge-close > :global(div) > div { display: grid; gap: 2rem; }
+  .knowledge-close h2 { max-width: 19ch; margin: 0; font-family: var(--font-display); font-size: var(--t-display-m-size); }
+  .knowledge-close h2 span { display: block; margin-bottom: .75rem; color: var(--ink-300); font-size: .75em; font-weight: 500; }
+  .knowledge-close a { justify-self: start; min-height: 44px; padding: .8rem 1.2rem; border: 1px solid var(--paper-0); color: var(--paper-0); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-decoration: none; text-transform: uppercase; }
+  @media (min-width: 48rem) { .featured a { grid-template-columns: minmax(0, 1fr) auto; } .featured p, .featured h2, .featured__dek, .featured__meta { grid-column: 1; } .featured__action { grid-column: 2; grid-row: 2 / span 2; align-self: end; } .insight-card { grid-template-columns: 3rem minmax(13rem, .8fr) minmax(18rem, 1.2fr) 9rem 2rem; align-items: start; } .knowledge-close > :global(div) > div { grid-template-columns: 1fr auto; align-items: end; } }
+</style>

@@ -59,6 +59,118 @@ test('keeps work routes as collection-backed shared-renderer adapters', () => {
   }
 });
 
+test('uses shared cinematic knowledge renderers', () => {
+  for (const component of ['InsightsIndex', 'ConceptsIndex', 'InsightDetail', 'ConceptDetail', 'DecisionIndex']) {
+    assert.ok(existsSync(`src/components/pages/${component}.astro`), `missing ${component}`);
+  }
+
+  assert.ok(read('src/pages/insights/index.astro').includes('InsightsIndex'));
+  assert.ok(read('src/pages/[lang]/insights/[slug].astro').includes('InsightDetail'));
+  assert.ok(read('src/pages/concepts/index.astro').includes('ConceptsIndex'));
+  assert.ok(read('src/pages/[lang]/concepts/[slug].astro').includes('ConceptDetail'));
+  assert.ok(read('src/pages/decisions.astro').includes('DecisionIndex'));
+});
+
+test('keeps knowledge routes collection-backed and delegates content rendering', () => {
+  for (const routePath of [
+    'src/pages/insights/index.astro',
+    'src/pages/fr/insights/index.astro',
+    'src/pages/es/insights/index.astro',
+  ]) {
+    const route = read(routePath);
+    assert.ok(route.includes("getCollection('insights')"), `${routePath} must resolve insights`);
+    assert.ok(route.includes('InsightsIndex'), `${routePath} must delegate the index`);
+  }
+
+  for (const routePath of [
+    'src/pages/concepts/index.astro',
+    'src/pages/fr/concepts/index.astro',
+    'src/pages/es/concepts/index.astro',
+  ]) {
+    const route = read(routePath);
+    assert.ok(route.includes("getCollection('concepts')"), `${routePath} must resolve concepts`);
+    assert.ok(route.includes('ConceptsIndex'), `${routePath} must delegate the index`);
+  }
+
+  for (const [routePath, renderer] of [
+    ['src/pages/insights/[slug].astro', 'InsightDetail'],
+    ['src/pages/[lang]/insights/[slug].astro', 'InsightDetail'],
+    ['src/pages/concepts/[slug].astro', 'ConceptDetail'],
+    ['src/pages/[lang]/concepts/[slug].astro', 'ConceptDetail'],
+  ]) {
+    const route = read(routePath);
+    assert.ok(route.includes('getStaticPaths()'), `${routePath} must retain static paths`);
+    assert.ok(route.includes(renderer), `${routePath} must delegate detail rendering`);
+    assert.doesNotMatch(route, /\brender\s*\(/, `${routePath} must not render collection content`);
+  }
+});
+
+test('preserves accessible knowledge interactions and article semantics', () => {
+  const insights = read('src/components/pages/InsightsIndex.astro');
+  const concepts = read('src/components/pages/ConceptsIndex.astro');
+  const insightDetail = read('src/components/pages/InsightDetail.astro');
+  const conceptDetail = read('src/components/pages/ConceptDetail.astro');
+  const decisions = read('src/components/pages/DecisionIndex.astro');
+
+  assert.ok(insights.includes('CinematicIntro'));
+  assert.ok(insights.includes('data-filter'));
+  assert.ok(concepts.includes('CinematicIntro'));
+  assert.ok(concepts.includes('id="search-input"'));
+  assert.ok(concepts.includes('data-depth'));
+  for (const detail of [insightDetail, conceptDetail]) {
+    assert.ok(detail.includes("import { render"));
+    assert.ok(detail.includes('<ArticleFrame'));
+    assert.ok(detail.includes('<Prose><Content /></Prose>'));
+    assert.ok(detail.includes('reading-progress'));
+  }
+  assert.ok(decisions.includes("signal: 'outcome'"));
+  assert.ok(decisions.includes("signal: 'change'"));
+  assert.ok(decisions.includes("signal: 'intelligence'"));
+  assert.ok(decisions.includes('data-signal-shape'));
+});
+
+test('selects localized concept-detail labels and English-content notices', () => {
+  const detail = read('src/components/pages/ConceptDetail.astro');
+  assert.ok(detail.includes('const copy = detailCopy[locale]'));
+  assert.ok(detail.includes("noticeLabel: 'Note sur le contenu en anglais'"));
+  assert.ok(detail.includes("noticeLabel: 'Aviso de contenido en inglés'"));
+  assert.ok(detail.includes('aria-label={copy.noticeLabel}'));
+});
+
+test('contains long knowledge code blocks without page-level overflow', () => {
+  for (const component of ['InsightDetail', 'ConceptDetail']) {
+    const detail = read(`src/components/pages/${component}.astro`);
+    assert.ok(detail.includes(':global(.prose-content pre)'), `${component} must scope fenced code`);
+    assert.ok(detail.includes('overflow-x: auto'), `${component} must make fenced code locally scrollable`);
+  }
+});
+
+test('keeps the insights collection authoritative beyond the legacy ordering', () => {
+  const index = read('src/components/pages/InsightsIndex.astro');
+  assert.ok(index.includes("entries.filter((entry) => slugFor(entry) !== featuredSlug)"));
+  assert.ok(index.includes('translated[locale][slugFor(entry)] ||'));
+});
+
+test('initializes knowledge filters once per view-transition document', () => {
+  for (const component of ['InsightsIndex', 'ConceptsIndex']) {
+    const index = read(`src/components/pages/${component}.astro`);
+    assert.ok(index.includes("dataset.filtersReady === 'true'"), `${component} must prevent duplicate listeners`);
+    assert.ok(index.includes("dataset.filtersReady = 'true'"), `${component} must mark the current controls`);
+    assert.ok(index.includes("document.addEventListener('astro:page-load'"), `${component} must rebind after navigation`);
+  }
+});
+
+test('keeps decision and concept taxonomy landmarks semantically accurate', () => {
+  const decisions = read('src/components/pages/DecisionIndex.astro');
+  const concepts = read('src/components/pages/ConceptsIndex.astro');
+  assert.doesNotMatch(decisions, /<main class="decision-log"/);
+  assert.ok(decisions.includes('<section class="decision-log"'));
+  assert.ok(concepts.includes("['core', 'Core']"));
+  assert.ok(concepts.includes("['core', 'Essentiel']"));
+  assert.ok(concepts.includes("['core', 'Esencial']"));
+  assert.ok(concepts.includes("const filterDepth = (depth?: string) => depth || 'foundational'"));
+});
+
 test('keeps unpublished achievement missions non-interactive', () => {
   const achievements = read('src/data/achievements.ts');
   const missionRow = read('src/components/brand/MissionRow.astro');
