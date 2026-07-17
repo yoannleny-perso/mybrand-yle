@@ -1,8 +1,14 @@
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { test } from 'node:test';
 
 const read = (path) => (existsSync(path) ? readFileSync(path, 'utf8') : '');
+
+const walk = (dir) =>
+  readdirSync(dir, { withFileTypes: true }).flatMap((entry) =>
+    entry.isDirectory() ? walk(join(dir, entry.name)) : [join(dir, entry.name)],
+  );
 
 test('defines the five approved achievement placeholders', () => {
   const source = read('src/data/achievements.ts');
@@ -551,6 +557,22 @@ test('keeps controlled-vibrant product source free of legacy glass and glow', ()
     'src/components/sections/AsymmetricCard.astro',
   ]) assert.equal(existsSync(dormant), false, `${dormant} must not retain unreachable legacy styling`);
 });
+
+test('gives every shared component a live consumer', () => {
+  const sources = walk('src').filter((path) => /\.(astro|tsx|ts)$/.test(path));
+  const specifiers = new Set(
+    sources
+      .flatMap((path) => [...read(path).matchAll(/from\s+'([^']+)'/g)].map(([, specifier]) => specifier))
+      .map((specifier) => specifier.split('/').pop().replace(/\.(astro|tsx|ts)$/, '')),
+  );
+
+  const orphans = walk('src/components')
+    .filter((path) => /\.(astro|tsx|ts)$/.test(path))
+    .filter((path) => !specifiers.has(path.split('/').pop().replace(/\.(astro|tsx|ts)$/, '')));
+
+  assert.deepEqual(orphans, [], 'every component must be imported by a route or another component');
+});
+
 
 test('owns capability signals semantically in locale-parity data', () => {
   const data = read('src/data/localized-site.ts');
