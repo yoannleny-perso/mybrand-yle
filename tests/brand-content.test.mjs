@@ -573,6 +573,20 @@ test('gives every shared component a live consumer', () => {
   assert.deepEqual(orphans, [], 'every component must be imported by a route or another component');
 });
 
+test('ships no client framework runtime', () => {
+  const manifest = JSON.parse(read('package.json'));
+  const dependencies = { ...manifest.dependencies, ...manifest.devDependencies };
+
+  for (const runtime of ['react', 'react-dom', '@astrojs/react', '@types/react', '@types/react-dom', '@phosphor-icons/react', 'framer-motion']) {
+    assert.equal(runtime in dependencies, false, `${runtime} must not remain a dependency`);
+  }
+  for (const font of ['@fontsource-variable/fraunces', '@fontsource-variable/inter-tight', '@fontsource/jetbrains-mono']) {
+    assert.equal(font in dependencies, false, `${font} is never loaded by the shell`);
+  }
+  assert.doesNotMatch(read('astro.config.mjs'), /react/i);
+  assert.equal(walk('src').some((path) => path.endsWith('.tsx')), false, 'no .tsx component may remain');
+});
+
 
 test('owns capability signals semantically in locale-parity data', () => {
   const data = read('src/data/localized-site.ts');
