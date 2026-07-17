@@ -3,6 +3,10 @@ import '@fontsource-variable/archivo';
 import '@fontsource-variable/inter';
 import '@fontsource/azeret-mono';
 import '@fontsource/azeret-mono/600.css';
+import archivoLatinUrl from '@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2?url';
+import interLatinUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import azeretLatin400Url from '@fontsource/azeret-mono/files/azeret-mono-latin-400-normal.woff2?url';
+import azeretLatin600Url from '@fontsource/azeret-mono/files/azeret-mono-latin-600-normal.woff2?url';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 
@@ -43,6 +47,10 @@ const hasLocalizedEquivalent = !unprefixedPath.startsWith('/decisions');
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preload" href={archivoLatinUrl} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={interLatinUrl} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={azeretLatin400Url} as="font" type="font/woff2" crossorigin="anonymous" />
+    <link rel="preload" href={azeretLatin600Url} as="font" type="font/woff2" crossorigin="anonymous" />
 
     <!-- Mark JS as available before first paint; reveal styles only apply then -->
     <script is:inline>document.documentElement.classList.add('js');</script>

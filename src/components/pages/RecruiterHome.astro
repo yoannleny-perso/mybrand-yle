@@ -198,7 +198,7 @@ const proofMetrics = copy.home.proof.metrics.map((metric, index) => ({
   .fit-grid { display: grid; gap: clamp(2rem, 6vw, 5rem); margin-top: clamp(3rem, 7vw, 6rem); }
   .fit-grid ol { margin: 0; padding: 0; border-top: 1px solid var(--ink-700); list-style: none; }
   .fit-grid li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 1rem; padding-block: 1.25rem; border-bottom: 1px solid var(--ink-700); }
-  .fit-grid li span { color: var(--signal-outcome); font-family: var(--font-mono); font-size: var(--t-meta-size); }
+  .fit-grid li span { align-self: start; justify-self: start; border-bottom: 2px solid var(--signal-outcome); color: var(--ink-300); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 600; }
   .fit-grid li p { max-width: 42rem; margin: 0; color: var(--paper-50); font-size: var(--t-body-size); line-height: var(--t-body-line); }
   .fit-actions { display: flex; flex-wrap: wrap; gap: .75rem; align-content: start; }
   .fit-action, .close-action {
