@@ -2,6 +2,36 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+## Status — reconciled 2026-07-17
+
+All ten tasks are implemented on `feat/recruiter-first`. The checkboxes below were
+reconciled against the commit history after the fact; each task maps to the commits
+listed here.
+
+| Task | Commits |
+| --- | --- |
+| 1. Token and typography foundation | `ed8c72f`, `b9c0a71` |
+| 2. Shared cinematic brand primitives | `e587bbc`, `6a31e51` |
+| 3. Global shell and shared primitives | `c574147`, `6718b16` |
+| 4. Recruiter homepage in three locales | `6278bdc`, `944ac23` |
+| 5. Work indexes and details | `d658472`, `19e2e3f` |
+| 6. Personal and recruiter-action pages | `a6d0471`, `70336e8`, `37fc507` |
+| 7. Knowledge indexes, details, Decision Log | `2890f3f` |
+| 8. Legal pages and static locale contracts | `36fd296` |
+| 9. Browser audits and visual defect fixes | `0e09795`, `81d8fd4` |
+| 10. Final verification and handoff | `3725879`, `1ab035b`, `19f6f9c`, `710b90e` |
+
+Verification at `710b90e`, from a clean build: 51/51 contract tests pass, 223 routes
+build, 110/110 Playwright audits pass across desktop and mobile, and all 17
+representative EN/FR/ES routes and assets return HTTP 200.
+
+Task 10 additionally removed nine components left without consumers and dropped the
+unused React runtime, `framer-motion`, the icon set, and three never-loaded font
+families. `@astrojs/mdx` was deliberately retained: the content globs still admit
+`.mdx` sources.
+
+**Merge remains blocked** on Yoann's explicit approval, per the plan's constraint.
+
 **Goal:** Apply the approved cinematic identity-lens design consistently to every existing page and locale while preserving recruiter-first content, static rendering, accessibility, and route parity.
 
 **Architecture:** Introduce the design at the token and shared-component layers, then migrate each route family to a shared renderer that accepts `locale`. The homepage alone receives the full portrait lens; secondary pages share cinematic intros, scene headings, evidence rows, and article framing. Contract and browser tests enforce the palette, rejected-element exclusions, locale parity, responsive safety, and route coverage.
@@ -97,7 +127,7 @@
 - Produces CSS variables `--ink-1000`, `--ink-900`, `--paper-0`, `--paper-50`, `--signal-intelligence`, `--signal-change`, `--signal-outcome`, `--font-display`, `--font-body`, and `--font-mono`.
 - Later tasks consume these tokens only; they must not hardcode alternative cobalt, indigo, cyan, rose, or pastel surface values.
 
-- [ ] **Step 1: Add the failing token contract**
+- [x] **Step 1: Add the failing token contract**
 
 Append this test to `tests/brand-content.test.mjs`:
 
@@ -124,13 +154,13 @@ test('defines the approved cinematic identity-lens tokens', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test and confirm the expected failure**
+- [x] **Step 2: Run the test and confirm the expected failure**
 
 Run: `npm test`
 
 Expected: FAIL in `defines the approved cinematic identity-lens tokens` because the new variables and font imports do not exist.
 
-- [ ] **Step 3: Install fonts and replace the root tokens**
+- [x] **Step 3: Install fonts and replace the root tokens**
 
 Run:
 
@@ -210,13 +240,13 @@ html.js .cinematic-reveal:not(.is-revealed) {
 }
 ```
 
-- [ ] **Step 4: Verify the foundation**
+- [x] **Step 4: Verify the foundation**
 
 Run: `npm test && npm run build`
 
 Expected: all current contract tests PASS and the build still reports 223 generated pages.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add package.json package-lock.json tests/brand-content.test.mjs src/layouts/Layout.astro src/styles/tokens.css src/styles/global.css
@@ -246,7 +276,7 @@ git commit -m "feat: establish cinematic brand tokens"
 - `MissionRow`: `{ achievement: Achievement; labels: AchievementLabels; index: number }`.
 - `ArticleFrame`: `{ eyebrow: string; title: string; dek?: string; metadata?: string[] }` plus default slot.
 
-- [ ] **Step 1: Add failing component contracts**
+- [x] **Step 1: Add failing component contracts**
 
 Append:
 
@@ -269,13 +299,13 @@ test('provides bounded cinematic brand primitives', () => {
 });
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 Run: `npm test`
 
 Expected: FAIL because `src/components/brand/IdentityLens.astro` and its sibling primitives do not exist.
 
-- [ ] **Step 3: Implement `IdentityLens.astro`**
+- [x] **Step 3: Implement `IdentityLens.astro`**
 
 Create:
 
@@ -328,7 +358,7 @@ const { alt, orbitLabel, eager = false } = Astro.props;
 </style>
 ```
 
-- [ ] **Step 4: Implement the remaining primitives using the declared interfaces**
+- [x] **Step 4: Implement the remaining primitives using the declared interfaces**
 
 Use semantic markup and token-only colors. The core structure for `CinematicIntro.astro` is:
 
@@ -367,7 +397,7 @@ const { label, principle, steps } = Astro.props;
 
 Implement `SceneHeading`, `EvidencePanel`, `MissionRow`, and `ArticleFrame` with the interfaces above, one H1 only in `CinematicIntro`/`ArticleFrame`, headings below that at H2/H3, and no hardcoded copy.
 
-- [ ] **Step 5: Verify and commit**
+- [x] **Step 5: Verify and commit**
 
 Run: `npm test && npm run build`
 
@@ -399,7 +429,7 @@ git commit -m "feat: add cinematic brand primitives"
 - `Heading.astro` and `Prose.astro` remain backwards compatible with current call sites.
 - Layout continues to expose its default slot inside `#main-content`.
 
-- [ ] **Step 1: Extend shell contracts**
+- [x] **Step 1: Extend shell contracts**
 
 Add assertions:
 
@@ -423,13 +453,13 @@ test('keeps the cinematic shell accessible and locale aware', () => {
 });
 ```
 
-- [ ] **Step 2: Confirm the shell test fails before styling migration**
+- [x] **Step 2: Confirm the shell test fails before styling migration**
 
 Run: `npm test`
 
 Expected: FAIL because legacy cobalt/pastel references are still present.
 
-- [ ] **Step 3: Update the shell**
+- [x] **Step 3: Update the shell**
 
 Keep the current interaction script byte-for-byte. Change only presentation and token references on these existing elements:
 
@@ -451,13 +481,13 @@ Update `Footer.astro` to one anthracite scene with `border-radius: var(--radius-
 
 Update `Prose.astro` to use `max-width: 72ch`, black headings, anthracite body text, quiet rules, horizontally scrollable tables, and accent links that also use underlines.
 
-- [ ] **Step 4: Verify keyboard and build contracts**
+- [x] **Step 4: Verify keyboard and build contracts**
 
 Run: `npm test && npm run build`
 
 Expected: PASS and 223 pages.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/layouts/Layout.astro src/components/layout src/components/primitives tests/brand-content.test.mjs
@@ -484,7 +514,7 @@ git commit -m "feat: apply cinematic global shell"
 - `RecruiterHero` consumes localized `RecruiterHeroCopy`, `primaryHref`, and `secondaryHref` and composes `IdentityLens`.
 - Home section order remains `hero`, `decision-trace`, `achievements`, `proof`, `capabilities`, `recruiter-fit`, `thinking`, `contact-close` in every locale.
 
-- [ ] **Step 1: Change the parity contract to the approved structure**
+- [x] **Step 1: Change the parity contract to the approved structure**
 
 Replace the home section list in the existing parity test with:
 
@@ -503,13 +533,13 @@ assert.ok(home.includes('EvidencePanel'));
 assert.doesNotMatch(home + read('src/components/sections/RecruiterHero.astro'), /ribbon|lens-ring|stroke="#(?:9151F6|E7615F|087A55)"/i);
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 Run: `npm test`
 
 Expected: FAIL on the missing `decision-trace` section and missing brand primitives.
 
-- [ ] **Step 3: Extend the localized home copy**
+- [x] **Step 3: Extend the localized home copy**
 
 Add these typed fields to each locale's hero model, translating only the values and preserving the tuple shape:
 
@@ -543,7 +573,7 @@ decisionTrace: {
 
 French and Spanish use natural translations of those exact meanings, not shortened structural variants.
 
-- [ ] **Step 4: Compose the shared homepage**
+- [x] **Step 4: Compose the shared homepage**
 
 Define the derived values before the template:
 
@@ -609,13 +639,13 @@ Wrap each scene in the existing `Container`/`Section` primitives or equivalent s
 
 `RecruiterHero.astro` places title content and `<IdentityLens alt={copy.portraitAlt} orbitLabel={copy.orbitLabel} eager />` in a responsive two-column composition, with the lens first on mobile and the title first in DOM order for screen readers.
 
-- [ ] **Step 5: Verify the three home routes**
+- [x] **Step 5: Verify the three home routes**
 
 Run: `npm test && npm run build`
 
 Expected: PASS, 223 pages, and shared renderer assertions for EN/FR/ES.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/data/localized-site.ts src/components/pages/RecruiterHome.astro src/components/sections/RecruiterHero.astro src/components/sections/AchievementCard.astro src/components/sections/ProofStrip.astro src/pages/index.astro src/pages/fr/index.astro src/pages/es/index.astro tests/brand-content.test.mjs
@@ -642,7 +672,7 @@ git commit -m "feat: launch cinematic recruiter homepage"
 - `WorkDetail({ locale: Locale; entry: CollectionEntry<'case-studies'> })` owns detail composition and renders the resolved entry internally.
 - Work index sections remain `work-intro`, `achievement-register`, `supporting-cases`, `work-close`.
 
-- [ ] **Step 1: Add failing shared-detail assertions**
+- [x] **Step 1: Add failing shared-detail assertions**
 
 ```js
 test('shares cinematic work indexes and detail composition', () => {
@@ -657,13 +687,13 @@ test('shares cinematic work indexes and detail composition', () => {
 });
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 Run: `npm test`
 
 Expected: FAIL because `WorkDetail.astro` does not exist and the index uses legacy components.
 
-- [ ] **Step 3: Implement the shared index and detail**
+- [x] **Step 3: Implement the shared index and detail**
 
 `WorkDetail.astro` receives the already-resolved entry, calls `const { Content } = await render(entry)`, and renders:
 
@@ -680,7 +710,7 @@ Keep collection lookup and `getStaticPaths()` in route files. Route files do not
 
 Restyle `CaseDiagram.astro` using token variables only; preserve all current variants and localized labels.
 
-- [ ] **Step 4: Verify and commit**
+- [x] **Step 4: Verify and commit**
 
 Run: `npm test && npm run build`
 
@@ -724,7 +754,7 @@ git commit -m "feat: unify cinematic work experiences"
 - Each route wrapper contains only an import plus `<Page locale="en|fr|es" />`.
 - About may use `<IdentityLens eager={false}>`; no other page in this task uses the full lens.
 
-- [ ] **Step 1: Add the failing route-delegation matrix**
+- [x] **Step 1: Add the failing route-delegation matrix**
 
 ```js
 test('delegates personal and recruiter pages to locale-shared renderers', () => {
@@ -743,13 +773,13 @@ test('delegates personal and recruiter pages to locale-shared renderers', () => 
 });
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 Run: `npm test`
 
 Expected: FAIL on the first missing shared page renderer.
 
-- [ ] **Step 3: Move copy into the typed localized model**
+- [x] **Step 3: Move copy into the typed localized model**
 
 For each family, add an `en`, `fr`, and `es` object under `localizedSite` containing the current route's title, description, intro, section labels, body blocks, CTA labels, and links. Preserve the existing wording exactly. Define:
 
@@ -766,7 +796,7 @@ interface LocalizedPersonalPage {
 
 Capabilities may extend this with its existing structured pillars and evidence arrays; Contact and Hire may extend it with current action/contact data. Do not collapse structured lists into HTML strings.
 
-- [ ] **Step 4: Build the renderers and thin wrappers**
+- [x] **Step 4: Build the renderers and thin wrappers**
 
 The base renderer pattern is concrete and safe for the linear body sections used by About and Now:
 
@@ -823,7 +853,7 @@ import AboutPage from '../components/pages/AboutPage.astro';
 <AboutPage locale="en" />
 ```
 
-- [ ] **Step 5: Verify parity and commit**
+- [x] **Step 5: Verify parity and commit**
 
 Run: `npm test && npm run build`
 
@@ -862,7 +892,7 @@ git commit -m "feat: unify cinematic personal pages"
 - `InsightDetail` receives `{ locale: Locale; entry: CollectionEntry<'insights'> }`; `ConceptDetail` receives `{ locale: Locale; entry: CollectionEntry<'concepts'> }`. Each detail renderer calls `await render(entry)` internally.
 - DecisionIndex is `{ locale: 'en'; decisions: Decision[] }`; no localized Decision routes are created.
 
-- [ ] **Step 1: Add failing knowledge-family contracts**
+- [x] **Step 1: Add failing knowledge-family contracts**
 
 ```js
 test('uses shared cinematic knowledge renderers', () => {
@@ -877,13 +907,13 @@ test('uses shared cinematic knowledge renderers', () => {
 });
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 Run: `npm test`
 
 Expected: FAIL because the page-family components do not exist.
 
-- [ ] **Step 3: Implement the shared indexes and details**
+- [x] **Step 3: Implement the shared indexes and details**
 
 Keep `getCollection`, filtering, and `getStaticPaths()` in the route files. Pass resolved entries to renderers. The detail skeleton is:
 
@@ -907,7 +937,7 @@ const gradeStyles = {
 } as const;
 ```
 
-- [ ] **Step 4: Verify content routes and commit**
+- [x] **Step 4: Verify content routes and commit**
 
 Run: `npm test && npm run build`
 
@@ -937,7 +967,7 @@ git commit -m "feat: unify cinematic knowledge pages"
 - `LegalPage({ locale: Locale; kind: 'privacy' | 'imprint' })`.
 - All legal copy remains structured paragraphs and inline links; no raw HTML strings.
 
-- [ ] **Step 1: Add failing legal route contracts**
+- [x] **Step 1: Add failing legal route contracts**
 
 ```js
 test('shares compact legal composition across locales', () => {
@@ -952,13 +982,13 @@ test('shares compact legal composition across locales', () => {
 });
 ```
 
-- [ ] **Step 2: Run and confirm failure**
+- [x] **Step 2: Run and confirm failure**
 
 Run: `npm test`
 
 Expected: FAIL because legal routes still own their markup.
 
-- [ ] **Step 3: Implement `LegalPage` and route wrappers**
+- [x] **Step 3: Implement `LegalPage` and route wrappers**
 
 Model each paragraph as typed segments so localization strings never become executable markup:
 
@@ -1001,7 +1031,7 @@ const copy = localizedSite[locale].legal[kind];
 </Layout>
 ```
 
-- [ ] **Step 4: Run the complete static suite and commit**
+- [x] **Step 4: Run the complete static suite and commit**
 
 Run: `npm test && npm run build`
 
@@ -1026,7 +1056,7 @@ git commit -m "feat: unify cinematic legal pages"
 - `npm run test:ui` starts the Astro dev server through Playwright and runs Chromium at desktop and mobile widths.
 - Audit route records are `{ path: string; template: string }`.
 
-- [ ] **Step 1: Install Playwright and add scripts**
+- [x] **Step 1: Install Playwright and add scripts**
 
 Run:
 
@@ -1047,7 +1077,7 @@ Add to `package.json`:
 }
 ```
 
-- [ ] **Step 2: Configure the browser test server**
+- [x] **Step 2: Configure the browser test server**
 
 Create `playwright.config.ts`:
 
@@ -1071,7 +1101,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 3: Write the browser audit**
+- [x] **Step 3: Write the browser audit**
 
 Create `tests/ui-audit.spec.ts`:
 
@@ -1167,13 +1197,13 @@ test('reduced motion exposes the final homepage state', async ({ browser }) => {
 });
 ```
 
-- [ ] **Step 4: Run the full suite and capture defects**
+- [x] **Step 4: Run the full suite and capture defects**
 
 Run: `npm run test:all`
 
 Expected on the first run: any remaining overflow, broken image, contrast-adjacent styling, missing route, or console problem fails with a named route and viewport.
 
-- [ ] **Step 5: Fix failures one owning component at a time**
+- [x] **Step 5: Fix failures one owning component at a time**
 
 For each failure:
 
@@ -1185,7 +1215,7 @@ For each failure:
 
 Do not weaken assertions to make a failure disappear. If a 24px inline text link is intentionally smaller than the 44px preferred target, retain the 24px audit floor and verify surrounding spacing manually.
 
-- [ ] **Step 6: Perform the manual UI/UX review**
+- [x] **Step 6: Perform the manual UI/UX review**
 
 At 320, 390, 768, 1024, and 1440 pixels, inspect every unique template and sample FR/ES equivalents for:
 
@@ -1203,7 +1233,7 @@ At 320, 390, 768, 1024, and 1440 pixels, inspect every unique template and sampl
 
 Fix every defect and rerun `npm run test:all`.
 
-- [ ] **Step 7: Commit the audit harness and fixes**
+- [x] **Step 7: Commit the audit harness and fixes**
 
 ```bash
 git add package.json package-lock.json playwright.config.ts tests/ui-audit.spec.ts src
@@ -1222,7 +1252,7 @@ git commit -m "test: audit cinematic UI across routes"
 - Final branch remains `feat/recruiter-first`.
 - `main` is not changed.
 
-- [ ] **Step 1: Verify repository scope**
+- [x] **Step 1: Verify repository scope**
 
 Run:
 
@@ -1234,7 +1264,7 @@ git diff --check 8b132cb..HEAD
 
 Expected: no tracked unstaged changes, no whitespace errors, and `.superpowers/` remains untracked and excluded from commits.
 
-- [ ] **Step 2: Run fresh verification**
+- [x] **Step 2: Run fresh verification**
 
 Run:
 
@@ -1244,7 +1274,7 @@ npm run test:all
 
 Expected: contract tests PASS, 223 routes build, Playwright desktop/mobile audits PASS.
 
-- [ ] **Step 3: Confirm representative production assets and routes**
+- [x] **Step 3: Confirm representative production assets and routes**
 
 With the dev server running on port 4322, run:
 
@@ -1256,7 +1286,7 @@ done
 
 Expected: every line starts with `200`.
 
-- [ ] **Step 4: Prepare the user handoff without merging**
+- [x] **Step 4: Prepare the user handoff without merging**
 
 Report:
 
