@@ -3,6 +3,13 @@ dist/
 # generated types
 .astro/
 
+# browser audit output
+test-results/
+playwright-report/
+
+# agent workspace
+.superpowers/
+
 # dependencies
 node_modules/
 
