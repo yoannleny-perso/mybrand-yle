@@ -2,9 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/(.*)",
       "has": [{ "type": "host", "value": "www.yoannleny.com" }],
-      "destination": "https://yoannleny.com/:path*",
+      "destination": "https://yoannleny.com/$1",
       "permanent": true
     }
   ]
