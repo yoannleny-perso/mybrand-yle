@@ -100,7 +100,7 @@ const localEntry = (entry: CollectionEntry<'insights'>) => locale === 'en' ? eng
 <style>
   .knowledge-intro { border-bottom: 1px solid var(--ink-100); background: var(--paper-0); }
   .knowledge-intro :global(.cinematic-intro__actions p) { max-width: 44rem; margin: 0; color: var(--ink-700); line-height: var(--t-body-line); }
-  .knowledge-intro :global(.cinematic-intro__actions a) { color: var(--ink-1000); text-decoration-color: var(--signal-intelligence); text-underline-offset: .25rem; }
+  .knowledge-intro :global(.cinematic-intro__actions a) { display: inline-flex; min-height: 24px; align-items: center; color: var(--ink-1000); text-decoration-color: var(--signal-intelligence); text-underline-offset: .25rem; }
   .featured { padding-block: clamp(2.5rem, 6vw, 5rem); background: var(--ink-1000); }
   .featured a { display: grid; grid-template-columns: minmax(0, 1fr); gap: 1rem; color: var(--paper-0); text-decoration: none; }
   .featured p, .featured__meta, .featured__action { margin: 0; font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
@@ -125,7 +125,7 @@ const localEntry = (entry: CollectionEntry<'insights'>) => locale === 'en' ? eng
   .reference p { color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
   .reference h2 { margin: 1.5rem 0; font-family: var(--font-display); font-size: var(--t-display-m-size); }
   .reference span { color: var(--ink-700); line-height: var(--t-body-line); }
-  .reference a { display: inline-flex; gap: .75rem; margin-top: 2rem; color: var(--ink-1000); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .reference a { display: inline-flex; min-height: 24px; align-items: center; gap: .75rem; margin-top: 2rem; color: var(--ink-1000); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
   .knowledge-close { padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); }
   .knowledge-close > :global(div) > div { display: grid; gap: 2rem; }
   .knowledge-close h2 { max-width: 19ch; margin: 0; font-family: var(--font-display); font-size: var(--t-display-m-size); }

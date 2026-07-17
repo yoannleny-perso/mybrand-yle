@@ -103,7 +103,7 @@ const filterDepth = (depth?: string) => depth || 'foundational';
   .concept-tools input { width: 100%; min-height: 44px; padding: .75rem 1rem; border: 1px solid var(--ink-300); background: var(--paper-0); color: var(--ink-1000); font: inherit; }
   .filter-groups, .filter-groups > div { display: flex; gap: .5rem 1.25rem; overflow-x: auto; }
   .filter-groups { flex-direction: column; }
-  .filter-groups button { min-height: 44px; flex: 0 0 auto; padding: .5rem 0; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; cursor: pointer; }
+  .filter-groups button { min-width: 24px; min-height: 44px; flex: 0 0 auto; padding: .5rem 0; border: 0; border-bottom: 2px solid transparent; background: transparent; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; cursor: pointer; }
   .filter-groups button.is-active { border-color: var(--ink-1000); color: var(--ink-1000); }
   .concept-register { padding-block: var(--space-section); background: var(--paper-0); }
   .cluster-section { margin-bottom: clamp(4rem, 10vw, 8rem); scroll-margin-top: 12rem; }
@@ -121,7 +121,7 @@ const filterDepth = (depth?: string) => depth || 'foundational';
   .contribution > :global(div) > div { max-width: 60ch; }
   .contribution p { color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
   .contribution span { color: var(--ink-700); font-size: var(--t-body-s-size); font-style: italic; line-height: var(--t-body-s-line); }
-  .contribution a { color: var(--ink-1000); }
+  .contribution a { display: inline-flex; min-height: 24px; align-items: center; color: var(--ink-1000); }
   @media (min-width: 48rem) { .concept-map ol { grid-template-columns: repeat(4, minmax(0, 1fr)); } .concept-map li { display: block; padding-inline: 1.25rem; border-right: 1px solid var(--ink-700); } .concept-map li:first-child { padding-left: 0; } .cluster-overview article { grid-template-columns: 3rem minmax(12rem, .6fr) minmax(20rem, 1.4fr); } .cluster-overview article > div { display: grid; grid-template-columns: minmax(12rem, .7fr) minmax(18rem, 1.3fr); gap: 1.5rem 3rem; } .cluster-overview h2, .cluster-count { grid-column: 1; } .cluster-overview article div > p:not(.cluster-count), .cluster-overview a { grid-column: 2; } .cluster-overview article div > p:not(.cluster-count) { grid-row: 1 / span 2; margin-top: 0; } .concept-tools__inner { grid-template-columns: minmax(16rem, .65fr) minmax(0, 1.35fr); align-items: start; } .filter-groups { align-items: start; } .cluster-section > header { grid-template-columns: 3rem minmax(0, 1fr) auto; align-items: end; } .concept-item { grid-template-columns: 9rem minmax(0, 1fr); } }
   @media (min-width: 64rem) { .filter-groups { flex-direction: row; justify-content: flex-end; } }
 </style>

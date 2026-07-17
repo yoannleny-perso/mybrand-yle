@@ -170,6 +170,7 @@ const languages = [
     const btn = header.querySelector<HTMLButtonElement>('#mobile-menu-btn');
     const overlay = header.querySelector<HTMLElement>('#mobile-menu-overlay');
     let previousOverflow = '';
+    let lockedScrollY = 0;
 
     const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -186,13 +187,15 @@ const languages = [
         header.classList.toggle('menu-open', open);
 
         if (open) {
+          lockedScrollY = window.scrollY;
           previousOverflow = document.body.style.overflow;
           document.body.style.overflow = 'hidden';
           const first = overlay.querySelector<HTMLElement>(focusableSelector);
-          window.setTimeout(() => first?.focus(), 50);
+          window.setTimeout(() => first?.focus({ preventScroll: true }), 50);
         } else {
           document.body.style.overflow = previousOverflow;
-          if (restoreFocus) btn.focus();
+          window.scrollTo(0, lockedScrollY);
+          if (restoreFocus) btn.focus({ preventScroll: true });
         }
       };
 

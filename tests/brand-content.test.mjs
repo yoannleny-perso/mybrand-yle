@@ -509,7 +509,8 @@ test('keeps the cinematic shell accessible and locale aware', () => {
   assert.ok(header.includes("localStorage.setItem('preferred-lang', targetLang)"));
   assert.ok(header.includes("document.body.style.overflow = 'hidden'"));
   assert.ok(header.includes('document.body.style.overflow = previousOverflow'));
-  assert.ok(header.includes('if (restoreFocus) btn.focus()'));
+  assert.ok(header.includes('window.scrollTo(0, lockedScrollY)'));
+  assert.ok(header.includes('if (restoreFocus) btn.focus({ preventScroll: true })'));
   assert.equal((header.match(/xl:flex/g) ?? []).length, 2);
   assert.equal((header.match(/xl:hidden/g) ?? []).length, 2);
   assert.doesNotMatch(header, /\blg:(?:flex|hidden)\b/);

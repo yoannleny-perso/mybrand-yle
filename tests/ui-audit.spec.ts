@@ -66,6 +66,7 @@ for (const { path, template } of templateRoutes) {
     await expect(page.locator('main#main-content'), `${path} main landmark`).toHaveCount(1);
     await expect(page.locator('main#main-content'), `${path} visible main`).toBeVisible();
     await expect(page.locator('h1'), `${path} page title`).toHaveCount(1);
+    await expect(page.locator('h1'), `${path} visible page title`).toBeVisible();
 
     const overflow = await page.evaluate(() => ({
       documentWidth: document.documentElement.scrollWidth,
@@ -193,20 +194,97 @@ test('reduced motion exposes the final homepage portrait state', async ({ browse
   await context.close();
 });
 
-test('the display font is preloaded before localized hero copy paints', async ({ page }) => {
-  await page.goto('/es/', { waitUntil: 'domcontentloaded' });
-  const heroFontPreloads = page.locator('link[rel="preload"][as="font"]');
-  await expect(heroFontPreloads).toHaveCount(4);
-  await expect(page.locator('link[href*="archivo-latin-wght-normal"]')).toHaveCount(1);
-  await expect(page.locator('link[href*="inter-latin-wght-normal"]')).toHaveCount(1);
-  await expect(page.locator('link[href*="azeret-mono-latin-400-normal"]')).toHaveCount(1);
-  await expect(page.locator('link[href*="azeret-mono-latin-600-normal"]')).toHaveCount(1);
-  for (const preload of await heroFontPreloads.all()) await expect(preload).toHaveAttribute('type', 'font/woff2');
+test('localized heroes load their fonts without material layout shift', async ({ browser }) => {
+  for (const path of ['/fr/', '/es/']) {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 1000 } });
+    const page = await context.newPage();
+
+    await page.addInitScript(() => {
+      const auditWindow = window as Window & { __auditCLS?: number };
+      auditWindow.__auditCLS = 0;
+
+      new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          const shift = entry as PerformanceEntry & {
+            hadRecentInput?: boolean;
+            value?: number;
+          };
+
+          if (!shift.hadRecentInput) {
+            auditWindow.__auditCLS = (auditWindow.__auditCLS ?? 0) + (shift.value ?? 0);
+          }
+        }
+      }).observe({ type: 'layout-shift', buffered: true });
+    });
+
+    await page.goto(path, { waitUntil: 'domcontentloaded' });
+
+    const heroFontPreloads = page.locator('link[rel="preload"][as="font"]');
+    await expect(heroFontPreloads).toHaveCount(4);
+    await expect(page.locator('link[href*="archivo-latin-wght-normal"]')).toHaveCount(1);
+    await expect(page.locator('link[href*="inter-latin-wght-normal"]')).toHaveCount(1);
+    await expect(page.locator('link[href*="azeret-mono-latin-400-normal"]')).toHaveCount(1);
+    await expect(page.locator('link[href*="azeret-mono-latin-600-normal"]')).toHaveCount(1);
+
+    for (const preload of await heroFontPreloads.all()) {
+      await expect(preload).toHaveAttribute('type', 'font/woff2');
+    }
+
+    const fontAndShiftEvidence = await page.evaluate(async () => {
+      const requiredFaces = [
+        { descriptor: '800 48px "Archivo Variable"', sample: 'Systèmes intelligents' },
+        { descriptor: '400 18px "Inter Variable"', sample: 'Données et automatisation' },
+        { descriptor: '400 13px "Azeret Mono"', sample: 'REPÈRES RECRUTEUR' },
+        { descriptor: '600 13px "Azeret Mono"', sample: 'ARCHITECTE OPÉRATEUR' },
+      ];
+      const faces = [];
+
+      for (const required of requiredFaces) {
+        const matches = await document.fonts.load(required.descriptor, required.sample);
+        faces.push({
+          descriptor: required.descriptor,
+          matches: matches.length,
+          statuses: matches.map((face) => face.status),
+        });
+      }
+
+      await document.fonts.ready;
+      await new Promise<void>((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()));
+      });
+
+      return {
+        cls: (window as Window & { __auditCLS?: number }).__auditCLS ?? 0,
+        faces,
+        status: document.fonts.status,
+      };
+    });
+
+    expect(fontAndShiftEvidence.status, `${path} document font status`).toBe('loaded');
+    for (const face of fontAndShiftEvidence.faces) {
+      expect(face.matches, `${path} ${face.descriptor} matched font faces`).toBeGreaterThan(0);
+      expect(face.statuses, `${path} ${face.descriptor} loaded font faces`).not.toContain('unloaded');
+      expect(face.statuses, `${path} ${face.descriptor} errored font faces`).not.toContain('error');
+    }
+    expect(fontAndShiftEvidence.cls, `${path} non-user-input CLS`).toBeLessThanOrEqual(0.1);
+
+    await context.close();
+  }
 });
 
-test('the mobile menu enters the viewport, receives focus, and closes with Escape', async ({ page }) => {
+test('the mobile menu enters the viewport, preserves scroll, and closes with Escape', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.goto('/fr/', { waitUntil: 'networkidle' });
+  await page.goto('/fr/concepts', { waitUntil: 'networkidle' });
+  await page.evaluate(() => {
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 1200);
+  });
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(1200);
+
+  const beforeOpen = await page.evaluate(() => ({
+    overflow: document.body.style.overflow,
+    scrollY: window.scrollY,
+  }));
   const button = page.locator('#mobile-menu-btn');
   const overlay = page.locator('#mobile-menu-overlay');
   const firstLink = overlay.locator('nav a').first();
@@ -215,6 +293,7 @@ test('the mobile menu enters the viewport, receives focus, and closes with Escap
   await expect(button).toHaveAttribute('aria-expanded', 'true');
   await expect(overlay).toHaveAttribute('aria-hidden', 'false');
   await expect(firstLink).toBeFocused();
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('hidden');
   await expect.poll(async () => (await overlay.boundingBox())?.x).toBeLessThanOrEqual(1);
   expect((await overlay.boundingBox())?.width).toBeGreaterThanOrEqual(389);
 
@@ -222,4 +301,8 @@ test('the mobile menu enters the viewport, receives focus, and closes with Escap
   await expect(button).toHaveAttribute('aria-expanded', 'false');
   await expect(button).toBeFocused();
   await expect(overlay).toHaveAttribute('aria-hidden', 'true');
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe(beforeOpen.overflow);
+
+  const afterCloseScrollY = await page.evaluate(() => window.scrollY);
+  expect(Math.abs(afterCloseScrollY - beforeOpen.scrollY)).toBeLessThanOrEqual(2);
 });
