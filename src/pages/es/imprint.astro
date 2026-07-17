@@ -1,26 +1,4 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Container from '../../components/layout/Container.astro';
-import Section from '../../components/layout/Section.astro';
-import Eyebrow from '../../components/primitives/Eyebrow.astro';
+import LegalPage from '../../components/pages/LegalPage.astro';
 ---
-
-<Layout title="Aviso legal — Yoann Leny" description="Aviso legal de yoannleny.com.">
-  <Section id="imprint">
-    <Container size="narrow">
-      <div class="pt-24 pb-16 max-w-[70ch]">
-        <Eyebrow text="AVISO LEGAL" />
-        <h1 class="font-display font-black text-ink-900 mt-4 mb-10 leading-[1.08] tracking-[-0.03em]"
-            style="font-size: clamp(2rem, 4vw, 3rem);">
-          Aviso legal.
-        </h1>
-        <div class="font-body text-[1.0625rem] leading-[1.75] text-ink-700 space-y-6">
-          <p><strong class="text-ink-900">Editor.</strong> Yoann Leny, Burdeos, Francia.</p>
-          <p><strong class="text-ink-900">Contacto.</strong> <a href="mailto:yoann.leny@gmail.com" class="text-signal underline decoration-signal/30 underline-offset-4 hover:text-ink-900 transition-colors">yoann.leny@gmail.com</a></p>
-          <p><strong class="text-ink-900">Contenido.</strong> Todo el contenido de este sitio — ensayos, entradas de la biblioteca de conceptos, casos de estudio — está redactado y mantenido por Yoann Leny, salvo indicación contraria. Las opiniones son propias.</p>
-          <p><strong class="text-ink-900">Marcas.</strong> Los nombres de productos y empresas mencionados (Databricks, Snowflake, dbt y otros) son marcas de sus respectivos propietarios y se citan únicamente con fines de identificación.</p>
-        </div>
-      </div>
-    </Container>
-  </Section>
-</Layout>
+<LegalPage locale="es" kind="imprint" />

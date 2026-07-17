@@ -289,6 +289,39 @@ test('keeps personal-page route files as exact locale adapters', () => {
   }
 });
 
+test('shares compact legal composition across locales', () => {
+  for (const kind of ['privacy', 'imprint']) {
+    for (const [prefix, locale, depth] of [['', 'en', '..'], ['fr/', 'fr', '../..'], ['es/', 'es', '../..']]) {
+      const routePath = `src/pages/${prefix}${kind}.astro`;
+      const source = read(routePath);
+      assert.ok(source.includes('LegalPage'));
+      assert.ok(source.includes(`locale="${locale}"`));
+      assert.ok(source.includes(`kind="${kind}"`));
+      assert.equal(
+        source.trim(),
+        `---\nimport LegalPage from '${depth}/components/pages/LegalPage.astro';\n---\n<LegalPage locale="${locale}" kind="${kind}" />`,
+        `${routePath} must remain an exact locale/kind adapter`,
+      );
+    }
+  }
+});
+
+test('renders legal copy from typed safe segments', () => {
+  const renderer = read('src/components/pages/LegalPage.astro');
+  const copy = read('src/data/localized-site.ts');
+
+  assert.ok(renderer.includes('CinematicIntro'));
+  assert.ok(renderer.includes('variant="utility"'));
+  assert.ok(renderer.includes('<Container size="narrow">'));
+  assert.ok(renderer.includes('<Prose>'));
+  assert.ok(renderer.includes('paragraph.map'));
+  assert.ok(renderer.includes('segment.href'));
+  assert.ok(renderer.includes('<strong>{segment.text}</strong>'));
+  assert.doesNotMatch(renderer, /set:html|innerHTML/);
+  assert.ok(copy.includes('export interface LegalSegment'));
+  assert.ok(copy.includes('paragraphs: LegalSegment[][]'));
+});
+
 test('preserves every legacy personal-page fragment exactly once', () => {
   const copy = read('src/data/localized-site.ts');
   const expected = {

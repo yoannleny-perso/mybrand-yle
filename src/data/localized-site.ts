@@ -82,6 +82,25 @@ interface LocalizedPageMetadata {
   intro: { eyebrow: string; title: string; summary?: string };
 }
 
+export interface LegalSegment {
+  text: string;
+  strong?: boolean;
+  href?: string;
+}
+
+interface LegalPageCopy {
+  title: string;
+  description: string;
+  eyebrow: string;
+  heading: string;
+  paragraphs: LegalSegment[][];
+}
+
+interface LegalPagesCopy {
+  privacy: LegalPageCopy;
+  imprint: LegalPageCopy;
+}
+
 export interface LocalizedPersonalSection {
   id: string;
   kind: string;
@@ -191,6 +210,7 @@ interface PersonalPagesCopy {
 }
 
 interface LocalizedSiteCopy extends PersonalPagesCopy {
+  legal: LegalPagesCopy;
   achievementLabels: AchievementLabels;
   home: {
     title: string;
@@ -644,6 +664,168 @@ const capabilitiesPages: Record<Locale, CapabilitiesCopy> = {
   },
 };
 
+const legalPages: Record<Locale, LegalPagesCopy> = {
+  en: {
+    privacy: {
+      title: 'Privacy — Yoann Leny',
+      description: 'Privacy policy for yoannleny.com.',
+      eyebrow: 'PRIVACY',
+      heading: "Short, because there isn't much to say.",
+      paragraphs: [
+        [{ text: 'This site is a static website. It has no user accounts, no forms that store data, no advertising, and no newsletter pop-ups.' }],
+        [
+          { text: 'No tracking cookies.', strong: true },
+          { text: ' The site does not set cookies for analytics or advertising. Your language preference is stored locally in your own browser (localStorage) and never leaves it.' },
+        ],
+        [
+          { text: 'Email.', strong: true },
+          { text: " If you email me, I keep the correspondence like any professional correspondence. I don't add you to any list." },
+        ],
+        [
+          { text: 'Hosting.', strong: true },
+          { text: ' The hosting provider may log requests (IP address, user agent) for security and operations, as virtually all hosting does.' },
+        ],
+        [
+          { text: 'Questions: ' },
+          { text: 'yoann.leny@gmail.com', href: 'mailto:yoann.leny@gmail.com' },
+          { text: '.' },
+        ],
+      ],
+    },
+    imprint: {
+      title: 'Imprint — Yoann Leny',
+      description: 'Legal notice for yoannleny.com.',
+      eyebrow: 'IMPRINT',
+      heading: 'Legal notice.',
+      paragraphs: [
+        [
+          { text: 'Publisher.', strong: true },
+          { text: ' Yoann Leny, Bordeaux, France.' },
+        ],
+        [
+          { text: 'Contact.', strong: true },
+          { text: ' ' },
+          { text: 'yoann.leny@gmail.com', href: 'mailto:yoann.leny@gmail.com' },
+        ],
+        [
+          { text: 'Content.', strong: true },
+          { text: ' All content on this site — essays, concept entries, case studies — is written and maintained by Yoann Leny unless otherwise noted. Opinions are my own.' },
+        ],
+        [
+          { text: 'Trademarks.', strong: true },
+          { text: ' Product and company names mentioned (Databricks, Snowflake, dbt, and others) are trademarks of their respective owners and are referenced for identification only.' },
+        ],
+      ],
+    },
+  },
+  fr: {
+    privacy: {
+      title: 'Confidentialité — Yoann Leny',
+      description: 'Politique de confidentialité de yoannleny.com.',
+      eyebrow: 'CONFIDENTIALITÉ',
+      heading: "Court, parce qu'il n'y a pas grand-chose à dire.",
+      paragraphs: [
+        [{ text: "Ce site est un site statique. Il n'a ni comptes utilisateurs, ni formulaires stockant des données, ni publicité, ni pop-ups de newsletter." }],
+        [
+          { text: 'Aucun cookie de suivi.', strong: true },
+          { text: " Le site ne dépose aucun cookie d'analyse ou de publicité. Votre préférence de langue est stockée localement dans votre navigateur (localStorage) et ne le quitte jamais." },
+        ],
+        [
+          { text: 'E-mail.', strong: true },
+          { text: " Si vous m'écrivez, je conserve la correspondance comme toute correspondance professionnelle. Je ne vous ajoute à aucune liste." },
+        ],
+        [
+          { text: 'Hébergement.', strong: true },
+          { text: " L'hébergeur peut journaliser les requêtes (adresse IP, user agent) à des fins de sécurité et d'exploitation, comme pratiquement tout hébergement." },
+        ],
+        [
+          { text: 'Questions : ' },
+          { text: 'yoann.leny@gmail.com', href: 'mailto:yoann.leny@gmail.com' },
+          { text: '.' },
+        ],
+      ],
+    },
+    imprint: {
+      title: 'Mentions légales — Yoann Leny',
+      description: 'Mentions légales de yoannleny.com.',
+      eyebrow: 'MENTIONS LÉGALES',
+      heading: 'Mentions légales.',
+      paragraphs: [
+        [
+          { text: 'Éditeur.', strong: true },
+          { text: ' Yoann Leny, Bordeaux, France.' },
+        ],
+        [
+          { text: 'Contact.', strong: true },
+          { text: ' ' },
+          { text: 'yoann.leny@gmail.com', href: 'mailto:yoann.leny@gmail.com' },
+        ],
+        [
+          { text: 'Contenu.', strong: true },
+          { text: " Tout le contenu de ce site — essais, entrées de la bibliothèque de concepts, études de cas — est rédigé et maintenu par Yoann Leny, sauf mention contraire. Les opinions n'engagent que moi." },
+        ],
+        [
+          { text: 'Marques.', strong: true },
+          { text: " Les noms de produits et d'entreprises cités (Databricks, Snowflake, dbt et autres) sont des marques de leurs propriétaires respectifs, référencées à des fins d'identification uniquement." },
+        ],
+      ],
+    },
+  },
+  es: {
+    privacy: {
+      title: 'Privacidad — Yoann Leny',
+      description: 'Política de privacidad de yoannleny.com.',
+      eyebrow: 'PRIVACIDAD',
+      heading: 'Corto, porque no hay mucho que decir.',
+      paragraphs: [
+        [{ text: 'Este es un sitio web estático. No tiene cuentas de usuario, ni formularios que almacenen datos, ni publicidad, ni pop-ups de newsletter.' }],
+        [
+          { text: 'Sin cookies de rastreo.', strong: true },
+          { text: ' El sitio no instala cookies de analítica ni de publicidad. Tu preferencia de idioma se guarda localmente en tu navegador (localStorage) y nunca sale de él.' },
+        ],
+        [
+          { text: 'Correo.', strong: true },
+          { text: ' Si me escribes, conservo la correspondencia como cualquier correspondencia profesional. No te añado a ninguna lista.' },
+        ],
+        [
+          { text: 'Alojamiento.', strong: true },
+          { text: ' El proveedor de alojamiento puede registrar solicitudes (dirección IP, user agent) por seguridad y operaciones, como prácticamente todo alojamiento.' },
+        ],
+        [
+          { text: 'Preguntas: ' },
+          { text: 'yoann.leny@gmail.com', href: 'mailto:yoann.leny@gmail.com' },
+          { text: '.' },
+        ],
+      ],
+    },
+    imprint: {
+      title: 'Aviso legal — Yoann Leny',
+      description: 'Aviso legal de yoannleny.com.',
+      eyebrow: 'AVISO LEGAL',
+      heading: 'Aviso legal.',
+      paragraphs: [
+        [
+          { text: 'Editor.', strong: true },
+          { text: ' Yoann Leny, Burdeos, Francia.' },
+        ],
+        [
+          { text: 'Contacto.', strong: true },
+          { text: ' ' },
+          { text: 'yoann.leny@gmail.com', href: 'mailto:yoann.leny@gmail.com' },
+        ],
+        [
+          { text: 'Contenido.', strong: true },
+          { text: ' Todo el contenido de este sitio — ensayos, entradas de la biblioteca de conceptos, casos de estudio — está redactado y mantenido por Yoann Leny, salvo indicación contraria. Las opiniones son propias.' },
+        ],
+        [
+          { text: 'Marcas.', strong: true },
+          { text: ' Los nombres de productos y empresas mencionados (Databricks, Snowflake, dbt y otros) son marcas de sus respectivos propietarios y se citan únicamente con fines de identificación.' },
+        ],
+      ],
+    },
+  },
+};
+
 export const localizedSite: Record<Locale, LocalizedSiteCopy> = {
   en: {
     about: aboutPages.en,
@@ -651,6 +833,7 @@ export const localizedSite: Record<Locale, LocalizedSiteCopy> = {
     contact: contactPages.en,
     hire: hirePages.en,
     now: nowPages.en,
+    legal: legalPages.en,
     achievementLabels: {
       evidence: 'Evidence',
       sector: 'Sector',
@@ -773,6 +956,7 @@ export const localizedSite: Record<Locale, LocalizedSiteCopy> = {
     contact: contactPages.fr,
     hire: hirePages.fr,
     now: nowPages.fr,
+    legal: legalPages.fr,
     achievementLabels: {
       evidence: 'Preuve',
       sector: 'Secteur',
@@ -895,6 +1079,7 @@ export const localizedSite: Record<Locale, LocalizedSiteCopy> = {
     contact: contactPages.es,
     hire: hirePages.es,
     now: nowPages.es,
+    legal: legalPages.es,
     achievementLabels: {
       evidence: 'Evidencia',
       sector: 'Sector',

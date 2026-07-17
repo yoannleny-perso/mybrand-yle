@@ -1,27 +1,4 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Container from '../components/layout/Container.astro';
-import Section from '../components/layout/Section.astro';
-import Eyebrow from '../components/primitives/Eyebrow.astro';
+import LegalPage from '../components/pages/LegalPage.astro';
 ---
-
-<Layout title="Privacy — Yoann Leny" description="Privacy policy for yoannleny.com.">
-  <Section id="privacy">
-    <Container size="narrow">
-      <div class="pt-24 pb-16 max-w-[70ch]">
-        <Eyebrow text="PRIVACY" />
-        <h1 class="font-display font-black text-ink-900 mt-4 mb-10 leading-[1.08] tracking-[-0.03em]"
-            style="font-size: clamp(2rem, 4vw, 3rem);">
-          Short, because there isn't much to say.
-        </h1>
-        <div class="font-body text-[1.0625rem] leading-[1.75] text-ink-700 space-y-6">
-          <p>This site is a static website. It has no user accounts, no forms that store data, no advertising, and no newsletter pop-ups.</p>
-          <p><strong class="text-ink-900">No tracking cookies.</strong> The site does not set cookies for analytics or advertising. Your language preference is stored locally in your own browser (localStorage) and never leaves it.</p>
-          <p><strong class="text-ink-900">Email.</strong> If you email me, I keep the correspondence like any professional correspondence. I don't add you to any list.</p>
-          <p><strong class="text-ink-900">Hosting.</strong> The hosting provider may log requests (IP address, user agent) for security and operations, as virtually all hosting does.</p>
-          <p>Questions: <a href="mailto:yoann.leny@gmail.com" class="text-signal underline decoration-signal/30 underline-offset-4 hover:text-ink-900 transition-colors">yoann.leny@gmail.com</a>.</p>
-        </div>
-      </div>
-    </Container>
-  </Section>
-</Layout>
+<LegalPage locale="en" kind="privacy" />
