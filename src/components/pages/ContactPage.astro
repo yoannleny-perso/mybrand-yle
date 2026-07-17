@@ -12,7 +12,7 @@ const copy = localizedSite[locale].contact;
 ---
 
 <Layout title={copy.title} description={copy.description}>
-  <section data-page-section="contact-intro" class="page-intro">
+  <section id="header" data-page-section="contact-intro" class="page-intro">
     <Container size="wide">
       <CinematicIntro {...copy.intro} variant="utility" accent="outcome">
         <p class="hiring-note"><strong>{copy.hiring.lead}</strong> {copy.hiring.body} <a href={copy.hiring.link.href}>{copy.hiring.link.label}</a>.</p>
@@ -20,7 +20,7 @@ const copy = localizedSite[locale].contact;
     </Container>
   </section>
 
-  <section data-page-section="contact-paths" class="paths-scene">
+  <section id="paths" data-page-section="contact-paths" class="paths-scene">
     <Container>
       <div class="path-grid">
         {copy.paths.map((path, index) => (
@@ -34,15 +34,15 @@ const copy = localizedSite[locale].contact;
     </Container>
   </section>
 
-  <section data-page-section="message-guide" class="guide-scene">
+  <section id="what-to-include" data-page-section="message-guide" class="guide-scene">
     <Container>
       <SceneHeading eyebrow={copy.messageGuide.eyebrow} title={copy.messageGuide.eyebrow} accent="change" />
       <Prose class="guide-body"><p>{copy.messageGuide.intro}</p><ol>{copy.messageGuide.items.map((item) => <li>{item}</li>)}</ol><p>{copy.messageGuide.close}</p></Prose>
-      <p class="expectation">{copy.expectation}</p>
+      <p id="expectation" class="expectation">{copy.expectation}</p>
     </Container>
   </section>
 
-  <section data-page-section="contact-close" class="close-scene">
+  <section id="closing" data-page-section="contact-close" class="close-scene">
     <Container>
       <h2>{copy.close.title}<span>{copy.close.continuation}</span></h2>
       <p class="signature">{copy.close.signature}</p><p class="location">{copy.close.location}</p>
@@ -73,5 +73,5 @@ const copy = localizedSite[locale].contact;
   .signature { margin: 2.5rem 0 0; color: var(--paper-0); font-family: var(--font-display); font-size: var(--t-headline-size); font-style: italic; }
   .location { margin: 2.5rem 0 0; color: var(--ink-100); overflow-wrap: anywhere; }
   @media (min-width: 48rem) { .path-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+  @media (max-width: 68.75rem) { .page-intro { padding-top: 4.5rem; } }
 </style>

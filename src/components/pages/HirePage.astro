@@ -11,15 +11,15 @@ const copy = localizedSite[locale].hire;
 ---
 
 <Layout title={copy.title} description={copy.description}>
-  <section data-page-section="hire-intro" class="page-intro">
+  <section id="header" data-page-section="hire-intro" class="page-intro">
     <Container size="wide"><CinematicIntro {...copy.intro} variant="utility" accent="change"><p class="identity-line">{copy.identityLine}</p></CinematicIntro></Container>
   </section>
 
-  <section data-page-section="hire-facts" class="facts-scene">
+  <section id="facts" data-page-section="hire-facts" class="facts-scene">
     <Container><dl>{copy.facts.map((fact) => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl></Container>
   </section>
 
-  <section data-page-section="hire-fit" class="fit-scene">
+  <section id="fit" data-page-section="hire-fit" class="fit-scene">
     <Container>
       <div class="fit-grid">
         <article data-fit="positive"><h2>{copy.fit.positiveTitle}</h2><ul>{copy.fit.positive.map((item) => <li>{item}</li>)}</ul></article>
@@ -28,10 +28,10 @@ const copy = localizedSite[locale].hire;
     </Container>
   </section>
 
-  <section data-page-section="ninety-days" class="plan-scene">
+  <section id="ninety-days" data-page-section="ninety-days" class="plan-scene">
     <Container>
       <SceneHeading eyebrow={copy.plan.eyebrow} title={copy.plan.title} summary={copy.plan.summary} accent="outcome" />
-      <div class="phase-list">
+      <div id="plan-phases" class="phase-list">
         {copy.plan.phases.map((phase, index) => (
           <details open={index === 0}>
             <summary><span>{phase.label}</span><strong>{phase.title}</strong><i aria-hidden="true">↓</i></summary>
@@ -42,7 +42,7 @@ const copy = localizedSite[locale].hire;
     </Container>
   </section>
 
-  <section data-page-section="hire-evidence" class="evidence-scene">
+  <section id="evidence" data-page-section="hire-evidence" class="evidence-scene">
     <Container>
       <SceneHeading eyebrow={copy.evidence.eyebrow} title={copy.evidence.title} accent="intelligence" />
       <div class="evidence-grid">
@@ -53,7 +53,7 @@ const copy = localizedSite[locale].hire;
     </Container>
   </section>
 
-  <section data-page-section="hire-close" class="close-scene">
+  <section id="closing" data-page-section="hire-close" class="close-scene">
     <Container>
       <h2>{copy.close.title}</h2>
       <div><a class="button" href={copy.close.primary.href}>{copy.close.primary.label}</a><a href={copy.close.secondary.href} target="_blank" rel="noopener noreferrer">{copy.close.secondary.label}</a></div>
@@ -108,6 +108,6 @@ const copy = localizedSite[locale].hire;
     .evidence-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
   @media (min-width: 68rem) { .facts-scene dl { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+  @media (max-width: 68.75rem) { .page-intro { padding-top: 4.5rem; } }
   @media (prefers-reduced-motion: reduce) { summary i { transition: none; } }
 </style>

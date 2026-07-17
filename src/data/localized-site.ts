@@ -76,13 +76,36 @@ export interface LocalizedLink {
 
 export type LocalizedRichPart = string | (LocalizedLink & { emphasis?: boolean });
 
-export interface LocalizedPersonalPage {
+interface LocalizedPageMetadata {
   title: string;
   description: string;
   intro: { eyebrow: string; title: string; summary?: string };
 }
 
-interface AboutCopy extends LocalizedPersonalPage {
+export interface LocalizedPersonalSection {
+  id: string;
+  kind: string;
+}
+
+export interface LocalizedPersonalPage<TSection extends LocalizedPersonalSection = LocalizedPersonalSection> extends LocalizedPageMetadata {
+  sections: TSection[];
+  primaryCta?: LocalizedLink;
+  secondaryCta?: LocalizedLink;
+}
+
+type AboutSection =
+  | ({ kind: 'biography'; eyebrow: string; body: string[] } & LocalizedPersonalSection)
+  | ({ kind: 'principles'; eyebrow: string; title: string; items: Array<{ number: string; title: string; description: string }> } & LocalizedPersonalSection)
+  | ({ kind: 'track-record'; eyebrow: string; metrics: Array<Metric & { description: string }> } & LocalizedPersonalSection)
+  | ({ kind: 'stack'; eyebrow: string; body: string } & LocalizedPersonalSection)
+  | ({ kind: 'writing'; eyebrow: string; items: Array<LocalizedLink & { kind: string }> } & LocalizedPersonalSection)
+  | ({ kind: 'closing'; lead: string; title: string } & LocalizedPersonalSection);
+
+interface AboutCopy extends LocalizedPersonalPage<AboutSection> {
+  portrait: { alt: string; caption: string; statement: string };
+}
+
+interface AboutSourceCopy extends LocalizedPageMetadata {
   portrait: { alt: string; caption: string; statement: string };
   biography: { eyebrow: string; body: string[] };
   principles: { eyebrow: string; title: string; items: Array<{ number: string; title: string; description: string }> };
@@ -107,7 +130,7 @@ interface CapabilityPractice {
   missions: string[];
 }
 
-interface CapabilitiesCopy extends LocalizedPersonalPage {
+interface CapabilitiesCopy extends LocalizedPageMetadata {
   practices: CapabilityPractice[];
   engagement: {
     eyebrow: string;
@@ -120,7 +143,7 @@ interface CapabilitiesCopy extends LocalizedPersonalPage {
   close: { title: string; continuation: string; primary: LocalizedLink; secondary: LocalizedLink };
 }
 
-interface ContactCopy extends LocalizedPersonalPage {
+interface ContactCopy extends LocalizedPageMetadata {
   hiring: { lead: string; body: string; link: LocalizedLink };
   paths: Array<LocalizedLink & { label: string; actionLabel: string; description: string; kind: 'email' | 'linkedin' | 'call' }>;
   messageGuide: { eyebrow: string; intro: string; items: string[]; close: string };
@@ -128,7 +151,7 @@ interface ContactCopy extends LocalizedPersonalPage {
   close: { title: string; continuation: string; signature: string; location: string };
 }
 
-interface HireCopy extends LocalizedPersonalPage {
+interface HireCopy extends LocalizedPageMetadata {
   identityLine: string;
   facts: Array<{ label: string; value: string }>;
   fit: { positiveTitle: string; positive: string[]; negativeTitle: string; negative: string[] };
@@ -143,7 +166,15 @@ interface HireCopy extends LocalizedPersonalPage {
   close: { title: string; primary: LocalizedLink; secondary: LocalizedLink; note: string };
 }
 
-interface NowCopy extends LocalizedPersonalPage {
+type NowSection =
+  | ({ kind: 'lead'; before: string; link: LocalizedLink; after: string } & LocalizedPersonalSection)
+  | ({ kind: 'focus'; title: string; paragraphs: Array<{ parts: LocalizedRichPart[] }> } & LocalizedPersonalSection)
+  | ({ kind: 'availability'; title: string; items: Array<{ label: string; parts: LocalizedRichPart[] }> } & LocalizedPersonalSection)
+  | ({ kind: 'reading'; title: string; before: string; book: string; after: string } & LocalizedPersonalSection);
+
+interface NowCopy extends LocalizedPersonalPage<NowSection> {}
+
+interface NowSourceCopy extends LocalizedPageMetadata {
   lead: { before: string; link: LocalizedLink; after: string };
   focus: { title: string; paragraphs: Array<{ parts: LocalizedRichPart[] }> };
   availability: { title: string; items: Array<{ label: string; parts: LocalizedRichPart[] }> };
@@ -230,7 +261,7 @@ interface LocalizedSiteCopy extends PersonalPagesCopy {
   };
 }
 
-const aboutPages: Record<Locale, AboutCopy> = {
+const aboutPageSources: Record<Locale, AboutSourceCopy> = {
   en: {
     title: 'About — Yoann Leny',
     description: 'Operator-architect with VP-level experience leading data operations and agentic AI at scale. Background, principles, and how I work.',
@@ -355,6 +386,23 @@ const aboutPages: Record<Locale, AboutCopy> = {
   },
 };
 
+const aboutPages = Object.fromEntries(Object.entries(aboutPageSources).map(([locale, page]) => [locale, {
+  title: page.title,
+  description: page.description,
+  intro: page.intro,
+  portrait: page.portrait,
+  primaryCta: page.close.primary,
+  secondaryCta: page.close.secondary,
+  sections: [
+    { id: 'bio', kind: 'biography', ...page.biography },
+    { id: 'principles', kind: 'principles', ...page.principles },
+    { id: 'track-record', kind: 'track-record', ...page.trackRecord },
+    { id: 'stack', kind: 'stack', ...page.stack },
+    { id: 'writing', kind: 'writing', ...page.writing },
+    { id: 'closing', kind: 'closing', lead: page.close.lead, title: page.close.title },
+  ],
+}])) as Record<Locale, AboutCopy>;
+
 const contactPages: Record<Locale, ContactCopy> = {
   en: {
     title: 'Contact — Yoann Leny',
@@ -378,7 +426,7 @@ const contactPages: Record<Locale, ContactCopy> = {
     paths: [
       { kind: 'email', label: 'E-MAIL DIRECT', actionLabel: 'yoann.leny@gmail.com', href: 'mailto:yoann.leny@gmail.com', description: 'Pour les présentations, les briefs de projets et les messages plus longs. Idéal pour les discussions stratégiques.' },
       { kind: 'linkedin', label: 'LINKEDIN', actionLabel: 'linkedin.com/in/yoann-leny', href: 'https://www.linkedin.com/in/yoann-leny-10144b37/', external: true, description: "Pour les collègues, les recruteurs et le réseautage. Priorité inférieure à l'e-mail." },
-      { kind: 'call', label: 'APPEL DE 30 MINUTES', actionLabel: 'Réserver directement', href: '#', description: "Un créneau pré-sélectionné pour des discussions de projet sérieuses. Utilisez d'abord l'e-mail s'il s'agit d'un brief détaillé." },
+      { kind: 'call', label: 'APPEL DE 30 MINUTES', actionLabel: 'Demander un créneau', href: 'mailto:yoann.leny@gmail.com?subject=Demande%20d%27appel%20de%2030%20minutes', description: "Un créneau pré-sélectionné pour des discussions de projet sérieuses. Utilisez d'abord l'e-mail s'il s'agit d'un brief détaillé." },
     ],
     messageGuide: { eyebrow: 'POUR FACILITER NOTRE FUTUR ÉCHANGE', intro: 'Un premier message utile contient généralement quatre éléments :', items: ["Où en est l'entreprise aujourd'hui — étape, taille, secteur.", 'Ce que vous avez déjà essayé.', 'La décision que vous essayez de prendre, pas seulement les symptômes.', "L'horizon — quand cela doit-il être opérationnel."], close: "Trois phrases pour chaque point suffisent amplement. L'essentiel de la conversation se fait de vive voix." },
     expectation: "Je lis les messages sous 24 heures, du lundi au vendredi. Je réponds à la plupart sous 48 heures. Si je ne peux pas vous aider, je vous le dirai rapidement et tenterai de vous orienter vers quelqu'un de compétent.",
@@ -392,7 +440,7 @@ const contactPages: Record<Locale, ContactCopy> = {
     paths: [
       { kind: 'email', label: 'CORREO DIRECTO', actionLabel: 'yoann.leny@gmail.com', href: 'mailto:yoann.leny@gmail.com', description: 'Para presentaciones, resúmenes de proyectos y mensajes más largos. Ideal para discusiones ejecutivas.' },
       { kind: 'linkedin', label: 'LINKEDIN', actionLabel: 'linkedin.com/in/yoann-leny', href: 'https://www.linkedin.com/in/yoann-leny-10144b37/', external: true, description: 'Para colegas, reclutadores y redes de contactos. Menor prioridad que el correo electrónico.' },
-      { kind: 'call', label: 'LLAMADA DE 30 MINUTOS', actionLabel: 'Reservar directamente', href: '#', description: 'Un espacio reservado para conversaciones serias de proyectos. Utilice primero el correo electrónico si es un resumen largo.' },
+      { kind: 'call', label: 'LLAMADA DE 30 MINUTOS', actionLabel: 'Solicitar un horario', href: 'mailto:yoann.leny@gmail.com?subject=Solicitud%20de%20llamada%20de%2030%20minutos', description: 'Un espacio reservado para conversaciones serias de proyectos. Utilice primero el correo electrónico si es un resumen largo.' },
     ],
     messageGuide: { eyebrow: 'SI ES PROBABLE QUE TRABAJEMOS JUNTOS', intro: 'Un primer mensaje útil suele contener cuatro cosas:', items: ['Dónde está la empresa hoy — etapa, tamaño, sector.', 'Qué ha intentado ya.', 'La decisión que intenta tomar, no solo el síntoma.', 'El horizonte — cuándo debe estar funcionando.'], close: 'Tres frases para cada punto es más que suficiente. La mayor parte de la conversación ocurre después de que hablemos.' },
     expectation: 'Leo los mensajes en un plazo de 24 horas, de lunes a viernes. Respondo a la mayoría en 48 horas. Si no puedo ayudarle, se lo diré rápidamente e intentaré orientarle hacia alguien que pueda hacerlo.',
@@ -400,7 +448,7 @@ const contactPages: Record<Locale, ContactCopy> = {
   },
 };
 
-const nowPages: Record<Locale, NowCopy> = {
+const nowPageSources: Record<Locale, NowSourceCopy> = {
   en: {
     title: 'Now — Yoann Leny', description: 'What I am working on this month, what engagements have capacity, and what is fully booked. Updated regularly.',
     intro: { eyebrow: 'UPDATED July 2026', title: "What I'm doing now." },
@@ -447,6 +495,19 @@ const nowPages: Record<Locale, NowCopy> = {
     cta: { label: 'Iniciar una conversación →', href: '/es/contact' },
   },
 };
+
+const nowPages = Object.fromEntries(Object.entries(nowPageSources).map(([locale, page]) => [locale, {
+  title: page.title,
+  description: page.description,
+  intro: page.intro,
+  primaryCta: page.cta,
+  sections: [
+    { id: 'lead', kind: 'lead', ...page.lead },
+    { id: 'focus', kind: 'focus', ...page.focus },
+    { id: 'availability', kind: 'availability', ...page.availability },
+    { id: 'reading', kind: 'reading', ...page.reading },
+  ],
+}])) as Record<Locale, NowCopy>;
 
 const hirePages: Record<Locale, HireCopy> = {
   en: {
@@ -544,7 +605,7 @@ const capabilitiesPages: Record<Locale, CapabilitiesCopy> = {
       { mode: 'Architect-in-residence', shape: 'Embedded one or two days a week as the senior architectural authority.', duration: '6–18 months', bestFor: 'Companies rebuilding their data and AI foundation.' },
       { mode: 'Executive advisory', shape: 'Working with the CEO, CTO, or CDO on a recurring rhythm — strategy, hiring, governance.', duration: '3–12 months', bestFor: 'Leaders who need a senior peer to think with.' },
       { mode: 'Diagnostic & rebuild plan', shape: 'A focused 6–8 week assessment producing an architecture, operating model, and rebuild roadmap.', duration: '6–8 weeks', bestFor: 'Boards and PE operators evaluating an existing function.' },
-    ], note: { before: 'I take on a small number of engagements per year. Capacity is announced on the', link: { label: 'Now', href: '/now' }, after: 'page. For specific availability and rates, the only path is a direct conversation.' } },
+    ], note: { before: 'I take on a small number of engagements per year. Capacity is announced on the ', link: { label: 'Now', href: '/now' }, after: ' page. For specific availability and rates, the only path is a direct conversation.' } },
     close: { title: 'Capability is just potential.', continuation: 'An operating model is what makes it pay.', primary: { label: 'Start a conversation →', href: '/contact' }, secondary: { label: 'Read recent work', href: '/work' } },
   },
   fr: {
@@ -561,7 +622,7 @@ const capabilitiesPages: Record<Locale, CapabilitiesCopy> = {
       { mode: 'Architecte en résidence', shape: "Intégré un ou deux jours par semaine en tant qu'autorité architecturale principale.", duration: '6–18 mois', bestFor: "Les entreprises reconstruisant leur base de données et d'IA." },
       { mode: 'Conseil exécutif', shape: 'Collaboration avec le PDG, le CTO ou le CDO selon un rythme récurrent — stratégie, recrutement, gouvernance.', duration: '3–12 mois', bestFor: "Les dirigeants qui ont besoin d'un pair expérimenté avec qui réfléchir." },
       { mode: 'Diagnostic & plan de reconstruction', shape: 'Une évaluation ciblée de 6 à 8 semaines produisant une architecture, un modèle opérationnel et une feuille de route de reconstruction.', duration: '6–8 semaines', bestFor: "Les conseils d'administration et les opérateurs de capital-investissement (PE) évaluant une fonction existante." },
-    ], note: { before: "Je m'engage sur un petit nombre de projets par an. La capacité disponible est annoncée sur la page", link: { label: 'En ce moment', href: '/fr/now' }, after: '. Pour connaître les disponibilités et les tarifs spécifiques, la seule voie est une conversation directe.' } },
+    ], note: { before: "Je m'engage sur un petit nombre de projets par an. La capacité disponible est annoncée sur la page ", link: { label: 'En ce moment', href: '/fr/now' }, after: '. Pour connaître les disponibilités et les tarifs spécifiques, la seule voie est une conversation directe.' } },
     close: { title: "La compétence n'est qu'un potentiel.", continuation: 'Un modèle opérationnel est ce qui la rend rentable.', primary: { label: 'Démarrer une conversation →', href: '/fr/contact' }, secondary: { label: 'Découvrir mes projets récents', href: '/fr/work' } },
   },
   es: {
@@ -578,7 +639,7 @@ const capabilitiesPages: Record<Locale, CapabilitiesCopy> = {
       { mode: 'Arquitecto en residencia', shape: 'Integrado uno o dos días a la semana como la autoridad arquitectónica principal.', duration: '6–18 meses', bestFor: 'Empresas que reconstruyen su base de datos y de IA.' },
       { mode: 'Asesoría ejecutiva', shape: 'Trabajando con el CEO, CTO o CDO en un ritmo recurrente: estrategia, contratación, gobernanza.', duration: '3–12 meses', bestFor: 'Líderes que necesitan un par senior para pensar juntos.' },
       { mode: 'Diagnóstico y plan de reconstrucción', shape: 'Una evaluación enfocada de 6 a 8 semanas que produce una arquitectura, modelo operativo y hoja de ruta de reconstrucción.', duration: '6–8 semanas', bestFor: 'Consejos de administración y operadores de PE que evalúan una función existente.' },
-    ], note: { before: 'Acepto un número reducido de compromisos al año. La capacidad disponible se anuncia en la página', link: { label: 'Ahora', href: '/es/now' }, after: '. Para conocer la disponibilidad y tarifas específicas, el único camino es una conversación directa.' } },
+    ], note: { before: 'Acepto un número reducido de compromisos al año. La capacidad disponible se anuncia en la página ', link: { label: 'Ahora', href: '/es/now' }, after: '. Para conocer la disponibilidad y tarifas específicas, el único camino es una conversación directa.' } },
     close: { title: 'La capacidad es solo potencial.', continuation: 'Un modelo operativo es lo que la hace rentable.', primary: { label: 'Iniciar una conversación →', href: '/es/contact' }, secondary: { label: 'Ver proyectos recientes', href: '/es/work' } },
   },
 };

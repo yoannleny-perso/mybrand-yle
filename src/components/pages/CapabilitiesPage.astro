@@ -14,7 +14,7 @@ const copy = site.capabilitiesPage;
 ---
 
 <Layout title={copy.title} description={copy.description}>
-  <section data-page-section="capabilities-intro" class="page-intro">
+  <section id="header" data-page-section="capabilities-intro" class="page-intro">
     <Container size="wide"><CinematicIntro {...copy.intro} variant="utility" accent="intelligence" /></Container>
   </section>
 
@@ -46,20 +46,20 @@ const copy = site.capabilitiesPage;
     </section>
   ))}
 
-  <section data-page-section="engagement-model" class="engagement-scene">
+  <section id="engagement-model" data-page-section="engagement-model" class="engagement-scene">
     <Container>
       <SceneHeading eyebrow={copy.engagement.eyebrow} title={copy.engagement.title} summary={copy.engagement.summary} accent="change" />
-      <div class="table-scroll">
+      <div class="table-scroll" tabindex="0" role="region" aria-label={copy.engagement.title}>
         <table>
           <thead><tr>{copy.engagement.columns.map((column) => <th scope="col">{column}</th>)}</tr></thead>
           <tbody>{copy.engagement.modes.map((mode) => <tr><th scope="row">{mode.mode}</th><td>{mode.shape}</td><td>{mode.duration}</td><td>{mode.bestFor}</td></tr>)}</tbody>
         </table>
       </div>
-      <p class="engagement-note">{copy.engagement.note.before} <a href={copy.engagement.note.link.href}>{copy.engagement.note.link.label}</a> {copy.engagement.note.after}</p>
+      <p class="engagement-note">{copy.engagement.note.before}<a href={copy.engagement.note.link.href}>{copy.engagement.note.link.label}</a>{copy.engagement.note.after}</p>
     </Container>
   </section>
 
-  <section data-page-section="capabilities-close" class="close-scene">
+  <section id="closing" data-page-section="capabilities-close" class="close-scene">
     <Container>
       <h2>{copy.close.title}<span>{copy.close.continuation}</span></h2>
       <div><a class="button" href={copy.close.primary.href}>{copy.close.primary.label}</a><a href={copy.close.secondary.href}>{copy.close.secondary.label}</a></div>
@@ -99,5 +99,5 @@ const copy = site.capabilitiesPage;
   .close-scene a { min-height: 3rem; color: var(--paper-0); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
   .close-scene .button { display: inline-flex; align-items: center; padding: .9rem 1.25rem; border: 1px solid var(--paper-0); text-decoration: none; }
   @media (min-width: 58rem) { .practice-grid { grid-template-columns: minmax(0, 1.2fr) minmax(18rem, .8fr); } }
-  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+  @media (max-width: 68.75rem) { .page-intro { padding-top: 4.5rem; } }
 </style>

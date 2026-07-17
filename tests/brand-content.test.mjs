@@ -163,6 +163,115 @@ test('delegates personal and recruiter pages to locale-shared renderers', () => 
   }
 });
 
+test('keeps personal-page route files as exact locale adapters', () => {
+  const matrix = [
+    ['about', 'AboutPage'], ['capabilities', 'CapabilitiesPage'],
+    ['contact', 'ContactPage'], ['hire', 'HirePage'], ['now', 'NowPage'],
+  ];
+
+  for (const [route, component] of matrix) {
+    for (const [prefix, locale, depth] of [['', 'en', '..'], ['fr/', 'fr', '../..'], ['es/', 'es', '../..']]) {
+      const expected = `---\nimport ${component} from '${depth}/components/pages/${component}.astro';\n---\n<${component} locale="${locale}" />`;
+      assert.equal(read(`src/pages/${prefix}${route}.astro`).trim(), expected);
+    }
+  }
+});
+
+test('preserves every legacy personal-page fragment exactly once', () => {
+  const expected = {
+    AboutPage: ['header'],
+    CapabilitiesPage: ['header', 'engagement-model', 'closing'],
+    ContactPage: ['header', 'paths', 'what-to-include', 'expectation', 'closing'],
+    HirePage: ['header', 'facts', 'fit', 'ninety-days', 'plan-phases', 'evidence', 'closing'],
+    NowPage: ['header'],
+  };
+
+  for (const [component, ids] of Object.entries(expected)) {
+    const source = read(`src/components/pages/${component}.astro`);
+    for (const id of ids) {
+      assert.equal((source.match(new RegExp(`id=["'{]${id}["'}]`, 'g')) ?? []).length, 1, `${component} must expose #${id} once`);
+    }
+    assert.ok(source.includes('data-page-section='), `${component} must retain page-section hooks`);
+  }
+
+  const capabilities = read('src/components/pages/CapabilitiesPage.astro');
+  const about = read('src/components/pages/AboutPage.astro');
+  const copy = read('src/data/localized-site.ts');
+  assert.ok(capabilities.includes('id={practice.id}'));
+  assert.ok(about.includes('id={section.id}'));
+  for (const id of ['bio', 'principles', 'track-record', 'stack', 'writing', 'closing']) {
+    assert.equal((copy.match(new RegExp(`id: '${id}'`, 'g')) ?? []).length, 1, `About section model must define #${id} once`);
+  }
+});
+
+test('uses actionable localized contact links with honest request labels', () => {
+  const copy = read('src/data/localized-site.ts');
+  const contactBlock = copy.slice(copy.indexOf('const contactPages'), copy.indexOf('const nowPageSources'));
+
+  assert.doesNotMatch(contactBlock, /href: '#'/);
+  assert.equal((contactBlock.match(/kind: 'call'/g) ?? []).length, 3);
+  assert.equal((contactBlock.match(/href: 'mailto:/g) ?? []).length, 6);
+  assert.ok(contactBlock.includes("actionLabel: 'Request a slot'"));
+  assert.ok(contactBlock.includes("actionLabel: 'Demander un créneau'"));
+  assert.ok(contactBlock.includes("actionLabel: 'Solicitar un horario'"));
+});
+
+test('moves utility intro offsets before portrait collision widths', () => {
+  for (const component of ['AboutPage', 'CapabilitiesPage', 'ContactPage', 'HirePage', 'NowPage']) {
+    const source = read(`src/components/pages/${component}.astro`);
+    assert.equal((source.match(/@media \(max-width: 68\.75rem\)/g) ?? []).length, 1, `${component} needs the safe breakpoint`);
+    assert.doesNotMatch(source, /@media \(max-width: 60rem\)/);
+  }
+});
+
+test('makes the engagement table a localized keyboard-scroll region', () => {
+  const source = read('src/components/pages/CapabilitiesPage.astro');
+
+  assert.ok(source.includes('<div class="table-scroll" tabindex="0" role="region" aria-label={copy.engagement.title}>'));
+  assert.ok(source.includes('<table>'));
+  assert.ok(source.includes('</table>'));
+});
+
+test('models About and Now as required shared linear sections and page CTAs', () => {
+  const copy = read('src/data/localized-site.ts');
+  const about = read('src/components/pages/AboutPage.astro');
+  const now = read('src/components/pages/NowPage.astro');
+
+  assert.match(copy, /export interface LocalizedPersonalPage[^\{]*\{[\s\S]*?sections:/);
+  assert.match(copy, /export interface LocalizedPersonalPage[^\{]*\{[\s\S]*?primaryCta\?:/);
+  assert.match(copy, /export interface LocalizedPersonalPage[^\{]*\{[\s\S]*?secondaryCta\?:/);
+  assert.ok(about.includes('copy.sections.map'));
+  assert.ok(now.includes('copy.sections.map'));
+  assert.match(copy, /interface AboutCopy extends LocalizedPersonalPage<AboutSection>/);
+  assert.match(copy, /interface NowCopy extends LocalizedPersonalPage<NowSection>/);
+});
+
+test('keeps engagement-note spacing and punctuation in localized copy', () => {
+  const renderer = read('src/components/pages/CapabilitiesPage.astro');
+  const copy = read('src/data/localized-site.ts');
+  const engagementBlock = copy.slice(copy.indexOf('const capabilitiesPages'), copy.indexOf('export const localizedSite'));
+
+  assert.ok(renderer.includes('{copy.engagement.note.before}<a'));
+  assert.ok(renderer.includes('</a>{copy.engagement.note.after}'));
+  assert.doesNotMatch(renderer, /note\.before\}\s+<a/);
+  assert.doesNotMatch(renderer, /<\/a>\s+\{copy\.engagement\.note\.after/);
+  assert.equal((engagementBlock.match(/after: '\. /g) ?? []).length, 2, 'French and Spanish own their period spacing');
+  assert.ok(engagementBlock.includes("before: 'I take on a small number of engagements per year. Capacity is announced on the '"));
+  assert.ok(engagementBlock.includes("after: ' page. For specific availability"));
+});
+
+test('keeps capabilities mission names aligned with the approved achievement registry', () => {
+  const achievements = read('src/data/achievements.ts');
+  const copy = read('src/data/localized-site.ts');
+  const approved = [...achievements.matchAll(/name: '([^']+)'/g)].map(([, name]) => name);
+  const capabilityMissions = [...copy.matchAll(/missions: \[([^\]]*)\]/g)]
+    .flatMap(([, list]) => [...list.matchAll(/'([^']+)'/g)].map(([, name]) => name));
+
+  assert.deepEqual(approved, ['GroupIQ', 'Polaris', 'Lense Studio', 'Cap Ostrea', 'Media Data Studio']);
+  assert.deepEqual([...new Set(capabilityMissions)].sort(), [...approved].sort());
+  assert.ok(approved.every((name) => capabilityMissions.filter((mission) => mission === name).length >= 3));
+});
+
 test('keeps secondary-page cinematic introductions compact and lens-free', () => {
   for (const component of ['AboutPage', 'CapabilitiesPage', 'ContactPage', 'HirePage', 'NowPage']) {
     const source = read(`src/components/pages/${component}.astro`);

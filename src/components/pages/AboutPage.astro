@@ -12,7 +12,7 @@ const copy = localizedSite[locale].about;
 ---
 
 <Layout title={copy.title} description={copy.description}>
-  <section data-page-section="about-intro" class="page-intro">
+  <section id="header" data-page-section="about-intro" class="page-intro">
     <Container size="wide"><CinematicIntro {...copy.intro} variant="utility" accent="change" /></Container>
   </section>
 
@@ -28,59 +28,62 @@ const copy = localizedSite[locale].about;
     </Container>
   </section>
 
-  <section data-page-section="bio" class="scene">
-    <Container>
-      <SceneHeading eyebrow={copy.biography.eyebrow} title={copy.biography.eyebrow} accent="change" />
-      <Prose class="scene__body about-biography">
-        {copy.biography.body.map((paragraph, index) => <p class:list={{ lead: index === 0 }}>{paragraph}</p>)}
-      </Prose>
-    </Container>
-  </section>
-
-  <section data-page-section="principles" class="scene scene--tinted">
-    <Container>
-      <SceneHeading eyebrow={copy.principles.eyebrow} title={copy.principles.title} accent="outcome" />
-      <ol class="principle-list">
-        {copy.principles.items.map((item) => (
-          <li><span>{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></li>
-        ))}
-      </ol>
-    </Container>
-  </section>
-
-  <section data-page-section="track-record" class="scene scene--dark">
-    <Container>
-      <SceneHeading eyebrow={copy.trackRecord.eyebrow} title={copy.trackRecord.eyebrow} accent="outcome" tone="dark" />
-      <dl class="metric-grid">
-        {copy.trackRecord.metrics.map((metric) => (
-          <div><dt>{metric.label}</dt><dd class="metric-grid__value">{metric.value}</dd><dd>{metric.description}</dd></div>
-        ))}
-      </dl>
-    </Container>
-  </section>
-
-  <section data-page-section="stack" class="scene">
-    <Container>
-      <SceneHeading eyebrow={copy.stack.eyebrow} title={copy.stack.eyebrow} accent="intelligence" />
-      <Prose class="scene__body"><p>{copy.stack.body}</p></Prose>
-    </Container>
-  </section>
-
-  <section data-page-section="writing" class="scene scene--tinted">
-    <Container>
-      <SceneHeading eyebrow={copy.writing.eyebrow} title={copy.writing.eyebrow} accent="intelligence" />
-      <ul class="writing-list">
-        {copy.writing.items.map((item) => <li><a href={item.href}>{item.label}</a><span>{item.kind}</span></li>)}
-      </ul>
-    </Container>
-  </section>
-
-  <section data-page-section="about-close" class="close-scene">
-    <Container>
-      <p>{copy.close.lead}</p><h2>{copy.close.title}</h2>
-      <div><a class="button" href={copy.close.primary.href}>{copy.close.primary.label}</a><a href={copy.close.secondary.href}>{copy.close.secondary.label}</a></div>
-    </Container>
-  </section>
+  {copy.sections.map((section) => (
+    section.kind === 'biography' ? (
+      <section id={section.id} data-page-section={section.id} class="scene">
+        <Container>
+          <SceneHeading eyebrow={section.eyebrow} title={section.eyebrow} accent="change" />
+          <Prose class="scene__body about-biography">
+            {section.body.map((paragraph, index) => <p class:list={{ lead: index === 0 }}>{paragraph}</p>)}
+          </Prose>
+        </Container>
+      </section>
+    ) : section.kind === 'principles' ? (
+      <section id={section.id} data-page-section={section.id} class="scene scene--tinted">
+        <Container>
+          <SceneHeading eyebrow={section.eyebrow} title={section.title} accent="outcome" />
+          <ol class="principle-list">
+            {section.items.map((item) => <li><span>{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></li>)}
+          </ol>
+        </Container>
+      </section>
+    ) : section.kind === 'track-record' ? (
+      <section id={section.id} data-page-section={section.id} class="scene scene--dark">
+        <Container>
+          <SceneHeading eyebrow={section.eyebrow} title={section.eyebrow} accent="outcome" tone="dark" />
+          <dl class="metric-grid">
+            {section.metrics.map((metric) => <div><dt>{metric.label}</dt><dd class="metric-grid__value">{metric.value}</dd><dd>{metric.description}</dd></div>)}
+          </dl>
+        </Container>
+      </section>
+    ) : section.kind === 'stack' ? (
+      <section id={section.id} data-page-section={section.id} class="scene">
+        <Container>
+          <SceneHeading eyebrow={section.eyebrow} title={section.eyebrow} accent="intelligence" />
+          <Prose class="scene__body"><p>{section.body}</p></Prose>
+        </Container>
+      </section>
+    ) : section.kind === 'writing' ? (
+      <section id={section.id} data-page-section={section.id} class="scene scene--tinted">
+        <Container>
+          <SceneHeading eyebrow={section.eyebrow} title={section.eyebrow} accent="intelligence" />
+          <ul class="writing-list">
+            {section.items.map((item) => <li><a href={item.href}>{item.label}</a><span>{item.kind}</span></li>)}
+          </ul>
+        </Container>
+      </section>
+    ) : (
+      <section id={section.id} data-page-section="about-close" class="close-scene">
+        <Container>
+          <p>{section.lead}</p><h2>{section.title}</h2>
+          <div>
+            {copy.primaryCta && <a class="button" href={copy.primaryCta.href}>{copy.primaryCta.label}</a>}
+            {copy.secondaryCta && <a href={copy.secondaryCta.href}>{copy.secondaryCta.label}</a>}
+          </div>
+        </Container>
+      </section>
+    )
+  ))}
 </Layout>
 
 <style>
@@ -120,6 +123,6 @@ const copy = localizedSite[locale].about;
     .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .metric-grid > div { padding: 2.25rem; border-right: 1px solid var(--ink-700); }
   }
-  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+  @media (max-width: 68.75rem) { .page-intro { padding-top: 4.5rem; } }
   @media (min-width: 68rem) { .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 </style>

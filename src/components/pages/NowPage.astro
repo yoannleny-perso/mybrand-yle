@@ -13,32 +13,38 @@ const copy = localizedSite[locale].now;
 
 <Layout title={copy.title} description={copy.description}>
   <article>
-    <section data-page-section="now-intro" class="page-intro">
+    <section id="header" data-page-section="now-intro" class="page-intro">
       <Container size="narrow"><CinematicIntro {...copy.intro} variant="utility" accent="outcome" /></Container>
     </section>
 
     <section data-page-section="now-narrative" class="now-scene">
       <Container size="narrow">
-        <Prose size="large" class="now-lead"><p>{copy.lead.before} <a href={copy.lead.link.href} target="_blank" rel="noopener noreferrer">{copy.lead.link.label}</a>{copy.lead.after}</p></Prose>
+        {copy.sections.map((section) => (
+          section.kind === 'lead' ? (
+            <div id={section.id} data-page-section={section.id}>
+              <Prose size="large" class="now-lead"><p>{section.before} <a href={section.link.href} target="_blank" rel="noopener noreferrer">{section.link.label}</a>{section.after}</p></Prose>
+            </div>
+          ) : section.kind === 'focus' ? (
+            <section id={section.id} data-page-section={section.id} class="now-section">
+              <SceneHeading eyebrow={section.title} title={section.title} accent="intelligence" />
+              <Prose class="now-body">
+                {section.paragraphs.map((paragraph) => <p>{paragraph.parts.map((part) => typeof part === 'string' ? part : <a href={part.href} target={part.external ? '_blank' : undefined} rel={part.external ? 'noopener noreferrer' : undefined}>{part.label}</a>)}</p>)}
+              </Prose>
+            </section>
+          ) : section.kind === 'availability' ? (
+            <section id={section.id} data-page-section={section.id} class="availability-panel" aria-labelledby="availability-heading">
+              <h2 id="availability-heading">{section.title}</h2>
+              <ul>{section.items.map((item) => <li><strong>{item.label}</strong>{item.parts.map((part) => typeof part === 'string' ? part : <a href={part.href} target={part.external ? '_blank' : undefined} rel={part.external ? 'noopener noreferrer' : undefined}>{part.label}</a>)}</li>)}</ul>
+            </section>
+          ) : (
+            <section id={section.id} data-page-section={section.id} class="now-section">
+              <SceneHeading eyebrow={section.title} title={section.title} accent="change" />
+              <Prose class="now-body"><p>{section.before}<em>{section.book}</em>{section.after}</p></Prose>
+            </section>
+          )
+        ))}
 
-        <div class="now-section">
-          <SceneHeading eyebrow={copy.focus.title} title={copy.focus.title} accent="intelligence" />
-          <Prose class="now-body">
-            {copy.focus.paragraphs.map((paragraph) => <p>{paragraph.parts.map((part) => typeof part === 'string' ? part : <a href={part.href} target={part.external ? '_blank' : undefined} rel={part.external ? 'noopener noreferrer' : undefined}>{part.label}</a>)}</p>)}
-          </Prose>
-        </div>
-
-        <section class="availability-panel" aria-labelledby="availability-heading">
-          <h2 id="availability-heading">{copy.availability.title}</h2>
-          <ul>{copy.availability.items.map((item) => <li><strong>{item.label}</strong>{item.parts.map((part) => typeof part === 'string' ? part : <a href={part.href} target={part.external ? '_blank' : undefined} rel={part.external ? 'noopener noreferrer' : undefined}>{part.label}</a>)}</li>)}</ul>
-        </section>
-
-        <div class="now-section">
-          <SceneHeading eyebrow={copy.reading.title} title={copy.reading.title} accent="change" />
-          <Prose class="now-body"><p>{copy.reading.before}<em>{copy.reading.book}</em>{copy.reading.after}</p></Prose>
-        </div>
-
-        <footer><a href={copy.cta.href}>{copy.cta.label}</a></footer>
+        {copy.primaryCta && <footer><a href={copy.primaryCta.href}>{copy.primaryCta.label}</a></footer>}
       </Container>
     </section>
   </article>
@@ -60,5 +66,5 @@ const copy = localizedSite[locale].now;
   .availability-panel a { color: var(--ink-1000); text-decoration-color: var(--signal-outcome); text-underline-offset: .3rem; }
   footer { display: flex; justify-content: flex-end; margin-top: clamp(3.5rem, 9vw, 7rem); padding-top: 2rem; border-top: 1px solid var(--ink-300); }
   footer a { min-height: 3rem; overflow-wrap: anywhere; color: var(--ink-1000); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
-  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+  @media (max-width: 68.75rem) { .page-intro { padding-top: 4.5rem; } }
 </style>
