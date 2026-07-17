@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import CinematicIntro from '../brand/CinematicIntro.astro';
+import SceneHeading from '../brand/SceneHeading.astro';
+import Prose from '../primitives/Prose.astro';
+import { localizedSite, type Locale } from '../../data/localized-site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = localizedSite[locale].about;
+---
+
+<Layout title={copy.title} description={copy.description}>
+  <section data-page-section="about-intro" class="page-intro">
+    <Container size="wide"><CinematicIntro {...copy.intro} variant="utility" accent="change" /></Container>
+  </section>
+
+  <section data-page-section="about-portrait" class="portrait-scene">
+    <Container>
+      <div class="portrait-scene__grid">
+        <figure>
+          <img src="/images/portrait-960.webp" alt={copy.portrait.alt} width="960" height="1280" loading="lazy" />
+          <figcaption>{copy.portrait.caption}</figcaption>
+        </figure>
+        <blockquote>{copy.portrait.statement}</blockquote>
+      </div>
+    </Container>
+  </section>
+
+  <section data-page-section="bio" class="scene">
+    <Container>
+      <SceneHeading eyebrow={copy.biography.eyebrow} title={copy.biography.eyebrow} accent="change" />
+      <Prose class="scene__body about-biography">
+        {copy.biography.body.map((paragraph, index) => <p class:list={{ lead: index === 0 }}>{paragraph}</p>)}
+      </Prose>
+    </Container>
+  </section>
+
+  <section data-page-section="principles" class="scene scene--tinted">
+    <Container>
+      <SceneHeading eyebrow={copy.principles.eyebrow} title={copy.principles.title} accent="outcome" />
+      <ol class="principle-list">
+        {copy.principles.items.map((item) => (
+          <li><span>{item.number}</span><h3>{item.title}</h3><p>{item.description}</p></li>
+        ))}
+      </ol>
+    </Container>
+  </section>
+
+  <section data-page-section="track-record" class="scene scene--dark">
+    <Container>
+      <SceneHeading eyebrow={copy.trackRecord.eyebrow} title={copy.trackRecord.eyebrow} accent="outcome" tone="dark" />
+      <dl class="metric-grid">
+        {copy.trackRecord.metrics.map((metric) => (
+          <div><dt>{metric.label}</dt><dd class="metric-grid__value">{metric.value}</dd><dd>{metric.description}</dd></div>
+        ))}
+      </dl>
+    </Container>
+  </section>
+
+  <section data-page-section="stack" class="scene">
+    <Container>
+      <SceneHeading eyebrow={copy.stack.eyebrow} title={copy.stack.eyebrow} accent="intelligence" />
+      <Prose class="scene__body"><p>{copy.stack.body}</p></Prose>
+    </Container>
+  </section>
+
+  <section data-page-section="writing" class="scene scene--tinted">
+    <Container>
+      <SceneHeading eyebrow={copy.writing.eyebrow} title={copy.writing.eyebrow} accent="intelligence" />
+      <ul class="writing-list">
+        {copy.writing.items.map((item) => <li><a href={item.href}>{item.label}</a><span>{item.kind}</span></li>)}
+      </ul>
+    </Container>
+  </section>
+
+  <section data-page-section="about-close" class="close-scene">
+    <Container>
+      <p>{copy.close.lead}</p><h2>{copy.close.title}</h2>
+      <div><a class="button" href={copy.close.primary.href}>{copy.close.primary.label}</a><a href={copy.close.secondary.href}>{copy.close.secondary.label}</a></div>
+    </Container>
+  </section>
+</Layout>
+
+<style>
+  .page-intro { border-bottom: 1px solid var(--ink-100); }
+  .scene, .portrait-scene { padding-block: var(--space-section); }
+  .scene--tinted { background: var(--paper-50); }
+  .portrait-scene { background: var(--paper-0); }
+  .portrait-scene__grid { display: grid; gap: clamp(2rem, 7vw, 6rem); align-items: center; max-width: 62rem; margin-inline: auto; }
+  figure { max-width: 20rem; margin: 0; }
+  figure img { display: block; width: 100%; height: auto; border-radius: var(--radius-scene); object-fit: cover; }
+  figcaption, .writing-list span, .principle-list > li > span, .metric-grid dt { margin-top: 1rem; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  blockquote { max-width: 27ch; margin: 0; color: var(--ink-1000); font-family: var(--font-display); font-size: var(--t-headline-size); font-weight: 650; letter-spacing: var(--t-headline-letter); line-height: var(--t-headline-line); text-wrap: balance; }
+  .scene__body { margin-top: clamp(2.5rem, 6vw, 5rem); }
+  .about-biography :global(.lead) { color: var(--ink-1000); font-size: var(--t-body-l-size); font-weight: 650; line-height: var(--t-body-l-line); }
+  .principle-list, .writing-list { margin: clamp(2.5rem, 6vw, 5rem) 0 0; padding: 0; list-style: none; border-top: 1px solid var(--ink-300); }
+  .principle-list li { display: grid; gap: 1rem; padding-block: 1.75rem; border-bottom: 1px solid var(--ink-300); }
+  .principle-list h3, .principle-list p { margin: 0; }
+  .principle-list h3 { font-family: var(--font-display); font-size: var(--t-headline-size); line-height: var(--t-headline-line); }
+  .principle-list p { max-width: 42rem; color: var(--ink-700); line-height: var(--t-body-line); }
+  .scene--dark { background: var(--ink-1000); color: var(--paper-0); }
+  .metric-grid { display: grid; margin: clamp(2.5rem, 6vw, 5rem) 0 0; border-top: 1px solid var(--ink-700); }
+  .metric-grid > div { min-width: 0; padding: 1.75rem 0; border-bottom: 1px solid var(--ink-700); }
+  .metric-grid dt { margin: 0; color: var(--ink-100); }
+  .metric-grid dd { margin: 1rem 0 0; color: var(--ink-100); line-height: var(--t-body-s-line); }
+  .metric-grid .metric-grid__value { overflow-wrap: anywhere; color: var(--paper-0); font-family: var(--font-display); font-size: var(--t-display-l-size); font-weight: 800; line-height: 1; }
+  .writing-list li { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: baseline; justify-content: space-between; min-width: 0; padding-block: 1.25rem; border-bottom: 1px solid var(--ink-300); }
+  .writing-list a { overflow-wrap: anywhere; color: var(--ink-1000); font-family: var(--font-display); font-size: var(--t-headline-size); font-weight: 700; line-height: var(--t-headline-line); text-decoration-thickness: .12rem; text-underline-offset: .35rem; }
+  .close-scene { padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); }
+  .close-scene p { max-width: 54rem; margin: 0; color: var(--ink-100); font-size: var(--t-body-l-size); line-height: var(--t-body-l-line); }
+  .close-scene h2 { margin: 1rem 0 2.5rem; font-family: var(--font-display); font-size: var(--t-display-m-size); }
+  .close-scene div { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; }
+  .close-scene a { min-height: 3rem; color: var(--paper-0); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .close-scene .button { display: inline-flex; align-items: center; padding: .9rem 1.25rem; border: 1px solid var(--paper-0); text-decoration: none; }
+  @media (min-width: 48rem) {
+    .portrait-scene__grid { grid-template-columns: minmax(14rem, .65fr) minmax(0, 1.35fr); }
+    .principle-list li { grid-template-columns: 3rem minmax(12rem, .75fr) minmax(18rem, 1.25fr); gap: 2rem; }
+    .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .metric-grid > div { padding: 2.25rem; border-right: 1px solid var(--ink-700); }
+  }
+  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+  @media (min-width: 68rem) { .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

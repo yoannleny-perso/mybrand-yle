@@ -1,0 +1,113 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import CinematicIntro from '../brand/CinematicIntro.astro';
+import SceneHeading from '../brand/SceneHeading.astro';
+import { localizedSite, type Locale } from '../../data/localized-site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = localizedSite[locale].hire;
+---
+
+<Layout title={copy.title} description={copy.description}>
+  <section data-page-section="hire-intro" class="page-intro">
+    <Container size="wide"><CinematicIntro {...copy.intro} variant="utility" accent="change"><p class="identity-line">{copy.identityLine}</p></CinematicIntro></Container>
+  </section>
+
+  <section data-page-section="hire-facts" class="facts-scene">
+    <Container><dl>{copy.facts.map((fact) => <div><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}</dl></Container>
+  </section>
+
+  <section data-page-section="hire-fit" class="fit-scene">
+    <Container>
+      <div class="fit-grid">
+        <article data-fit="positive"><h2>{copy.fit.positiveTitle}</h2><ul>{copy.fit.positive.map((item) => <li>{item}</li>)}</ul></article>
+        <article data-fit="negative"><h2>{copy.fit.negativeTitle}</h2><ul>{copy.fit.negative.map((item) => <li>{item}</li>)}</ul></article>
+      </div>
+    </Container>
+  </section>
+
+  <section data-page-section="ninety-days" class="plan-scene">
+    <Container>
+      <SceneHeading eyebrow={copy.plan.eyebrow} title={copy.plan.title} summary={copy.plan.summary} accent="outcome" />
+      <div class="phase-list">
+        {copy.plan.phases.map((phase, index) => (
+          <details open={index === 0}>
+            <summary><span>{phase.label}</span><strong>{phase.title}</strong><i aria-hidden="true">↓</i></summary>
+            <div class="phase-body"><ul>{phase.items.map((item) => <li>{item}</li>)}</ul><p><span>{copy.plan.deliverableLabel}</span>{phase.deliverable}</p></div>
+          </details>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <section data-page-section="hire-evidence" class="evidence-scene">
+    <Container>
+      <SceneHeading eyebrow={copy.evidence.eyebrow} title={copy.evidence.title} accent="intelligence" />
+      <div class="evidence-grid">
+        {copy.evidence.links.map((link) => (
+          <a href={link.href}><strong>{link.label}</strong><p>{link.description}</p><span>{link.cta}</span></a>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <section data-page-section="hire-close" class="close-scene">
+    <Container>
+      <h2>{copy.close.title}</h2>
+      <div><a class="button" href={copy.close.primary.href}>{copy.close.primary.label}</a><a href={copy.close.secondary.href} target="_blank" rel="noopener noreferrer">{copy.close.secondary.label}</a></div>
+      <p>{copy.close.note}</p>
+    </Container>
+  </section>
+</Layout>
+
+<style>
+  .page-intro { border-bottom: 1px solid var(--ink-100); }
+  .identity-line { margin: 0; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .facts-scene, .fit-scene, .plan-scene, .evidence-scene { padding-block: var(--space-section); }
+  .facts-scene dl { display: grid; margin: 0; border-top: 1px solid var(--ink-300); }
+  .facts-scene dl > div { min-width: 0; padding: 1.5rem 0; border-bottom: 1px solid var(--ink-300); }
+  .facts-scene dt, .phase-body p span, .evidence-grid strong { color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  .facts-scene dd { overflow-wrap: anywhere; margin: .75rem 0 0; color: var(--ink-1000); font-family: var(--font-display); font-size: var(--t-headline-size); font-weight: 700; line-height: var(--t-headline-line); }
+  .fit-scene { background: var(--paper-50); }
+  .fit-grid { display: grid; gap: 1rem; }
+  .fit-grid article { --fit-accent: var(--signal-outcome); padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid var(--ink-300); border-top: .25rem solid var(--fit-accent); background: var(--paper-0); }
+  .fit-grid article[data-fit='negative'] { --fit-accent: var(--signal-change); }
+  .fit-grid h2 { margin: 0; font-family: var(--font-display); font-size: var(--t-headline-size); }
+  .fit-grid ul { margin: 1.5rem 0 0; padding-left: 1.25rem; color: var(--ink-700); line-height: var(--t-body-line); }
+  .fit-grid li + li { margin-top: .75rem; }
+  .phase-list { max-width: 54rem; margin-top: clamp(2.5rem, 6vw, 5rem); border-top: 1px solid var(--ink-300); }
+  details { border-bottom: 1px solid var(--ink-300); }
+  summary { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .65rem 1rem; padding: 1.5rem 0; cursor: pointer; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary span { grid-column: 1; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  summary strong { grid-column: 1; overflow-wrap: anywhere; color: var(--ink-1000); font-family: var(--font-display); font-size: var(--t-headline-size); line-height: var(--t-headline-line); }
+  summary i { grid-column: 2; grid-row: 1 / 3; align-self: center; font-size: 1.35rem; font-style: normal; transition: transform var(--dur-hover) var(--ease-cinematic); }
+  details[open] summary i { transform: rotate(180deg); }
+  .phase-body { padding: 0 0 2rem; }
+  .phase-body ul { margin: 0; padding-left: 1.25rem; color: var(--ink-700); line-height: var(--t-body-line); }
+  .phase-body li + li { margin-top: .65rem; }
+  .phase-body p { margin: 2rem 0 0; padding-top: 1.25rem; border-top: 1px solid var(--ink-100); color: var(--ink-900); line-height: var(--t-body-line); }
+  .phase-body p span { display: block; margin-bottom: .5rem; }
+  .evidence-scene { background: var(--paper-50); }
+  .evidence-grid { display: grid; gap: 1rem; margin-top: clamp(2.5rem, 6vw, 5rem); }
+  .evidence-grid a { display: flex; flex-direction: column; min-width: 0; min-height: 17rem; padding: 1.75rem; border: 1px solid var(--ink-300); background: var(--paper-0); color: var(--ink-1000); text-decoration: none; }
+  .evidence-grid p { color: var(--ink-700); line-height: var(--t-body-line); }
+  .evidence-grid a > span { overflow-wrap: anywhere; margin-top: auto; font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .close-scene { padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); text-align: center; }
+  .close-scene h2 { margin: 0 0 2.5rem; font-family: var(--font-display); font-size: var(--t-display-m-size); line-height: var(--t-display-m-line); }
+  .close-scene div { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; justify-content: center; }
+  .close-scene a { min-height: 3rem; color: var(--paper-0); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .close-scene .button { display: inline-flex; align-items: center; padding: .9rem 1.25rem; border: 1px solid var(--paper-0); text-decoration: none; }
+  .close-scene p { margin: 2rem 0 0; color: var(--ink-100); font-size: var(--t-body-s-size); }
+  @media (min-width: 48rem) {
+    .facts-scene dl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .facts-scene dl > div { padding: 1.75rem; border-right: 1px solid var(--ink-300); }
+    .fit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .evidence-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (min-width: 68rem) { .facts-scene dl { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+  @media (prefers-reduced-motion: reduce) { summary i { transition: none; } }
+</style>

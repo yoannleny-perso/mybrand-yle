@@ -1,0 +1,103 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import CinematicIntro from '../brand/CinematicIntro.astro';
+import SceneHeading from '../brand/SceneHeading.astro';
+import Prose from '../primitives/Prose.astro';
+import CaseDiagram from '../visuals/CaseDiagram.astro';
+import { localizedSite, type Locale } from '../../data/localized-site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const site = localizedSite[locale];
+const copy = site.capabilitiesPage;
+---
+
+<Layout title={copy.title} description={copy.description}>
+  <section data-page-section="capabilities-intro" class="page-intro">
+    <Container size="wide"><CinematicIntro {...copy.intro} variant="utility" accent="intelligence" /></Container>
+  </section>
+
+  {copy.practices.map((practice, index) => (
+    <section data-page-section={practice.id} id={practice.id} class:list={['practice-scene', { 'practice-scene--tinted': index % 2 === 1 }]}>
+      <Container>
+        <SceneHeading eyebrow={practice.eyebrow} title={practice.title} accent={index % 3 === 0 ? 'intelligence' : index % 3 === 1 ? 'change' : 'outcome'} />
+        <div class="practice-grid">
+          <div class="practice-narrative">
+            <Prose><p>{practice.body}</p></Prose>
+            <CaseDiagram variant={practice.diagram} locale={locale} />
+          </div>
+          <aside class="practice-evidence">
+            <div class="deliverables">
+              <h3>{practice.deliverablesLabel}</h3>
+              <ul>{practice.deliverables.map((item) => <li>{item}</li>)}</ul>
+            </div>
+            <div class="fit"><h3>{practice.fitLabel}</h3><p>{practice.fit}</p></div>
+            <div class="missions"><h3>{site.achievementLabels.evidence}</h3><ul>{practice.missions.map((mission) => <li>{mission}</li>)}</ul></div>
+            <nav aria-label={practice.linksLabel}>
+              <strong>{practice.linksLabel}</strong>
+              {practice.links.map((link, linkIndex) => (
+                <><a href={link.href}>{link.label}</a>{index >= 3 && linkIndex < practice.links.length - 1 && <span aria-hidden="true">·</span>}</>
+              ))}
+            </nav>
+          </aside>
+        </div>
+      </Container>
+    </section>
+  ))}
+
+  <section data-page-section="engagement-model" class="engagement-scene">
+    <Container>
+      <SceneHeading eyebrow={copy.engagement.eyebrow} title={copy.engagement.title} summary={copy.engagement.summary} accent="change" />
+      <div class="table-scroll">
+        <table>
+          <thead><tr>{copy.engagement.columns.map((column) => <th scope="col">{column}</th>)}</tr></thead>
+          <tbody>{copy.engagement.modes.map((mode) => <tr><th scope="row">{mode.mode}</th><td>{mode.shape}</td><td>{mode.duration}</td><td>{mode.bestFor}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <p class="engagement-note">{copy.engagement.note.before} <a href={copy.engagement.note.link.href}>{copy.engagement.note.link.label}</a> {copy.engagement.note.after}</p>
+    </Container>
+  </section>
+
+  <section data-page-section="capabilities-close" class="close-scene">
+    <Container>
+      <h2>{copy.close.title}<span>{copy.close.continuation}</span></h2>
+      <div><a class="button" href={copy.close.primary.href}>{copy.close.primary.label}</a><a href={copy.close.secondary.href}>{copy.close.secondary.label}</a></div>
+    </Container>
+  </section>
+</Layout>
+
+<style>
+  .page-intro { border-bottom: 1px solid var(--ink-100); }
+  .practice-scene, .engagement-scene { padding-block: var(--space-section); }
+  .practice-scene { border-bottom: 1px solid var(--ink-100); background: var(--paper-0); }
+  .practice-scene--tinted, .engagement-scene { background: var(--paper-50); }
+  .practice-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); margin-top: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+  .practice-narrative { min-width: 0; }
+  .practice-narrative :global(.case-diagram) { margin-top: 2.5rem; }
+  .practice-evidence { display: grid; min-width: 0; border-top: 1px solid var(--ink-300); }
+  .practice-evidence > div, .practice-evidence nav { min-width: 0; padding-block: 1.5rem; border-bottom: 1px solid var(--ink-300); }
+  .practice-evidence h3, .practice-evidence nav strong { display: block; margin: 0 0 1rem; color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  .practice-evidence ul { margin: 0; padding-left: 1.25rem; color: var(--ink-700); line-height: var(--t-body-line); }
+  .practice-evidence li + li { margin-top: .65rem; }
+  .practice-evidence p { margin: 0; color: var(--ink-700); line-height: var(--t-body-line); }
+  .missions ul { display: flex; flex-wrap: wrap; gap: .5rem; padding: 0; list-style: none; }
+  .missions li { margin: 0; padding: .45rem .7rem; border: 1px solid var(--ink-300); color: var(--ink-1000); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; }
+  .practice-evidence nav { display: flex; flex-wrap: wrap; gap: .65rem 1rem; }
+  .practice-evidence nav strong { width: 100%; }
+  .practice-evidence nav a, .engagement-note a { overflow-wrap: anywhere; color: var(--ink-1000); text-decoration-thickness: .12rem; text-decoration-color: var(--signal-intelligence); text-underline-offset: .3rem; }
+  .table-scroll { margin-top: clamp(2.5rem, 6vw, 5rem); overflow-x: auto; }
+  table { width: 100%; min-width: 50rem; border-collapse: collapse; color: var(--ink-700); text-align: left; }
+  th, td { padding: 1.25rem 1rem 1.25rem 0; border-bottom: 1px solid var(--ink-300); vertical-align: top; line-height: var(--t-body-line); }
+  thead th { color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  tbody th { color: var(--ink-1000); font-family: var(--font-display); font-size: var(--t-headline-size); }
+  .engagement-note { max-width: 50rem; margin: 2.5rem 0 0; color: var(--ink-700); line-height: var(--t-body-line); }
+  .close-scene { padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); }
+  .close-scene h2 { max-width: 18ch; margin: 0 0 2.5rem; font-family: var(--font-display); font-size: var(--t-display-m-size); line-height: var(--t-display-m-line); }
+  .close-scene h2 span { display: block; margin-top: .65rem; color: var(--ink-100); }
+  .close-scene div { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; }
+  .close-scene a { min-height: 3rem; color: var(--paper-0); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  .close-scene .button { display: inline-flex; align-items: center; padding: .9rem 1.25rem; border: 1px solid var(--paper-0); text-decoration: none; }
+  @media (min-width: 58rem) { .practice-grid { grid-template-columns: minmax(0, 1.2fr) minmax(18rem, .8fr); } }
+  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+</style>

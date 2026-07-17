@@ -1,0 +1,77 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import CinematicIntro from '../brand/CinematicIntro.astro';
+import SceneHeading from '../brand/SceneHeading.astro';
+import Prose from '../primitives/Prose.astro';
+import { localizedSite, type Locale } from '../../data/localized-site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = localizedSite[locale].contact;
+---
+
+<Layout title={copy.title} description={copy.description}>
+  <section data-page-section="contact-intro" class="page-intro">
+    <Container size="wide">
+      <CinematicIntro {...copy.intro} variant="utility" accent="outcome">
+        <p class="hiring-note"><strong>{copy.hiring.lead}</strong> {copy.hiring.body} <a href={copy.hiring.link.href}>{copy.hiring.link.label}</a>.</p>
+      </CinematicIntro>
+    </Container>
+  </section>
+
+  <section data-page-section="contact-paths" class="paths-scene">
+    <Container>
+      <div class="path-grid">
+        {copy.paths.map((path, index) => (
+          <article data-kind={path.kind}>
+            <span class="path-index">0{index + 1}</span><p class="path-label">{path.label}</p>
+            <h2><a href={path.href} target={path.external ? '_blank' : undefined} rel={path.external ? 'noopener noreferrer' : undefined}>{path.actionLabel}</a></h2>
+            <p class="path-description">{path.description}</p>
+          </article>
+        ))}
+      </div>
+    </Container>
+  </section>
+
+  <section data-page-section="message-guide" class="guide-scene">
+    <Container>
+      <SceneHeading eyebrow={copy.messageGuide.eyebrow} title={copy.messageGuide.eyebrow} accent="change" />
+      <Prose class="guide-body"><p>{copy.messageGuide.intro}</p><ol>{copy.messageGuide.items.map((item) => <li>{item}</li>)}</ol><p>{copy.messageGuide.close}</p></Prose>
+      <p class="expectation">{copy.expectation}</p>
+    </Container>
+  </section>
+
+  <section data-page-section="contact-close" class="close-scene">
+    <Container>
+      <h2>{copy.close.title}<span>{copy.close.continuation}</span></h2>
+      <p class="signature">{copy.close.signature}</p><p class="location">{copy.close.location}</p>
+    </Container>
+  </section>
+</Layout>
+
+<style>
+  .page-intro { border-bottom: 1px solid var(--ink-100); }
+  .hiring-note { max-width: 44rem; margin: 0; color: var(--ink-700); line-height: var(--t-body-line); }
+  .hiring-note a { color: var(--ink-1000); font-weight: 700; text-decoration-color: var(--signal-outcome); text-underline-offset: .3rem; }
+  .paths-scene, .guide-scene { padding-block: var(--space-section); }
+  .path-grid { display: grid; gap: 1rem; }
+  .path-grid article { --path-accent: var(--signal-intelligence); min-width: 0; padding: clamp(1.5rem, 4vw, 2.5rem); border: 1px solid var(--ink-300); border-top: .25rem solid var(--path-accent); background: var(--paper-0); }
+  .path-grid article[data-kind='linkedin'] { --path-accent: var(--signal-change); }
+  .path-grid article[data-kind='call'] { --path-accent: var(--signal-outcome); }
+  .path-index, .path-label, .location { color: var(--ink-500); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); line-height: var(--t-meta-line); text-transform: uppercase; }
+  .path-label { margin: 2rem 0 .65rem; }
+  .path-grid h2 { margin: 0; font-family: var(--font-display); font-size: var(--t-headline-size); line-height: var(--t-headline-line); }
+  .path-grid h2 a { overflow-wrap: anywhere; color: var(--ink-1000); text-decoration-thickness: .14rem; text-underline-offset: .35rem; }
+  .path-description { margin: 2rem 0 0; color: var(--ink-700); line-height: var(--t-body-line); }
+  .guide-scene { background: var(--paper-50); }
+  .guide-body { margin-top: clamp(2.5rem, 6vw, 5rem); }
+  .expectation { max-width: 60ch; margin: 3rem auto 0; padding-top: 2rem; border-top: 1px solid var(--ink-300); color: var(--ink-500); font-size: var(--t-body-s-size); font-style: italic; line-height: var(--t-body-s-line); }
+  .close-scene { padding-block: var(--space-section); background: var(--ink-1000); color: var(--paper-0); text-align: center; }
+  .close-scene h2 { margin: 0; font-family: var(--font-display); font-size: var(--t-display-m-size); font-style: italic; line-height: var(--t-display-m-line); }
+  .close-scene h2 span { display: block; color: var(--ink-100); }
+  .signature { margin: 2.5rem 0 0; color: var(--paper-0); font-family: var(--font-display); font-size: var(--t-headline-size); font-style: italic; }
+  .location { margin: 2.5rem 0 0; color: var(--ink-100); overflow-wrap: anywhere; }
+  @media (min-width: 48rem) { .path-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+</style>

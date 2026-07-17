@@ -1,0 +1,64 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Container from '../layout/Container.astro';
+import CinematicIntro from '../brand/CinematicIntro.astro';
+import SceneHeading from '../brand/SceneHeading.astro';
+import Prose from '../primitives/Prose.astro';
+import { localizedSite, type Locale } from '../../data/localized-site';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const copy = localizedSite[locale].now;
+---
+
+<Layout title={copy.title} description={copy.description}>
+  <article>
+    <section data-page-section="now-intro" class="page-intro">
+      <Container size="narrow"><CinematicIntro {...copy.intro} variant="utility" accent="outcome" /></Container>
+    </section>
+
+    <section data-page-section="now-narrative" class="now-scene">
+      <Container size="narrow">
+        <Prose size="large" class="now-lead"><p>{copy.lead.before} <a href={copy.lead.link.href} target="_blank" rel="noopener noreferrer">{copy.lead.link.label}</a>{copy.lead.after}</p></Prose>
+
+        <div class="now-section">
+          <SceneHeading eyebrow={copy.focus.title} title={copy.focus.title} accent="intelligence" />
+          <Prose class="now-body">
+            {copy.focus.paragraphs.map((paragraph) => <p>{paragraph.parts.map((part) => typeof part === 'string' ? part : <a href={part.href} target={part.external ? '_blank' : undefined} rel={part.external ? 'noopener noreferrer' : undefined}>{part.label}</a>)}</p>)}
+          </Prose>
+        </div>
+
+        <section class="availability-panel" aria-labelledby="availability-heading">
+          <h2 id="availability-heading">{copy.availability.title}</h2>
+          <ul>{copy.availability.items.map((item) => <li><strong>{item.label}</strong>{item.parts.map((part) => typeof part === 'string' ? part : <a href={part.href} target={part.external ? '_blank' : undefined} rel={part.external ? 'noopener noreferrer' : undefined}>{part.label}</a>)}</li>)}</ul>
+        </section>
+
+        <div class="now-section">
+          <SceneHeading eyebrow={copy.reading.title} title={copy.reading.title} accent="change" />
+          <Prose class="now-body"><p>{copy.reading.before}<em>{copy.reading.book}</em>{copy.reading.after}</p></Prose>
+        </div>
+
+        <footer><a href={copy.cta.href}>{copy.cta.label}</a></footer>
+      </Container>
+    </section>
+  </article>
+</Layout>
+
+<style>
+  .page-intro { border-bottom: 1px solid var(--ink-100); }
+  .now-scene { padding-block: var(--space-section); }
+  .now-lead { margin-inline: 0; }
+  .now-lead :global(p) { color: var(--ink-1000); font-weight: 650; }
+  .now-section { margin-top: clamp(3.5rem, 9vw, 7rem); padding-top: clamp(2.5rem, 6vw, 4rem); border-top: 1px solid var(--ink-300); }
+  .now-body { margin: 2rem 0 0; }
+  .now-body :global(em) { color: var(--ink-1000); font-style: normal; font-weight: 700; }
+  .availability-panel { margin-top: clamp(3.5rem, 9vw, 7rem); padding: clamp(1.5rem, 5vw, 3rem); border: 1px solid var(--ink-300); border-top: .25rem solid var(--signal-outcome); background: var(--paper-50); }
+  .availability-panel h2 { margin: 0; font-family: var(--font-display); font-size: var(--t-headline-size); }
+  .availability-panel ul { margin: 1.5rem 0 0; padding-left: 1.25rem; color: var(--ink-700); line-height: var(--t-body-line); }
+  .availability-panel li + li { margin-top: 1rem; }
+  .availability-panel strong { color: var(--ink-1000); }
+  .availability-panel a { color: var(--ink-1000); text-decoration-color: var(--signal-outcome); text-underline-offset: .3rem; }
+  footer { display: flex; justify-content: flex-end; margin-top: clamp(3.5rem, 9vw, 7rem); padding-top: 2rem; border-top: 1px solid var(--ink-300); }
+  footer a { min-height: 3rem; overflow-wrap: anywhere; color: var(--ink-1000); font-family: var(--font-mono); font-size: var(--t-meta-size); font-weight: 700; letter-spacing: var(--t-meta-letter); text-transform: uppercase; }
+  @media (max-width: 60rem) { .page-intro { padding-top: 4.5rem; } }
+</style>

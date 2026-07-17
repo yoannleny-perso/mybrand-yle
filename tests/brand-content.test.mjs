@@ -148,6 +148,29 @@ test('keeps English, French, and Spanish page structure in shared renderers', ()
   }
 });
 
+test('delegates personal and recruiter pages to locale-shared renderers', () => {
+  const matrix = [
+    ['about', 'AboutPage'], ['capabilities', 'CapabilitiesPage'],
+    ['contact', 'ContactPage'], ['hire', 'HirePage'], ['now', 'NowPage'],
+  ];
+  for (const [route, component] of matrix) {
+    for (const [prefix, locale] of [['', 'en'], ['fr/', 'fr'], ['es/', 'es']]) {
+      const source = read(`src/pages/${prefix}${route}.astro`);
+      assert.ok(source.includes(component), `${prefix}${route} missing ${component}`);
+      assert.ok(source.includes(`locale="${locale}"`), `${prefix}${route} missing ${locale}`);
+    }
+    assert.ok(existsSync(`src/components/pages/${component}.astro`));
+  }
+});
+
+test('keeps secondary-page cinematic introductions compact and lens-free', () => {
+  for (const component of ['AboutPage', 'CapabilitiesPage', 'ContactPage', 'HirePage', 'NowPage']) {
+    const source = read(`src/components/pages/${component}.astro`);
+    assert.ok(source.includes('variant="utility"'), `${component} must use the compact intro`);
+    assert.doesNotMatch(source, /IdentityLens|identity-orbit|lens-ring|ribbon/i);
+  }
+});
+
 test('keeps small homepage utility text on accessible neutral ink', () => {
   const home = read('src/components/pages/RecruiterHome.astro');
   const hero = read('src/components/sections/RecruiterHero.astro');
