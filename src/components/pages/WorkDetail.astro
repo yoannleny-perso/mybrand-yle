@@ -81,7 +81,8 @@ const detailCopy = {
 } as const;
 
 const copy = detailCopy[locale];
-const year = entry.data.yearStart || entry.data.yearEnd || '2026';
+const year = entry.data.yearStart || entry.data.yearEnd;
+const eyebrowParts = [copy.achievementLabel, year?.toString()].filter((item): item is string => Boolean(item));
 const duration = entry.data.yearStart
   ? `${entry.data.yearStart}${entry.data.yearEnd ? ` — ${entry.data.yearEnd}` : ''}`
   : entry.data.yearEnd?.toString();
@@ -104,7 +105,7 @@ const diagramCaption = copy.diagramCaptions[slug as keyof typeof copy.diagramCap
 <Layout title={`${entry.data.title} — ${copy.detailLabel} — Yoann Leny`} description={entry.data.client}>
   <Container>
     <ArticleFrame
-      eyebrow={`${copy.achievementLabel} · ${year}`}
+      eyebrow={eyebrowParts.join(' · ')}
       title={entry.data.title}
       dek={entry.data.client}
       metadata={metadata}
@@ -123,7 +124,7 @@ const diagramCaption = copy.diagramCaptions[slug as keyof typeof copy.diagramCap
         </aside>
       )}
 
-      <Prose><Content /></Prose>
+      <div lang="en"><Prose><Content /></Prose></div>
 
       {diagram && (
         <CaseDiagram variant={diagram.variant} locale={locale} caption={diagramCaption} />

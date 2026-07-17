@@ -9,7 +9,6 @@ export interface Achievement {
   location: string;
   status: string;
   capabilities: string[];
-  accent: string;
   href: string | null;
 }
 
@@ -25,7 +24,6 @@ interface LocalizedAchievement {
 interface AchievementDefinition {
   slug: string;
   name: string;
-  accent: string;
   href: string | null;
   copy: Record<Locale, LocalizedAchievement>;
 }
@@ -34,7 +32,6 @@ const achievementDefinitions: AchievementDefinition[] = [
   {
     slug: 'groupiq',
     name: 'GroupIQ',
-    accent: '#2446ff',
     href: null,
     copy: {
       en: { summary: 'A centralized reporting portal for the pharmaceutical industry in Australia.', projectType: 'Reporting portal', industry: 'Pharmaceuticals', location: 'Australia', status: 'Case study in preparation', capabilities: ['Data products', 'Executive reporting', 'Governance'] },
@@ -45,7 +42,6 @@ const achievementDefinitions: AchievementDefinition[] = [
   {
     slug: 'polaris',
     name: 'Polaris',
-    accent: '#2446ff',
     href: null,
     copy: {
       en: { summary: 'A clearer way to run people operations.', projectType: 'Operations platform', industry: 'People operations', location: 'Confidential', status: 'Case study in preparation', capabilities: ['Operating model', 'Product strategy', 'Decision systems'] },
@@ -56,7 +52,6 @@ const achievementDefinitions: AchievementDefinition[] = [
   {
     slug: 'lense-studio',
     name: 'Lense Studio',
-    accent: '#2446ff',
     href: null,
     copy: {
       en: { summary: 'An automated way to audit dashboards and propose improvements.', projectType: 'AI audit product', industry: 'Analytics', location: 'Global', status: 'Case study in preparation', capabilities: ['Agentic AI', 'Dashboard design', 'Quality automation'] },
@@ -67,7 +62,6 @@ const achievementDefinitions: AchievementDefinition[] = [
   {
     slug: 'cap-ostrea',
     name: 'Cap Ostrea',
-    accent: '#2446ff',
     href: null,
     copy: {
       en: { summary: 'A mobile marketplace for oyster producers in Arcachon Bay.', projectType: 'Mobile marketplace', industry: 'Aquaculture', location: 'Arcachon Bay, France', status: 'Case study in preparation', capabilities: ['Marketplace design', 'Mobile product', 'Local operations'] },
@@ -78,7 +72,6 @@ const achievementDefinitions: AchievementDefinition[] = [
   {
     slug: 'media-data-studio',
     name: 'Media Data Studio',
-    accent: '#2446ff',
     href: null,
     copy: {
       en: { summary: 'A multi-agent system that connects media platforms and builds an AI-ready data architecture.', projectType: 'Multi-agent data system', industry: 'Media', location: 'Global', status: 'Case study in preparation', capabilities: ['Multi-agent systems', 'Platform integration', 'AI-ready architecture'] },

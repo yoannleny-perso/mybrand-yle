@@ -120,7 +120,7 @@ test('preserves accessible knowledge interactions and article semantics', () => 
   for (const detail of [insightDetail, conceptDetail]) {
     assert.ok(detail.includes("import { render"));
     assert.ok(detail.includes('<ArticleFrame'));
-    assert.ok(detail.includes('<Prose><Content /></Prose>'));
+    assert.ok(detail.includes('<div lang="en"><Prose><Content /></Prose></div>'));
     assert.ok(detail.includes('reading-progress'));
   }
   assert.ok(decisions.includes("signal: 'outcome'"));
@@ -184,7 +184,7 @@ test('places the case narrative before supporting diagrams and outcomes', () => 
   const sourceOrder = [
     'class="case-artifact"',
     'class="language-notice"',
-    '<Prose><Content /></Prose>',
+    '<div lang="en"><Prose><Content /></Prose></div>',
     '<CaseDiagram',
     'class="case-outcomes"',
   ].map((fragment) => detail.indexOf(fragment));
@@ -399,7 +399,7 @@ test('models About and Now as required shared linear sections and page CTAs', ()
 test('keeps engagement-note spacing and punctuation in localized copy', () => {
   const renderer = read('src/components/pages/CapabilitiesPage.astro');
   const copy = read('src/data/localized-site.ts');
-  const engagementBlock = copy.slice(copy.indexOf('const capabilitiesPages'), copy.indexOf('export const localizedSite'));
+  const engagementBlock = copy.slice(copy.indexOf('const capabilityPageSources'), copy.indexOf('const capabilitySignals'));
 
   assert.ok(renderer.includes('{copy.engagement.note.before}<a'));
   assert.ok(renderer.includes('</a>{copy.engagement.note.after}'));
@@ -506,7 +506,7 @@ test('keeps the cinematic shell accessible and locale aware', () => {
   assert.ok(header.includes('aria-current'));
   assert.ok(header.includes("event.key === 'Escape'"));
   assert.ok(header.includes('data-lang-switch'));
-  assert.ok(header.includes("localStorage.setItem('preferred-lang', targetLang)"));
+  assert.match(header, /try\s*\{\s*localStorage\.setItem\('preferred-lang', targetLang\);\s*\}\s*catch\s*\{/);
   assert.ok(header.includes("document.body.style.overflow = 'hidden'"));
   assert.ok(header.includes('document.body.style.overflow = previousOverflow'));
   assert.ok(header.includes('window.scrollTo(0, lockedScrollY)'));
@@ -525,9 +525,79 @@ test('keeps the cinematic shell accessible and locale aware', () => {
 
 test('uses an Open Graph image that exists in public assets', () => {
   const layout = read('src/layouts/Layout.astro');
+  const svg = read('public/og/home.svg');
+  const png = readFileSync('public/og/home.png');
+  const approvedPalette = new Set(['#050505', '#24262B', '#FFFFFF', '#F3F3F1', '#9151F6', '#E7615F', '#087A55']);
 
   assert.ok(layout.includes("'/og/home.png'"));
   assert.ok(existsSync('public/og/home.png'));
+  assert.match(svg, /width="1200" height="630" viewBox="0 0 1200 630"/);
+  assert.match(svg, /recruiters|leadership|leaders/i);
+  assert.doesNotMatch(svg, /<(?:circle|ellipse|path|line|polyline|radialGradient|linearGradient|filter)\b/i);
+  for (const color of svg.match(/#[0-9A-Fa-f]{6}/g) ?? []) {
+    assert.ok(approvedPalette.has(color.toUpperCase()), `unapproved OG color ${color}`);
+  }
+  assert.equal(png.readUInt32BE(16), 1200, 'OG PNG width');
+  assert.equal(png.readUInt32BE(20), 630, 'OG PNG height');
+});
+
+test('keeps controlled-vibrant product source free of legacy glass and glow', () => {
+  const productCss = read('src/styles/tokens.css') + read('src/styles/global.css') + read('src/components/pages/ConceptsIndex.astro');
+  assert.doesNotMatch(productCss, /backdrop-filter|backdrop-blur|gradient|signal-glow|ambient-blur|pill-nav|surface-(?:indigo|green|blue|purple|rose)/i);
+  for (const dormant of [
+    'src/components/sections/Hero.tsx',
+    'src/components/sections/AchievementCard.astro',
+    'src/components/sections/ProofStrip.astro',
+    'src/components/sections/AsymmetricCard.astro',
+  ]) assert.equal(existsSync(dormant), false, `${dormant} must not retain unreachable legacy styling`);
+});
+
+test('owns capability signals semantically in locale-parity data', () => {
+  const data = read('src/data/localized-site.ts');
+  const renderer = read('src/components/pages/CapabilitiesPage.astro');
+  const expected = {
+    'agentic-ai-architecture': 'intelligence',
+    'data-platforms': 'outcome',
+    'strategic-data-ops': 'change',
+    'team-orchestration': 'change',
+    'executive-enablement': 'intelligence',
+  };
+
+  assert.ok(data.includes('signal: CinematicSignal'));
+  for (const [id, signal] of Object.entries(expected)) {
+    assert.match(data, new RegExp(`'${id}': '${signal}'`), `${id} must use ${signal}`);
+  }
+  assert.ok(data.includes('signal: capabilitySignals[practice.id]'));
+  assert.ok(renderer.includes('accent={practice.signal}'));
+  assert.doesNotMatch(renderer, /index\s*%\s*3/);
+});
+
+test('marks English collection bodies and defers the secondary portrait', () => {
+  for (const component of ['WorkDetail', 'InsightDetail', 'ConceptDetail']) {
+    assert.ok(read(`src/components/pages/${component}.astro`).includes('<div lang="en"><Prose><Content /></Prose></div>'));
+  }
+  assert.match(read('src/components/pages/InsightDetail.astro'), /portrait-960\.webp[^>]*loading="lazy"/s);
+});
+
+test('omits collection metadata when source values are absent', () => {
+  const work = read('src/components/pages/WorkDetail.astro');
+  const insight = read('src/components/pages/InsightDetail.astro');
+  const index = read('src/components/pages/InsightsIndex.astro');
+
+  assert.doesNotMatch(work, /yearStart \|\| entry\.data\.yearEnd \|\| '2026'/);
+  assert.doesNotMatch(insight, /readingTime \|\| '10'|publishedAt \|\| '2026'/);
+  assert.doesNotMatch(index, /readingTime \|\| '10'|publishedAt \|\| '2026'/);
+  assert.ok(work.includes('const eyebrowParts'));
+  assert.ok(insight.includes('entry.data.readingTime &&'));
+  assert.ok(index.includes('meta: metadata.length > 0 ? metadata.join'));
+});
+
+test('keeps the footer recruiter proposition semantically aligned across locales', () => {
+  const footer = read('src/components/layout/Footer.astro');
+  assert.ok(footer.includes('Data and AI leadership, built for the way organizations really operate.'));
+  assert.ok(footer.includes("Leadership Data et IA, conçu pour la façon dont les organisations fonctionnent réellement."));
+  assert.ok(footer.includes('Liderazgo en datos e IA, creado para la forma en que las organizaciones operan realmente.'));
+  assert.doesNotMatch(footer, /meilleurs systèmes d'exploitation|mejores sistemas operativos/);
 });
 
 test('caps shared display type for readable page openings', () => {

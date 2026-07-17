@@ -41,7 +41,7 @@ const metadata = [
     <div class="knowledge-detail">
       <ArticleFrame eyebrow={copy.kind} title={entry.data.title} dek={entry.data.definition} metadata={metadata} accent="change">
         {copy.notice && <aside class="language-notice" aria-label={copy.noticeLabel}><span lang="en">EN</span><p>{copy.notice}</p></aside>}
-        <Prose><Content /></Prose>
+        <div lang="en"><Prose><Content /></Prose></div>
 
         {entry.data.relatedConcepts && entry.data.relatedConcepts.length > 0 && (
           <nav class="related-register" aria-labelledby="related-concepts-heading">

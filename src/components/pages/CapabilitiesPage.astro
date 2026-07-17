@@ -21,7 +21,7 @@ const copy = site.capabilitiesPage;
   {copy.practices.map((practice, index) => (
     <section data-page-section={practice.id} id={practice.id} class:list={['practice-scene', { 'practice-scene--tinted': index % 2 === 1 }]}>
       <Container>
-        <SceneHeading eyebrow={practice.eyebrow} title={practice.title} accent={index % 3 === 0 ? 'intelligence' : index % 3 === 1 ? 'change' : 'outcome'} />
+        <SceneHeading eyebrow={practice.eyebrow} title={practice.title} accent={practice.signal} />
         <div class="practice-grid">
           <div class="practice-narrative">
             <Prose><p>{practice.body}</p></Prose>

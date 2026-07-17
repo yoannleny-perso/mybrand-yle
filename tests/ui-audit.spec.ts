@@ -77,6 +77,14 @@ for (const { path, template } of templateRoutes) {
       `${path} horizontal overflow: document ${overflow.documentWidth}px, viewport ${overflow.viewportWidth}px`,
     ).toBeLessThanOrEqual(overflow.viewportWidth + 1);
 
+    for (const image of await page.locator('img[loading="lazy"]:visible').all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect.poll(() => image.evaluate((node) => {
+        const element = node as HTMLImageElement;
+        return element.complete && element.naturalWidth > 0;
+      })).toBe(true);
+    }
+
     const brokenImages = await page.locator('img:visible').evaluateAll((images) => images
       .filter((image) => {
         const node = image as HTMLImageElement;
@@ -170,6 +178,18 @@ test('root selects browser language while saved and explicit choices win', async
   await deepLinkPage.goto(`${baseURL}/work`);
   expect(new URL(deepLinkPage.url()).pathname).toBe('/work');
   await deepLink.close();
+});
+
+test('language switching still navigates when preference storage is unavailable', async ({ browser }) => {
+  const context = await browser.newContext({ locale: 'en-US', viewport: { width: 1440, height: 900 } });
+  await context.addInitScript(() => {
+    Storage.prototype.setItem = () => { throw new DOMException('Storage disabled', 'SecurityError'); };
+  });
+  const page = await context.newPage();
+  await page.goto(`${baseURL}/`, { waitUntil: 'networkidle' });
+  await page.locator('button[data-lang-switch="fr"]:visible').click();
+  await page.waitForURL((url) => ['/fr', '/fr/'].includes(url.pathname));
+  await context.close();
 });
 
 test('reduced motion exposes the final homepage portrait state', async ({ browser }) => {
@@ -296,6 +316,13 @@ test('the mobile menu enters the viewport, preserves scroll, and closes with Esc
   await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('hidden');
   await expect.poll(async () => (await overlay.boundingBox())?.x).toBeLessThanOrEqual(1);
   expect((await overlay.boundingBox())?.width).toBeGreaterThanOrEqual(389);
+
+  const lastFocusable = overlay.locator('a[href], button:not([disabled])').last();
+  await lastFocusable.focus();
+  await page.keyboard.press('Tab');
+  await expect(button).toBeFocused();
+  await page.keyboard.press('Shift+Tab');
+  await expect(lastFocusable).toBeFocused();
 
   await page.keyboard.press('Escape');
   await expect(button).toHaveAttribute('aria-expanded', 'false');

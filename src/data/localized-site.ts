@@ -1,3 +1,5 @@
+import type { CinematicSignal } from '../components/brand/cinematic-contracts';
+
 export type Locale = 'en' | 'fr' | 'es';
 
 export const localizedPath = (locale: Locale, path: string) => {
@@ -134,8 +136,16 @@ interface AboutSourceCopy extends LocalizedPageMetadata {
   close: { lead: string; title: string; primary: LocalizedLink; secondary: LocalizedLink };
 }
 
+type CapabilityPracticeId =
+  | 'agentic-ai-architecture'
+  | 'data-platforms'
+  | 'strategic-data-ops'
+  | 'team-orchestration'
+  | 'executive-enablement';
+
 interface CapabilityPractice {
-  id: string;
+  id: CapabilityPracticeId;
+  signal: CinematicSignal;
   eyebrow: string;
   title: string;
   body: string;
@@ -160,6 +170,10 @@ interface CapabilitiesCopy extends LocalizedPageMetadata {
     note: { before: string; link: LocalizedLink; after: string };
   };
   close: { title: string; continuation: string; primary: LocalizedLink; secondary: LocalizedLink };
+}
+
+interface CapabilitiesSourceCopy extends Omit<CapabilitiesCopy, 'practices'> {
+  practices: Array<Omit<CapabilityPractice, 'signal'>>;
 }
 
 interface ContactCopy extends LocalizedPageMetadata {
@@ -610,7 +624,7 @@ const hirePages: Record<Locale, HireCopy> = {
   },
 };
 
-const capabilitiesPages: Record<Locale, CapabilitiesCopy> = {
+const capabilityPageSources: Record<Locale, CapabilitiesSourceCopy> = {
   en: {
     title: 'Capabilities — Yoann Leny', description: 'Five pillars: agentic AI architecture, data and semantic platforms, strategic data operations, team orchestration, executive enablement. Three engagement modes: architect-in-residence, executive advisory, diagnostic and rebuild plan.',
     intro: { eyebrow: 'CAPABILITIES', title: 'Five practices. One operating logic.', summary: 'Each capability below is a system I have architected, built, and run in production. They compose into a single operating model — but each can be engaged independently when the situation demands it.' },
@@ -662,6 +676,28 @@ const capabilitiesPages: Record<Locale, CapabilitiesCopy> = {
     ], note: { before: 'Acepto un número reducido de compromisos al año. La capacidad disponible se anuncia en la página ', link: { label: 'Ahora', href: '/es/now' }, after: '. Para conocer la disponibilidad y tarifas específicas, el único camino es una conversación directa.' } },
     close: { title: 'La capacidad es solo potencial.', continuation: 'Un modelo operativo es lo que la hace rentable.', primary: { label: 'Iniciar una conversación →', href: '/es/contact' }, secondary: { label: 'Ver proyectos recientes', href: '/es/work' } },
   },
+};
+
+const capabilitySignals: Record<CapabilityPracticeId, CinematicSignal> = {
+  'agentic-ai-architecture': 'intelligence',
+  'data-platforms': 'outcome',
+  'strategic-data-ops': 'change',
+  'team-orchestration': 'change',
+  'executive-enablement': 'intelligence',
+};
+
+const withCapabilitySignals = (source: CapabilitiesSourceCopy): CapabilitiesCopy => ({
+  ...source,
+  practices: source.practices.map((practice) => ({
+    ...practice,
+    signal: capabilitySignals[practice.id],
+  })),
+});
+
+const capabilitiesPages: Record<Locale, CapabilitiesCopy> = {
+  en: withCapabilitySignals(capabilityPageSources.en),
+  fr: withCapabilitySignals(capabilityPageSources.fr),
+  es: withCapabilitySignals(capabilityPageSources.es),
 };
 
 const legalPages: Record<Locale, LegalPagesCopy> = {

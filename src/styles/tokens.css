@@ -12,7 +12,6 @@
   --signal-change: #E7615F;
   --signal-outcome: #087A55;
   --signal: var(--signal-intelligence);
-  --signal-glow: #F0E9FE;
   --signal-success: var(--signal-outcome);
 
   --focus: var(--signal-intelligence);
@@ -32,13 +31,6 @@
   --shadow-card: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
   --shadow-hover: 0 30px 60px -15px rgba(0, 0, 0, 0.1);
   --shadow-nav: 0 4px 20px rgba(0, 0, 0, 0.03);
-
-  /* Surface colors to make tiles look cool */
-  --surface-indigo: #EEF2FF;
-  --surface-green: #ECFDF5;
-  --surface-blue: #EFF6FF;
-  --surface-purple: #FAF5FF;
-  --surface-rose: #FFF1F2;
 
   /* Type Scale */
   --t-display-xl-size: clamp(44px, 6vw, 80px);

@@ -62,7 +62,13 @@ const featuredSlug = 'why-most-agent-demos-collapse-in-production';
 const rankFor = (entry: CollectionEntry<'insights'>) => { const rank = order.indexOf(slugFor(entry)); return rank === -1 ? Number.MAX_SAFE_INTEGER : rank; };
 const essays = entries.filter((entry) => slugFor(entry) !== featuredSlug).sort((a, b) => rankFor(a) - rankFor(b));
 const c = copy[locale];
-const englishEntry = (entry: CollectionEntry<'insights'>) => ({ title: entry.data.title, dek: entry.data.dek || '', meta: `${entry.data.readingTime || '10'} MIN · ${(entry.data.publishedAt || '2026').toUpperCase()}` });
+const englishEntry = (entry: CollectionEntry<'insights'>) => {
+  const metadata = [
+    entry.data.readingTime && `${entry.data.readingTime} MIN`,
+    entry.data.publishedAt?.toUpperCase(),
+  ].filter((item): item is string => Boolean(item));
+  return { title: entry.data.title, dek: entry.data.dek || '', meta: metadata.length > 0 ? metadata.join(' · ') : undefined };
+};
 const localEntry = (entry: CollectionEntry<'insights'>) => locale === 'en' ? englishEntry(entry) : translated[locale][slugFor(entry)] || englishEntry(entry);
 ---
 
@@ -73,7 +79,7 @@ const localEntry = (entry: CollectionEntry<'insights'>) => locale === 'en' ? eng
 
   <section class="insight-register" aria-label={c.eyebrow}><Container>
     <div class="filter-row" id="insight-filters" aria-label={c.eyebrow}>{c.filters.map(([key, label], index) => <button class="filter-btn" class:list={{ 'is-active': index === 0 }} data-filter={key} type="button" aria-pressed={index === 0 ? 'true' : 'false'}>{label}</button>)}</div>
-    <div class="insight-rows">{essays.map((entry, index) => { const local = localEntry(entry); return <a class="insight-card" href={pathFor(`/insights/${slugFor(entry)}`)} data-cluster={entry.data.cluster}><span class="insight-card__index">{String(index + 1).padStart(2, '0')}</span><div><p class="insight-card__cluster">{entry.data.cluster}</p><h2>{local.title}</h2></div><p class="insight-card__dek">{local.dek}</p><span class="insight-card__meta">{local.meta}</span><span class="insight-card__arrow" aria-hidden="true">↗</span></a>})}</div>
+    <div class="insight-rows">{essays.map((entry, index) => { const local = localEntry(entry); return <a class="insight-card" href={pathFor(`/insights/${slugFor(entry)}`)} data-cluster={entry.data.cluster}><span class="insight-card__index">{String(index + 1).padStart(2, '0')}</span><div><p class="insight-card__cluster">{entry.data.cluster}</p><h2>{local.title}</h2></div><p class="insight-card__dek">{local.dek}</p>{local.meta && <span class="insight-card__meta">{local.meta}</span>}<span class="insight-card__arrow" aria-hidden="true">↗</span></a>})}</div>
   </Container></section>
 
   <section class="reference"><Container><div><p>{c.reference}</p><h2>{c.referenceTitle}</h2><span>{c.referenceBody}</span><a href={pathFor('/concepts')}>{c.browse} <span aria-hidden="true">→</span></a></div></Container></section>

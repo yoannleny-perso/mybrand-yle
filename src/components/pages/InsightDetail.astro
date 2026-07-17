@@ -43,9 +43,9 @@ const copy = detailCopy[locale];
 const cluster = entry.data.cluster || entry.data.tags?.[0]?.replace(/-/g, ' ').toUpperCase() || copy.kind;
 const metadata = [
   clusterLabels[locale][cluster] || cluster,
-  `${entry.data.readingTime || '10'} ${copy.read}`,
-  `${copy.published} ${entry.data.publishedAt || '2026'}`,
-];
+  entry.data.readingTime && `${entry.data.readingTime} ${copy.read}`,
+  entry.data.publishedAt && `${copy.published} ${entry.data.publishedAt}`,
+].filter((item): item is string => Boolean(item));
 ---
 
 <Layout title={`${entry.data.title} — ${copy.kind} — Yoann Leny`} description={entry.data.dek || entry.data.title}>
@@ -61,10 +61,10 @@ const metadata = [
           </aside>
         )}
 
-        <Prose><Content /></Prose>
+        <div lang="en"><Prose><Content /></Prose></div>
 
         <footer class="article-footer">
-          <img src="/images/portrait-960.webp" alt="Yoann Leny" width="960" height="1280" loading="eager" decoding="async" />
+          <img src="/images/portrait-960.webp" alt="Yoann Leny" width="960" height="1280" loading="lazy" decoding="async" />
           <div><h2>Yoann Leny</h2><p>{copy.author}</p><a href="https://www.linkedin.com/in/yoann-leny-10144b37/" target="_blank" rel="noopener noreferrer">{copy.linkedIn} <span aria-hidden="true">↗</span></a></div>
         </footer>
         <p class="comment-policy">{copy.comments}</p>

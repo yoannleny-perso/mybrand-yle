@@ -229,7 +229,11 @@ const languages = [
       button.addEventListener('click', () => {
         const targetLang = button.dataset.langSwitch;
         if (!targetLang) return;
-        localStorage.setItem('preferred-lang', targetLang);
+        try {
+          localStorage.setItem('preferred-lang', targetLang);
+        } catch {
+          // Persistence is optional; language navigation must still work.
+        }
 
         const supportedLangs = ['en', 'fr', 'es'];
         const parts = window.location.pathname.split('/').filter(Boolean);

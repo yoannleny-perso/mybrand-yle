@@ -15,7 +15,6 @@
   --color-signal-intelligence: var(--signal-intelligence);
   --color-signal-change: var(--signal-change);
   --color-signal-outcome: var(--signal-outcome);
-  --color-signal-glow: var(--signal-glow);
   --color-signal-success: var(--signal-success);
   
   --color-focus: var(--focus);
@@ -95,26 +94,6 @@
     background-color: var(--ink-700); 
   }
 
-  .ambient-blur {
-    position: absolute;
-    width: 60vw;
-    height: 60vw;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--signal-glow) 0%, transparent 70%);
-    filter: blur(80px);
-    z-index: -1;
-    opacity: 0.6;
-    pointer-events: none;
-  }
-  
-  .pill-nav {
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    background-color: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    box-shadow: var(--shadow-nav);
-    border-radius: var(--radius-pill);
-  }
 }
 
 .scene-surface {
