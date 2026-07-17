@@ -17,6 +17,10 @@
   --focus: var(--signal-intelligence);
   --focus-on-dark: #FFFFFF;
 
+  /* The fixed header measures 88px at rest and 80px once scrolled, at every breakpoint.
+     Sticky offsets are only exercised while scrolled, so this carries the scrolled height. */
+  --header-height: 5rem;
+
   --font-display: 'Archivo Variable', 'Inter Tight Variable', sans-serif;
   --font-body: 'Inter Variable', sans-serif;
   --font-mono: 'Azeret Mono', 'JetBrains Mono', monospace;

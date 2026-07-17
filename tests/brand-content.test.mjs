@@ -558,6 +558,22 @@ test('keeps controlled-vibrant product source free of legacy glass and glow', ()
   ]) assert.equal(existsSync(dormant), false, `${dormant} must not retain unreachable legacy styling`);
 });
 
+test('names both concept filter dimensions in every locale', () => {
+  const source = read('src/components/pages/ConceptsIndex.astro');
+
+  for (const [cluster, depth] of [['Cluster', 'Depth'], ['Pôle', 'Niveau'], ['Pilar', 'Nivel']]) {
+    assert.match(source, new RegExp(`filterLabels: \\{ cluster: '${cluster}', depth: '${depth}' \\}`), `${cluster}/${depth} labels`);
+  }
+  for (const group of ['cluster', 'depth']) {
+    assert.ok(source.includes(`id="${group}-filters" role="group" aria-labelledby="${group}-filters-label"`), `${group} group semantics`);
+    assert.ok(source.includes(`id="${group}-filters-label"`), `${group} visible label`);
+  }
+  // The definition must not share a grid track with the title, or it starves it to zero width.
+  assert.ok(source.includes('<div class="concept-text">'), 'title and definition share one track');
+  assert.doesNotMatch(source, /\.filter-groups[^{]*\{[^}]*overflow-x: auto/, 'filter chips wrap instead of scrolling out of view');
+  assert.ok(source.includes('top: var(--header-height)'), 'sticky toolbar clears the fixed header');
+});
+
 test('gives every shared component a live consumer', () => {
   const sources = walk('src').filter((path) => /\.(astro|tsx|ts)$/.test(path));
   const specifiers = new Set(

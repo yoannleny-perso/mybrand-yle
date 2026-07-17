@@ -114,9 +114,79 @@ for (const { path, template } of templateRoutes) {
       return [{ element: element.tagName.toLowerCase(), text: element.textContent?.trim().slice(0, 80), fontSize: style.fontSize }];
     }));
     expect(smallPurpleText, `${path} small purple text`).toEqual([]);
+
+    // A starved grid or flex track collapses a text element to zero width; the text then
+    // overflows its own box and paints across whatever sits beside it. The boxes never
+    // formally intersect, so an overlap check cannot see this — the width can.
+    // Deliberately not `:visible`: Playwright defines that as having a non-empty bounding
+    // box, which filters out the very elements this guard exists to catch.
+    const starvedText = await page.evaluate(() => {
+      const found: Array<{ element: string; text: string }> = [];
+      for (const element of document.querySelectorAll('body *')) {
+        const hasDirectText = [...element.childNodes]
+          .some((node) => node.nodeType === Node.TEXT_NODE && Boolean(node.textContent?.trim()));
+        if (!hasDirectText) continue;
+        const style = getComputedStyle(element);
+        if (style.display === 'none' || style.visibility === 'hidden' || (element as HTMLElement).hidden) continue;
+        const box = element.getBoundingClientRect();
+        if (box.height === 0 || box.width >= 1) continue;
+        found.push({ element: element.tagName.toLowerCase(), text: element.textContent!.trim().slice(0, 60) });
+      }
+      return found;
+    });
+    expect(starvedText, `${path} text elements starved to zero width`).toEqual([]);
+
     expect(errors, `${path} runtime errors`).toEqual([]);
   });
 }
+
+test('the concept toolbar never hides behind the fixed header', async ({ page }) => {
+  await page.goto('/fr/concepts', { waitUntil: 'networkidle' });
+
+  // Scroll relative to the toolbar's own document offset. A fixed scroll depth can leave it
+  // unstuck, which would pass the assertion without ever reaching the state under test.
+  // `behavior: instant` is required: the site sets scroll-behavior: smooth, so a default
+  // scrollTo animates and is still in flight when the measurement runs.
+  const toolbarOffset = await page.evaluate(() =>
+    window.scrollY + document.querySelector('.concept-tools')!.getBoundingClientRect().top);
+  await page.evaluate((offset) => window.scrollTo({ top: offset + 600, behavior: 'instant' }), toolbarOffset);
+  await page.waitForTimeout(200);
+
+  const geometry = await page.evaluate(() => {
+    const tools = document.querySelector('.concept-tools')!;
+    const toolsBox = tools.getBoundingClientRect();
+    const header = document.querySelector('header')!.getBoundingClientRect();
+    return { position: getComputedStyle(tools).position, toolsTop: toolsBox.top, headerBottom: header.bottom };
+  });
+
+  if (geometry.position === 'sticky') {
+    // Wide viewports: the bar parks below the header rather than sliding under it.
+    expect(geometry.toolsTop, 'stuck toolbar must sit below the fixed header').toBeGreaterThanOrEqual(geometry.headerBottom - 1);
+  } else {
+    // Narrow viewports: wrapped chips make the bar too tall to pin, so it scrolls away.
+    expect(geometry.toolsTop, 'non-sticky toolbar must scroll away rather than linger').toBeLessThan(0);
+  }
+});
+
+test('every concept filter label stays inside its group', async ({ page }) => {
+  await page.goto('/fr/concepts', { waitUntil: 'networkidle' });
+
+  const clipped = await page.evaluate(() => {
+    const out: Array<{ label: string; overflowPx: number }> = [];
+    for (const group of document.querySelectorAll('#cluster-filters, #depth-filters')) {
+      const bounds = group.getBoundingClientRect();
+      for (const button of group.querySelectorAll('button')) {
+        const box = button.getBoundingClientRect();
+        if (box.right > bounds.right + 1 || box.left < bounds.left - 1) {
+          out.push({ label: button.textContent!.trim(), overflowPx: Math.round(box.right - bounds.right) });
+        }
+      }
+    }
+    return out;
+  });
+
+  expect(clipped, 'localized filter labels must not be cut off').toEqual([]);
+});
 
 const criticalViewportRoutes = [
   { path: '/concepts/medallion-architecture', template: 'concept-detail-en-narrow', width: 320 },
