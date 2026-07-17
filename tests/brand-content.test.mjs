@@ -178,17 +178,23 @@ test('keeps personal-page route files as exact locale adapters', () => {
 });
 
 test('preserves every legacy personal-page fragment exactly once', () => {
+  const copy = read('src/data/localized-site.ts');
   const expected = {
     AboutPage: ['header'],
     CapabilitiesPage: ['header', 'engagement-model', 'closing'],
     ContactPage: ['header', 'paths', 'what-to-include', 'expectation', 'closing'],
-    HirePage: ['header', 'facts', 'fit', 'ninety-days', 'plan-phases', 'evidence', 'closing'],
+    HirePage: ['header', 'facts', 'fit', 'ninety-days', 'plan-phases', 'phase-1', 'phase-2', 'phase-3', 'evidence', 'closing'],
     NowPage: ['header'],
   };
 
   for (const [component, ids] of Object.entries(expected)) {
     const source = read(`src/components/pages/${component}.astro`);
     for (const id of ids) {
+      if (component === 'HirePage' && id.startsWith('phase-')) {
+        assert.equal((source.match(/id=\{phase\.id\}/g) ?? []).length, 1, 'HirePage must expose each phase ID');
+        assert.equal((copy.match(new RegExp(`id: '${id}'`, 'g')) ?? []).length, 3, `all locales must define #${id}`);
+        continue;
+      }
       assert.equal((source.match(new RegExp(`id=["'{]${id}["'}]`, 'g')) ?? []).length, 1, `${component} must expose #${id} once`);
     }
     assert.ok(source.includes('data-page-section='), `${component} must retain page-section hooks`);
@@ -196,7 +202,6 @@ test('preserves every legacy personal-page fragment exactly once', () => {
 
   const capabilities = read('src/components/pages/CapabilitiesPage.astro');
   const about = read('src/components/pages/AboutPage.astro');
-  const copy = read('src/data/localized-site.ts');
   assert.ok(capabilities.includes('id={practice.id}'));
   assert.ok(about.includes('id={section.id}'));
   for (const id of ['bio', 'principles', 'track-record', 'stack', 'writing', 'closing']) {

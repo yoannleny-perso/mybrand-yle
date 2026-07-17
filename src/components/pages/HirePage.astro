@@ -33,7 +33,7 @@ const copy = localizedSite[locale].hire;
       <SceneHeading eyebrow={copy.plan.eyebrow} title={copy.plan.title} summary={copy.plan.summary} accent="outcome" />
       <div id="plan-phases" class="phase-list">
         {copy.plan.phases.map((phase, index) => (
-          <details open={index === 0}>
+          <details id={phase.id} open={index === 0}>
             <summary><span>{phase.label}</span><strong>{phase.title}</strong><i aria-hidden="true">↓</i></summary>
             <div class="phase-body"><ul>{phase.items.map((item) => <li>{item}</li>)}</ul><p><span>{copy.plan.deliverableLabel}</span>{phase.deliverable}</p></div>
           </details>
