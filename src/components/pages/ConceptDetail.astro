@@ -12,12 +12,12 @@ const { Content } = await render(entry);
 const detailCopy = {
   en: { kind: 'Concept Library', read: 'min read', reviewed: 'Last reviewed', related: 'Related Reading', cases: 'Related Case Studies', noticeLabel: 'English content notice', notice: null },
   fr: { kind: 'Bibliothèque de concepts', read: 'min de lecture', reviewed: 'Dernière révision', related: 'Lectures connexes', cases: 'Études de cas connexes', noticeLabel: 'Note sur le contenu en anglais', notice: "Ce contenu est rédigé et maintenu en anglais — la référence technique reste dans sa langue d'origine." },
-  es: { kind: 'Biblioteca de conceptos', read: 'min de lectura', reviewed: 'Última revisión', related: 'Lecturas relacionadas', cases: 'Casos relacionados', noticeLabel: 'Aviso de contenido en inglés', notice: 'Este contenido se redacta y mantiene en inglés — la referencia técnica permanece en su idioma original.' },
+  es: { kind: 'Biblioteca de conceptos', read: 'min de lectura', reviewed: 'Última revisión', related: 'Lecturas relacionadas', cases: 'Casos de estudio relacionados', noticeLabel: 'Aviso de contenido en inglés', notice: 'Este contenido se redacta y mantiene en inglés — la referencia técnica permanece en su idioma original.' },
 } as const;
 const copy = detailCopy[locale];
 const clusterLabels: Record<Locale, Record<string, string>> = {
   en: { 'data-architecture': 'Data Architecture', 'data-engineering': 'Data Engineering', 'bi-analytics': 'BI & Analytics', 'agentic-ai': 'Agentic AI' },
-  fr: { 'data-architecture': 'Architecture des Données', 'data-engineering': 'Ingénierie des Données', 'bi-analytics': 'BI & Décisionnel', 'agentic-ai': 'IA Agentique' },
+  fr: { 'data-architecture': 'Architecture des Données', 'data-engineering': 'Ingénierie des Données', 'bi-analytics': 'BI & Analytique', 'agentic-ai': 'IA Agentique' },
   es: { 'data-architecture': 'Arquitectura de Datos', 'data-engineering': 'Ingeniería de Datos', 'bi-analytics': 'BI y Analítica', 'agentic-ai': 'IA Agéntica' },
 };
 const depthLabels: Record<Locale, Record<string, string>> = {
